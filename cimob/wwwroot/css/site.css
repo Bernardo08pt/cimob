@@ -1,6 +1,6 @@
 ﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
+    background-color: #f1eee7;
 }
 
 /* Wrapping element */
@@ -32,4 +32,26 @@
     .carousel-caption {
         display: none;
     }
+}
+
+.top-bar {
+    background-color:white;
+}
+
+.top-bar-container {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.logotipo {
+    max-height: 120px;
+}
+.register-form{
+    padding-top:50px;
+}
+
+.button {
+    background-color: #6aa84f;
+    color: white;
+    width:100%
 }

@@ -17,34 +17,22 @@
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">cimob</a>
+
+    <div class="top-bar">
+        <div class="container body-content top-bar-container">
+            <div class="col-sm-8 col-md-8 ">
+                <h1 style="margin-top:50px">@ViewData["Title"]</h1>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                </ul>
-                @await Html.PartialAsync("_LoginPartial")
+            <div class="col-sm-4 col-md-4">
+                <img  class="logotipo" src="~/images/logotipo.png" />
             </div>
         </div>
-    </nav>
+    </div>
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2017 - cimob</p>
-        </footer>
     </div>
+
+    <img style="position:absolute;bottom:0;right:0" src="~/images/backgroundImage.png" />
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
