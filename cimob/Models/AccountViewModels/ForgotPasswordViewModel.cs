@@ -9,7 +9,12 @@ namespace cimob.Models.AccountViewModels
     public class ForgotPasswordViewModel
     {
         [Required]
+        [Display(Name = "Número")]
+        public int Numero { get; set; }
+
+        [Required]
         [EmailAddress]
+        [Display(Name = "Email")]
         public string Email { get; set; }
     }
 }
