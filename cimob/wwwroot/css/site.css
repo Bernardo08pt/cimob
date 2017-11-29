@@ -55,3 +55,22 @@
     color: white;
     width:100%
 }
+
+.has-feedback-left .form-control {
+    padding-right: 12px;
+    padding-left: 34px;
+}
+
+.has-feedback-left .form-control.input-sm,
+.has-feedback-left.form-group-sm .form-control {
+    padding-left: 30px;
+}
+
+.has-feedback-left .form-control.input-lg,
+.has-feedback-left.form-group-lg .form-control {
+    padding-left: 46px;
+}
+
+.has-feedback-left .form-control-feedback {
+    left: 0;
+}
