@@ -46,7 +46,7 @@
 .logotipo {
     max-height: 120px;
 }
-.register-form, .forgot-password-form {
+.register-form, .forgot-password-form, .reset-password-form {
     padding-top: 50px;
 }
 
