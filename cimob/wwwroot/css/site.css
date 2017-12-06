@@ -74,3 +74,10 @@
 .has-feedback-left .form-control-feedback {
     left: 0;
 }
+
+.backgroundImg {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: -999999;
+}

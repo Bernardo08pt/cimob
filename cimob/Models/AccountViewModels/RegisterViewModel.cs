@@ -10,7 +10,7 @@ namespace cimob.Models.AccountViewModels
     {
         [Required]
         [Display(Name = "Numero")]
-        public int Numero { get; set; }
+        public string Numero { get; set; }
 
         [Required]
         [Display(Name = "Nome")]

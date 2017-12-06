@@ -13,36 +13,41 @@
         <section>
             <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
                 <hr />
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group">
+               <!-- <div asp-validation-summary="All" class="text-danger"></div>
+               <div class="form-group has-feedback has-feedback-left">
                     <label asp-for="Email"></label>
-                    <input asp-for="Email" class="form-control" />
+                    <input asp-for="Email" class="form-control" placeholder=""/>
                     <i class="glyphicon glyphicon-user form-control-feedback"></i>
                     <span asp-validation-for="Email" class="text-danger"></span>
 
+                </div>--> 
+                <div class="form-group has-feedback has-feedback-left">
+                    <input asp-for="Numero" class="form-control" placeholder="Número" />
+                    <i class="glyphicon glyphicon-user form-control-feedback"></i>
+                    <span asp-validation-for="Numero" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Password"></label>
-                    <input asp-for="Password" class="form-control" />
+                <div class="form-group has-feedback has-feedback-left">
+                    <input asp-for="Password" class="form-control" placeholder="Password" />
+                    <i class="glyphicon glyphicon-lock form-control-feedback"></i>
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                <!--<div class="form-group">
                     <div class="checkbox">
                         <label asp-for="RememberMe">
                             <input asp-for="RememberMe" />
                             @Html.DisplayNameFor(m => m.RememberMe)
                         </label>
                     </div>
-                </div>
+                </div> -->
                 <div class="form-group">
                     <button type="submit" class="button btn btn-default">Entrar</button>
                 </div>
                 <div class="form-group">
                     <p>
-                        <a asp-action="ForgotPassword">Forgot your password?</a>
+                        Para se registar clique <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">aqui</a>
                     </p>
                     <p>
-                        <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Register as a new user?</a>
+                        Recuperar password <a asp-action="ForgotPassword">aqui</a>
                     </p>
                 </div>
             </form>

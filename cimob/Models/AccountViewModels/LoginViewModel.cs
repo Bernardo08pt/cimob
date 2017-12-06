@@ -8,11 +8,11 @@ namespace cimob.Models.AccountViewModels
 {
     public class LoginViewModel
     {
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
+        [Required(ErrorMessage = "O campo {0} é obrigatório.")]
+        [RegularExpression("([0-9]+)", ErrorMessage = "Insira um número válido.")]
+        public string Numero { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
