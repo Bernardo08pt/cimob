@@ -18,6 +18,11 @@ namespace cimob.Models.AccountViewModels
         public string Nome { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
+        [Display(Name = "Data de Nascimento")]
+        [DataType(DataType.Date)]
+        public DateTime DataNascimento { get; set; }
+
+        [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
