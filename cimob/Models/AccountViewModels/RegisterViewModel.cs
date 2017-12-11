@@ -10,6 +10,7 @@ namespace cimob.Models.AccountViewModels
     {
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [RegularExpression("([0-9]+)", ErrorMessage = "Insira um número válido.")]
+        [Display(Name = "Número")]
         public string Numero { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
@@ -27,6 +28,7 @@ namespace cimob.Models.AccountViewModels
         [Display(Name = "Password")]
         public string Password { get; set; }
 
+        [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [DataType(DataType.Password)]
         [Display(Name = "Confirmar password")]
         [Compare("Password", ErrorMessage = "A password e a password de confirmação não estão iguais.")]

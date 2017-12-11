@@ -9,8 +9,9 @@ namespace cimob.Models.AccountViewModels
     public class LoginViewModel
     {
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
-        [RegularExpression("([0-9]+)", ErrorMessage = "Insira um número válido.")]
-        public string Numero { get; set; }
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [DataType(DataType.Password)]
