@@ -431,7 +431,7 @@ namespace cimob.Controllers
         }
 
 
-        [HttpGet]
+        [HttpGet] 
         public IActionResult AccessDenied()
         {
             return View();
