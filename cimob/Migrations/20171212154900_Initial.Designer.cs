@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
-namespace cimob.Data.Migrations
+namespace cimob.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171211221743_Initial")]
+    [Migration("20171212154900_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,6 +31,8 @@ namespace cimob.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
+                    b.Property<DateTime>("DataNascimento");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
@@ -48,7 +50,7 @@ namespace cimob.Data.Migrations
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256);
 
-                    b.Property<string>("Numero");
+                    b.Property<int>("Numero");
 
                     b.Property<string>("PasswordHash");
 
