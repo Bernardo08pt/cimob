@@ -5,13 +5,6 @@
     <UserSecretsId>aspnet-cimob-E8511382-8E83-4730-950F-9EE68A039297</UserSecretsId>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Models\ValidarNumeroAluno.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Models\PortugueseIdentityErrorDescriber.cs" />
-  </ItemGroup>
 
 
   <ItemGroup>
