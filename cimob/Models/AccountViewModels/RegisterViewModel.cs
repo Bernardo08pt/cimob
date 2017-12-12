@@ -8,28 +8,35 @@ namespace cimob.Models.AccountViewModels
 {
     public class RegisterViewModel
     {
-        [Required]
-        [Display(Name = "Numero")]
-        public int Numero { get; set; }
+        [Required(ErrorMessage = "O campo {0} é obrigatório.")]
+        [RegularExpression("([0-9]+)", ErrorMessage = "Insira um número válido.")]
+        [Display(Name = "Número")]
+        public string Numero { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [Display(Name = "Nome")]
         public string Nome { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "O campo {0} é obrigatório.")]
+        [Display(Name = "Data de Nascimento")]
+        [DataType(DataType.Date)]
+        public DateTime DataNascimento { get; set; }
+
+        [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        [Required(ErrorMessage = "O campo {0} é obrigatório.")]
+        [StringLength(100, ErrorMessage = "A {0} tem de ter entre {2} a {1} caracteres.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
 
+        [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Confirmar password")]
+        [Compare("Password", ErrorMessage = "A password e a password de confirmação não estão iguais.")]
         public string ConfirmPassword { get; set; }
     }
 }

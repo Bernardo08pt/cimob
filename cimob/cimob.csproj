@@ -5,11 +5,20 @@
     <UserSecretsId>aspnet-cimob-E8511382-8E83-4730-950F-9EE68A039297</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Models\ValidarNumeroAluno.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Models\PortugueseIdentityErrorDescriber.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.1" PrivateAssets="All" />
+    <PackageReference Include="SendGrid" Version="9.9.0" />
   </ItemGroup>
 
   <ItemGroup>

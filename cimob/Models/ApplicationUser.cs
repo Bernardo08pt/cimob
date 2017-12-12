@@ -11,6 +11,7 @@ namespace cimob.Models
     {
         public int Numero { get; set; }
         public string Nome { get; set; }
+        public DateTime DataNascimento { get; set; }
 
     }
 }
