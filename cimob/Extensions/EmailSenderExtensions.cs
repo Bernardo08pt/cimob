@@ -12,7 +12,7 @@ namespace cimob.Services
         public static Task SendEmailConfirmationAsync(this IEmailSender emailSender, string email, string link)
         {
             return emailSender.SendEmailAsync(email, "Confirmação de Email",
-                $"Para confirmae o seu Email clique: <a href='{HtmlEncoder.Default.Encode(link)}'>aqui</a>");
+                $"Para confirmar o seu Email clique: <a href='{HtmlEncoder.Default.Encode(link)}'>aqui</a>");
         }
     }
 }
