@@ -22,13 +22,6 @@ namespace cimob.Models.AccountViewModels
 
         public IDictionary<string, Ajuda> AjudasDictionary { get; set; }
 
-        public void setAjudasDictionary(List<Ajuda> ajudas)
-        {
-            AjudasDictionary = new Dictionary<string, Ajuda>();
-            foreach (Ajuda a in ajudas)
-            {
-                AjudasDictionary[a.Nome] = a;
-            }
-        }
+       
     }
 }
