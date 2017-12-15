@@ -181,7 +181,7 @@ namespace cimob.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Register(string returnUrl = null)
+        public IActionResult Register()
         {
             // Get page help
             List<String> campos = new List<string>();
@@ -198,9 +198,8 @@ namespace cimob.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Nome = model.Nome,
@@ -216,7 +215,7 @@ namespace cimob.Controllers
                     
                    // await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation("User created a new account with password.");
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToAction(nameof(RegisterConfirmation));
                 }
                 AddErrors(result);
             }
@@ -230,6 +229,13 @@ namespace cimob.Controllers
             model.AjudasDictionary = GetAjudas(campos);
 
             return View(model);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult RegisterConfirmation()
+        {
+            return View();
         }
 
         [HttpPost]
