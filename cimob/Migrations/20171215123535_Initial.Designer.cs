@@ -11,7 +11,7 @@ using System;
 namespace cimob.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171212154900_Initial")]
+    [Migration("20171215123535_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,6 +20,22 @@ namespace cimob.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("cimob.Models.Ajuda", b =>
+                {
+                    b.Property<int>("AjudaID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Corpo");
+
+                    b.Property<string>("Nome");
+
+                    b.Property<string>("Titulo");
+
+                    b.HasKey("AjudaID");
+
+                    b.ToTable("Ajudas");
+                });
 
             modelBuilder.Entity("cimob.Models.ApplicationUser", b =>
                 {

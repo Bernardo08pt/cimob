@@ -17,10 +17,10 @@
                 <div class="form-group has-feedback has-feedback-left">
                     <label asp-for="Email"></label>
                     <div class="input-group">
-                        <input asp-for="Email" class="form-control" placeholder="example@example.com" />
+                        <input asp-for="Email"  class="form-control" placeholder="example@example.com" />
                         <i class="glyphicon glyphicon-user form-control-feedback"></i>
                         <div class="input-group-btn">
-                            <button class="btn bottom-right pop" type="button">
+                            <button class="btn bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Email"].Titulo" data-content="@Model.AjudasDictionary["Email"].Corpo">
                                 <span class="glyphicon glyphicon-question-sign"></span>
                             </button>
                         </div>
@@ -33,7 +33,7 @@
                         <input asp-for="Password" class="form-control" />
                         <i class="glyphicon glyphicon-lock form-control-feedback"></i>
                         <div class="input-group-btn">
-                            <button class="btn bottom-right pop" type="button">
+                            <button class="btn bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Password"].Titulo" data-content="@Model.AjudasDictionary["Password"].Corpo" >
                                 <span class="glyphicon glyphicon-question-sign"></span>
                             </button>
                         </div>

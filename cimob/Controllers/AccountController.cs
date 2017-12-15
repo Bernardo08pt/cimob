@@ -14,6 +14,8 @@ using Microsoft.Extensions.Options;
 using cimob.Models;
 using cimob.Models.AccountViewModels;
 using cimob.Services;
+using cimob.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace cimob.Controllers
 {
@@ -25,17 +27,20 @@ namespace cimob.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
+        private readonly ApplicationDbContext _context;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger,
+            ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+            _context = context;
         }
 
         [TempData]
@@ -45,11 +50,25 @@ namespace cimob.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(string returnUrl = null)
         {
+                    
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
+            // Get page help
+            List<String> propriedades = new List<string>();
+            foreach (var prop in typeof(LoginViewModel).GetProperties())
+                propriedades.Add(prop.Name);
+            
+            var ajudasContext = _context.Ajudas;
+  
+            var ajudas = from a in ajudasContext select a;
+            ajudas = ajudas.Where(a => propriedades.Contains(a.Nome));
+
+            LoginViewModel model = new LoginViewModel();
+            model.setAjudasDictionary(await ajudas.ToListAsync());
+
             ViewData["ReturnUrl"] = returnUrl;
-            return View();
+            return View(model);
         }
 
         [HttpPost]

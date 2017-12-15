@@ -19,5 +19,16 @@ namespace cimob.Models.AccountViewModels
 
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
+
+        public IDictionary<string, Ajuda> AjudasDictionary { get; set; }
+
+        public void setAjudasDictionary(List<Ajuda> ajudas)
+        {
+            AjudasDictionary = new Dictionary<string, Ajuda>();
+            foreach (Ajuda a in ajudas)
+            {
+                AjudasDictionary[a.Nome] = a;
+            }
+        }
     }
 }

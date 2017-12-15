@@ -10,6 +10,21 @@ namespace cimob.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Ajudas",
+                columns: table => new
+                {
+                    AjudaID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Corpo = table.Column<string>(nullable: true),
+                    Nome = table.Column<string>(nullable: true),
+                    Titulo = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ajudas", x => x.AjudaID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
@@ -199,6 +214,9 @@ namespace cimob.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Ajudas");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
