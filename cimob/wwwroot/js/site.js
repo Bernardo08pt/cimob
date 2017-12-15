@@ -1,3 +1,6 @@
 ﻿// Write your JavaScript code.
 $('.pop').webuiPopover({
-    style: 'inverse', animation: 'pop', trigger: 'hover', placement: 'top', delay: { show: null, hide: 500 }});
+    style: 'inverse', animation: 'pop', trigger: 'hover', placement: 'top', delay: { show: null, hide: 500 }
+});
+
+$(document).on('click', '#logout', function () { $('#logoutForm').submit(); });

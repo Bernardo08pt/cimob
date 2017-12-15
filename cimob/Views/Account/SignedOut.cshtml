@@ -1,8 +1,13 @@
 ﻿@{
-    ViewData["Title"] = "Signed out";
+    Layout = "/Views/Shared/_LayoutInitial.cshtml";
+    ViewData["Title"] = "Sessão Terminada";
 }
 
-<h2>@ViewData["Title"]</h2>
-<p>
-    You have successfully signed out.
-</p>
+<hr />
+<div>
+    <label>
+        Sessão terminada com sucessso.
+    </label>
+    <hr />
+    <a asp-area="" asp-controller="Account" asp-action="Login" class="btn btn-primary">Voltar para login</a>
+</div>
