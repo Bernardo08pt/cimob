@@ -11,8 +11,8 @@ using System;
 namespace cimob.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171215123535_Initial")]
-    partial class Initial
+    [Migration("20171215152757_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
