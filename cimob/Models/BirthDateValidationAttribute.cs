@@ -10,10 +10,10 @@ namespace cimob.Models
     {
         public override bool IsValid(object value)
         {
-            if (((DateTime)value).Date > DateTime.Now)
+            if (((DateTime)value).Date > DateTime.Now )
                 return false;
-
-            return true;
+            else
+                return true;
         }
     }
 }

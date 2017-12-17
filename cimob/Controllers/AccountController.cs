@@ -60,9 +60,10 @@ namespace cimob.Controllers
                 campos.Add(prop.Name);
             campos.Add("Login");
 
-            LoginViewModel model = new LoginViewModel();
-            
-            model.AjudasDictionary = GetAjudas(campos);
+            LoginViewModel model = new LoginViewModel
+            {
+                AjudasDictionary = GetAjudas(campos)
+            };
 
             ViewData["ReturnUrl"] = returnUrl;
             return View(model);
@@ -195,9 +196,11 @@ namespace cimob.Controllers
             foreach (var prop in typeof(RegisterViewModel).GetProperties())
                 campos.Add(prop.Name);
             campos.Add("Registo");
-            RegisterViewModel model = new RegisterViewModel();
-            model.AjudasDictionary = GetAjudas(campos);
-            
+            RegisterViewModel model = new RegisterViewModel
+            {
+                AjudasDictionary = GetAjudas(campos)
+            };
+
             return View(model);
         }
 
@@ -280,8 +283,10 @@ namespace cimob.Controllers
                 campos.Add(prop.Name);
             campos.Add("RecuoerarPassword");
 
-            ForgotPasswordViewModel model = new ForgotPasswordViewModel();
-            model.AjudasDictionary = GetAjudas(campos);
+            ForgotPasswordViewModel model = new ForgotPasswordViewModel
+            {
+                AjudasDictionary = GetAjudas(campos)
+            };
 
             return View(model);
         }

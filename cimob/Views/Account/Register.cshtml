@@ -2,6 +2,8 @@
 @{
     Layout = "/Views/Shared/_LayoutInitial.cshtml";
     ViewData["Title"] = "Registar";
+    ViewData["HelpTitle"] = Model.AjudasDictionary["Registo"].Titulo;
+    ViewData["HelpContent"] = Model.AjudasDictionary["Registo"].Corpo;
 }
 <div class="row register-form">
     <div class="col-md-4">
@@ -34,9 +36,10 @@
                 <span asp-validation-for="Nome" class="text-danger"></span>
             </div>
             <div class="form-group has-feedback has-feedback-left">
+
+                <input asp-for="DataNascimento" class="form-control" value="" />
                 <label asp-for="DataNascimento"></label>
                 <div class="input-group">
-                    <input asp-for="DataNascimento" class="form-control" placeholder="dd/mm/aaaa"/>
                     <i class="glyphicon glyphicon-calendar form-control-feedback"></i>
                     <div class="input-group-btn">
                         <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["DataNascimento"].Titulo" data-content="@Model.AjudasDictionary["DataNascimento"].Corpo">
