@@ -55,17 +55,12 @@ namespace cimob.Controllers
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
             // Get page help
-            List<String> propriedades = new List<string>();
+            List<String> campos = new List<string>();
             foreach (var prop in typeof(LoginViewModel).GetProperties())
-                propriedades.Add(prop.Name);
-            
-            var ajudasContext = _context.Ajudas;
-  
-            var ajudas = from a in ajudasContext select a;
-            ajudas = ajudas.Where(a => propriedades.Contains(a.Nome));
+                campos.Add(prop.Name);
 
             LoginViewModel model = new LoginViewModel();
-            model.setAjudasDictionary(await ajudas.ToListAsync());
+            model.AjudasDictionary = GetAjudas(campos);
 
             ViewData["ReturnUrl"] = returnUrl;
             return View(model);
@@ -76,6 +71,12 @@ namespace cimob.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
+            // Get page help
+            List<String> campos = new List<string>();
+            foreach (var prop in typeof(LoginViewModel).GetProperties())
+                campos.Add(prop.Name);
+
+            model.AjudasDictionary = GetAjudas(campos);
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
@@ -106,14 +107,17 @@ namespace cimob.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Tentativa de login inválida.");
                     return View(model);
                 }
             }
 
             // If we got this far, something failed, redisplay form
+            
+
             return View(model);
         }
+
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> LoginWithRecoveryCode(string returnUrl = null)
@@ -179,7 +183,16 @@ namespace cimob.Controllers
         [AllowAnonymous]
         public IActionResult Register()
         {
-            return View();
+            // Get page help
+            List<String> campos = new List<string>();
+            foreach (var prop in typeof(RegisterViewModel).GetProperties())
+                campos.Add(prop.Name);
+
+            RegisterViewModel model = new RegisterViewModel();
+            model.AjudasDictionary = GetAjudas(campos);
+
+            ViewData["ReturnUrl"] = returnUrl;
+            return View(model);
         }
 
         [HttpPost]
@@ -208,6 +221,13 @@ namespace cimob.Controllers
             }
 
             // If we got this far, something failed, redisplay form
+            // Get page help
+            List<String> campos = new List<string>();
+            foreach (var prop in typeof(RegisterViewModel).GetProperties())
+                campos.Add(prop.Name);
+
+            model.AjudasDictionary = GetAjudas(campos);
+
             return View(model);
         }
 
@@ -248,7 +268,16 @@ namespace cimob.Controllers
         [AllowAnonymous]
         public IActionResult ForgotPassword()
         {
-            return View();
+            // Get page help
+            List<String> campos = new List<string>();
+            foreach (var prop in typeof(ForgotPasswordViewModel).GetProperties())
+                campos.Add(prop.Name);
+
+
+            ForgotPasswordViewModel model = new ForgotPasswordViewModel();
+            model.AjudasDictionary = GetAjudas(campos);
+
+            return View(model);
         }
 
         [HttpPost]
@@ -274,6 +303,14 @@ namespace cimob.Controllers
                 return RedirectToAction(nameof(ForgotPasswordConfirmation));
             }
 
+            // Get page help
+            List<String> campos = new List<string>();
+            foreach (var prop in typeof(ForgotPasswordViewModel).GetProperties())
+                campos.Add(prop.Name);
+
+            
+            model.AjudasDictionary = GetAjudas(campos);
+
             // If we got this far, something failed, redisplay form
             return View(model);
         }
@@ -294,6 +331,14 @@ namespace cimob.Controllers
                 throw new ApplicationException("A code must be supplied for password reset.");
             }
             var model = new ResetPasswordViewModel { Code = code };
+
+            // Get page help
+            List<String> campos = new List<string>();
+            foreach (var prop in typeof(ResetPasswordViewModel).GetProperties())
+                campos.Add(prop.Name);
+            
+            model.AjudasDictionary = GetAjudas(campos);
+            
             return View(model);
         }
 
@@ -302,6 +347,16 @@ namespace cimob.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
+            // Get page help
+            List<String> campos = new List<string>();
+            foreach (var prop in typeof(ResetPasswordViewModel).GetProperties())
+                campos.Add(prop.Name);
+
+          
+            model.AjudasDictionary = GetAjudas(campos);
+
+            return View(model);
+
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -355,6 +410,22 @@ namespace cimob.Controllers
             {
                 return RedirectToAction(nameof(HomeController.Index), "Home");
             }
+        }
+
+
+        private IDictionary<string, Ajuda> GetAjudas(List<string> campos)
+        {
+            var ajudasContext = _context.Ajudas;
+            var ajudas = from a in ajudasContext select a;
+            ajudas = ajudas.Where(a => campos.Contains(a.Nome));
+            
+            IDictionary<string, Ajuda> ajudasDictionary = new Dictionary<string, Ajuda>();
+            foreach (Ajuda a in ajudas)
+            {
+                ajudasDictionary[a.Nome] = a;
+            }
+
+            return ajudasDictionary;
         }
 
         #endregion

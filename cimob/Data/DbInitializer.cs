@@ -22,7 +22,10 @@ namespace cimob.Data
             {
                new Ajuda{Nome="Email", Titulo="Endereço Email", Corpo="<p>O Email é necessário para efetuar o login na aplicação.</p><p> Este deve ser validado através de um link enviado para o mesmo.</p>"},
                new Ajuda{Nome="Password", Titulo="Password", Corpo="<p>A Password é necessária para efetuar o login na aplicação.</p><p> Esta deve conter um mínimo de 6 caracteres.</p>"},
-               new Ajuda{Nome="Numero", Titulo="Número", Corpo="<p>O Número corresponde ao número de aluno/docente do IPS.</p>"}
+               new Ajuda{Nome="Numero", Titulo="Número", Corpo="<p>O Número corresponde ao número de aluno/docente do IPS.</p>"},
+               new Ajuda{Nome="Nome", Titulo="Nome", Corpo="<p>O seu nome, preferencialmente completo.</p>"},
+               new Ajuda{Nome="ConfirmPassword", Titulo="Confirmar Password", Corpo="<p>O campo Confirmar Password tem de ser igual à Password.</p>"},
+               new Ajuda{Nome="DataNascimento", Titulo="Data de Nascimento", Corpo="<p>A Data de Nascimento tem de ser escrita no formato dd/mm/aaaa.</p>"}
             };
             foreach (Ajuda a in ajudas)
             {

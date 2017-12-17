@@ -12,5 +12,7 @@ namespace cimob.Models.AccountViewModels
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        public IDictionary<string, Ajuda> AjudasDictionary { get; set; }
     }
 }

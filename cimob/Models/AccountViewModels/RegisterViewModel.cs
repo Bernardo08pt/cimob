@@ -39,5 +39,14 @@ namespace cimob.Models.AccountViewModels
         [Display(Name = "Confirmar password")]
         [Compare("Password", ErrorMessage = "A password e a password de confirmação não estão iguais.")]
         public string ConfirmPassword { get; set; }
+
+        public IDictionary<string, Ajuda> AjudasDictionary { get; set; }
+
+        
+
     }
+
+
+
+
 }
