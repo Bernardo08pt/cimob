@@ -9,7 +9,7 @@ namespace cimob.Models.AccountViewModels
     public class LoginViewModel
     {
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Introduza um {0} válido.")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
@@ -19,5 +19,7 @@ namespace cimob.Models.AccountViewModels
 
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
+
+        public IDictionary<string, Ajuda> AjudasDictionary { get; set; }
     }
 }

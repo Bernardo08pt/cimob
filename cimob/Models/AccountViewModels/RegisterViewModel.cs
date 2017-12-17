@@ -19,6 +19,7 @@ namespace cimob.Models.AccountViewModels
 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [Display(Name = "Data de Nascimento")]
+        [BirthDateValidation(ErrorMessage = "A {0} inválida.")]
         [DataType(DataType.Date)]
         public DateTime DataNascimento { get; set; }
 
@@ -38,5 +39,14 @@ namespace cimob.Models.AccountViewModels
         [Display(Name = "Confirmar password")]
         [Compare("Password", ErrorMessage = "A password e a password de confirmação não estão iguais.")]
         public string ConfirmPassword { get; set; }
+
+        public IDictionary<string, Ajuda> AjudasDictionary { get; set; }
+
+        
+
     }
+
+
+
+
 }

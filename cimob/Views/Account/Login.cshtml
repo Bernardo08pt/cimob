@@ -6,32 +6,43 @@
 @inject SignInManager<ApplicationUser> SignInManager
 
 @{
+    Layout = "/Views/Shared/_LayoutInitial.cshtml";
     ViewData["Title"] = "Autenticação";
+    ViewData["HelpTitle"] = Model.AjudasDictionary["Login"].Titulo;
+    ViewData["HelpContent"] = Model.AjudasDictionary["Login"].Corpo;
 }
 <div class="row">
     <div class="col-md-4">
         <section>
             <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
                 <hr />
-
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group has-feedback has-feedback-left">
-                    <input asp-for="Email" class="form-control" placeholder="Emaillll" />
-                    <i class="glyphicon glyphicon-user form-control-feedback"></i>
+                    <label asp-for="Email"></label>
+                    <div class="input-group">
+                        <input asp-for="Email"  class="form-control" placeholder="example@example.com" />
+                        <i class="glyphicon glyphicon-user form-control-feedback"></i>
+                        <div class="input-group-btn">
+                            <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Email"].Titulo" data-content="@Model.AjudasDictionary["Email"].Corpo">
+                                <span class="glyphicon glyphicon-question-sign"></span>
+                            </button>
+                        </div>
+                    </div>
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="form-group has-feedback has-feedback-left">
-                    <input asp-for="Password" class="form-control" placeholder="Password" />
-                    <i class="glyphicon glyphicon-lock form-control-feedback"></i>
+                    <label asp-for="Password"></label>
+                    <div class="input-group">
+                        <input asp-for="Password" class="form-control" />
+                        <i class="glyphicon glyphicon-lock form-control-feedback"></i>
+                        <div class="input-group-btn">
+                            <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Password"].Titulo" data-content="@Model.AjudasDictionary["Password"].Corpo" >
+                                <span class="glyphicon glyphicon-question-sign"></span>
+                            </button>
+                        </div>
+                    </div>
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
-                <!--<div class="form-group">
-                    <div class="checkbox">
-                        <label asp-for="RememberMe">
-                            <input asp-for="RememberMe" />
-                            @Html.DisplayNameFor(m => m.RememberMe)
-                        </label>
-                    </div>
-                </div> -->
                 <div class="form-group">
                     <button type="submit" class="button btn btn-default">Entrar</button>
                 </div>
@@ -46,39 +57,25 @@
             </form>
         </section>
     </div>
-    <!-- <div class="col-md-6 col-md-offset-2">
-         <section>
-             <h4>Use another service to log in.</h4>
-             <hr />
-             @{
-                 var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-                 if (loginProviders.Count == 0)
-                 {
-                     <div>
-                         <p>
-                             There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                             for details on setting up this ASP.NET application to support logging in via external services.
-                         </p>
-                     </div>
-                 }
-                 else
-                 {
-                     <form asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
-                         <div>
-                             <p>
-                                 @foreach (var provider in loginProviders)
-                                 {
-                                     <button type="submit" class="btn btn-default" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.Name</button>
-                                 }
-                             </p>
-                         </div>
-                     </form>
-                 }
-             }
-         </section>
-     </div> -->
 </div>
 
+<!-- Page Help Modal -->
+<div class="modal fade" id="helpModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><i class="glyphicon glyphicon-question-sign"></i>  @ViewData["HelpTitle"]</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Raw(ViewData["HelpContent"])
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-green btn-default" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }

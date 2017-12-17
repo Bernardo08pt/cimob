@@ -46,12 +46,112 @@
 .logotipo {
     max-height: 120px;
 }
-.register-form{
-    padding-top:50px;
+.register-form, .forgot-password-form, .reset-password-form {
+    padding-top: 50px;
 }
 
 .button {
     background-color: #6aa84f;
     color: white;
-    width:100% 
+    border-color: #5f9747;
+    width:100%
+}
+
+
+.button:hover {
+    background-color: #54863f;
+    color: white;
+    border-color: #5f9747;
+    width: 100%
+}
+
+.has-feedback-left .form-control {
+    padding-right: 12px;
+    padding-left: 34px;
+}
+
+.has-feedback-left .form-control.input-sm,
+.has-feedback-left.form-group-sm .form-control {
+    padding-left: 30px;
+}
+
+.has-feedback-left .form-control.input-lg,
+.has-feedback-left.form-group-lg .form-control {
+    padding-left: 46px;
+}
+
+.has-feedback-left .form-control-feedback {
+    left: 0;
+}
+
+.backgroundImg {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: -999999;
+}
+
+.form-control-feedback {
+    z-index: 1049;
+}
+
+#logout {
+    color: black;
+    font-weight: bold;
+}
+
+.btn-circle.btn-xl {
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    font-size: 24px;
+    line-height: 1.33;
+    border-radius: 35px;
+    margin-top: 50%;
+}
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 15px;
+}
+
+.btn-circle.btn-lg {
+    width: 50px;
+    height: 50px;
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.33;
+    border-radius: 25px;
+}
+
+.btn-green {
+    color: #fff;
+    background-color: #6aa84f;
+    color: white;
+    border-color: #5f9747;
+}
+
+.btn-green:hover {
+    background-color: #54863f;
+    color: white;
+    border-color: #5f9747;
+}
+
+.btn-icon{
+    font-size: 25px;
+}
+
+.btn-icon:hover {
+    cursor: pointer;
+    opacity:0.5;
+}
+
+.btn-back{
+    width:100%;
+    margin-top:10px;
 }

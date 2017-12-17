@@ -14,6 +14,8 @@ using Microsoft.Extensions.Options;
 using cimob.Models;
 using cimob.Models.AccountViewModels;
 using cimob.Services;
+using cimob.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace cimob.Controllers
 {
@@ -25,17 +27,20 @@ namespace cimob.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
+        private readonly ApplicationDbContext _context;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger,
+            ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+            _context = context;
         }
 
         [TempData]
@@ -45,11 +50,23 @@ namespace cimob.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(string returnUrl = null)
         {
+                    
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
+            // Get page help
+            List<String> campos = new List<string>();
+            foreach (var prop in typeof(LoginViewModel).GetProperties())
+                campos.Add(prop.Name);
+            campos.Add("Login");
+
+            LoginViewModel model = new LoginViewModel
+            {
+                AjudasDictionary = GetAjudas(campos)
+            };
+
             ViewData["ReturnUrl"] = returnUrl;
-            return View();
+            return View(model);
         }
 
         [HttpPost]
@@ -57,9 +74,29 @@ namespace cimob.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
+            // Get page help
+            List<String> campos = new List<string>();
+            foreach (var prop in typeof(LoginViewModel).GetProperties())
+                campos.Add(prop.Name);
+            campos.Add("Login");
+
+            model.AjudasDictionary = GetAjudas(campos);
+
+
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
+                // Require the user to have a confirmed email before they can log on.
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user != null)
+                {
+                    if (!await _userManager.IsEmailConfirmedAsync(user))
+                    {
+                        ModelState.AddModelError(string.Empty,
+                                      "O Email ainda não está verificado.");
+                        return View(model);
+                    }
+                }
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
@@ -68,10 +105,7 @@ namespace cimob.Controllers
                     _logger.LogInformation("User logged in.");
                     return RedirectToLocal(returnUrl);
                 }
-                if (result.RequiresTwoFactor)
-                {
-                    return RedirectToAction(nameof(LoginWith2fa), new { returnUrl, model.RememberMe });
-                }
+                
                 if (result.IsLockedOut)
                 {
                     _logger.LogWarning("User account locked out.");
@@ -79,71 +113,18 @@ namespace cimob.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Tentativa de login inválida.");
                     return View(model);
                 }
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<IActionResult> LoginWith2fa(bool rememberMe, string returnUrl = null)
-        {
-            // Ensure the user has gone through the username & password screen first
-            var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
-
-            if (user == null)
-            {
-                throw new ApplicationException($"Unable to load two-factor authentication user.");
-            }
-
-            var model = new LoginWith2faViewModel { RememberMe = rememberMe };
-            ViewData["ReturnUrl"] = returnUrl;
+            
 
             return View(model);
         }
 
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LoginWith2fa(LoginWith2faViewModel model, bool rememberMe, string returnUrl = null)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
-            if (user == null)
-            {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
-
-            var authenticatorCode = model.TwoFactorCode.Replace(" ", string.Empty).Replace("-", string.Empty);
-
-            var result = await _signInManager.TwoFactorAuthenticatorSignInAsync(authenticatorCode, rememberMe, model.RememberMachine);
-
-            if (result.Succeeded)
-            {
-                _logger.LogInformation("User with ID {UserId} logged in with 2fa.", user.Id);
-                return RedirectToLocal(returnUrl);
-            }
-            else if (result.IsLockedOut)
-            {
-                _logger.LogWarning("User with ID {UserId} account locked out.", user.Id);
-                return RedirectToAction(nameof(Lockout));
-            }
-            else
-            {
-                _logger.LogWarning("Invalid authenticator code entered for user with ID {UserId}.", user.Id);
-                ModelState.AddModelError(string.Empty, "Invalid authenticator code.");
-                return View();
-            }
-        }
-
+        /*
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> LoginWithRecoveryCode(string returnUrl = null)
@@ -197,6 +178,7 @@ namespace cimob.Controllers
                 return View();
             }
         }
+        */
 
         [HttpGet]
         [AllowAnonymous]
@@ -207,39 +189,62 @@ namespace cimob.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Register(string returnUrl = null)
+        public IActionResult Register()
         {
-            ViewData["ReturnUrl"] = returnUrl;
-            return View();
+            // Get page help
+            List<String> campos = new List<string>();
+            foreach (var prop in typeof(RegisterViewModel).GetProperties())
+                campos.Add(prop.Name);
+            campos.Add("Registo");
+            RegisterViewModel model = new RegisterViewModel
+            {
+                AjudasDictionary = GetAjudas(campos)
+            };
+
+            return View(model);
         }
 
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Nome = model.Nome,
+                    Numero = Convert.ToInt32(model.Numero), DataNascimento = model.DataNascimento};
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-
+                    
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
                     await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
-
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    
+                   // await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation("User created a new account with password.");
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToAction(nameof(RegisterConfirmation));
                 }
                 AddErrors(result);
             }
 
             // If we got this far, something failed, redisplay form
+            // Get page help
+            List<String> campos = new List<string>();
+            foreach (var prop in typeof(RegisterViewModel).GetProperties())
+                campos.Add(prop.Name);
+            campos.Add("Registo");
+            model.AjudasDictionary = GetAjudas(campos);
+
             return View(model);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult RegisterConfirmation()
+        {
+            return View();
         }
 
         [HttpPost]
@@ -249,85 +254,6 @@ namespace cimob.Controllers
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
             return RedirectToAction(nameof(HomeController.Index), "Home");
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public IActionResult ExternalLogin(string provider, string returnUrl = null)
-        {
-            // Request a redirect to the external login provider.
-            var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Account", new { returnUrl });
-            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
-            return Challenge(properties, provider);
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
-        {
-            if (remoteError != null)
-            {
-                ErrorMessage = $"Error from external provider: {remoteError}";
-                return RedirectToAction(nameof(Login));
-            }
-            var info = await _signInManager.GetExternalLoginInfoAsync();
-            if (info == null)
-            {
-                return RedirectToAction(nameof(Login));
-            }
-
-            // Sign in the user with this external login provider if the user already has a login.
-            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
-            if (result.Succeeded)
-            {
-                _logger.LogInformation("User logged in with {Name} provider.", info.LoginProvider);
-                return RedirectToLocal(returnUrl);
-            }
-            if (result.IsLockedOut)
-            {
-                return RedirectToAction(nameof(Lockout));
-            }
-            else
-            {
-                // If the user does not have an account, then ask the user to create an account.
-                ViewData["ReturnUrl"] = returnUrl;
-                ViewData["LoginProvider"] = info.LoginProvider;
-                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-                return View("ExternalLogin", new ExternalLoginViewModel { Email = email });
-            }
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginViewModel model, string returnUrl = null)
-        {
-            if (ModelState.IsValid)
-            {
-                // Get the information about the user from the external login provider
-                var info = await _signInManager.GetExternalLoginInfoAsync();
-                if (info == null)
-                {
-                    throw new ApplicationException("Error loading external login information during confirmation.");
-                }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await _userManager.CreateAsync(user);
-                if (result.Succeeded)
-                {
-                    result = await _userManager.AddLoginAsync(user, info);
-                    if (result.Succeeded)
-                    {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
-                        return RedirectToLocal(returnUrl);
-                    }
-                }
-                AddErrors(result);
-            }
-
-            ViewData["ReturnUrl"] = returnUrl;
-            return View(nameof(ExternalLogin), model);
         }
 
         [HttpGet]
@@ -351,7 +277,18 @@ namespace cimob.Controllers
         [AllowAnonymous]
         public IActionResult ForgotPassword()
         {
-            return View();
+            // Get page help
+            List<String> campos = new List<string>();
+            foreach (var prop in typeof(ForgotPasswordViewModel).GetProperties())
+                campos.Add(prop.Name);
+            campos.Add("RecuperarPassword");
+
+            ForgotPasswordViewModel model = new ForgotPasswordViewModel
+            {
+                AjudasDictionary = GetAjudas(campos)
+            };
+
+            return View(model);
         }
 
         [HttpPost]
@@ -372,10 +309,18 @@ namespace cimob.Controllers
                 // visit https://go.microsoft.com/fwlink/?LinkID=532713
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var callbackUrl = Url.ResetPasswordCallbackLink(user.Id, code, Request.Scheme);
-                await _emailSender.SendEmailAsync(model.Email, "Reset Password",
-                   $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
+                await _emailSender.SendEmailAsync(model.Email, "Recuperar Password",
+                   $"Para recuperar a sua Password clique : <a href='{callbackUrl}'>aqui</a>");
                 return RedirectToAction(nameof(ForgotPasswordConfirmation));
             }
+
+            // Get page help
+            List<String> campos = new List<string>();
+            foreach (var prop in typeof(ForgotPasswordViewModel).GetProperties())
+                campos.Add(prop.Name);
+            campos.Add("RecuperarPassword");
+
+            model.AjudasDictionary = GetAjudas(campos);
 
             // If we got this far, something failed, redisplay form
             return View(model);
@@ -397,6 +342,14 @@ namespace cimob.Controllers
                 throw new ApplicationException("A code must be supplied for password reset.");
             }
             var model = new ResetPasswordViewModel { Code = code };
+
+            // Get page help
+            List<String> campos = new List<string>();
+            foreach (var prop in typeof(ResetPasswordViewModel).GetProperties())
+                campos.Add(prop.Name);
+            campos.Add("AlterarPassword");
+            model.AjudasDictionary = GetAjudas(campos);
+            
             return View(model);
         }
 
@@ -405,6 +358,16 @@ namespace cimob.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
+            // Get page help
+            List<String> campos = new List<string>();
+            foreach (var prop in typeof(ResetPasswordViewModel).GetProperties())
+                campos.Add(prop.Name);
+            campos.Add("AlterarPassword");
+
+            model.AjudasDictionary = GetAjudas(campos);
+
+        
+
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -432,7 +395,7 @@ namespace cimob.Controllers
         }
 
 
-        [HttpGet]
+        [HttpGet] 
         public IActionResult AccessDenied()
         {
             return View();
@@ -458,6 +421,22 @@ namespace cimob.Controllers
             {
                 return RedirectToAction(nameof(HomeController.Index), "Home");
             }
+        }
+
+
+        private IDictionary<string, Ajuda> GetAjudas(List<string> campos)
+        {
+            var ajudasContext = _context.Ajudas;
+            var ajudas = from a in ajudasContext select a;
+            ajudas = ajudas.Where(a => campos.Contains(a.Nome));
+            
+            IDictionary<string, Ajuda> ajudasDictionary = new Dictionary<string, Ajuda>();
+            foreach (Ajuda a in ajudas)
+            {
+                ajudasDictionary[a.Nome] = a;
+            }
+
+            return ajudasDictionary;
         }
 
         #endregion
