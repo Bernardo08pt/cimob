@@ -8,6 +8,8 @@
 @{
     Layout = "/Views/Shared/_LayoutInitial.cshtml";
     ViewData["Title"] = "Autenticação";
+    ViewData["HelpTitle"] = Model.AjudasDictionary["Login"].Titulo;
+    ViewData["HelpContent"] = Model.AjudasDictionary["Login"].Corpo;
 }
 <div class="row">
     <div class="col-md-4">
@@ -21,7 +23,7 @@
                         <input asp-for="Email"  class="form-control" placeholder="example@example.com" />
                         <i class="glyphicon glyphicon-user form-control-feedback"></i>
                         <div class="input-group-btn">
-                            <button class="btn bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Email"].Titulo" data-content="@Model.AjudasDictionary["Email"].Corpo">
+                            <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Email"].Titulo" data-content="@Model.AjudasDictionary["Email"].Corpo">
                                 <span class="glyphicon glyphicon-question-sign"></span>
                             </button>
                         </div>
@@ -34,7 +36,7 @@
                         <input asp-for="Password" class="form-control" />
                         <i class="glyphicon glyphicon-lock form-control-feedback"></i>
                         <div class="input-group-btn">
-                            <button class="btn bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Password"].Titulo" data-content="@Model.AjudasDictionary["Password"].Corpo" >
+                            <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Password"].Titulo" data-content="@Model.AjudasDictionary["Password"].Corpo" >
                                 <span class="glyphicon glyphicon-question-sign"></span>
                             </button>
                         </div>
@@ -57,6 +59,23 @@
     </div>
 </div>
 
+<!-- Page Help Modal -->
+<div class="modal fade" id="helpModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><i class="glyphicon glyphicon-question-sign"></i>  @ViewData["HelpTitle"]</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Raw(ViewData["HelpContent"])
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-green btn-default" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }

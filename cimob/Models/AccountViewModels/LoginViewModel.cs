@@ -21,7 +21,5 @@ namespace cimob.Models.AccountViewModels
         public bool RememberMe { get; set; }
 
         public IDictionary<string, Ajuda> AjudasDictionary { get; set; }
-
-       
     }
 }

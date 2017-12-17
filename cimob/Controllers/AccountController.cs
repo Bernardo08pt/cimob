@@ -58,8 +58,10 @@ namespace cimob.Controllers
             List<String> campos = new List<string>();
             foreach (var prop in typeof(LoginViewModel).GetProperties())
                 campos.Add(prop.Name);
+            campos.Add("Login");
 
             LoginViewModel model = new LoginViewModel();
+            
             model.AjudasDictionary = GetAjudas(campos);
 
             ViewData["ReturnUrl"] = returnUrl;
@@ -75,8 +77,11 @@ namespace cimob.Controllers
             List<String> campos = new List<string>();
             foreach (var prop in typeof(LoginViewModel).GetProperties())
                 campos.Add(prop.Name);
+            campos.Add("Login");
 
             model.AjudasDictionary = GetAjudas(campos);
+
+
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
@@ -118,6 +123,7 @@ namespace cimob.Controllers
             return View(model);
         }
 
+        /*
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> LoginWithRecoveryCode(string returnUrl = null)
@@ -171,6 +177,7 @@ namespace cimob.Controllers
                 return View();
             }
         }
+        */
 
         [HttpGet]
         [AllowAnonymous]
@@ -187,11 +194,10 @@ namespace cimob.Controllers
             List<String> campos = new List<string>();
             foreach (var prop in typeof(RegisterViewModel).GetProperties())
                 campos.Add(prop.Name);
-
+            campos.Add("Registo");
             RegisterViewModel model = new RegisterViewModel();
             model.AjudasDictionary = GetAjudas(campos);
-
-            ViewData["ReturnUrl"] = returnUrl;
+            
             return View(model);
         }
 
@@ -225,7 +231,7 @@ namespace cimob.Controllers
             List<String> campos = new List<string>();
             foreach (var prop in typeof(RegisterViewModel).GetProperties())
                 campos.Add(prop.Name);
-
+            campos.Add("Registo");
             model.AjudasDictionary = GetAjudas(campos);
 
             return View(model);
@@ -272,7 +278,7 @@ namespace cimob.Controllers
             List<String> campos = new List<string>();
             foreach (var prop in typeof(ForgotPasswordViewModel).GetProperties())
                 campos.Add(prop.Name);
-
+            campos.Add("RecuoerarPassword");
 
             ForgotPasswordViewModel model = new ForgotPasswordViewModel();
             model.AjudasDictionary = GetAjudas(campos);
@@ -307,8 +313,8 @@ namespace cimob.Controllers
             List<String> campos = new List<string>();
             foreach (var prop in typeof(ForgotPasswordViewModel).GetProperties())
                 campos.Add(prop.Name);
+            campos.Add("RecuperarPassword");
 
-            
             model.AjudasDictionary = GetAjudas(campos);
 
             // If we got this far, something failed, redisplay form
@@ -336,7 +342,7 @@ namespace cimob.Controllers
             List<String> campos = new List<string>();
             foreach (var prop in typeof(ResetPasswordViewModel).GetProperties())
                 campos.Add(prop.Name);
-            
+            campos.Add("AlterarPassword");
             model.AjudasDictionary = GetAjudas(campos);
             
             return View(model);
@@ -351,11 +357,11 @@ namespace cimob.Controllers
             List<String> campos = new List<string>();
             foreach (var prop in typeof(ResetPasswordViewModel).GetProperties())
                 campos.Add(prop.Name);
+            campos.Add("AlterarPassword");
 
-          
             model.AjudasDictionary = GetAjudas(campos);
 
-            return View(model);
+        
 
             if (!ModelState.IsValid)
             {

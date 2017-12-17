@@ -22,7 +22,9 @@
     <div class="top-bar">
         <div class="container body-content top-bar-container">
             <div class="col-sm-8 col-md-8 ">
-                <h1 style="margin-top:50px">@ViewData["Title"]</h1>
+                <h1 style="margin-top:50px">@ViewData["Title"] 
+                    <i class="glyphicon glyphicon-question-sign btn-icon" data-toggle="modal" data-target="#helpModal"></i>
+                </h1>
             </div>
             <div class="col-sm-4 col-md-4">
                 <img  class="logotipo" src="~/images/logotipo.png" />
@@ -34,6 +36,8 @@
     </div>
 
     <img class="backgroundImg" src="~/images/backgroundImage.png" />
+
+    
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
