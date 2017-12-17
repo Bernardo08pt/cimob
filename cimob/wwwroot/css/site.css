@@ -53,7 +53,16 @@
 .button {
     background-color: #6aa84f;
     color: white;
+    border-color: #5f9747;
     width:100%
+}
+
+
+.button:hover {
+    background-color: #54863f;
+    color: white;
+    border-color: #5f9747;
+    width: 100%
 }
 
 .has-feedback-left .form-control {
@@ -83,7 +92,7 @@
 }
 
 .form-control-feedback {
-    z-index: 99999999999;
+    z-index: 1049;
 }
 
 #logout {
@@ -123,6 +132,14 @@
 .btn-green {
     color: #fff;
     background-color: #6aa84f;
+    color: white;
+    border-color: #5f9747;
+}
+
+.btn-green:hover {
+    background-color: #54863f;
+    color: white;
+    border-color: #5f9747;
 }
 
 .btn-icon{
@@ -132,4 +149,9 @@
 .btn-icon:hover {
     cursor: pointer;
     opacity:0.5;
+}
+
+.btn-back{
+    width:100%;
+    margin-top:10px;
 }

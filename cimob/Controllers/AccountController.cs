@@ -281,7 +281,7 @@ namespace cimob.Controllers
             List<String> campos = new List<string>();
             foreach (var prop in typeof(ForgotPasswordViewModel).GetProperties())
                 campos.Add(prop.Name);
-            campos.Add("RecuoerarPassword");
+            campos.Add("RecuperarPassword");
 
             ForgotPasswordViewModel model = new ForgotPasswordViewModel
             {
