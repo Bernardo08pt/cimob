@@ -32,7 +32,7 @@ namespace cimob.Data
                //Páginas
                new Ajuda{Nome="Login", Titulo="Página de Autenticação",
                    Corpo ="<p>A Página de Autenticação é onde pode introduzir os dados da sua conta de forma a entrar na aplicação. O Email tem de estar validado através do link de confirmação enviado para o mesmo.</p>" +
-                          "<p>No caso de não possuir uma conta é necessário aceder à Página de Registo de forma a criar a mesma.</p>" +
+                          "<p>No caso de não possuir uma conta é necessário aceder à Página de Registo de forma a criar uma.</p>" +
                           "<p>Caso possua uma conta mas esqueceu-se da sua password, aceda à Página de Recuperação de password.</p>"},
                new Ajuda{Nome="Registo", Titulo="Página de Registo",
                    Corpo ="<p>A Página de Registo é onde pode criar a sua conta de forma a entrar na aplicação e realizar a sua candidatura.</p>" +

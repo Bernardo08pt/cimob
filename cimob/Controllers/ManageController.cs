@@ -123,7 +123,8 @@ namespace cimob.Controllers
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
             var email = user.Email;
-            await _emailSender.SendEmailConfirmationAsync(email, callbackUrl);
+            var name = user.Nome;
+            await _emailSender.SendEmailConfirmationAsync(email, name, callbackUrl);
 
             StatusMessage = "Verification email sent. Please check your email.";
             return RedirectToAction(nameof(Index));
