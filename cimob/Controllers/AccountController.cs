@@ -220,7 +220,7 @@ namespace cimob.Controllers
                     
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
-                    await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
+                    await _emailSender.SendEmailConfirmationAsync(model.Email, model.Nome, callbackUrl);
                     
                    // await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation("User created a new account with password.");
@@ -309,8 +309,14 @@ namespace cimob.Controllers
                 // visit https://go.microsoft.com/fwlink/?LinkID=532713
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var callbackUrl = Url.ResetPasswordCallbackLink(user.Id, code, Request.Scheme);
-                await _emailSender.SendEmailAsync(model.Email, "Recuperar Password",
-                   $"Para recuperar a sua Password clique : <a href='{callbackUrl}'>aqui</a>");
+                await _emailSender.SendEmailAsync(model.Email, "Recuperação de Password",
+                "<p><span style='font-size: 18px;'>Caro(a) " + user.Nome + ",<strong> </strong></span></p>" +
+                "<p><span style='font-size: 18px;'>Recebemos um pedido de recuperação da palavra passe associada a este e-mail. Se não fez este pedido, ignore este e-mail (a sua conta continua segura).</span></p>" +
+                "<p><span style='font-size: 18px;'>Caso contrário clique <a href='" + callbackUrl + "'>aqui</a> para começar o processo de redefinição de palavra passe.&nbsp;</span></p>" +
+                "<p><br></p>" +
+                "<p><span style = 'font-size: 18px;'> Melhores cumprimentos Equipa CIMOB - IPS </span></p>" +
+                "<p><span style = 'font-size: 14px;'> Nota: este e-mail foi gerado automaticamente, pelo que n&atilde;o deve responder pois quaisquer respostas n&atilde;o ser&atilde;o vistas.</span></p>" +
+                 "<span style = 'font-size: 12px;'> &nbsp;</span></p>");
                 return RedirectToAction(nameof(ForgotPasswordConfirmation));
             }
 
