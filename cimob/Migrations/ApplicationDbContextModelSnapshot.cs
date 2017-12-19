@@ -29,6 +29,8 @@ namespace cimob.Migrations
 
                     b.Property<string>("Nome");
 
+                    b.Property<string>("Pagina");
+
                     b.Property<string>("Titulo");
 
                     b.HasKey("AjudaID");

@@ -11,8 +11,8 @@ using System;
 namespace cimob.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171211234409_Initial")]
-    partial class Initial
+    [Migration("20171219161249_1")]
+    partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,24 @@ namespace cimob.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("cimob.Models.Ajuda", b =>
+                {
+                    b.Property<int>("AjudaID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Corpo");
+
+                    b.Property<string>("Nome");
+
+                    b.Property<string>("Pagina");
+
+                    b.Property<string>("Titulo");
+
+                    b.HasKey("AjudaID");
+
+                    b.ToTable("Ajudas");
+                });
 
             modelBuilder.Entity("cimob.Models.ApplicationUser", b =>
                 {
@@ -31,6 +49,8 @@ namespace cimob.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
+                    b.Property<DateTime>("DataNascimento");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
@@ -40,11 +60,15 @@ namespace cimob.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
+                    b.Property<string>("Nome");
+
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256);
 
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256);
+
+                    b.Property<int>("Numero");
 
                     b.Property<string>("PasswordHash");
 

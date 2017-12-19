@@ -55,14 +55,9 @@ namespace cimob.Controllers
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
             // Get page help
-            List<String> campos = new List<string>();
-            foreach (var prop in typeof(LoginViewModel).GetProperties())
-                campos.Add(prop.Name);
-            campos.Add("Login");
-
             LoginViewModel model = new LoginViewModel
             {
-                AjudasDictionary = GetAjudas(campos)
+                AjudasDictionary = GetAjudas( new List<string>(new string[] { "Login" }))
             };
 
             ViewData["ReturnUrl"] = returnUrl;
@@ -75,14 +70,8 @@ namespace cimob.Controllers
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
             // Get page help
-            List<String> campos = new List<string>();
-            foreach (var prop in typeof(LoginViewModel).GetProperties())
-                campos.Add(prop.Name);
-            campos.Add("Login");
-
-            model.AjudasDictionary = GetAjudas(campos);
-
-
+            model.AjudasDictionary = GetAjudas(new List<string>(new string[] { "Login" }));
+            
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
@@ -124,62 +113,6 @@ namespace cimob.Controllers
             return View(model);
         }
 
-        /*
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<IActionResult> LoginWithRecoveryCode(string returnUrl = null)
-        {
-            // Ensure the user has gone through the username & password screen first
-            var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
-            if (user == null)
-            {
-                throw new ApplicationException($"Unable to load two-factor authentication user.");
-            }
-
-            ViewData["ReturnUrl"] = returnUrl;
-
-            return View();
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LoginWithRecoveryCode(LoginWithRecoveryCodeViewModel model, string returnUrl = null)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
-            if (user == null)
-            {
-                throw new ApplicationException($"Unable to load two-factor authentication user.");
-            }
-
-            var recoveryCode = model.RecoveryCode.Replace(" ", string.Empty);
-
-            var result = await _signInManager.TwoFactorRecoveryCodeSignInAsync(recoveryCode);
-
-            if (result.Succeeded)
-            {
-                _logger.LogInformation("User with ID {UserId} logged in with a recovery code.", user.Id);
-                return RedirectToLocal(returnUrl);
-            }
-            if (result.IsLockedOut)
-            {
-                _logger.LogWarning("User with ID {UserId} account locked out.", user.Id);
-                return RedirectToAction(nameof(Lockout));
-            }
-            else
-            {
-                _logger.LogWarning("Invalid recovery code entered for user with ID {UserId}", user.Id);
-                ModelState.AddModelError(string.Empty, "Invalid recovery code entered.");
-                return View();
-            }
-        }
-        */
-
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Lockout()
@@ -192,13 +125,9 @@ namespace cimob.Controllers
         public IActionResult Register()
         {
             // Get page help
-            List<String> campos = new List<string>();
-            foreach (var prop in typeof(RegisterViewModel).GetProperties())
-                campos.Add(prop.Name);
-            campos.Add("Registo");
             RegisterViewModel model = new RegisterViewModel
             {
-                AjudasDictionary = GetAjudas(campos)
+                AjudasDictionary = GetAjudas(new List<string>(new string[] { "Registo" }))
             };
 
             return View(model);
@@ -230,12 +159,7 @@ namespace cimob.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            // Get page help
-            List<String> campos = new List<string>();
-            foreach (var prop in typeof(RegisterViewModel).GetProperties())
-                campos.Add(prop.Name);
-            campos.Add("Registo");
-            model.AjudasDictionary = GetAjudas(campos);
+            model.AjudasDictionary = GetAjudas(new List<string>(new string[] { "Registo" }));
 
             return View(model);
         }
@@ -278,14 +202,9 @@ namespace cimob.Controllers
         public IActionResult ForgotPassword()
         {
             // Get page help
-            List<String> campos = new List<string>();
-            foreach (var prop in typeof(ForgotPasswordViewModel).GetProperties())
-                campos.Add(prop.Name);
-            campos.Add("RecuperarPassword");
-
             ForgotPasswordViewModel model = new ForgotPasswordViewModel
             {
-                AjudasDictionary = GetAjudas(campos)
+                AjudasDictionary = GetAjudas(new List<string>(new string[] { "RecuperarPassword" }))
             };
 
             return View(model);
@@ -320,15 +239,10 @@ namespace cimob.Controllers
                 return RedirectToAction(nameof(ForgotPasswordConfirmation));
             }
 
-            // Get page help
-            List<String> campos = new List<string>();
-            foreach (var prop in typeof(ForgotPasswordViewModel).GetProperties())
-                campos.Add(prop.Name);
-            campos.Add("RecuperarPassword");
-
-            model.AjudasDictionary = GetAjudas(campos);
-
             // If we got this far, something failed, redisplay form
+            // Get page help
+            model.AjudasDictionary = GetAjudas(new List<string>(new string[] { "RecuperarPassword" }));
+        
             return View(model);
         }
 
@@ -350,12 +264,8 @@ namespace cimob.Controllers
             var model = new ResetPasswordViewModel { Code = code };
 
             // Get page help
-            List<String> campos = new List<string>();
-            foreach (var prop in typeof(ResetPasswordViewModel).GetProperties())
-                campos.Add(prop.Name);
-            campos.Add("AlterarPassword");
-            model.AjudasDictionary = GetAjudas(campos);
-            
+            model.AjudasDictionary = GetAjudas(new List<string>(new string[] { "AlterarPassword" }));
+
             return View(model);
         }
 
@@ -365,14 +275,7 @@ namespace cimob.Controllers
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
             // Get page help
-            List<String> campos = new List<string>();
-            foreach (var prop in typeof(ResetPasswordViewModel).GetProperties())
-                campos.Add(prop.Name);
-            campos.Add("AlterarPassword");
-
-            model.AjudasDictionary = GetAjudas(campos);
-
-        
+            model.AjudasDictionary = GetAjudas(new List<string>(new string[] { "AlterarPassword" }));
 
             if (!ModelState.IsValid)
             {
@@ -399,7 +302,6 @@ namespace cimob.Controllers
         {
             return View();
         }
-
 
         [HttpGet] 
         public IActionResult AccessDenied()
@@ -429,12 +331,11 @@ namespace cimob.Controllers
             }
         }
 
-
         private IDictionary<string, Ajuda> GetAjudas(List<string> campos)
         {
             var ajudasContext = _context.Ajudas;
             var ajudas = from a in ajudasContext select a;
-            ajudas = ajudas.Where(a => campos.Contains(a.Nome));
+            ajudas = ajudas.Where(a => campos.Contains(a.Pagina));
             
             IDictionary<string, Ajuda> ajudasDictionary = new Dictionary<string, Ajuda>();
             foreach (Ajuda a in ajudas)

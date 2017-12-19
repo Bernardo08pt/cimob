@@ -21,38 +21,38 @@ namespace cimob.Data
             //Todas as ajudas
             var ajudas = new Ajuda[]
             {
-               //Inputs
-               new Ajuda{Nome="Email", Titulo="Endereço Email", Corpo="<p>O Email é necessário para efetuar o login na aplicação.</p><p> Este deve ser validado através de um link enviado para o mesmo.</p>"},
-               new Ajuda{Nome="Password", Titulo="Password", Corpo="<p>A Password é necessária para efetuar o login na aplicação.</p><p> Esta deve conter um mínimo de 6 caracteres.</p>"},
-               new Ajuda{Nome="Numero", Titulo="Número", Corpo="<p>O Número corresponde ao número de aluno/docente do IPS.</p>"},
-               new Ajuda{Nome="Nome", Titulo="Nome", Corpo="<p>O seu nome, preferencialmente completo.</p>"},
-               new Ajuda{Nome="ConfirmPassword", Titulo="Confirmar Password", Corpo="<p>O campo Confirmar Password tem de ser igual à Password.</p>"},
-               new Ajuda{Nome="DataNascimento", Titulo="Data de Nascimento", Corpo="<p>A Data de Nascimento tem de ser escrita no formato dd/mm/aaaa.</p>"},
-
-               //Páginas
-               new Ajuda{Nome="Login", Titulo="Página de Autenticação",
+                //Login
+                new Ajuda{Pagina = "Registo", Nome="Pagina", Titulo="Página de Registo",
+                   Corpo ="<p>A Página de Registo é onde pode criar a sua conta de forma a entrar na aplicação e realizar a sua candidatura.</p>" +
+                          "<p>Para realizar o seu registo preencha os corretamente os dados do formulário. Após a submissão dos dados será enviado um Email com um link de confirmação, o qual precisa de ser acedido para validar a sua conta</p>"},
+                new Ajuda{Pagina = "Registo", Nome="Numero", Titulo="Número", Corpo="<p>O Número corresponde ao número de aluno/docente do IPS.</p>"},
+                new Ajuda{Pagina = "Registo", Nome="Nome", Titulo="Nome", Corpo="<p>O seu nome, preferencialmente completo.</p>"},
+                new Ajuda{Pagina = "Registo", Nome="DataNascimento", Titulo="Data de Nascimento", Corpo="<p>A Data de Nascimento tem de ser escrita no formato dd/mm/aaaa.</p>"},
+                new Ajuda{Pagina = "Registo", Nome="Email", Titulo="Endereço Email", Corpo="<p>Insira um Email válido e único.</p>"},
+                new Ajuda{Pagina = "Registo", Nome="Password", Titulo="Password", Corpo="<p>A Password deve conter um mínimo de 6 caracteres.</p>"},
+                new Ajuda{Pagina = "Registo", Nome="ConfirmPassword", Titulo="Confirmar Password", Corpo="<p>O campo Confirmar Password tem de ser igual à Password.</p>"},
+                
+               //Registo
+               new Ajuda{Pagina = "Login", Nome="Pagina", Titulo="Página de Autenticação",
                    Corpo ="<p>A Página de Autenticação é onde pode introduzir os dados da sua conta de forma a entrar na aplicação. O Email tem de estar validado através do link de confirmação enviado para o mesmo.</p>" +
                           "<p>No caso de não possuir uma conta é necessário aceder à Página de Registo de forma a criar uma.</p>" +
                           "<p>Caso possua uma conta mas esqueceu-se da sua password, aceda à Página de Recuperação de password.</p>"},
-               new Ajuda{Nome="Registo", Titulo="Página de Registo",
-                   Corpo ="<p>A Página de Registo é onde pode criar a sua conta de forma a entrar na aplicação e realizar a sua candidatura.</p>" +
-                          "<p>Para realizar o seu registo preencha os corretamente os dados do formulário. Após a submissão dos dados será enviado um Email com um link de confirmação, o qual precisa de ser acedido para validar a sua conta</p>"},
-               new Ajuda{Nome="RecuperarPassword", Titulo="Página de Recuperação de Password",
+               new Ajuda{Pagina = "Login", Nome="Email", Titulo="Endereço Email", Corpo="<p>O Email associado à sua conta.</p>"},
+               new Ajuda{Pagina = "Login", Nome="Password", Titulo="Password", Corpo="<p>A Password da sua conta.</p>"},
+
+               //Recuperar Password
+               new Ajuda{Pagina = "RecuperarPassword", Nome="Pagina", Titulo="Página de Recuperação de Password",
                    Corpo ="<p>A Página de Recuperação de Password é onde pode fazer um pedido para recuperar a sua password no caso esquecimento da mesma.</p>" +
                           "<p>Para fazer o pedido insira o Email da sua conta no campo correspondente e submeta o formulário. Irá receber um email com um link para restaurar a sua password.</p>"},
-               new Ajuda{Nome="AlterarPassword", Titulo="Página de Alteração de Password",
-                   Corpo ="<p>A Página de Redefinição de Password é onde pode alterar a sua password no caso de ter pedido para recuperar a mesma.</p>" +
+               new Ajuda{Pagina = "RecuperarPassword", Nome="Email", Titulo="Endereço Email", Corpo="<p>O Email associado à sua conta.</p>"},
+
+               //Alterar Password
+               new Ajuda{Pagina = "AlterarPassword", Nome="Pagina", Titulo="Página de Alteração de Password",
+                   Corpo ="<p>A Página de Alteração de Password é onde pode alterar a sua password no caso de ter pedido para recuperar a mesma.</p>" +
                           "<p>Para alterar a passord insira o Email da sua conta, uma nova password e submeta o formulário.</p>"},
-               /*
-               new Ajuda{Nome="ConfirmacaoEmail", Titulo="Página de Aviso de Confirmação de Email",
-                   Corpo ="<p>A Página de Aviso de Confirmação de Email é apenas informativa.</p>"},
-               new Ajuda{Nome="ConfirmarRegisto", Titulo="Página de Aviso de Confirmar Registo",
-                   Corpo ="<p>A Página de Aviso de Confirmar Registo é apenas informativa.</p>"},
-               new Ajuda{Nome="AlterarPasswordConfirmacao", Titulo="Página de Aviso de Confirmação de Alteração de Password",
-                   Corpo ="<p>A Página de Aviso de Confirmação de Alteração de Password é apenas informativa.</p>"},
-               new Ajuda{Nome="RecuperarPasswordConfirmacao", Titulo="Página de Aviso de Confirmação de Recuperação de Password",
-                   Corpo ="<p>A Página de Aviso de Confirmação de Recuperação de Password é apenas informativa.</p>"}
-                */ 
+               new Ajuda{Pagina = "AlterarPassword", Nome="Email", Titulo="Endereço Email", Corpo="<p>O Email associado à sua conta.</p>"},
+               new Ajuda{Pagina = "AlterarPassword", Nome="Password", Titulo="Password", Corpo="<p>Escolha uma nova Password.</p><p>Tem de conter um mínimo de 6 caracteres.</p>"},
+               new Ajuda{Pagina = "AlterarPassword", Nome="ConfirmPassword", Titulo="Confirmar Password", Corpo="<p>O campo Confirmar Password tem de ser igual à Password.</p>"},
            };
 
             //Adicionar as ajudas à db

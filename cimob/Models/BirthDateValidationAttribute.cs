@@ -10,7 +10,9 @@ namespace cimob.Models
     {
         public override bool IsValid(object value)
         {
-            if (((DateTime)value).Date > DateTime.Now )
+            DateTime dataLimite = (DateTime.Now.AddYears(-16));
+
+            if (((DateTime)value).Date > dataLimite.Date)
                 return false;
             else
                 return true;

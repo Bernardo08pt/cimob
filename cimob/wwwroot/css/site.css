@@ -47,7 +47,7 @@
     max-height: 120px;
 }
 .register-form, .forgot-password-form, .reset-password-form {
-    padding-top: 50px;
+    padding-top: 0px;
 }
 
 .button {
@@ -151,7 +151,21 @@
     opacity:0.5;
 }
 
-.btn-back{
-    width:100%;
-    margin-top:10px;
+/*Button back*/ 
+
+.btn-back {
+    color: white;
+    background-color: #868e96;
+    border-color: #868e96;
+}
+
+.btn-back:hover {
+    color:white;
+    background-color: #727b84;
+    border-color: #6c757d;
+}
+
+.btn-back-form {
+    width: 100%;
+    margin-top: 10px;
 }
