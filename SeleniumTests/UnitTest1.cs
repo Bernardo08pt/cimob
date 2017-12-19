@@ -87,6 +87,61 @@ namespace SeleniumTests
             Assert.AreEqual("O Email ainda não está verificado.", emailNotConfirmed.Text);
         }
 
+        [TestMethod]
+        [TestCategory("Selenium")]
+        [Priority(1)]
+        // É testado se aparece uma mensagem de erro se o utilizador usar as credenciais erradas
+        public void LoginInvalidCredentials()
+        {
+            driver = new ChromeDriver();
+            //Para firefox
+            //driver = new FirefoxDriver();
+            baseURL = "http://cimob.azurewebsites.net/Account/Login";
+            driver.Navigate().GoToUrl(baseURL);
+            
+            //Encontra os elementos do form de autenticação
+            RemoteWebElement email = (RemoteWebElement)driver.FindElementById("Email");
+            RemoteWebElement password = (RemoteWebElement)driver.FindElementById("Password");
+            RemoteWebElement button = (RemoteWebElement)driver.FindElement(By.XPath("//button[@type='submit'][text()='Entrar']"));
+
+            //Preenche o formulário e o botão Entrar é clicado
+            email.SendKeys("150220189@estudantes.pt");
+            password.SendKeys("123456");
+
+            button.Click();
+
+            //Encontra o elemento que mostra a mensagem de erro
+            Assert.AreEqual("Tentativa de login inválida.", (RemoteWebElement)driver.FindElement(By.TagName("li")));
+        }
+
+        [TestMethod]
+        [TestCategory("Selenium")]
+        [Priority(1)]
+        // É testado se quando o utilizador insere o email e password corretos é iniciada a sessão e redirecionado para a home page
+        public void LoginSuccess()
+        {
+            driver = new ChromeDriver();
+            //Para firefox
+            //driver = new FirefoxDriver();
+            baseURL = "http://cimob.azurewebsites.net/Account/Login";
+            driver.Navigate().GoToUrl(baseURL);
+
+            //Encontra os elementos do form de autenticação
+            RemoteWebElement email = (RemoteWebElement)driver.FindElementById("Email");
+            RemoteWebElement password = (RemoteWebElement)driver.FindElementById("Password");
+            RemoteWebElement button = (RemoteWebElement)driver.FindElement(By.XPath("//button[@type='submit'][text()='Entrar']"));
+
+            //Preenche o formulário e o botão Entrar é clicado
+            email.SendKeys("150220189@estudantes.ips.pt");
+            password.SendKeys("123456");
+
+            button.Click();
+
+            //Encontra o elemento que mostra a mensagem de erro
+            Assert.AreEqual("http://cimob.azurewebsites.net/", driver.Url);
+        }
+
+
         [TestCleanup()]
         public void MyTestCleanup()
         {
