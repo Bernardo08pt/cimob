@@ -68,7 +68,7 @@ namespace cimob
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -91,6 +91,33 @@ namespace cimob
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            CreateRoles(serviceProvider);
         }
-    } 
+
+        private void CreateRoles(IServiceProvider serviceProvider)
+        {
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            Task<IdentityResult> roleResult;
+            
+            Task<bool> hasCandidatoRole = roleManager.RoleExistsAsync("Candidato");
+            hasCandidatoRole.Wait();
+
+            if (!hasCandidatoRole.Result)
+            {
+                roleResult = roleManager.CreateAsync(new IdentityRole("Candidato"));
+                roleResult.Wait();
+            }
+
+            Task<bool> hasFuncionarioRole = roleManager.RoleExistsAsync("Funcionario");
+            hasFuncionarioRole.Wait();
+
+            if (!hasFuncionarioRole.Result)
+            {
+                roleResult = roleManager.CreateAsync(new IdentityRole("Funcionario"));
+                roleResult.Wait();
+            }
+        }
+    }
 }

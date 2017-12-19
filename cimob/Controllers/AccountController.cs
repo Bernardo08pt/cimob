@@ -25,6 +25,7 @@ namespace cimob.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly ApplicationDbContext _context;
@@ -32,12 +33,14 @@ namespace cimob.Controllers
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
+            RoleManager<IdentityRole> roleManager,
             IEmailSender emailSender,
             ILogger<AccountController> logger,
             ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
             _emailSender = emailSender;
             _logger = logger;
             _context = context;
@@ -140,13 +143,19 @@ namespace cimob.Controllers
         {
             if (ModelState.IsValid)
             {
+                
+
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Nome = model.Nome,
                     Numero = Convert.ToInt32(model.Numero), DataNascimento = model.DataNascimento};
+
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-                    
+
+                    //here we tie the new user to the role
+                    await _userManager.AddToRoleAsync(user, "Candidato");
+
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
                     await _emailSender.SendEmailConfirmationAsync(model.Email, model.Nome, callbackUrl);

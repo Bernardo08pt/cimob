@@ -12,6 +12,9 @@ namespace cimob.Data
         {
             context.Database.EnsureCreated();
 
+
+           
+
             // Verificar se as ajudas já estão adicionadas
             if (context.Ajudas.Any())
             {
