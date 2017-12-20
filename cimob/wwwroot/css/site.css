@@ -45,7 +45,13 @@
 
 .logotipo {
     max-height: 120px;
+    float:right;
 }
+
+.logotipo-small-resolution {
+    max-height: 120px;
+}
+
 .register-form, .forgot-password-form, .reset-password-form {
     padding-top: 20px;
 }
