@@ -64,6 +64,7 @@ namespace cimob.Controllers
             };
 
             ViewData["ReturnUrl"] = returnUrl;
+
             return View(model);
         }
 
@@ -85,7 +86,7 @@ namespace cimob.Controllers
                     if (!await _userManager.IsEmailConfirmedAsync(user))
                     {
                         ModelState.AddModelError(string.Empty,
-                                      "O Email ainda não está verificado.");
+                                      "O Email ainda não está validado, verifique a sua caixa de correio.");
                         return View(model);
                     }
                 }
@@ -132,7 +133,7 @@ namespace cimob.Controllers
             {
                 AjudasDictionary = GetAjudas(new List<string>(new string[] { "Registo" }))
             };
-
+            model.DataNascimento=DateTime.Today;
             return View(model);
         }
 

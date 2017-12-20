@@ -36,8 +36,8 @@ namespace cimob
                 options.Password.RequireDigit = true;
                 options.Password.RequiredLength = 6;
                 options.Password.RequireNonAlphanumeric = true;
-                options.Password.RequireUppercase = true;
-                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
                 options.Password.RequiredUniqueChars = 0;
 
                 // Lockout settings
