@@ -20,7 +20,7 @@ namespace cimob.Models.AccountViewModels
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [Display(Name = "Data de Nascimento")]
         [BirthDateValidation(ErrorMessage = "A idade tem de ser entre 17 a 100 anos.")]
-        [DataType(DataType.Date)]
+        [DataType(DataType.Date,ErrorMessage ="A data é inválida.")]
         public DateTime DataNascimento { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]

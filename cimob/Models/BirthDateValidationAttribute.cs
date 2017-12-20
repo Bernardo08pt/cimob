@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -10,12 +11,13 @@ namespace cimob.Models
     {
         public override bool IsValid(object value)
         {
-            DateTime dataLimite = (DateTime.Now.AddYears(-17));
+            DateTime dataLimiteMaxima = (DateTime.Now.AddYears(-17));
+            DateTime dataLimiteMinima = (DateTime.Now.AddYears(-100));
 
-            if (((DateTime)value).Date > dataLimite.Date)
-                return false;
-            else
-                return true;
+            DateTime valor = ((DateTime)value);
+
+            return valor.Date < dataLimiteMaxima.Date && valor.Date > dataLimiteMinima.Date;
         }
+
     }
 }

@@ -127,7 +127,7 @@ namespace cimob.Controllers
         [AllowAnonymous]
         public IActionResult Register()
         {
-            // Get page help
+            //// Get page help
             RegisterViewModel model = new RegisterViewModel
             {
                 AjudasDictionary = GetAjudas(new List<string>(new string[] { "Registo" }))
