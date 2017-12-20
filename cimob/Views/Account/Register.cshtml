@@ -41,7 +41,7 @@
                 <label asp-for="DataNascimento"></label>
                 <div class="input-group">
 
-                    <input asp-for="DataNascimento" class="form-control" value="" />
+                    <input asp-for="DataNascimento" class="form-control" />
                     <i class="glyphicon glyphicon-calendar form-control-feedback"></i>
                     <div class="input-group-btn">
                         <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["DataNascimento"].Titulo" data-content="@Model.AjudasDictionary["DataNascimento"].Corpo">
@@ -97,4 +97,25 @@
 </div>
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script>
+        $.validator.addMethod("dataoffparameters",
+            function (value, element, parameters) {
+
+                    value = value.split("/");
+
+                    var minDate = new Date(todayDate.getFullYear() - 100, todayDate.getMonth(), todayDate.getDate()),
+                        maxDate = new Date(todayDate.getFullYear() - 17, todayDate.getMonth(), todayDate.getDate());
+
+                    date = new Date(value[2], value[0] - 1, value[1]);
+
+                    return minDate < date && date < maxDate;
+
+                    return value.toUpperCase() !== "RED";
+            });
+     
+        $.validator.unobtrusive.adapters.add("dataoffparameters", [], function (options) {
+                  options.rules.dataoffparameters = {};
+                options.messages["dataoffparameters"] = options.message;
+            });
+    </script>
 }
