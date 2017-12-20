@@ -33,7 +33,10 @@ namespace SeleniumTests
             driver = new ChromeDriver();
             //Para firefox
             //driver = new FirefoxDriver();
-            baseURL = "http://cimob.azurewebsites.net/Account/Register?returnurl=%2F";
+            //baseURL = "http://cimob.azurewebsites.net/Account/Register?returnurl=%2F";
+            
+            //usar esta linha quando testamos com a BD local
+            baseURL = "https://localhost:44307/Account/Register?returnurl=%2F";
             driver.Navigate().GoToUrl(baseURL);
 
             //Encontra os elementos do form de autenticação
@@ -69,7 +72,10 @@ namespace SeleniumTests
             driver = new ChromeDriver();
             //Para firefox
             //driver = new FirefoxDriver();
-            baseURL = "http://cimob.azurewebsites.net/Account/Login";
+            //baseURL = "http://cimob.azurewebsites.net/Account/Login";
+
+            //usar esta linha quando testamos com a BD local
+            baseURL = "https://localhost:44307/Account/Login?ReturnUrl=%2F";
             driver.Navigate().GoToUrl(baseURL);
 
             //Encontra os elementos do form de autenticação
@@ -88,17 +94,20 @@ namespace SeleniumTests
             Assert.AreEqual("O Email ainda não está verificado.", emailNotConfirmed.Text);
         }
 
-        /* [TestMethod]
+        [TestMethod]
          [TestCategory("Selenium")]
          [Priority(1)]
          // É testado se aparece uma mensagem de erro se o utilizador usar as credenciais erradas
          public void LoginInvalidCredentials()
          {
              driver = new ChromeDriver();
-             //Para firefox
-             //driver = new FirefoxDriver();
-             baseURL = "http://cimob.azurewebsites.net/Account/Login";
-             driver.Navigate().GoToUrl(baseURL);
+            //Para firefox
+            //driver = new FirefoxDriver();
+            //baseURL = "http://cimob.azurewebsites.net/Account/Login";
+
+            //usar esta linha quando testamos com a BD local
+            baseURL = "https://localhost:44307/Account/Login?ReturnUrl=%2F";
+            driver.Navigate().GoToUrl(baseURL);
 
              //Encontra os elementos do form de autenticação
              RemoteWebElement email = (RemoteWebElement)driver.FindElementById("Email");
@@ -106,44 +115,54 @@ namespace SeleniumTests
              RemoteWebElement button = (RemoteWebElement)driver.FindElement(By.XPath("//button[@type='submit'][text()='Entrar']"));
 
              //Preenche o formulário e o botão Entrar é clicado
-             email.SendKeys("150220189@estudantes.pt");
-             password.SendKeys("123456");
+             /*email.SendKeys("150220189@estudantes.pt");
+             password.SendKeys("123456");*/
 
-             button.Click();
+            email.SendKeys("150221021@estudantes.pt");
+            password.SendKeys("123123");
+
+            button.Click();
+
+            RemoteWebElement loginInvalido = (RemoteWebElement)driver.FindElement(By.TagName("li"));
 
              //Encontra o elemento que mostra a mensagem de erro
-             Assert.AreEqual("Tentativa de login inválida.", (RemoteWebElement)driver.FindElement(By.TagName("li")));
+            Assert.AreEqual("Tentativa de login inválida.", loginInvalido.Text);
          }
 
-         [TestMethod]
+        [TestMethod]
          [TestCategory("Selenium")]
          [Priority(1)]
          // É testado se quando o utilizador insere o email e password corretos é iniciada a sessão e redirecionado para a home page
          public void LoginSuccess()
          {
              driver = new ChromeDriver();
-             //Para firefox
-             //driver = new FirefoxDriver();
-             baseURL = "http://cimob.azurewebsites.net/Account/Login";
-             driver.Navigate().GoToUrl(baseURL);
+            //Para firefox
+            //driver = new FirefoxDriver();
+            //baseURL = "http://cimob.azurewebsites.net/Account/Login";
 
-             //Encontra os elementos do form de autenticação
+            //usar esta linha quando testamos com a BD local
+            baseURL = "https://localhost:44307/Account/Login?ReturnUrl=%2F";
+            driver.Navigate().GoToUrl(baseURL);
+
+
+            //Encontra os elementos do form de autenticação
              RemoteWebElement email = (RemoteWebElement)driver.FindElementById("Email");
              RemoteWebElement password = (RemoteWebElement)driver.FindElementById("Password");
              RemoteWebElement button = (RemoteWebElement)driver.FindElement(By.XPath("//button[@type='submit'][text()='Entrar']"));
 
-             //Preenche o formulário e o botão Entrar é clicado
-             email.SendKeys("150220189@estudantes.ips.pt");
-             password.SendKeys("123456");
+            //Preenche o formulário e o botão Entrar é clicado
+            /* email.SendKeys("150220189@estudantes.ips.pt");
+             password.SendKeys("123456");*/
+            email.SendKeys("150221021@estudantes.ips.pt");
+            password.SendKeys("123456");
+            button.Click();
 
-             button.Click();
-
-             //Encontra o elemento que mostra a mensagem de erro
-             Assert.AreEqual("http://cimob.azurewebsites.net/", driver.Url);
+            //Encontra o elemento que mostra a mensagem de erro
+            // Assert.AreEqual("http://cimob.azurewebsites.net/", driver.Url);
+            //usar esta linha quando testamos com a BD local
+            Assert.AreEqual("https://localhost:44307/", driver.Url);
+            
          }
-
-
-        */
 
         [TestCleanup()]
         public void MyTestCleanup()
