@@ -90,8 +90,8 @@ namespace SeleniumTests
             button.Click();
 
             //Encontra o elemento que mostra a mensagem de erro
-            RemoteWebElement emailNotConfirmed = (RemoteWebElement)driver.FindElement(By.TagName("li"));
-            Assert.AreEqual("O Email ainda não está verificado.", emailNotConfirmed.Text);
+            //RemoteWebElement emailNotConfirmed = (RemoteWebElement)driver.FindElement(By.TagName("li"));
+            Assert.AreEqual("O Email ainda não está verificado.", ((RemoteWebElement)driver.FindElement(By.TagName("li"))).Text);
         }
 
         [TestMethod]
