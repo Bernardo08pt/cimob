@@ -61,7 +61,14 @@ namespace cimob.Data
                new Ajuda{Pagina = "Application", Nome="Escola", Titulo="Escola", Corpo="<p>A escola que frequenta atualmente.</p>"},
                new Ajuda{Pagina = "Application", Nome="Curso", Titulo="Número", Corpo="<p>O curso que frequenta atualmente.</p>"},
                new Ajuda{Pagina = "Application", Nome="Ano", Titulo="Número", Corpo="<p>O ano atual no curso (matrícula atual).</p>"},
-           };
+
+               // candidatura - contactos
+               new Ajuda{Pagina = "Application", Nome="Email", Titulo="Email", Corpo="<p>Email através do qual possa ser contacto.</p>"},
+               new Ajuda{Pagina = "Application", Nome="EmailAlternativo", Titulo="Email Alternativo", Corpo="<p>Email alternativo caso haja algum problema com o principal.</p>"},
+               new Ajuda{Pagina = "Application", Nome="ContactoPessoal", Titulo="Contacto Pessoal", Corpo="<p>O seu contacto telefonico pessoal.</p>"},
+               new Ajuda{Pagina = "Application", Nome="ContactoEmergencia", Titulo="Contacto de Emergência", Corpo="<p>Contacto telefonico em caso de algum emergência.</p>"},
+               new Ajuda{Pagina = "Application", Nome="Parentesco", Titulo="Parentesco", Corpo="<p>Parentesco do contacto de emergência.</p>"},
+            };
 
             //Adicionar as ajudas à db
             foreach (Ajuda a in ajudas)

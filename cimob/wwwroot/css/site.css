@@ -339,7 +339,6 @@ body {
 
     .candidatura-wrapper .tab-content {
         width: 100%;
-        min-height: 300px;
         position: relative;
         border: solid 1px #000;
         margin-bottom: 20px;
