@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -11,15 +10,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Http;
 using cimob.Models;
-using cimob.Models.AccountViewModels;
+using cimob.Models.ApplicationViewModels;
 using cimob.Services;
 using cimob.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Http;
 
 namespace cimob.Controllers
 {
+    [Authorize]
     public class ApplicationController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -34,7 +34,7 @@ namespace cimob.Controllers
             SignInManager<ApplicationUser> signInManager,
             RoleManager<IdentityRole> roleManager,
             IEmailSender emailSender,
-            ILogger<AccountController> logger,
+            ILogger<ApplicationController> logger,
             ApplicationDbContext context)
         {
             _userManager = userManager;
@@ -48,7 +48,7 @@ namespace cimob.Controllers
         // GET: Application
         public ActionResult Index()
         {
-            return View();
+            return View(new ApplicationViewModel { AjudasDictionary = GetAjudas(new List<string>(new string[] { "Application" })) });
         }
 
         // GET: Application/Details/5
@@ -124,6 +124,21 @@ namespace cimob.Controllers
             {
                 return View();
             }
+        }
+
+        private IDictionary<string, Ajuda> GetAjudas(List<string> campos)
+        {
+            var ajudasContext = _context.Ajudas;
+            var ajudas = from a in ajudasContext select a;
+            ajudas = ajudas.Where(a => campos.Contains(a.Pagina));
+
+            IDictionary<string, Ajuda> ajudasDictionary = new Dictionary<string, Ajuda>();
+            foreach (Ajuda a in ajudas)
+            {
+                ajudasDictionary[a.Nome] = a;
+            }
+
+            return ajudasDictionary;
         }
     }
 }

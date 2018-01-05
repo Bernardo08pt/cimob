@@ -53,6 +53,14 @@ namespace cimob.Data
                new Ajuda{Pagina = "AlterarPassword", Nome="Email", Titulo="Endereço Email", Corpo="<p>O Email associado à sua conta.</p>"},
                new Ajuda{Pagina = "AlterarPassword", Nome="Password", Titulo="Password", Corpo="<p>Insira uma nova Password.</p><p>A Password deve seguir as seguintes regras: </p><ul><li>Conter um mínimo de 6 caracteres.</li><li>Conter pelo menos 1 dígito.</li><li>Conter pelo menos 1 caracter especial ['@' '.' '_' ect...].</li></ul>"},
                new Ajuda{Pagina = "AlterarPassword", Nome="ConfirmPassword", Titulo="Confirmar Password", Corpo="<p>O campo Confirmar Password tem de ser igual à Password.</p>"},
+
+               // candidatura - geral
+               new Ajuda{Pagina = "Application", Nome="Numero", Titulo="Número", Corpo="<p>O Número corresponde ao número de aluno/docente do IPS.</p>"},
+               new Ajuda{Pagina = "Application", Nome="Nome", Titulo="Nome", Corpo="<p>O seu nome, preferencialmente completo.</p>"},
+               new Ajuda{Pagina = "Application", Nome="DataNascimento", Titulo="Data de Nascimento", Corpo="<p>A Data de Nascimento tem de ser escrita no formato dd/mm/aaaa.</p><p>O candidato tem de ter entre 17 a 100 anos.</p>"},
+               new Ajuda{Pagina = "Application", Nome="Escola", Titulo="Escola", Corpo="<p>A escola que frequenta atualmente.</p>"},
+               new Ajuda{Pagina = "Application", Nome="Curso", Titulo="Número", Corpo="<p>O curso que frequenta atualmente.</p>"},
+               new Ajuda{Pagina = "Application", Nome="Ano", Titulo="Número", Corpo="<p>O ano atual no curso (matrícula atual).</p>"},
            };
 
             //Adicionar as ajudas à db

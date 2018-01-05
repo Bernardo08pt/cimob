@@ -50,7 +50,6 @@ body {
 
 .logotipo {
     max-height: 120px;
-    float:right;
 }
 
 .logotipo-small-resolution {
@@ -340,8 +339,26 @@ body {
 
     .candidatura-wrapper .tab-content {
         width: 100%;
-        height: 300px;
+        min-height: 300px;
         position: relative;
         border: solid 1px #000;
         margin-bottom: 20px;
     }
+
+        .candidatura-wrapper [role="tab"]:not(:first-child) {
+            display: none;
+        }
+
+        
+         .candidatura-wrapper .tab-content .geral-form {
+            padding: 20px 0;
+            text-align: left;
+        }
+
+            .candidatura-wrapper .tab-content .geral-form .form-group {
+                margin-bottom: 5px;
+            }
+
+            .candidatura-wrapper .tab-content .geral-form label {
+                line-height: 30px;
+            }

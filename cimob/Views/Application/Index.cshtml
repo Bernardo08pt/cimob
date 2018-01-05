@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Candidatura";
     Layout = "~/Views/Shared/_LayoutWhite.cshtml";
 }
@@ -12,9 +11,16 @@
     </ul>
 
     <div class="tab-content">
-        <div id="geral" role="tab"></div>
-        <div id="contactos" role="tab"></div>
-        <div id="adicional" role="tab"></div>
+        <div id="geral" role="tab">
+            @Html.Partial("GeneralInformation")
+
+        </div>
+        <div id="contactos" role="tab">
+            contactos
+        </div>
+        <div id="adicional" role="tab">
+            adicional
+        </div>
     </div>
 
     <a href="/" class="back-button">Voltar</a>
@@ -24,7 +30,7 @@
     <script>
         $(".candidatura-wrapper li").on("click", (ev) => {
             var elem = ev.currentTarget;
-            $("role").hide();
+            $("[role='tab']").hide();
             $("#" + elem.getAttribute("data-id")).show();
             $(".selected").removeClass("selected");
             elem.classList.add("selected");

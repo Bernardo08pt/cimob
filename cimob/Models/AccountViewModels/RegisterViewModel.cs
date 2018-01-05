@@ -41,12 +41,5 @@ namespace cimob.Models.AccountViewModels
         public string ConfirmPassword { get; set; }
 
         public IDictionary<string, Ajuda> AjudasDictionary { get; set; }
-
-        
-
     }
-
-
-
-
 }
