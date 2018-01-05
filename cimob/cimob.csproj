@@ -5,6 +5,10 @@
     <UserSecretsId>aspnet-cimob-E8511382-8E83-4730-950F-9EE68A039297</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Remove="Views\Home\Menu.cshtml" />
+  </ItemGroup>
+
 
 
   <ItemGroup>

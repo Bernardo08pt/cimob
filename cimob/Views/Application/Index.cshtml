@@ -1,6 +1,33 @@
 ﻿
 @{
     ViewData["Title"] = "Candidatura";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutWhite.cshtml";
 }
 
+<div class="candidatura-wrapper">
+    <ul>
+        <li data-id="geral" class="selected">Geral</li>
+        <li data-id="contactos">Contactos</li>
+        <li data-id="adicional">Informação Adicional</li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="geral" role="tab"></div>
+        <div id="contactos" role="tab"></div>
+        <div id="adicional" role="tab"></div>
+    </div>
+
+    <a href="/" class="back-button">Voltar</a>
+</div>
+
+@section Scripts {
+    <script>
+        $(".candidatura-wrapper li").on("click", (ev) => {
+            var elem = ev.currentTarget;
+            $("role").hide();
+            $("#" + elem.getAttribute("data-id")).show();
+            $(".selected").removeClass("selected");
+            elem.classList.add("selected");
+        });
+    </script>
+}
