@@ -11,6 +11,7 @@ namespace cimob.Data
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Ajuda> Ajudas { get; set; }
+        public DbSet<Escola> Escolas { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

@@ -48,7 +48,10 @@ namespace cimob.Controllers
         // GET: Application
         public ActionResult Index()
         {
-            return View(new ApplicationViewModel { AjudasDictionary = GetAjudas(new List<string>(new string[] { "Application" })) });
+            return View(new ApplicationViewModel {
+                AjudasDictionary = GetAjudas(new List<string>(new string[] { "Application" })),
+                Opcoes = GetOpcoes()
+            });
         }
 
         // GET: Application/Details/5
@@ -139,6 +142,15 @@ namespace cimob.Controllers
             }
 
             return ajudasDictionary;
+        }
+
+        private List<EscolaViewModel> GetOpcoes()
+        {
+            var tmp = new List<EscolaViewModel>();
+
+            
+
+            return tmp;
         }
     }
 }

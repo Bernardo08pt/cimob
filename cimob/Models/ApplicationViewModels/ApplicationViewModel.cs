@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -66,10 +67,12 @@ namespace cimob.Models.ApplicationViewModels
         #region aditional
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [Display(Name = "Carta de Motivação")]
-        public string CartaMotivacao { get; set; }
+        public IFormFile CartaMotivacao { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
-        public List<int> Escolhas { get; set; }
+        public List<string> Escolhas { get; set; }
+        
+        public List<EscolaViewModel> Opcoes { get; set; }
         #endregion
 
         public IDictionary<string, Ajuda> AjudasDictionary { get; set; }
