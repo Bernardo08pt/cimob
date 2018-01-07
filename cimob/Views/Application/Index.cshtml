@@ -17,12 +17,17 @@
         <div id="contactos" role="tab">
             @Html.Partial("Contacts")
         </div>
-        <div id="adicional" role="tab">
-            @Html.Partial("AdditionalInformation")
+        <div id="documentacao" role="tab">
+            @Html.Partial("Documentation")
+        </div>
+        <div id="destino" role="tab">
+            @Html.Partial("Destination")
         </div>
     </div>
 
-    <a href="/" class="button button-back">Voltar</a>
+    <a href="/" id="btn_back" class="button button-back">Voltar</a>
+    <a href="/" id="btn_next" class="button button-next">Seguinte</a>
+    <a href="/" id="btn_submit" class="button button-submeter">Submeter</a>
 </div>
 
 @section Scripts {
@@ -33,6 +38,50 @@
             $("#" + elem.getAttribute("data-id")).show();
             $(".selected").removeClass("selected");
             elem.classList.add("selected");
+        });
+
+        $("#btn_next").on("click", (ev) => {
+            ev.preventDefault();
+
+            var curr = window.location.hash.split("#/")[1];
+
+            if (curr = "") {
+                window.location.hash = "/contactos"
+            }
+            else if (curr == "contactos") {
+                window.location.hash = "/documentacao"
+            }
+            else if (curr == "documentacao") {
+                window.location.hash = "/destino"
+            }
+            else {
+                $(ev.target).hide();
+                $("#btn_submit").show();
+            }
+        });
+
+        $("#btn_back").on("click", (ev) => {
+            ev.preventDefault();
+
+            var curr = window.location.hash.split("#/")[1];
+
+            if (curr = "") {
+                window.location = "/"
+            }
+            else if (curr == "contactos") {
+                window.location.hash = "/geral"
+            }
+            else if (curr == "documentacao") {
+                window.location.hash = "/contactos"
+            }
+            else if (curr == "destino") {
+                window.location.hash = "/documentacao"
+            }
+        });
+
+        $(window).on("hashhashchange", (ev) => {
+            $(".selected").removeClass("selected");
+            $("#" + window.location.hash.split("#/")[1]).addClass("selected");
         });
     </script>
 }

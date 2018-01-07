@@ -1,0 +1,79 @@
+﻿@model EscolaViewModel;
+
+<div class="destination-form">
+    <div class="search">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row form-group has-feedback has-feedback-left">
+            <div class="col-md-3 col-md-offset-1">
+                <label>Nome</label>
+            </div>
+            <div class="input-group col-md-6">
+                <input name="Nome" class="form-control" placeholder="Nome" />
+                <i class="glyphicon glyphicon-user form-control-feedback"></i>
+                <div class="input-group-btn">
+                    <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Nome"].Titulo" data-content="@Model.AjudasDictionary["Nome"].Corpo">
+                        <span class="glyphicon glyphicon-question-sign"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row form-group has-feedback has-feedback-left">
+            <div class="col-md-3 col-md-offset-1">
+                <label>"Pais"</label>
+            </div>
+            <div class="input-group col-md-6">
+                <input name="Pais" class="form-control" placeholder="Pais" />
+                <i class="glyphicon glyphicon-user form-control-feedback"></i>
+                <div class="input-group-btn">
+                    <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Pais"].Titulo" data-content="@Model.AjudasDictionary["Pais"].Corpo">
+                        <span class="glyphicon glyphicon-question-sign"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <Button>
+            <span class="glyphicon glyphicon-question-search"></span>
+            Pesquisar
+        </Button>
+    </div>
+
+    <div class="listing">
+        <table class="table" border="1">
+            <tr>
+                <th></th>
+                <th>País</th>
+                <th>Escola</th>
+                <th>Curso</th>
+            </tr>
+           
+            @foreach (var item in Model.Escolas)
+            {
+                <tr>
+                    <td>
+                        <input type="hidden" id="@item.EscolaID"/>
+                    </td>
+                </tr>
+                @foreach (var curr in item.Cursos)
+                { 
+                    <tr>
+                        <td>
+                            <input type="checkbox" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Pais)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nome)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => curr.Nome)
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+</div>

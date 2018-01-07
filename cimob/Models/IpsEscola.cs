@@ -1,7 +1,6 @@
-﻿using cimob.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace cimob.Migrations
+namespace cimob.Models
 {
     public class IpsEscola
     {
