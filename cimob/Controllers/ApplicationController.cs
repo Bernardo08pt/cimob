@@ -50,7 +50,10 @@ namespace cimob.Controllers
         {
             return View(new ApplicationViewModel {
                 AjudasDictionary = GetAjudas(new List<string>(new string[] { "Application" })),
-                Opcoes = GetOpcoes()
+                Escolas = GetEscolas(),
+                Escola = GetEscolasIPS(),
+                Curso = GetCursoIPS(),
+                Paises = GetPaises()
             });
         }
 
@@ -144,13 +147,24 @@ namespace cimob.Controllers
             return ajudasDictionary;
         }
 
-        private List<EscolaViewModel> GetOpcoes()
+        private List<Escola> GetEscolas()
         {
-            var tmp = new List<EscolaViewModel>();
+            return (from e in _context.Escolas select e).ToList();
+        }
 
-            
+        private List<IpsEscola> GetEscolasIPS()
+        {
+            return (from e in _context.IpsEscolas select e).ToList();
+        }
 
-            return tmp;
+        private List<IpsCurso> GetCursoIPS()
+        {
+            return (from c in _context.IpsCursos select c).ToList();
+        }
+
+        private List<Pais> GetPaises()
+        {
+            return (from c in _context.Paises select c).ToList();
         }
     }
 }

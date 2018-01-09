@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using cimob.Models;
 
@@ -12,6 +8,9 @@ namespace cimob.Data
     {
         public DbSet<Ajuda> Ajudas { get; set; }
         public DbSet<Escola> Escolas { get; set; }
+        public DbSet<IpsEscola> IpsEscolas { get; set; }
+        public DbSet<IpsCurso> IpsCursos { get; set; }
+        public DbSet<Pais> Paises { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

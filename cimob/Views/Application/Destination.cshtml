@@ -1,4 +1,4 @@
-﻿@model EscolaViewModel;
+﻿@model ApplicationViewModel;
 
 <div class="destination-form">
     <div class="search">
@@ -21,10 +21,10 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="row form-group has-feedback has-feedback-left">
             <div class="col-md-3 col-md-offset-1">
-                <label>"Pais"</label>
+                <label>País</label>
             </div>
             <div class="input-group col-md-6">
-                <input name="Pais" class="form-control" placeholder="Pais" />
+                @Html.DropDownListFor(p => Model.Paises, new SelectList(Model.Paises, "PaisID", "Descricao"), "Escolha uma opção", new { @class = "form-control" });
                 <i class="glyphicon glyphicon-user form-control-feedback"></i>
                 <div class="input-group-btn">
                     <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Pais"].Titulo" data-content="@Model.AjudasDictionary["Pais"].Corpo">
@@ -51,14 +51,12 @@
            
             @foreach (var item in Model.Escolas)
             {
-                <tr>
-                    <td>
-                        <input type="hidden" id="@item.EscolaID"/>
-                    </td>
-                </tr>
                 @foreach (var curr in item.Cursos)
                 { 
                     <tr>
+                        <td>
+                            <input type="hidden" id="curso" value="@curr.CursoID"/>
+                        </td>
                         <td>
                             <input type="checkbox" />
                         </td>

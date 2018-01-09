@@ -25,11 +25,11 @@ namespace cimob.Models.ApplicationViewModels
 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [Display(Name = "Escola")]
-        public string Escola { get; set; }
+        public List<IpsEscola> Escola { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [Display(Name = "Curso")]
-        public string Curso { get; set; }
+        public List<IpsCurso> Curso { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [Display(Name = "Ano")]
@@ -64,15 +64,22 @@ namespace cimob.Models.ApplicationViewModels
         #endregion
 
 
-        #region aditional
+        #region docs
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [Display(Name = "Carta de Motivação")]
         public IFormFile CartaMotivacao { get; set; }
+        #endregion
 
+
+        #region destino
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         public List<string> Escolhas { get; set; }
         
-        public List<EscolaViewModel> Opcoes { get; set; }
+        public List<Escola> Escolas { get; set; }
+
+        public int SearchPais { get; set; }
+        public string SearchName { get; set; }
+        public List<Pais> Paises { get; set; }
         #endregion
 
         public IDictionary<string, Ajuda> AjudasDictionary { get; set; }

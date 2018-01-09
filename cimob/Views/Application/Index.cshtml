@@ -7,7 +7,8 @@
     <ul>
         <li data-id="geral" class="selected">Geral</li>
         <li data-id="contactos">Contactos</li>
-        <li data-id="adicional">Informação Adicional</li>
+        <li data-id="documentacao">Documentação</li>
+        <li data-id="destino">Escola Destino</li>
     </ul>
 
     <div class="tab-content">
@@ -25,27 +26,30 @@
         </div>
     </div>
 
-    <a href="/" id="btn_back" class="button button-back">Voltar</a>
-    <a href="/" id="btn_next" class="button button-next">Seguinte</a>
-    <a href="/" id="btn_submit" class="button button-submeter">Submeter</a>
+    <div class="buttons">
+        <span id="btn_back" class="button button-back">Voltar</span>
+        <span id="btn_next" class="button button-next">Seguinte</span>
+        <span id="btn_submit" class="button button-submeter">Submeter</span>
+    </div>
 </div>
 
 @section Scripts {
     <script>
+        $(() => {
+            var curr = window.location.hash.split("#/")[1];
+
+            if (curr != undefined || curr != "geral")
+                changePage();
+        });
+
         $(".candidatura-wrapper li").on("click", (ev) => {
-            var elem = ev.currentTarget;
-            $("[role='tab']").hide();
-            $("#" + elem.getAttribute("data-id")).show();
-            $(".selected").removeClass("selected");
-            elem.classList.add("selected");
+            window.location.hash = "/" + ev.currentTarget.getAttribute("data-id");
         });
 
         $("#btn_next").on("click", (ev) => {
-            ev.preventDefault();
-
             var curr = window.location.hash.split("#/")[1];
 
-            if (curr = "") {
+            if (curr == "" || curr == undefined || curr == "geral") {
                 window.location.hash = "/contactos"
             }
             else if (curr == "contactos") {
@@ -53,35 +57,37 @@
             }
             else if (curr == "documentacao") {
                 window.location.hash = "/destino"
-            }
-            else {
-                $(ev.target).hide();
+                $("#btn_next").hide();
                 $("#btn_submit").show();
             }
         });
 
         $("#btn_back").on("click", (ev) => {
-            ev.preventDefault();
+            var id = window.location.hash.split("#/")[1];
 
-            var curr = window.location.hash.split("#/")[1];
-
-            if (curr = "") {
-                window.location = "/"
-            }
-            else if (curr == "contactos") {
-                window.location.hash = "/geral"
-            }
-            else if (curr == "documentacao") {
-                window.location.hash = "/contactos"
-            }
-            else if (curr == "destino") {
-                window.location.hash = "/documentacao"
-            }
+            if (id == "geral" || id == undefined || id == "")
+                window.location = "/";
+            else 
+                window.history.back();
         });
 
-        $(window).on("hashhashchange", (ev) => {
+        $(window).on("hashchange", (ev) => {
+            changePage();
+        });
+
+        var changePage = () => {
+            $("[role='tab']").hide();
             $(".selected").removeClass("selected");
-            $("#" + window.location.hash.split("#/")[1]).addClass("selected");
-        });
+            var id = window.location.hash.split("#/")[1];
+
+            if (id == undefined || id == "") {
+                $("#geral").show();
+                $("[data-id='geral']").addClass("selected");
+            }
+            else {
+                $("#" + id).show();
+                $("ul [data-id='" + id + "']").addClass("selected");
+            }
+        };
     </script>
 }
