@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewData["Title"] = "Programas de Mobilidade";
+    Layout = "/Views/Shared/_LayoutWhite.cshtml";
+}
+
+<!-- VIEW DOS PROGRAMAS DE MOBILIDADE-->
+<!--TODO: FALTA POR AS AÇÕES QUANDO CARREGAM NOS BOTOES-->
+<div class="main-div">
+    <div class="row">
+        <a class="program-button" style="background-color: dodgerblue">Erasmus+</a>
+        <a class="program-button" style="background-color: green">Bolsas Luso-Brasileiras Santander Universidades</a>
+        <a class="program-button" style="background-color: red">Bolsas Ibero-Americanas Santander Universidades</a>
+    </div>
+    <div class="row">
+        <a class="program-button" style="background-color: orange; margin-right:-10%">Cooperação com o Instituto Politécnico de Macau</a>
+        <a class="program-button" style="background-color: purple">Mobilidade Vasco da Gama</a>
+    </div>
+
+    <!--Volta para a página inicial-->        
+     <a asp-area="" asp-controller="Home" asp-action="Index" class="back-button">Voltar</a>
+</div>
+
