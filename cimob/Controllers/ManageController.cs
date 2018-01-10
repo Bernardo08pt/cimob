@@ -466,6 +466,14 @@ namespace cimob.Controllers
         }
 
 
+        //Método adicionado para mostrar a página de área pessoal
+        [HttpGet]
+        public IActionResult Profile()
+        {
+
+            return View();
+        }
+
         //Método adicionado para mostrar a informação ao utilizador quando carrega no perfil
         [HttpGet]
         public async Task<IActionResult> EditProfile()

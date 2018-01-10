@@ -1,9 +1,9 @@
 ﻿
 @{
-    ViewData["Title"] = "Início";
+    ViewData["Title"] = "Área Pessoal";
     Layout = "~/Views/Shared/_LayoutWhite.cshtml";
 }
-
+<!--TODO: FALTA APARECER UM POP UP OU ALGO DO GENERO A MOSTRAR QUE A PALAVRA PASSE FOI ALTERADA COM SUCESSO-->
 <div class="header">
     <img src="~/images/home/1.svg">
     <img src="~/images/home/2.svg">
@@ -15,13 +15,11 @@
     <img src="~/images/home/8.svg">
     <img src="~/images/home/9.svg">
 </div>
+
 <div class="button-wrapper">
+    <!--No lado do candidato nos editais vai para página que com uma lista de editais-->
     <a href="/Editais" class="button">Editais</a>
     <a href="/Application" class="button">Candidaturas</a>
 
-    <!--Para Testar o que ando a fazer-->
-    <a asp-area="" asp-controller="ProgramasMobilidade" asp-action="Index">Programas Mobilidade</a>
-    <a asp-area="" asp-controller="Manage" asp-action="EditProfile">Editar Perfil</a>
-    <a asp-area="" asp-controller="Editais" asp-action="Index">Editais</a>
-    <a asp-area="" asp-controller="Manage" asp-action="Profile">Area Pessoal</a>
 </div>
+

@@ -23,8 +23,8 @@ namespace cimob.Models.ApplicationViewModels
 
         #region mostrar editais
         public List<Edital> Editais;
-        public SelectList MobilityPrograms;
-        public string MobilityProgram;
+        public SelectList ProgramasMobilidade;
+        public string ProgramaMobilidade;
         #endregion
 
         public IDictionary<string, Ajuda> AjudasDictionary { get; set; }
