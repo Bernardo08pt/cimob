@@ -10,13 +10,22 @@ namespace cimob.Models.ApplicationViewModels
 {
     public class EditaisViewModel
     {
-        public List<Edital> Editais;
-        public SelectList MobilityPrograms;
-        public string MobilityProgram;
-
+        #region inserir editais
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [Display(Name = "Carregar edital:")]
         public IFormFile CarregarEdital { get; set; }
+
+        [Required(ErrorMessage = "O campo {0} é obrigatório.")]
+        [Display(Name = "Data limite:")]
+        [DataType(DataType.Date, ErrorMessage = "A data é inválida.")]
+        public DateTime DataLimite { get; set; }
+        #endregion
+
+        #region mostrar editais
+        public List<Edital> Editais;
+        public SelectList MobilityPrograms;
+        public string MobilityProgram;
+        #endregion
 
         public IDictionary<string, Ajuda> AjudasDictionary { get; set; }
     }
