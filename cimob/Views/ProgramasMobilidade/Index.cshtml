@@ -3,21 +3,46 @@
     ViewData["Title"] = "Programas de Mobilidade";
     Layout = "/Views/Shared/_LayoutWhite.cshtml";
 }
-
 <!-- VIEW DOS PROGRAMAS DE MOBILIDADE-->
 <!--TODO: FALTA POR AS AÇÕES QUANDO CARREGAM NOS BOTOES-->
+
 <div class="main-div">
     <div class="row">
-        <a class="program-button" style="background-color: dodgerblue">Erasmus+</a>
-        <a class="program-button" style="background-color: green">Bolsas Luso-Brasileiras Santander Universidades</a>
-        <a class="program-button" style="background-color: red">Bolsas Ibero-Americanas Santander Universidades</a>
+        <a id="erasmus-modal" class="program-button" style="background-color: dodgerblue">Erasmus+</a>
+        <a id="luso-modal" class="program-button" style="background-color: green">Bolsas Luso-Brasileiras Santander Universidades</a>
+        <a id="ibero-modal" class="program-button" style="background-color: red">Bolsas Ibero-Americanas Santander Universidades</a>
     </div>
     <div class="row">
-        <a class="program-button" style="background-color: orange; margin-right:-10%">Cooperação com o Instituto Politécnico de Macau</a>
-        <a class="program-button" style="background-color: purple">Mobilidade Vasco da Gama</a>
+        <a id="macau-modal" class="program-button" style="background-color: orange; margin-right:-10%">Cooperação com o Instituto Politécnico de Macau</a>
+        <a id="vasco-gama-modal" class="program-button" style="background-color: purple">Mobilidade Vasco da Gama</a>
     </div>
 
-    <!--Volta para a página inicial-->        
-     <a asp-area="" asp-controller="Home" asp-action="Index" class="back-button">Voltar</a>
+    <!--Modal-->
+    <!--TODO: FAZER O CSS-->
+    <div>
+        <div class="modal fade" tabindex="-1" id="programModal"
+             data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <h4 id="titulo" class="modal-title"></h4>
+                            <p style="font-weight:bold">Candidato para:</p>
+                            <input type="radio" name="gender" value="estudos"> Período de ESTUDOS<br>
+                            <input type="radio" name="gender" value="estagio"> Período de ESTÁGIO<br>
+                 
+                        <div id="buttonsDiv">
+                            <button type="button" id="btnCancelar" class="btnStyle" style="background-color: red">Cancelar</button>
+                            
+                            <button type="submit" class="btnConfirmar btnStyle" style="background-color:green">Confirmar</button>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Volta para a página inicial-->
+    <a asp-area="" asp-controller="Home" asp-action="Index" class="back-button">Voltar</a>
 </div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="~/js/pop-up-modal.js"></script>

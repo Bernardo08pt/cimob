@@ -321,3 +321,15 @@
     flex-direction: column;
 }
 
+
+/*MODAL dos programas de mobilidade*/
+.buttonsDiv {
+    display: flex;
+    flex-direction: row;
+}
+
+.btnStyle{
+    color: white;
+    margin: 20px;
+
+}
