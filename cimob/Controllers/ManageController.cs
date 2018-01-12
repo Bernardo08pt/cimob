@@ -465,6 +465,65 @@ namespace cimob.Controllers
             return View(model);
         }
 
+
+        //Método adicionado para mostrar a página de área pessoal
+        [HttpGet]
+        public IActionResult Profile()
+        {
+
+            return View();
+        }
+
+        //Método adicionado para mostrar a informação ao utilizador quando carrega no perfil
+        [HttpGet]
+        public async Task<IActionResult> EditProfile()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            var model = new EditProfileViewModel
+            {
+                Numero = user.Numero.ToString(),
+                Nome = user.Nome,
+                Email = user.Email
+            };
+
+            return View(model);
+        }
+
+        //Método que coloca a informação alterada no servidor
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditProfile(EditProfileViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            //Se a nova password ou o confirm password não forem vazios 
+            if (!model.NewPassword.Equals("") || !model.ConfirmPassword.Equals(""))
+            {
+                var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+                if (!changePasswordResult.Succeeded)
+                {
+                    AddErrors(changePasswordResult);
+                    return View(model);
+                }
+            }
+
+            return View(model);
+        }
+
         #region Helpers
 
         private void AddErrors(IdentityResult result)
