@@ -1,6 +1,6 @@
 ﻿@model ApplicationViewModel;
 
-<div class="geral-form">
+<div class="contacts-form form">
     <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="row form-group has-feedback has-feedback-left">
@@ -40,7 +40,7 @@
                 <label asp-for="ContactoPessoal"></label>
             </div>
             <div class="input-group col-md-7">
-                <input asp-for="ContactoPessoal" class="form-control" placeholder="Contacto Pessoal"/>
+                @Html.DropDownListFor(p => Model.Parentesco, new SelectList(Model.Parentesco, "ParentescoID", "Descricao"), "Escolha uma opção", new { @class = "form-control" })
                 <i class="glyphicon glyphicon-user form-control-feedback"></i>
                 <div class="input-group-btn">
                     <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["ContactoPessoal"].Titulo" data-content="@Model.AjudasDictionary["ContactoPessoal"].Corpo">

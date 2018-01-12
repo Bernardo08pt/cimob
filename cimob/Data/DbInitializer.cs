@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace cimob.Data
 {
@@ -10,14 +9,253 @@ namespace cimob.Data
     {
         public static void Initialize(ApplicationDbContext context)
         {
-            context.Database.EnsureCreated();       
+            context.Database.EnsureCreated();
 
             // Verificar se as ajudas já estão adicionadas
-            if (context.Ajudas.Any())
+            if (!context.Parentescos.Any())
             {
-                return;
+                AddParentesco(context);
             }
 
+            if (!context.Paises.Any())
+            {
+                AddPaises(context);
+            }
+
+            if (!context.TiposMobilidade.Any())
+            {
+                AddTipoMobilidade(context);
+            }
+
+            if (!context.Ajudas.Any())
+            {
+                AddAjudas(context);
+            }
+
+            if (!context.Escolas.Any())
+            {
+                AddEscolas(context);
+            }
+
+            if (!context.Cursos.Any())
+            {
+                AddCursos(context);
+            }
+
+            if (!context.IpsEscolas.Any())
+            {
+                AddIpsEscolas(context);
+            }
+
+            if (!context.IpsCursos.Any())
+            {
+                AddIpsCursos(context);
+            }
+        }
+
+        /** data feed functions **/
+        private static void AddParentesco(ApplicationDbContext context)
+        {
+            context.Parentescos.Add(new Parentesco { Descricao = "Pai "});
+            context.Parentescos.Add(new Parentesco { Descricao = "Mãe" });
+            context.Parentescos.Add(new Parentesco { Descricao = "Irmã(o)" });
+            context.Parentescos.Add(new Parentesco { Descricao = "Primo(a)" });
+            context.Parentescos.Add(new Parentesco { Descricao = "Tio(a)" });
+            context.Parentescos.Add(new Parentesco { Descricao = "Avô(ó)" });
+
+            //Gravar alterações
+            context.SaveChanges();
+        }
+
+        private static void AddTipoMobilidade(ApplicationDbContext context)
+        {
+            context.TiposMobilidade.Add(new TipoMobilidade
+            {
+                TipoMobilidadeID = 1,
+                Descricao = "Erasmus +",
+                Estagio = 0
+            });
+
+            context.TiposMobilidade.Add(new TipoMobilidade
+            {
+                TipoMobilidadeID = 2,
+                Descricao = "Erasmus +",
+                Estagio = 1
+            });
+
+            context.TiposMobilidade.Add(new TipoMobilidade
+            {
+                TipoMobilidadeID = 3,
+                Descricao = "Mobilidade Vasco da Gama",
+                Estagio = 0
+            });
+
+            context.TiposMobilidade.Add(new TipoMobilidade
+            {
+                TipoMobilidadeID = 4,
+                Descricao = "Bolsas Luso-Brasileiras Santander Universidades",
+                Estagio = 0
+            });
+
+            context.TiposMobilidade.Add(new TipoMobilidade
+            {
+                TipoMobilidadeID = 5,
+                Descricao = "Bolsas Ibero-Americanas Santander Universidades",
+                Estagio = 0
+            });
+
+            context.TiposMobilidade.Add(new TipoMobilidade
+            {
+                TipoMobilidadeID = 6,
+                Descricao = "Cooperação com o Instituto Politécnico de Macau",
+                Estagio = 0
+            });
+
+            //Gravar alterações
+            context.SaveChanges();
+        }
+
+        private static void AddPaises(ApplicationDbContext context)
+        {
+            context.Paises.Add(new Pais { Descricao = "Alemanha" });
+            context.Paises.Add(new Pais { Descricao = "França" });
+            context.Paises.Add(new Pais { Descricao = "Polónia" });
+            context.Paises.Add(new Pais { Descricao = "Bélgica" });
+            context.Paises.Add(new Pais { Descricao = "Espanha" });
+
+            //Gravar alterações
+            context.SaveChanges();
+        }
+
+        private static void AddIpsCursos(ApplicationDbContext context)
+        {
+            // ests
+            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 1, Nome = "Engenharia Biomédica" });
+            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 2, Nome = "Engenharia de Automação, Controlo e Instrumentação" });
+            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 3, Nome = "Licenciatura em Engenharia do Ambiente" });
+            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 4, Nome = "Licenciatura em Engenharia Eletrotécnica e de Computadores" });
+            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 5, Nome = "Licenciatura em Engenharia Informática" });
+            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 6, Nome = "Licenciatura em Engenharia Mecânica" });
+            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 7, Nome = "Licenciatura em Tecnologia Biomédica" });
+            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 8, Nome = "Licenciatura em Tecnologias de Energia" });
+            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 9, Nome = "Licenciatura em Tecnologias do Ambiente e do Mar" });
+            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 10, Nome = "Licenciatura em Tecnologia e Gestão Industrial" });
+
+            // estb
+            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 11, Nome = "Bioinformática" });
+            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 12, Nome = "Biotecnologia" });
+            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 13, Nome = "Engenharia Civil" });
+            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 14, Nome = "Engenharia Química" });
+            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 15, Nome = "Gestão da Construção" });
+            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 16, Nome = "Tecnologias do Petróleo" });
+
+            // ess
+            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 17, Nome = "Acupuntura" });
+            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 18, Nome = "Enfermagem" });
+            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 19, Nome = "Fisioterapia" });
+            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 20, Nome = "Terapia da Fala" });
+
+            // ese
+            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 21, Nome = "Animação e Intervenção Sociocultural" });
+            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 22, Nome = "Comunicação Social" });
+            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 23, Nome = "Desporto" });
+            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 24, Nome = "Educação Básica" });
+            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 25, Nome = "Tradução e Interpretação de Língua Gestual Portuguesa" });
+            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 26, Nome = "Língua Gestual Portuguesa" });
+
+            // esce
+            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 27, Nome = "Contabilidade e Finanças" });
+            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 28, Nome = "Contabilidade e Finanças Noturno" });
+            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 29, Nome = "Gestão da Distribuição e da Logística" });
+            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 30, Nome = "Gestão da Distribuição e da Logística Pós-Laboral" });
+            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 31, Nome = "Gestão de Recursos Humanos" });
+            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 32, Nome = "Gestão de Recursos Humanos Pós-Laboral" });
+            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 33, Nome = "Gestão de Sistemas de Informação" });
+            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 34, Nome = "Marketing" });
+
+            //Gravar alterações
+            context.SaveChanges();
+        }
+        
+        private static void AddIpsEscolas(ApplicationDbContext context)
+        {
+            context.IpsEscolas.Add(new IpsEscola {
+                Descricao = "Escola Superior de Tecnologia de Setúbal",
+                Cursos = GetIpsCurso(new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, context)
+            });
+
+            context.IpsEscolas.Add(new IpsEscola
+            {
+                Descricao = "Escola Superior de Tecnologia de Barreiro",
+                Cursos = GetIpsCurso(new List<int> { 11, 12, 13, 14, 15, 16 }, context)
+            });
+
+            context.IpsEscolas.Add(new IpsEscola
+            {
+                Descricao = "Escola Superior de Saúde",
+                Cursos = GetIpsCurso(new List<int> { 17, 18, 19, 20 }, context)
+            });
+
+            context.IpsEscolas.Add(new IpsEscola
+            {
+                Descricao = "Escola Superior de Educação",
+                Cursos = GetIpsCurso(new List<int> { 21, 22, 23, 24, 25, 26 }, context)
+            });
+
+            context.IpsEscolas.Add(new IpsEscola
+            {
+                Descricao = "Escola Superior de Ciências Empresariais",
+                Cursos = GetIpsCurso(new List<int> { 27, 28, 29, 30, 31, 32, 33, 34 }, context)
+            });
+
+            //Gravar alterações
+            context.SaveChanges();
+        }
+
+        private static void AddEscolas(ApplicationDbContext context)
+        {
+            context.Escolas.Add(new Escola {
+                    TipoMobilidade = GetMobilidade(1, context),
+                    Pais = GetPais(1, context),
+                    Nome = "Escola fixolas",
+                    Email = "Email da escola fixolas",
+                    Estado = 1,
+                    Cursos = GetCurso(new List<int>{ 1, 2, 3 }, context)
+            });
+
+            //Gravar alterações
+            context.SaveChanges();
+        }
+
+        private static void AddCursos(ApplicationDbContext context)
+        {
+            context.Cursos.Add(new Curso
+            {
+                Vagas = 5,
+                Pais = GetPais(1, context),
+                Nome = "Escola fixolas",
+            });
+
+            context.Cursos.Add(new Curso
+            {
+                Vagas = 5,
+                Pais = GetPais(1, context),
+                Nome = "Escola fixolas 2",
+            });
+
+            context.Cursos.Add(new Curso
+            {
+                Vagas = 5,
+                Pais = GetPais(1, context),
+                Nome = "Escola fixolas 3",
+            });
+
+            //Gravar alterações
+            context.SaveChanges();
+        }
+
+        private static void AddAjudas(ApplicationDbContext context)
+        {
             //Todas as ajudas
             var ajudas = new Ajuda[]
             {
@@ -83,6 +321,38 @@ namespace cimob.Data
 
             //Gravar alterações
             context.SaveChanges();
+        }
+
+
+        /** helper functions **/
+        private static TipoMobilidade GetMobilidade(int id, ApplicationDbContext context)
+        {
+            return (TipoMobilidade)context.TiposMobilidade.Where(tp => tp.TipoMobilidadeID == id);
+        }
+
+        private static Pais GetPais(int id, ApplicationDbContext context)
+        {
+            return (Pais)context.Paises.Where(p => p.PaisID == id);
+        }
+
+        private static Curso GetCurso(int id, ApplicationDbContext context)
+        {
+            return (Curso)context.Cursos.Where(c => c.CursoID == id);
+        }
+
+        private static List<Curso> GetCurso(List<int> id, ApplicationDbContext context)
+        {
+            return context.Cursos.Where(c => id.Contains(c.CursoID)).ToList();
+        }
+
+        private static IpsCurso GetIpsCurso(int id, ApplicationDbContext context)
+        {
+            return (IpsCurso)context.IpsCursos.Where(c => c.IpsCursoID == id);
+        }
+
+        private static List<IpsCurso> GetIpsCurso(List<int> id, ApplicationDbContext context)
+        {
+            return context.IpsCursos.Where(c => id.Contains(c.IpsCursoID)).ToList();
         }
     }
 }

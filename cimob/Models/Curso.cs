@@ -4,7 +4,6 @@
     {
         public int CursoID { get; set; }
         public string Nome{ get; set; }
-        public Escola EscolaID{ get; set; }
         public Pais Pais { get; set; }
         public int Vagas { get; set; }
     }

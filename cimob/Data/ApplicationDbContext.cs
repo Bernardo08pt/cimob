@@ -7,10 +7,13 @@ namespace cimob.Data
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Ajuda> Ajudas { get; set; }
+        public DbSet<TipoMobilidade> TiposMobilidade { get; set; }
         public DbSet<Escola> Escolas { get; set; }
+        public DbSet<Curso> Cursos { get; set; }
         public DbSet<IpsEscola> IpsEscolas { get; set; }
         public DbSet<IpsCurso> IpsCursos { get; set; }
         public DbSet<Pais> Paises { get; set; }
+        public DbSet<Parentesco> Parentescos { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

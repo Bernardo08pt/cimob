@@ -130,13 +130,16 @@
                     border-right-color: #404040;
                 }
 
+        .candidatura-wrapper #btn_submit {
+            display: none;
+        }
+
         .candidatura-wrapper .button-submeter {
             background: #009E0F;
             border-bottom-left-radius: 5px;
             border-top-left-radius: 5px;
             float: right;
             margin-right: 25px;
-            display: none;
         }
 
             .candidatura-wrapper .button-submeter:after {
@@ -223,12 +226,20 @@
         border: solid 1px #000;
     }
 
+        .candidatura-wrapper .tab-content .panel {
+            margin-bottom: 30px;
+            background: #eee;
+            padding: 20px;
+            margin: 10px;
+            border: 1px solid #000;
+        }
+
     .candidatura-wrapper [role="tab"]:not(:first-child) {
         display: none;
     }
 
 
-    .candidatura-wrapper .tab-content .geral-form {
+    .candidatura-wrapper .tab-content .form {
         padding: 20px 0;
         text-align: left;
     }
@@ -242,17 +253,28 @@
         }
 
     .candidatura-wrapper .tab-content .documents-form {
-        margin: 30px 0;
+        padding-bottom: 0;
+        margin-bottom: 30px;
     }
 
         .candidatura-wrapper .tab-content .documents-form label {
-            line-height: 25px;
+            line-height: 35px;
+        }
+
+    .candidatura-wrapper .tab-content .documents-form #btn_submit_docs {
+        width: auto;
+        border: 0;
+        margin-top: 30px;
+        margin-bottom: 0;
+    }
+
+        .candidatura-wrapper .tab-content .documents-form #btn_submit_docs:after{
+            top: 0;
         }
 
     .candidatura-wrapper .tab-content .destino-form .table {
-        width: 70%;
-        margin: auto;
-        margin-top: 50px;
+        width: 80%;
+        margin: 20px auto;
         text-align: left;
     }
 
@@ -265,10 +287,31 @@
     }
 
         .candidatura-wrapper .tab-content .destino-form .selected,
-        .candidatura-wrapper .tab-content .additional-form tr:not(:first-child):hover {
+        .candidatura-wrapper .tab-content .destino-form tr:not(:first-child):hover {
             background: #8EA9CC;
         }
 
-    .candidatura-wrapper .tab-content .destino-form tr:nth-child(even) {
-        background: #9FC5F8;
+    .candidatura-wrapper .tab-content .destino-form .btn-search {
+        background: #2779EA;
+        padding: 5px 10px;
+        color: #fff;
+        border-radius: 5px;
+        border: solid 1px #000;
     }
+
+        .candidatura-wrapper .tab-content .destino-form .btn-search span {
+            margin-left: 10px;
+        }
+
+    .candidatura-wrapper .tab-content .destino-form .listing {
+        width: 70%;
+        margin: auto;
+        margin-top: 20px;
+    }
+
+    
+
+.no-padding-margin {
+    margin: 0;
+    padding: 0;
+}

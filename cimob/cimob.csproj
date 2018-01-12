@@ -6,6 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20180112003526_3rd.cs" />
+    <Compile Remove="Migrations\20180112003526_3rd.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Views\Home\Menu.cshtml" />
   </ItemGroup>
 

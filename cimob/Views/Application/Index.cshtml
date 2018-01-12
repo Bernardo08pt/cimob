@@ -80,6 +80,15 @@
             $(".selected").removeClass("selected");
             var id = window.location.hash.split("#/")[1];
 
+            if (id == "destino") {
+                $("#btn_submit").show();
+                $("#btn_next").hide();
+            }
+            else {
+                $("#btn_submit").hide();
+                $("#btn_next").show();
+            }
+
             if (id == undefined || id == "") {
                 $("#geral").show();
                 $("[data-id='geral']").addClass("selected");

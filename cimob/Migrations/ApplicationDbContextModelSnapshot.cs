@@ -100,7 +100,7 @@ namespace cimob.Migrations
                     b.Property<int>("CursoID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("EscolaID1");
+                    b.Property<int?>("EscolaID");
 
                     b.Property<string>("Nome");
 
@@ -110,11 +110,11 @@ namespace cimob.Migrations
 
                     b.HasKey("CursoID");
 
-                    b.HasIndex("EscolaID1");
+                    b.HasIndex("EscolaID");
 
                     b.HasIndex("PaisID");
 
-                    b.ToTable("Curso");
+                    b.ToTable("Cursos");
                 });
 
             modelBuilder.Entity("cimob.Models.Escola", b =>
@@ -181,6 +181,18 @@ namespace cimob.Migrations
                     b.ToTable("Paises");
                 });
 
+            modelBuilder.Entity("cimob.Models.Parentesco", b =>
+                {
+                    b.Property<int>("ParentescoID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Descricao");
+
+                    b.HasKey("ParentescoID");
+
+                    b.ToTable("Parentescos");
+                });
+
             modelBuilder.Entity("cimob.Models.TipoMobilidade", b =>
                 {
                     b.Property<int>("TipoMobilidadeID")
@@ -192,7 +204,7 @@ namespace cimob.Migrations
 
                     b.HasKey("TipoMobilidadeID");
 
-                    b.ToTable("TipoMobilidade");
+                    b.ToTable("TiposMobilidade");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -305,9 +317,9 @@ namespace cimob.Migrations
 
             modelBuilder.Entity("cimob.Models.Curso", b =>
                 {
-                    b.HasOne("cimob.Models.Escola", "EscolaID")
+                    b.HasOne("cimob.Models.Escola")
                         .WithMany("Cursos")
-                        .HasForeignKey("EscolaID1");
+                        .HasForeignKey("EscolaID");
 
                     b.HasOne("cimob.Models.Pais", "Pais")
                         .WithMany()

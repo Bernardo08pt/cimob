@@ -1,6 +1,6 @@
 ﻿@model ApplicationViewModel;
 
-<div class="documents-form">
+<div class="documents-form panel">
     <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="row form-group has-feedback has-feedback-left">
@@ -17,6 +17,8 @@
                 </div>
             </div>
             <span asp-validation-for="CartaMotivacao" class="text-danger"></span>
+            
+            <button id="btn_submit_docs" class="button button-submeter">Submeter documentos</button>
         </div>
     </form>
 </div>
