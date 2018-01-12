@@ -1,0 +1,98 @@
+﻿@model VisualizarCandidaturaViewModel;
+
+<!--TEM QUE SER A INFORMAÇÃO DO ALUNO QUE FOI SELECIONADO PELO FUNCIONÁRIO DA CIMOB-->
+<div class="geral-form form">
+    <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="get">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row form-group has-feedback has-feedback-left">
+            <div class="col-md-3 col-md-offset-1">
+                <label asp-for="Nome"></label>
+            </div>
+            <div class="input-group col-md-7">
+                <label>Zé Maria</label>
+            </div>
+        </div>
+
+        <div class="form-group row has-feedback has-feedback-left">
+            <div class="col-md-3 col-md-offset-1">
+                <label asp-for="Numero"></label>               
+            </div>
+            <div class="input-group col-md-7">
+                <label>125061651</label>
+            </div>
+        </div>
+
+        <div class="form-group row has-feedback has-feedback-left">
+            <div class="col-md-3 col-md-offset-1">
+                <label asp-for="Email"></label>
+            </div>
+            <div class="input-group col-md-7">
+                <label>zemaria@gmail.com</label>
+            </div>
+        </div>
+
+        <div class="form-group row has-feedback has-feedback-left">
+            <div class="col-md-3 col-md-offset-1">
+                <label asp-for="EmailAlternativo"></label>
+            </div>
+            <div class="input-group col-md-7">
+                <label>zemaria_alternativo@gmail.com</label>
+            </div>
+        </div>
+
+        <div class="form-group row has-feedback has-feedback-left">
+            <div class="col-md-3 col-md-offset-1">
+                <label asp-for="Escola"></label>
+            </div>
+            <div class="input-group col-md-7">
+                <label>Instituto Politécnico de Setúbal</label>
+            </div>
+        </div>
+
+        <div class="form-group row has-feedback has-feedback-left">
+            <div class="col-md-3 col-md-offset-1">
+                <label asp-for="Curso"></label>
+            </div>
+            <div class="input-group col-md-7">
+                <label>Licenciatura</label>
+            </div>
+        </div>
+
+        <div class="form-group row has-feedback has-feedback-left">
+            <div class="col-md-3 col-md-offset-1">
+                <label asp-for="Ano"></label>
+            </div>
+            <div class="input-group col-md-7">
+                <label>2</label>
+            </div>
+        </div>
+
+        <div class="form-group row has-feedback has-feedback-left">
+            <div class="col-md-3 col-md-offset-1">
+                <label asp-for="ContactoPessoal"></label>
+            </div>
+            <div class="input-group col-md-7">
+                <label>913258569</label>
+            </div>
+        </div>
+
+        <div class="form-group row has-feedback has-feedback-left">
+            <div class="col-md-3 col-md-offset-1">
+                <label asp-for="ContactoEmergencia"></label>
+            </div>
+            <div class="input-group col-md-7">
+                <label>936587432</label>
+            </div>
+        </div>
+
+        <div class="form-group row has-feedback has-feedback-left">
+            <div class="col-md-3 col-md-offset-1">
+                <label asp-for="Parentesco"></label>
+            </div>
+            <div class="input-group col-md-7">
+                <label>Pai</label>
+            </div>
+        </div>
+    </form>
+</div>
+

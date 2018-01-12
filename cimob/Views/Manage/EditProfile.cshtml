@@ -49,8 +49,10 @@
         <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="button btn btn-default">Submeter</button>
+    <!--TODO:Apresentar uma mensagem de sucesso e voltar para a página area pessoal-->
+    <button id="btnSubmit" type="submit" class="button btn btn-default">Submeter</button>
 
-    <!--ALTERAR PARA IR PARA O SITIO CERTO-->
-    <a class="back-button" asp-controller="Home" asp-action="Index">Voltar</a>
+    <!--Vai para a pagina da area pessoal-->
+    <a class="back-button" asp-controller="Manage" asp-action="Profile">Voltar</a>
 </form>
+
