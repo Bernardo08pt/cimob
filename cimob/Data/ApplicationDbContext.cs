@@ -15,6 +15,7 @@ namespace cimob.Data
         public DbSet<Pais> Paises { get; set; }
         public DbSet<Parentesco> Parentescos { get; set; }
 
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

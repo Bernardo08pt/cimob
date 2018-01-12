@@ -1,5 +1,5 @@
 ﻿using cimob.Models;
-using System;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,49 +9,53 @@ namespace cimob.Data
     {
         public static void Initialize(ApplicationDbContext context)
         {
+    
             context.Database.EnsureCreated();
 
             // Verificar se as ajudas já estão adicionadas
             if (!context.Parentescos.Any())
             {
                 AddParentesco(context);
+                context.SaveChanges();
             }
 
             if (!context.Paises.Any())
             {
                 AddPaises(context);
+                context.SaveChanges();
             }
-
+            
             if (!context.TiposMobilidade.Any())
             {
                 AddTipoMobilidade(context);
+                context.SaveChanges();
             }
 
             if (!context.Ajudas.Any())
             {
                 AddAjudas(context);
+                context.SaveChanges();
             }
 
             if (!context.Escolas.Any())
             {
                 AddEscolas(context);
+                context.SaveChanges();
             }
 
             if (!context.Cursos.Any())
             {
                 AddCursos(context);
+                context.SaveChanges();
             }
 
             if (!context.IpsEscolas.Any())
             {
                 AddIpsEscolas(context);
-            }
-
-            if (!context.IpsCursos.Any())
-            {
-                AddIpsCursos(context);
+                context.SaveChanges();
             }
         }
+
 
         /** data feed functions **/
         private static void AddParentesco(ApplicationDbContext context)
@@ -71,48 +75,39 @@ namespace cimob.Data
         {
             context.TiposMobilidade.Add(new TipoMobilidade
             {
-                TipoMobilidadeID = 1,
                 Descricao = "Erasmus +",
                 Estagio = 0
             });
 
             context.TiposMobilidade.Add(new TipoMobilidade
             {
-                TipoMobilidadeID = 2,
                 Descricao = "Erasmus +",
                 Estagio = 1
             });
 
             context.TiposMobilidade.Add(new TipoMobilidade
             {
-                TipoMobilidadeID = 3,
                 Descricao = "Mobilidade Vasco da Gama",
                 Estagio = 0
             });
 
             context.TiposMobilidade.Add(new TipoMobilidade
             {
-                TipoMobilidadeID = 4,
                 Descricao = "Bolsas Luso-Brasileiras Santander Universidades",
                 Estagio = 0
             });
 
             context.TiposMobilidade.Add(new TipoMobilidade
             {
-                TipoMobilidadeID = 5,
                 Descricao = "Bolsas Ibero-Americanas Santander Universidades",
                 Estagio = 0
             });
 
             context.TiposMobilidade.Add(new TipoMobilidade
             {
-                TipoMobilidadeID = 6,
                 Descricao = "Cooperação com o Instituto Politécnico de Macau",
                 Estagio = 0
             });
-
-            //Gravar alterações
-            context.SaveChanges();
         }
 
         private static void AddPaises(ApplicationDbContext context)
@@ -122,94 +117,138 @@ namespace cimob.Data
             context.Paises.Add(new Pais { Descricao = "Polónia" });
             context.Paises.Add(new Pais { Descricao = "Bélgica" });
             context.Paises.Add(new Pais { Descricao = "Espanha" });
-
-            //Gravar alterações
-            context.SaveChanges();
         }
 
-        private static void AddIpsCursos(ApplicationDbContext context)
+        private static List<IpsCurso> AddIpsCursosESTS(ApplicationDbContext context)
         {
-            // ests
-            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 1, Nome = "Engenharia Biomédica" });
-            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 2, Nome = "Engenharia de Automação, Controlo e Instrumentação" });
-            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 3, Nome = "Licenciatura em Engenharia do Ambiente" });
-            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 4, Nome = "Licenciatura em Engenharia Eletrotécnica e de Computadores" });
-            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 5, Nome = "Licenciatura em Engenharia Informática" });
-            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 6, Nome = "Licenciatura em Engenharia Mecânica" });
-            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 7, Nome = "Licenciatura em Tecnologia Biomédica" });
-            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 8, Nome = "Licenciatura em Tecnologias de Energia" });
-            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 9, Nome = "Licenciatura em Tecnologias do Ambiente e do Mar" });
-            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 10, Nome = "Licenciatura em Tecnologia e Gestão Industrial" });
+            var cursos = new List<IpsCurso>{
+                new IpsCurso { Nome = "Engenharia Biomédica" },
+                new IpsCurso { Nome = "Engenharia de Automação, Controlo e Instrumentação" },
+                new IpsCurso { Nome = "Licenciatura em Engenharia do Ambiente" },
+                new IpsCurso { Nome = "Licenciatura em Engenharia Eletrotécnica e de Computadores" },
+                new IpsCurso { Nome = "Licenciatura em Engenharia Informática" },
+                new IpsCurso { Nome = "Licenciatura em Engenharia Mecânica" },
+                new IpsCurso { Nome = "Licenciatura em Tecnologia Biomédica" },
+                new IpsCurso { Nome = "Licenciatura em Tecnologias de Energia" },
+                new IpsCurso { Nome = "Licenciatura em Tecnologias do Ambiente e do Mar" },
+                new IpsCurso { Nome = "Licenciatura em Tecnologia e Gestão Industrial" }
+            };
 
-            // estb
-            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 11, Nome = "Bioinformática" });
-            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 12, Nome = "Biotecnologia" });
-            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 13, Nome = "Engenharia Civil" });
-            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 14, Nome = "Engenharia Química" });
-            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 15, Nome = "Gestão da Construção" });
-            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 16, Nome = "Tecnologias do Petróleo" });
+            foreach (IpsCurso c in cursos)
+            {
+                context.IpsCursos.Add(c);
+            }
 
-            // ess
-            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 17, Nome = "Acupuntura" });
-            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 18, Nome = "Enfermagem" });
-            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 19, Nome = "Fisioterapia" });
-            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 20, Nome = "Terapia da Fala" });
-
-            // ese
-            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 21, Nome = "Animação e Intervenção Sociocultural" });
-            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 22, Nome = "Comunicação Social" });
-            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 23, Nome = "Desporto" });
-            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 24, Nome = "Educação Básica" });
-            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 25, Nome = "Tradução e Interpretação de Língua Gestual Portuguesa" });
-            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 26, Nome = "Língua Gestual Portuguesa" });
-
-            // esce
-            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 27, Nome = "Contabilidade e Finanças" });
-            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 28, Nome = "Contabilidade e Finanças Noturno" });
-            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 29, Nome = "Gestão da Distribuição e da Logística" });
-            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 30, Nome = "Gestão da Distribuição e da Logística Pós-Laboral" });
-            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 31, Nome = "Gestão de Recursos Humanos" });
-            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 32, Nome = "Gestão de Recursos Humanos Pós-Laboral" });
-            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 33, Nome = "Gestão de Sistemas de Informação" });
-            context.IpsCursos.Add(new IpsCurso { IpsCursoID = 34, Nome = "Marketing" });
-
-            //Gravar alterações
-            context.SaveChanges();
+            return cursos;
         }
-        
+
+        private static List<IpsCurso> AddIpsCursosESTB(ApplicationDbContext context)
+        {
+            var cursos = new List<IpsCurso>{
+                new IpsCurso { Nome = "Bioinformática" },
+                new IpsCurso { Nome = "Biotecnologia" },
+                new IpsCurso { Nome = "Engenharia Civil" },
+                new IpsCurso { Nome = "Engenharia Química" },
+                new IpsCurso { Nome = "Gestão da Construção" },
+                new IpsCurso { Nome = "Tecnologias do Petróleo" }
+            };
+
+            foreach (IpsCurso c in cursos)
+            {
+                context.IpsCursos.Add(c);
+            }
+
+            return cursos;
+        }
+
+        private static List<IpsCurso> AddIpsCursosESS(ApplicationDbContext context)
+        {
+            var cursos = new List<IpsCurso>{
+                new IpsCurso { Nome = "Acupuntura" },
+                new IpsCurso { Nome = "Enfermagem" },
+                new IpsCurso { Nome = "Fisioterapia" },
+                new IpsCurso { Nome = "Terapia da Fala" }
+            };
+
+            foreach (IpsCurso c in cursos)
+            {
+                context.IpsCursos.Add(c);
+            }
+
+            return cursos;
+        }
+
+        private static List<IpsCurso> AddIpsCursosESE(ApplicationDbContext context)
+        {
+            var cursos = new List<IpsCurso>{
+                new IpsCurso { Nome = "Animação e Intervenção Sociocultural" },
+                new IpsCurso { Nome = "Comunicação Social" },
+                new IpsCurso { Nome = "Desporto" },
+                new IpsCurso { Nome = "Educação Básica" },
+                new IpsCurso { Nome = "Tradução e Interpretação de Língua Gestual Portuguesa" },
+                new IpsCurso { Nome = "Língua Gestual Portuguesa" },
+            };
+
+            foreach (IpsCurso c in cursos)
+            {
+                context.IpsCursos.Add(c);
+            }
+
+            return cursos;
+        }
+
+        private static List<IpsCurso> AddIpsCursosESCE(ApplicationDbContext context)
+        {
+            var cursos = new List<IpsCurso>{
+                new IpsCurso { Nome = "Contabilidade e Finanças" },
+                new IpsCurso { Nome = "Contabilidade e Finanças Noturno" },
+                new IpsCurso { Nome = "Gestão da Distribuição e da Logística" },
+                new IpsCurso { Nome = "Gestão da Distribuição e da Logística Pós-Laboral" },
+                new IpsCurso { Nome = "Gestão de Recursos Humanos" },
+                new IpsCurso { Nome = "Gestão de Recursos Humanos Pós-Laboral" },
+                new IpsCurso { Nome = "Gestão de Sistemas de Informação" },
+                new IpsCurso { Nome = "Marketing" }
+            };
+
+            foreach (IpsCurso c in cursos)
+            {
+                context.IpsCursos.Add(c);
+            }
+
+            return cursos;
+        }
+
         private static void AddIpsEscolas(ApplicationDbContext context)
         {
-            context.IpsEscolas.Add(new IpsEscola {
+            context.IpsEscolas.Add(new IpsEscola
+            {
                 Descricao = "Escola Superior de Tecnologia de Setúbal",
-                Cursos = GetIpsCurso(new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, context)
+                Cursos = AddIpsCursosESTS(context)
             });
 
             context.IpsEscolas.Add(new IpsEscola
             {
                 Descricao = "Escola Superior de Tecnologia de Barreiro",
-                Cursos = GetIpsCurso(new List<int> { 11, 12, 13, 14, 15, 16 }, context)
+                Cursos = AddIpsCursosESTB(context)
             });
 
             context.IpsEscolas.Add(new IpsEscola
             {
                 Descricao = "Escola Superior de Saúde",
-                Cursos = GetIpsCurso(new List<int> { 17, 18, 19, 20 }, context)
+                Cursos = AddIpsCursosESS(context)
             });
 
             context.IpsEscolas.Add(new IpsEscola
             {
                 Descricao = "Escola Superior de Educação",
-                Cursos = GetIpsCurso(new List<int> { 21, 22, 23, 24, 25, 26 }, context)
+                Cursos = AddIpsCursosESE(context)
             });
 
             context.IpsEscolas.Add(new IpsEscola
             {
                 Descricao = "Escola Superior de Ciências Empresariais",
-                Cursos = GetIpsCurso(new List<int> { 27, 28, 29, 30, 31, 32, 33, 34 }, context)
+                Cursos = AddIpsCursosESCE(context)
             });
-
-            //Gravar alterações
-            context.SaveChanges();
         }
 
         private static void AddEscolas(ApplicationDbContext context)
@@ -222,9 +261,6 @@ namespace cimob.Data
                     Estado = 1,
                     Cursos = GetCurso(new List<int>{ 1, 2, 3 }, context)
             });
-
-            //Gravar alterações
-            context.SaveChanges();
         }
 
         private static void AddCursos(ApplicationDbContext context)
@@ -249,9 +285,6 @@ namespace cimob.Data
                 Pais = GetPais(1, context),
                 Nome = "Escola fixolas 3",
             });
-
-            //Gravar alterações
-            context.SaveChanges();
         }
 
         private static void AddAjudas(ApplicationDbContext context)
@@ -318,26 +351,23 @@ namespace cimob.Data
             {
                 context.Ajudas.Add(a);
             }
-
-            //Gravar alterações
-            context.SaveChanges();
         }
 
 
         /** helper functions **/
         private static TipoMobilidade GetMobilidade(int id, ApplicationDbContext context)
         {
-            return (TipoMobilidade)context.TiposMobilidade.Where(tp => tp.TipoMobilidadeID == id);
+            return context.TiposMobilidade.Where(tp => tp.TipoMobilidadeID == id).FirstOrDefault();
         }
 
         private static Pais GetPais(int id, ApplicationDbContext context)
         {
-            return (Pais)context.Paises.Where(p => p.PaisID == id);
+            return context.Paises.Where(p => p.PaisID == id).FirstOrDefault();
         }
 
         private static Curso GetCurso(int id, ApplicationDbContext context)
         {
-            return (Curso)context.Cursos.Where(c => c.CursoID == id);
+            return context.Cursos.Where(c => c.CursoID == id).FirstOrDefault();
         }
 
         private static List<Curso> GetCurso(List<int> id, ApplicationDbContext context)
@@ -347,7 +377,7 @@ namespace cimob.Data
 
         private static IpsCurso GetIpsCurso(int id, ApplicationDbContext context)
         {
-            return (IpsCurso)context.IpsCursos.Where(c => c.IpsCursoID == id);
+            return context.IpsCursos.Where(c => c.IpsCursoID == id).FirstOrDefault();
         }
 
         private static List<IpsCurso> GetIpsCurso(List<int> id, ApplicationDbContext context)
