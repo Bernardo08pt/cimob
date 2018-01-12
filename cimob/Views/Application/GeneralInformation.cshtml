@@ -72,7 +72,7 @@
                 <label asp-for="Curso"></label>
             </div>
             <div class="input-group col-md-7">
-                @Html.DropDownListFor(p => Model.Curso, new SelectList(Model.Curso, "IpsCurosID", "Nome"), "Escolha uma opção", new { @class = "form-control" })
+                @*@Html.DropDownListFor(p => Model.Curso, new SelectList(Model.Curso, "IpsCurosID", "Nome"), "Escolha uma opção", new { @class = "form-control" })*@
                 <i class="glyphicon glyphicon-book form-control-feedback"></i>
                 <div class="input-group-btn">
                     <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Curso"].Titulo" data-content="@Model.AjudasDictionary["Curso"].Corpo">

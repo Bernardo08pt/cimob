@@ -100,11 +100,11 @@ namespace cimob.Migrations
                     b.Property<int>("CursoID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("EscolaID");
+                    b.Property<int>("EscolaID");
 
                     b.Property<string>("Nome");
 
-                    b.Property<int?>("PaisID");
+                    b.Property<int>("PaisID");
 
                     b.Property<int>("Vagas");
 
@@ -128,9 +128,9 @@ namespace cimob.Migrations
 
                     b.Property<string>("Nome");
 
-                    b.Property<int?>("PaisID");
+                    b.Property<int>("PaisID");
 
-                    b.Property<int?>("TipoMobilidadeID");
+                    b.Property<int>("TipoMobilidadeID");
 
                     b.HasKey("EscolaID");
 
@@ -317,24 +317,28 @@ namespace cimob.Migrations
 
             modelBuilder.Entity("cimob.Models.Curso", b =>
                 {
-                    b.HasOne("cimob.Models.Escola")
+                    b.HasOne("cimob.Models.Escola", "Escola")
                         .WithMany("Cursos")
-                        .HasForeignKey("EscolaID");
+                        .HasForeignKey("EscolaID")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("cimob.Models.Pais", "Pais")
                         .WithMany()
-                        .HasForeignKey("PaisID");
+                        .HasForeignKey("PaisID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("cimob.Models.Escola", b =>
                 {
                     b.HasOne("cimob.Models.Pais", "Pais")
                         .WithMany()
-                        .HasForeignKey("PaisID");
+                        .HasForeignKey("PaisID")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("cimob.Models.TipoMobilidade", "TipoMobilidade")
                         .WithMany()
-                        .HasForeignKey("TipoMobilidadeID");
+                        .HasForeignKey("TipoMobilidadeID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("cimob.Models.IpsCurso", b =>

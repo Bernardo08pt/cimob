@@ -53,7 +53,8 @@ namespace cimob.Controllers
                 Escolas = GetEscolas(),
                 Escola = GetEscolasIPS(),
                 Curso = GetCursoIPS(),
-                Paises = GetPaises()
+                Paises = GetPaises(),
+                Parentesco = GetParentesco()
             });
         }
 
@@ -149,22 +150,27 @@ namespace cimob.Controllers
 
         private List<Escola> GetEscolas()
         {
-            return (from e in _context.Escolas select e).ToList();
+            return _context.Escolas.ToList();
         }
 
         private List<IpsEscola> GetEscolasIPS()
         {
-            return (from e in _context.IpsEscolas select e).ToList();
+            return _context.IpsEscolas.ToList();
         }
 
         private List<IpsCurso> GetCursoIPS()
         {
-            return (from c in _context.IpsCursos select c).ToList();
+            return _context.IpsCursos.ToList();
         }
 
         private List<Pais> GetPaises()
         {
-            return (from c in _context.Paises select c).ToList();
+            return _context.Paises.ToList();
+        }
+
+        private List<Parentesco> GetParentesco()
+        {
+            return _context.Parentescos.ToList();
         }
     }
 }

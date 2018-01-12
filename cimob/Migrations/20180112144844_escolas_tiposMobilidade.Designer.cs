@@ -11,8 +11,8 @@ using System;
 namespace cimob.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180112003817_3rd")]
-    partial class _3rd
+    [Migration("20180112144844_escolas_tiposMobilidade")]
+    partial class escolas_tiposMobilidade
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -101,11 +101,11 @@ namespace cimob.Migrations
                     b.Property<int>("CursoID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("EscolaID");
+                    b.Property<int>("EscolaID");
 
                     b.Property<string>("Nome");
 
-                    b.Property<int?>("PaisID");
+                    b.Property<int>("PaisID");
 
                     b.Property<int>("Vagas");
 
@@ -129,9 +129,9 @@ namespace cimob.Migrations
 
                     b.Property<string>("Nome");
 
-                    b.Property<int?>("PaisID");
+                    b.Property<int>("PaisID");
 
-                    b.Property<int?>("TipoMobilidadeID");
+                    b.Property<int>("TipoMobilidadeID");
 
                     b.HasKey("EscolaID");
 
@@ -318,24 +318,28 @@ namespace cimob.Migrations
 
             modelBuilder.Entity("cimob.Models.Curso", b =>
                 {
-                    b.HasOne("cimob.Models.Escola")
+                    b.HasOne("cimob.Models.Escola", "Escola")
                         .WithMany("Cursos")
-                        .HasForeignKey("EscolaID");
+                        .HasForeignKey("EscolaID")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("cimob.Models.Pais", "Pais")
                         .WithMany()
-                        .HasForeignKey("PaisID");
+                        .HasForeignKey("PaisID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("cimob.Models.Escola", b =>
                 {
                     b.HasOne("cimob.Models.Pais", "Pais")
                         .WithMany()
-                        .HasForeignKey("PaisID");
+                        .HasForeignKey("PaisID")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("cimob.Models.TipoMobilidade", "TipoMobilidade")
                         .WithMany()
-                        .HasForeignKey("TipoMobilidadeID");
+                        .HasForeignKey("TipoMobilidadeID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("cimob.Models.IpsCurso", b =>

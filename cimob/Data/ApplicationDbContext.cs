@@ -12,7 +12,7 @@ namespace cimob.Data
         public DbSet<Curso> Cursos { get; set; }
         public DbSet<IpsEscola> IpsEscolas { get; set; }
         public DbSet<IpsCurso> IpsCursos { get; set; }
-        public DbSet<Pais> Paises { get; set; }
+        public DbSet<Pais> Paises { get; set; } 
         public DbSet<Parentesco> Parentescos { get; set; }
 
 

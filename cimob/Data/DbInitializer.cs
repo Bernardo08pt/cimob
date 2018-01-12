@@ -220,46 +220,25 @@ namespace cimob.Data
 
         private static void AddIpsEscolas(ApplicationDbContext context)
         {
-            context.IpsEscolas.Add(new IpsEscola
-            {
-                Descricao = "Escola Superior de Tecnologia de Setúbal",
-                Cursos = AddIpsCursosESTS(context)
-            });
+            context.IpsEscolas.Add(new IpsEscola { Descricao = "Escola Superior de Tecnologia de Setúbal" });
 
-            context.IpsEscolas.Add(new IpsEscola
-            {
-                Descricao = "Escola Superior de Tecnologia de Barreiro",
-                Cursos = AddIpsCursosESTB(context)
-            });
+            context.IpsEscolas.Add(new IpsEscola { Descricao = "Escola Superior de Tecnologia de Barreiro" });
 
-            context.IpsEscolas.Add(new IpsEscola
-            {
-                Descricao = "Escola Superior de Saúde",
-                Cursos = AddIpsCursosESS(context)
-            });
+            context.IpsEscolas.Add(new IpsEscola { Descricao = "Escola Superior de Saúde" });
 
-            context.IpsEscolas.Add(new IpsEscola
-            {
-                Descricao = "Escola Superior de Educação",
-                Cursos = AddIpsCursosESE(context)
-            });
+            context.IpsEscolas.Add(new IpsEscola { Descricao = "Escola Superior de Educação" });
 
-            context.IpsEscolas.Add(new IpsEscola
-            {
-                Descricao = "Escola Superior de Ciências Empresariais",
-                Cursos = AddIpsCursosESCE(context)
-            });
+            context.IpsEscolas.Add(new IpsEscola {Descricao = "Escola Superior de Ciências Empresariais" });
         }
 
         private static void AddEscolas(ApplicationDbContext context)
         {
             context.Escolas.Add(new Escola {
-                    TipoMobilidade = GetMobilidade(1, context),
-                    Pais = GetPais(1, context),
+                    PaisID = 1,
+                    TipoMobilidadeID = 1,
                     Nome = "Escola fixolas",
                     Email = "Email da escola fixolas",
-                    Estado = 1,
-                    Cursos = GetCurso(new List<int>{ 1, 2, 3 }, context)
+                    Estado = 1
             });
         }
 
@@ -268,22 +247,25 @@ namespace cimob.Data
             context.Cursos.Add(new Curso
             {
                 Vagas = 5,
-                Pais = GetPais(1, context),
-                Nome = "Escola fixolas",
+                Nome = "Curso fixolas",
+                EscolaID = 1,
+                PaisID = 1
             });
 
             context.Cursos.Add(new Curso
             {
                 Vagas = 5,
-                Pais = GetPais(1, context),
-                Nome = "Escola fixolas 2",
+                Nome = "Curso fixolas 2",
+                EscolaID = 1,
+                PaisID = 1
             });
 
             context.Cursos.Add(new Curso
             {
                 Vagas = 5,
-                Pais = GetPais(1, context),
-                Nome = "Escola fixolas 3",
+                Nome = "Curso fixolas 3",
+                EscolaID = 1,
+                PaisID = 1
             });
         }
 
@@ -354,38 +336,6 @@ namespace cimob.Data
             {
                 context.Ajudas.Add(a);
             }
-        }
-
-
-        /** helper functions **/
-        private static TipoMobilidade GetMobilidade(int id, ApplicationDbContext context)
-        {
-            return context.TiposMobilidade.Where(tp => tp.TipoMobilidadeID == id).FirstOrDefault();
-        }
-
-        private static Pais GetPais(int id, ApplicationDbContext context)
-        {
-            return context.Paises.Where(p => p.PaisID == id).FirstOrDefault();
-        }
-
-        private static Curso GetCurso(int id, ApplicationDbContext context)
-        {
-            return context.Cursos.Where(c => c.CursoID == id).FirstOrDefault();
-        }
-
-        private static List<Curso> GetCurso(List<int> id, ApplicationDbContext context)
-        {
-            return context.Cursos.Where(c => id.Contains(c.CursoID)).ToList();
-        }
-
-        private static IpsCurso GetIpsCurso(int id, ApplicationDbContext context)
-        {
-            return context.IpsCursos.Where(c => c.IpsCursoID == id).FirstOrDefault();
-        }
-
-        private static List<IpsCurso> GetIpsCurso(List<int> id, ApplicationDbContext context)
-        {
-            return context.IpsCursos.Where(c => id.Contains(c.IpsCursoID)).ToList();
         }
     }
 }
