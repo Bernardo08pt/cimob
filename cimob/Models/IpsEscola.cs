@@ -6,6 +6,7 @@ namespace cimob.Models
     {
         public int IpsEscolaID { get; set; }
         public string Descricao { get; set; }
-        public List<IpsCurso> Cursos { get; set; }
+
+        public virtual ICollection<IpsCurso> Cursos { get; set; }
     }
 }

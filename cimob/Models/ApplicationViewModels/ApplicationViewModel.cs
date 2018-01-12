@@ -60,7 +60,7 @@ namespace cimob.Models.ApplicationViewModels
 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [Display(Name = "Parentesco")]
-        public string Parentesco { get; set; }
+        public List<Parentesco> Parentesco { get; set; }
         #endregion
 
 
