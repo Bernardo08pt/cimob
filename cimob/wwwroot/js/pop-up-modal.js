@@ -38,7 +38,7 @@
         ev.preventDefault();
         /*TODO: no estágio está a dar undefined*/
         window.location = "/Application?tipo_mobilidade=tipo_mobilidade&estagio= " +
-            $("input[type='radio']").find("[name='periodo']").val() + "'";
+            $("input[type='radio']").val() +"'";
     });
 
     /*$("#erasmus-modal").click(function () {
