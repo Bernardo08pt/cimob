@@ -60,6 +60,12 @@ namespace cimob.Data
                 AddIpsCursosESTS(context);
                 context.SaveChanges();
             }
+
+            if (!context.EstadosCandidatura.Any())
+            {
+                AddEstadosCandidatura(context);
+                context.SaveChanges();
+            }
         }
 
 
@@ -342,6 +348,19 @@ namespace cimob.Data
             {
                 context.Ajudas.Add(a);
             }
+        }
+
+        private static void AddEstadosCandidatura(ApplicationDbContext context)
+        {
+            context.EstadosCandidatura.Add(new EstadoCandidatura { Descricao = "Submitida" });
+            context.EstadosCandidatura.Add(new EstadoCandidatura { Descricao = "Enviar Documentação" });
+            context.EstadosCandidatura.Add(new EstadoCandidatura { Descricao = "Confirmar Documentação" });
+            context.EstadosCandidatura.Add(new EstadoCandidatura { Descricao = "Entrevista" });
+            context.EstadosCandidatura.Add(new EstadoCandidatura { Descricao = "Aceite" });
+            context.EstadosCandidatura.Add(new EstadoCandidatura { Descricao = "Recusada" });
+
+            //Gravar alterações
+            context.SaveChanges();
         }
     }
 }

@@ -12,6 +12,7 @@ using cimob.Services;
 using cimob.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using cimob.Extensions;
 
 namespace cimob.Controllers
 {
@@ -49,9 +50,9 @@ namespace cimob.Controllers
             {
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-            
+
             return View(new ApplicationViewModel {
-                AjudasDictionary = GetAjudas(new List<string>(new string[] { "Application" })),
+                AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Applications" }), _context),
                 EscolasList = GetEscolas(),
                 EscolaList = GetEscolasIPS(),
                 CursoList = new List<IpsCurso>(),
@@ -70,10 +71,10 @@ namespace cimob.Controllers
             return View();
         }
 
-        // GET: Application/Create
+        // POST: Application
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(ApplicationViewModel model)
+        public async Task<IActionResult> Application(ApplicationViewModel model)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -83,13 +84,11 @@ namespace cimob.Controllers
 
             if (ModelState.IsValid)
             {
-                _context.Candidaturas.add(new Candidatura
+                var result = _context.Candidaturas.AddAsync(new Candidatura
                 {
                     AnoLetivo = model.Ano,
                     ContactoPessoal = model.ContactoPessoal,
                     DataNascimento = model.DataNascimento,
-                    Cursos = model.SelectedCursos,
-                    Documentos = new List<Documento> { FileHandling.Upload(model.CartaMotivacao) },
                     EmailAlternativo = model.EmailAlternativo,
                     EmegerenciaParentescoID = model.Parentesco,
                     EmergenciaContacto = model.ContactoEmergencia,
@@ -106,12 +105,18 @@ namespace cimob.Controllers
                     UtilizadorID = user.Id
                 });
 
-                _logger.LogInformation("User created a new application.");
+                if (result.IsCompletedSuccessfully)
+                {
+                    _logger.LogInformation("User created a new application.");
+
+                    return RedirectToAction(nameof(ApplicationConfirmation));
+                }
+
+                HelperFunctionsExtensions.AddErrors(result.Exception.Data, ModelState);
             }
 
             // If we got this far, something failed, redisplay form
-
-            model.AjudasDictionary = GetAjudas(new List<string>(new string[] { "Application" }));
+            model.AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Application" }), _context);
             model.EscolasList = GetEscolas();
             model.EscolaList = GetEscolasIPS();
             model.CursoList = new List<IpsCurso>();
@@ -125,47 +130,14 @@ namespace cimob.Controllers
             return View(model);
         }
 
-        // POST: Application/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Application/Edit/5
-        public ActionResult Edit(int id)
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ApplicationConfirmation()
         {
             return View();
         }
 
-        // POST: Application/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        [HttpPatch]
         public ActionResult UpdateSelectedCurso(ApplicationViewModel model, [FromBody] int value, [FromBody] bool add)
         {
             if (add)
@@ -202,25 +174,32 @@ namespace cimob.Controllers
             }).ToList());
         }
 
-        
+        [HttpPost]
+        public ActionResult UpdateCurso (ApplicationViewModel model, [FromBody] int value)
+        {
+            model.Curso = value;
+
+            return StatusCode(200);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateEscola(ApplicationViewModel model, [FromBody] int value)
+        {
+            model.Escola = value;
+
+            return StatusCode(200);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateParentesco(ApplicationViewModel model, [FromBody] int value)
+        {
+            model.Parentesco = value;
+
+            return StatusCode(200);
+        }
 
 
         /** HELPER FUNCTIONS **/
-        private IDictionary<string, Ajuda> GetAjudas(List<string> campos)
-        {
-            var ajudasContext = _context.Ajudas;
-            var ajudas = from a in ajudasContext select a;
-            ajudas = ajudas.Where(a => campos.Contains(a.Pagina));
-
-            IDictionary<string, Ajuda> ajudasDictionary = new Dictionary<string, Ajuda>();
-            foreach (Ajuda a in ajudas)
-            {
-                ajudasDictionary[a.Nome] = a;
-            }
-
-            return ajudasDictionary;
-        }
-
         private List<Escola> GetEscolas()
         {
             return _context.Escolas.Include(e => e.Cursos).ToList();
@@ -244,6 +223,15 @@ namespace cimob.Controllers
         private List<Parentesco> GetParentesco()
         {
             return _context.Parentescos.ToList();
+        }
+
+        private List<CandidaturaCursos> GetCursosCandidatura(ApplicationViewModel model)
+        {
+            var tmp = new List<CandidaturaCursos>();
+
+            model.SelectedCursos.ForEach(c => tmp.Add(new CandidaturaCursos { CursoID = c }));
+
+            return tmp;
         }
     }
 }

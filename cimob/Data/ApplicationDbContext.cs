@@ -14,7 +14,9 @@ namespace cimob.Data
         public DbSet<IpsCurso> IpsCursos { get; set; }
         public DbSet<Pais> Paises { get; set; } 
         public DbSet<Parentesco> Parentescos { get; set; }
-
+        public DbSet<EstadoCandidatura> EstadosCandidatura { get; set; }
+        public DbSet<Candidatura> Candidaturas { get; set; }
+        public DbSet<Documento> Documentos { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

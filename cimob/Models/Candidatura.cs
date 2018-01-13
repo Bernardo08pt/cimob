@@ -23,10 +23,10 @@ namespace cimob.Models
         public int Semestre { get; set; }
         public int IpsCursoID { get; set; }
         public int Estagio { get; set; }
-        public List<int> Cursos { get; set; }
+        public List<CandidaturaCursos> Cursos { get; set; }
+        public List<CandidaturaDocumentos> Documentos { get; set; }
         
-        public virtual List<Documento> Documentos { get; set; }
-        public virtual Utilizador Utilizador { get; set; }
+        public virtual ApplicationUser Utilizador { get; set; }
         public virtual TipoMobilidade TipoMobilidade { get; set; }
         public virtual EstadoCandidatura EstadoCandidatura { get; set; }
         public virtual Parentesco EmegerenciaParentesco { get; set; }

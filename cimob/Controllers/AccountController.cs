@@ -16,6 +16,7 @@ using cimob.Models.AccountViewModels;
 using cimob.Services;
 using cimob.Data;
 using Microsoft.EntityFrameworkCore;
+using cimob.Extensions;
 
 namespace cimob.Controllers
 {
@@ -60,7 +61,7 @@ namespace cimob.Controllers
             // Get page help
             LoginViewModel model = new LoginViewModel
             {
-                AjudasDictionary = GetAjudas( new List<string>(new string[] { "Login" }))
+                AjudasDictionary = HelperFunctionsExtensions.GetAjudas( new List<string>(new string[] { "Login" }), _context)
             };
 
             ViewData["ReturnUrl"] = returnUrl;
@@ -74,8 +75,8 @@ namespace cimob.Controllers
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
             // Get page help
-            model.AjudasDictionary = GetAjudas(new List<string>(new string[] { "Login" }));
-            
+            model.AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Login" }), _context);
+
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
@@ -131,7 +132,7 @@ namespace cimob.Controllers
             //// Get page help
             RegisterViewModel model = new RegisterViewModel
             {
-                AjudasDictionary = GetAjudas(new List<string>(new string[] { "Registo" }))
+                AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Registo" }), _context)
             };
             model.DataNascimento=DateTime.Today;
             return View(model);
@@ -163,11 +164,11 @@ namespace cimob.Controllers
                     _logger.LogInformation("User created a new account with password.");
                     return RedirectToAction(nameof(RegisterConfirmation));
                 }
-                AddErrors(result);
+                HelperFunctionsExtensions.AddErrors(result, ModelState);
             }
 
             // If we got this far, something failed, redisplay form
-            model.AjudasDictionary = GetAjudas(new List<string>(new string[] { "Registo" }));
+            model.AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Login" }), _context);
 
             return View(model);
         }
@@ -212,7 +213,7 @@ namespace cimob.Controllers
             // Get page help
             ForgotPasswordViewModel model = new ForgotPasswordViewModel
             {
-                AjudasDictionary = GetAjudas(new List<string>(new string[] { "RecuperarPassword" }))
+                AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "RecuperarPassword" }), _context)
             };
 
             return View(model);
@@ -249,8 +250,9 @@ namespace cimob.Controllers
 
             // If we got this far, something failed, redisplay form
             // Get page help
-            model.AjudasDictionary = GetAjudas(new List<string>(new string[] { "RecuperarPassword" }));
-        
+            model.AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "RecuperarPassword" }), _context);
+
+
             return View(model);
         }
 
@@ -272,7 +274,7 @@ namespace cimob.Controllers
             var model = new ResetPasswordViewModel { Code = code };
 
             // Get page help
-            model.AjudasDictionary = GetAjudas(new List<string>(new string[] { "AlterarPassword" }));
+            model.AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "AlterarPassword" }), _context);
 
             return View(model);
         }
@@ -283,7 +285,7 @@ namespace cimob.Controllers
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
             // Get page help
-            model.AjudasDictionary = GetAjudas(new List<string>(new string[] { "AlterarPassword" }));
+            model.AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "AlterarPassword" }), _context);
 
             if (!ModelState.IsValid)
             {
@@ -300,7 +302,7 @@ namespace cimob.Controllers
             {
                 return RedirectToAction(nameof(ResetPasswordConfirmation));
             }
-            AddErrors(result);
+            HelperFunctionsExtensions.AddErrors(result, ModelState);
             return View();
         }
 
@@ -318,15 +320,6 @@ namespace cimob.Controllers
         }
 
         #region Helpers
-
-        private void AddErrors(IdentityResult result)
-        {
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
-            }
-        }
-
         private IActionResult RedirectToLocal(string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))
@@ -338,22 +331,6 @@ namespace cimob.Controllers
                 return RedirectToAction(nameof(HomeController.Index), "Home");
             }
         }
-
-        private IDictionary<string, Ajuda> GetAjudas(List<string> campos)
-        {
-            var ajudasContext = _context.Ajudas;
-            var ajudas = from a in ajudasContext select a;
-            ajudas = ajudas.Where(a => campos.Contains(a.Pagina));
-            
-            IDictionary<string, Ajuda> ajudasDictionary = new Dictionary<string, Ajuda>();
-            foreach (Ajuda a in ajudas)
-            {
-                ajudasDictionary[a.Nome] = a;
-            }
-
-            return ajudasDictionary;
-        }
-
         #endregion
     }
 }

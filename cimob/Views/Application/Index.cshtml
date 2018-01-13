@@ -43,7 +43,7 @@
             if (curr != undefined || curr != "geral")
                 changePage();
 
-            $("#Ano").val("");
+            $("input[type='number']:not(#Numero)").val("");
 
             bindEvents();
         });
@@ -112,14 +112,14 @@
                     $.ajax({
                         url: "/Application/UpdateSelectedCurso",
                         cache: false,
-                        type: "PATCH",
+                        type: "POST",
                         data: { add: add, val: val }
                     });
                 };
 
                 if (!canSelect(parent))
                     return;
-               
+
                 if (parent.classList.contains("selected")) {
                     updateList(ev.currentTarget.getAttribute("data-id"), false);
                     parent.removeClass("selected");
@@ -194,17 +194,50 @@
             })
 
             $("#CursoList").on("change", (ev) => {
-                model.Curso = ev.currentTarget.value;
+                ajaxPost("/Application/UpdateCurso", { val: ev.currentTarget.value })
             });
 
             $("#EscolaList").on("change", (ev) => {
-                model.Escola = ev.currentTarget.value;
+                $("#CursoList").html("<option value='0'> A carregar...</option>").show();
+
+                $.ajax({
+                    url: "/Application/GetCursosByEscola/" + ev.currentTarget.value,
+                    cache: false,
+                    type: "GET",
+                    success: function (data) {
+                        var markup = "<option value='0'>Escolha um opção</option>";
+
+                        data.forEach(item => {
+                            markup += "<option value=" + item.ipsCursoID + ">" + item.nome + "</option>";
+                        });
+
+                        $("#CursoList").html(markup);
+                    },
+                    error: function (reponse) {
+                        console.log("error : " + reponse);
+                    }
+                });
+
+                ajaxPost("/Application/UpdateEscola", { val: ev.currentTarget.value })
             });
 
             $("#ParentescoList").on("change", (ev) => {
-                model.Parentesco = ev.currentTarget.value;
+                ajaxPost("/Application/UpdateParentesco", { val: ev.currentTarget.value })
             });
+        }
 
+        var ajaxPost = (url, val) => {
+            $.ajax({
+                url: url,
+                cache: false,
+                type: "POST",
+                data: JSON.stringify(val),
+                dataType: 'json',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
         }
 
         var changePage = () => {
@@ -230,28 +263,6 @@
                 $("ul [data-id='" + id + "']").addClass("active");
             }
         };
-
-        var GetCurso = (escola) => {
-            $("#Curso").html("<option value='0'> A carregar...</option>").show();
-
-            $.ajax({
-                url: "/Application/GetCursosByEscola/" + escola,
-                cache: false,
-                type: "GET",
-                success: function (data) {
-                    var markup = "<option value='0'>Escolha um opção</option>";
-
-                    data.forEach(item => {
-                        markup += "<option value=" + item.ipsCursoID + ">" + item.nome + "</option>";
-                    });
-
-                    $("#Curso").html(markup);
-                },
-                error: function (reponse) {
-                    console.log("error : " + reponse);
-                }
-            });
-        }
 
         var canSelect = (elem) => {
             if (!elem.hasClass("selected")) {
