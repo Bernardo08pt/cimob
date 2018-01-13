@@ -17,9 +17,9 @@ namespace cimob.Models
         public int Pontuacao { get; set; }
         public string Observacoes { get; set; }
         public string EmailAlternativo { get; set; }
-        public int ContactoPessoal { get; set; }
-        public int EmergenciaContacto { get; set; }
-        public int AnoLetivo { get; set; }
+        public string ContactoPessoal { get; set; }
+        public string EmergenciaContacto { get; set; }
+        public string AnoLetivo { get; set; }
         public int Semestre { get; set; }
         public int IpsCursoID { get; set; }
         public int Estagio { get; set; }

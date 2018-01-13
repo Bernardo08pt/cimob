@@ -42,9 +42,7 @@
 
             if (curr != undefined || curr != "geral")
                 changePage();
-
-            $("input[type='number']:not(#Numero)").val("");
-
+            
             bindEvents();
         });
 
@@ -198,14 +196,14 @@
             });
 
             $("#EscolaList").on("change", (ev) => {
-                $("#CursoList").html("<option value='0'> A carregar...</option>").show();
+                $("#CursoList").html("<option value=''> A carregar...</option>").show();
 
                 $.ajax({
                     url: "/Application/GetCursosByEscola/" + ev.currentTarget.value,
                     cache: false,
                     type: "GET",
                     success: function (data) {
-                        var markup = "<option value='0'>Escolha um opção</option>";
+                        var markup = "<option value=''>Escolha um opção</option>";
 
                         data.forEach(item => {
                             markup += "<option value=" + item.ipsCursoID + ">" + item.nome + "</option>";

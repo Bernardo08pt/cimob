@@ -43,16 +43,17 @@ namespace cimob.Controllers
         }
 
         // GET: Application
-        public async Task<ActionResult> Index()
+        [Route("[controller]")]
+        public async Task<ActionResult> Application()
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-
+            
             return View(new ApplicationViewModel {
-                AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Applications" }), _context),
+                AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Application" }), _context),
                 EscolasList = GetEscolas(),
                 EscolaList = GetEscolasIPS(),
                 CursoList = new List<IpsCurso>(),
@@ -71,9 +72,9 @@ namespace cimob.Controllers
             return View();
         }
 
-        // POST: Application
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("[controller]")]
         public async Task<IActionResult> Application(ApplicationViewModel model)
         {
             var user = await _userManager.GetUserAsync(User);
@@ -84,7 +85,7 @@ namespace cimob.Controllers
 
             if (ModelState.IsValid)
             {
-                var result = _context.Candidaturas.AddAsync(new Candidatura
+                var result = await _context.Candidaturas.AddAsync(new Candidatura
                 {
                     AnoLetivo = model.Ano,
                     ContactoPessoal = model.ContactoPessoal,
@@ -100,21 +101,23 @@ namespace cimob.Controllers
                     Pontuacao = 0,
                     RejeicaoRazao = "",
                     Rejeitada = -1,
-                    Semestre = 1,
+                    Semestre = GetSemestre(),
                     TipoMobilidadeID = model.TipoMobilidade,
                     UtilizadorID = user.Id
                 });
-
-                if (result.IsCompletedSuccessfully)
+                Console.WriteLine("result state - " + result.State.ToString());
+                if (result.State.ToString() == "RanToCompletion")
                 {
                     _logger.LogInformation("User created a new application.");
 
                     return RedirectToAction(nameof(ApplicationConfirmation));
                 }
+                
+                Console.WriteLine(result);
 
-                HelperFunctionsExtensions.AddErrors(result.Exception.Data, ModelState);
+                //HelperFunctionsExtensions.AddErrors(result, ModelState);
             }
-
+            Console.WriteLine("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
             // If we got this far, something failed, redisplay form
             model.AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Application" }), _context);
             model.EscolasList = GetEscolas();
@@ -232,6 +235,12 @@ namespace cimob.Controllers
             model.SelectedCursos.ForEach(c => tmp.Add(new CandidaturaCursos { CursoID = c }));
 
             return tmp;
+        }
+
+        private int GetSemestre()
+        {
+            var mes = DateTime.Today.Month;
+            return (mes >= 8 && mes <= 2) ? 1 : 2;
         }
     }
 }
