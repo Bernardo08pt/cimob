@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using cimob.Attributes;
 
 namespace cimob.Models.ApplicationViewModels
 {
@@ -11,7 +12,7 @@ namespace cimob.Models.ApplicationViewModels
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [RegularExpression("([0-9]+)", ErrorMessage = "Insira um número válido.")]
         [Display(Name = "Numero")]
-        public string Numero { get; set; }
+        public int Numero { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [Display(Name = "Nome")]
@@ -45,6 +46,7 @@ namespace cimob.Models.ApplicationViewModels
 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [EmailAddress(ErrorMessage = "Introduza um {0} válido.")]
+        [SameValue(nameof(Email), ErrorMessage = "Email alternativo não pode ser igual ao Email")]
         [Display(Name = "Email Alternativo")]
         public string EmailAlternativo { get; set; }
 
@@ -55,6 +57,7 @@ namespace cimob.Models.ApplicationViewModels
 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [RegularExpression("([0-9]+)", ErrorMessage = "Insira um número válido.")]
+        [SameValue(nameof(ContactoPessoal), ErrorMessage = "Contacto de Emergência não pode ser igual ao Contacto Pessoal")]
         [Display(Name = "Contacto de Emergência")]
         public string ContactoEmergencia { get; set; }
 

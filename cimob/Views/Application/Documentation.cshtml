@@ -1,24 +1,30 @@
 ﻿@model ApplicationViewModel;
 
-<div class="documents-form panel">
-    <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="row form-group has-feedback has-feedback-left">
-            <div class="col-md-3 col-md-offset-1">
-                <label asp-for="CartaMotivacao"></label>
-            </div>
-            <div class="input-group col-md-5">
-                <input asp-for="CartaMotivacao" class="form-control" placeholder="CartaMotivacao.pdf" />
-                <i class="glyphicon glyphicon-file form-control-feedback"></i>
-                <div class="input-group-btn">
-                    <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["CartaMotivacao"].Titulo" data-content="@Model.AjudasDictionary["CartaMotivacao"].Corpo">
-                        <span class="glyphicon glyphicon-question-sign"></span>
-                    </button>
-                </div>
-            </div>
-            <span asp-validation-for="CartaMotivacao" class="text-danger"></span>
-            
-            <button id="btn_submit_docs" class="button button-submeter">Submeter documentos</button>
+<div class="documents-form panel clearfix">
+    
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row form-group has-feedback has-feedback-left">
+        <div class="col-md-3 col-md-offset-1">
+            <label asp-for="CartaMotivacao"></label>
         </div>
-    </form>
+        <div class="input-group col-md-5">
+            <input asp-for="CartaMotivacao" class="hidden" accept="application/pdf"/>
+            <input type="text" class="form-control" id="file_name" placeholder="CartaMotivacao.pdf" />
+            <i class="glyphicon glyphicon-file form-control-feedback"></i>
+            <div class="input-group-btn">
+                <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["CartaMotivacao"].Titulo" data-content="@Model.AjudasDictionary["CartaMotivacao"].Corpo">
+                    <span class="glyphicon glyphicon-question-sign"></span>
+                </button>
+            </div>
+        </div>
+        <span asp-validation-for="CartaMotivacao" class="text-danger"></span>
+        <div class="col-md-3">
+            <div class="button-no-arrow" id="btn_upload">
+                <i class="glyphicon glyphicon-plus"></i>
+                <span>Carregar</span>
+            </div>
+        </div>
+    </div>
+        
+    <div id="btn_submit_docs" class="button button-submeter">Submeter documentos</div>
 </div>

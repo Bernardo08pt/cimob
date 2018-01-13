@@ -1,21 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Http;
 using cimob.Models;
 using cimob.Models.ApplicationViewModels;
 using cimob.Services;
 using cimob.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace cimob.Controllers
 {
@@ -46,15 +42,25 @@ namespace cimob.Controllers
         }
 
         // GET: Application
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+            
             return View(new ApplicationViewModel {
                 AjudasDictionary = GetAjudas(new List<string>(new string[] { "Application" })),
                 Escolas = GetEscolas(),
                 Escola = GetEscolasIPS(),
-                Curso = GetCursoIPS(),
+                Curso = new List<IpsCurso>(),
                 Paises = GetPaises(),
-                Parentesco = GetParentesco()
+                Parentesco = GetParentesco(),
+                DataNascimento = user.DataNascimento,
+                Numero = user.Numero,
+                Nome = user.Nome,
+                Email = user.Email
             });
         }
 
@@ -133,6 +139,36 @@ namespace cimob.Controllers
             }
         }
 
+        // GET: Application/GetCursosByEscola/1
+        [HttpGet]
+        public ActionResult GetCursosByEscola(int id, IFormCollection collection)
+        {
+            return Json(_context.IpsCursos.Where(c => c.IpsEscolaID == id).ToList());
+        }
+
+        // GET: Application/FilterDestino?nome=ze&pais=alemanha
+        [HttpGet]
+        public ActionResult FilterDestino(int id, IFormCollection collection)
+        {
+            return Json(_context.Escolas.AsEnumerable().Where((e) => {
+                var nome = HttpContext.Request.Query["nome"];
+                var pais = HttpContext.Request.Query["pais"];
+                
+                if (nome != "" && pais == "")
+                    return e.Nome.Contains(nome);
+
+
+                if (nome == "" && pais != "")
+                    return e.PaisID == pais;
+                
+                return e.Nome.Contains(nome) && e.PaisID == pais;
+            }).ToList());
+        }
+
+        
+
+
+        /** HELPER FUNCTIONS **/
         private IDictionary<string, Ajuda> GetAjudas(List<string> campos)
         {
             var ajudasContext = _context.Ajudas;
@@ -150,7 +186,7 @@ namespace cimob.Controllers
 
         private List<Escola> GetEscolas()
         {
-            return _context.Escolas.ToList();
+            return _context.Escolas.Include(e => e.Cursos).ToList();
         }
 
         private List<IpsEscola> GetEscolasIPS()

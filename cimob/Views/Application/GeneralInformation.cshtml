@@ -1,102 +1,100 @@
 ﻿@model ApplicationViewModel;
 
 <div class="geral-form form">
-    <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="row form-group has-feedback has-feedback-left">
-            <div class="col-md-3 col-md-offset-1">
-                <label asp-for="Numero"></label>
-            </div>
-            <div class="input-group col-md-7">
-                <input asp-for="Numero" class="form-control" placeholder="Numero" />
-                <i class="glyphicon glyphicon-user form-control-feedback"></i>
-                <div class="input-group-btn">
-                    <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Numero"].Titulo" data-content="@Model.AjudasDictionary["Numero"].Corpo">
-                        <span class="glyphicon glyphicon-question-sign"></span>
-                    </button>
-                </div>
-            </div>
-            <span asp-validation-for="Numero" class="text-danger"></span>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row form-group has-feedback has-feedback-left">
+        <div class="col-md-3 col-md-offset-1">
+            <label asp-for="Numero"></label>
         </div>
+        <div class="input-group col-md-7">
+            <input asp-for="Numero" class="form-control" placeholder="Numero" />
+            <i class="glyphicon glyphicon-user form-control-feedback"></i>
+            <div class="input-group-btn">
+                <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Numero"].Titulo" data-content="@Model.AjudasDictionary["Numero"].Corpo">
+                    <span class="glyphicon glyphicon-question-sign"></span>
+                </button>
+            </div>
+        </div>
+        <span asp-validation-for="Numero" class="text-danger"></span>
+    </div>
 
-        <div class="form-group row has-feedback has-feedback-left">
-            <div class="col-md-3 col-md-offset-1">
-                <label asp-for="Nome"></label>
-            </div>
-            <div class="input-group col-md-7">
-                <input asp-for="Nome" class="form-control" placeholder="Nome" />
-                <i class="glyphicon glyphicon-user form-control-feedback"></i>
-                <div class="input-group-btn">
-                    <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Nome"].Titulo" data-content="@Model.AjudasDictionary["Nome"].Corpo">
-                        <span class="glyphicon glyphicon-question-sign"></span>
-                    </button>
-                </div>
-            </div>
-            <span asp-validation-for="Nome" class="text-danger"></span>
+    <div class="form-group row has-feedback has-feedback-left">
+        <div class="col-md-3 col-md-offset-1">
+            <label asp-for="Nome"></label>
         </div>
+        <div class="input-group col-md-7">
+            <input asp-for="Nome" class="form-control" placeholder="Nome" />
+            <i class="glyphicon glyphicon-user form-control-feedback"></i>
+            <div class="input-group-btn">
+                <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Nome"].Titulo" data-content="@Model.AjudasDictionary["Nome"].Corpo">
+                    <span class="glyphicon glyphicon-question-sign"></span>
+                </button>
+            </div>
+        </div>
+        <span asp-validation-for="Nome" class="text-danger"></span>
+    </div>
 
-        <div class="row form-group has-feedback has-feedback-left">
-            <div class="col-md-3 col-md-offset-1">
-                <label asp-for="DataNascimento"></label>
-            </div>
-            <div class="input-group col-md-7">
-                <input asp-for="DataNascimento" class="form-control" />
-                <i class="glyphicon glyphicon-calendar form-control-feedback"></i>
-                <div class="input-group-btn">
-                    <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["DataNascimento"].Titulo" data-content="@Model.AjudasDictionary["DataNascimento"].Corpo">
-                        <span class="glyphicon glyphicon-question-sign"></span>
-                    </button>
-                </div>
-            </div>
-            <span asp-validation-for="DataNascimento" class="text-danger"></span>
+    <div class="row form-group has-feedback has-feedback-left">
+        <div class="col-md-3 col-md-offset-1">
+            <label asp-for="DataNascimento"></label>
         </div>
+        <div class="input-group col-md-7">
+            <input asp-for="DataNascimento" class="form-control" />
+            <i class="glyphicon glyphicon-calendar form-control-feedback"></i>
+            <div class="input-group-btn">
+                <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["DataNascimento"].Titulo" data-content="@Model.AjudasDictionary["DataNascimento"].Corpo">
+                    <span class="glyphicon glyphicon-question-sign"></span>
+                </button>
+            </div>
+        </div>
+        <span asp-validation-for="DataNascimento" class="text-danger"></span>
+    </div>
 
-        <div class="row form-group has-feedback has-feedback-left">
-            <div class="col-md-3 col-md-offset-1">
-                <label asp-for="Escola"></label>
-            </div>
-            <div class="input-group col-md-7">
-                @Html.DropDownListFor(p => Model.Escola, new SelectList(Model.Escola, "IpsEscolaID", "Descricao"), "Escolha uma opção", new { @class = "form-control" })
-                <i class="glyphicon glyphicon-book form-control-feedback"></i>
-                <div class="input-group-btn">
-                    <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Escola"].Titulo" data-content="@Model.AjudasDictionary["Escola"].Corpo">
-                        <span class="glyphicon glyphicon-question-sign"></span>
-                    </button>
-                </div>
-            </div>
-            <span asp-validation-for="Escola" class="text-danger"></span>
+    <div class="row form-group has-feedback has-feedback-left">
+        <div class="col-md-3 col-md-offset-1">
+            <label asp-for="Escola"></label>
         </div>
+        <div class="input-group col-md-7">
+            @Html.DropDownListFor(p => Model.Escola, new SelectList(Model.Escola, "IpsEscolaID", "Descricao"), "Escolha uma Opção", new { @class = "form-control", @onchange = "javascript:GetCurso(this.value);" })
+            <i class="glyphicon glyphicon-book form-control-feedback"></i>
+            <div class="input-group-btn">
+                <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Escola"].Titulo" data-content="@Model.AjudasDictionary["Escola"].Corpo">
+                    <span class="glyphicon glyphicon-question-sign"></span>
+                </button>
+            </div>
+        </div>
+        <span asp-validation-for="Escola" class="text-danger"></span>
+    </div>
 
-        <div class="row form-group has-feedback has-feedback-left">
-            <div class="col-md-3 col-md-offset-1">
-                <label asp-for="Curso"></label>
-            </div>
-            <div class="input-group col-md-7">
-                @*@Html.DropDownListFor(p => Model.Curso, new SelectList(Model.Curso, "IpsCurosID", "Nome"), "Escolha uma opção", new { @class = "form-control" })*@
-                <i class="glyphicon glyphicon-book form-control-feedback"></i>
-                <div class="input-group-btn">
-                    <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Curso"].Titulo" data-content="@Model.AjudasDictionary["Curso"].Corpo">
-                        <span class="glyphicon glyphicon-question-sign"></span>
-                    </button>
-                </div>
-            </div>
-            <span asp-validation-for="Curso" class="text-danger"></span>
+    <div class="row form-group has-feedback has-feedback-left">
+        <div class="col-md-3 col-md-offset-1">
+            <label asp-for="Curso"></label>
         </div>
+        <div class="input-group col-md-7">
+            @Html.DropDownListFor(p => Model.Curso, new SelectList(Model.Curso, "IpsCurosID", "Nome"), "Escolha uma Escola", new { @class = "form-control" })
+            <i class="glyphicon glyphicon-book form-control-feedback"></i>
+            <div class="input-group-btn">
+                <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Curso"].Titulo" data-content="@Model.AjudasDictionary["Curso"].Corpo">
+                    <span class="glyphicon glyphicon-question-sign"></span>
+                </button>
+            </div>
+        </div>
+        <span asp-validation-for="Curso" class="text-danger"></span>
+    </div>
 
-        <div class="row form-group has-feedback has-feedback-left">
-            <div class="col-md-3 col-md-offset-1">
-                <label asp-for="Ano"></label>
-            </div>
-            <div class="input-group col-md-7">
-                <input asp-for="Ano" class="form-control" placeholder="Ano" />
-                <i class="glyphicon glyphicon-book form-control-feedback"></i>
-                <div class="input-group-btn">
-                    <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Ano"].Titulo" data-content="@Model.AjudasDictionary["Ano"].Corpo">
-                        <span class="glyphicon glyphicon-question-sign"></span>
-                    </button>
-                </div>
-            </div>
-            <span asp-validation-for="Ano" class="text-danger"></span>
+    <div class="row form-group has-feedback has-feedback-left">
+        <div class="col-md-3 col-md-offset-1">
+            <label asp-for="Ano"></label>
         </div>
-    </form>
+        <div class="input-group col-md-7">
+            <input asp-for="Ano" class="form-control" placeholder="Ano" />
+            <i class="glyphicon glyphicon-book form-control-feedback"></i>
+            <div class="input-group-btn">
+                <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Ano"].Titulo" data-content="@Model.AjudasDictionary["Ano"].Corpo">
+                    <span class="glyphicon glyphicon-question-sign"></span>
+                </button>
+            </div>
+        </div>
+        <span asp-validation-for="Ano" class="text-danger"></span>
+    </div>
 </div>
