@@ -144,8 +144,6 @@ namespace cimob.Controllers
         {
             if (ModelState.IsValid)
             {
-                
-
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Nome = model.Nome,
                     Numero = Convert.ToInt32(model.Numero), DataNascimento = model.DataNascimento};
 

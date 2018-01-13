@@ -52,11 +52,11 @@ namespace cimob.Controllers
             
             return View(new ApplicationViewModel {
                 AjudasDictionary = GetAjudas(new List<string>(new string[] { "Application" })),
-                Escolas = GetEscolas(),
-                Escola = GetEscolasIPS(),
-                Curso = new List<IpsCurso>(),
-                Paises = GetPaises(),
-                Parentesco = GetParentesco(),
+                EscolasList = GetEscolas(),
+                EscolaList = GetEscolasIPS(),
+                CursoList = new List<IpsCurso>(),
+                PaisesList = GetPaises(),
+                ParentescoList = GetParentesco(),
                 DataNascimento = user.DataNascimento,
                 Numero = user.Numero,
                 Nome = user.Nome,
@@ -71,9 +71,58 @@ namespace cimob.Controllers
         }
 
         // GET: Application/Create
-        public ActionResult Create()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(ApplicationViewModel model)
         {
-            return View();
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            if (ModelState.IsValid)
+            {
+                _context.Candidaturas.add(new Candidatura
+                {
+                    AnoLetivo = model.Ano,
+                    ContactoPessoal = model.ContactoPessoal,
+                    DataNascimento = model.DataNascimento,
+                    Cursos = model.SelectedCursos,
+                    Documentos = new List<Documento> { FileHandling.Upload(model.CartaMotivacao) },
+                    EmailAlternativo = model.EmailAlternativo,
+                    EmegerenciaParentescoID = model.Parentesco,
+                    EmergenciaContacto = model.ContactoEmergencia,
+                    Entrevista = "",
+                    EstadoCandidaturaID = 1,
+                    Estagio = 1,
+                    IpsCursoID = model.Curso,
+                    Observacoes = "",
+                    Pontuacao = 0,
+                    RejeicaoRazao = "",
+                    Rejeitada = -1,
+                    Semestre = 1,
+                    TipoMobilidadeID = model.TipoMobilidade,
+                    UtilizadorID = user.Id
+                });
+
+                _logger.LogInformation("User created a new application.");
+            }
+
+            // If we got this far, something failed, redisplay form
+
+            model.AjudasDictionary = GetAjudas(new List<string>(new string[] { "Application" }));
+            model.EscolasList = GetEscolas();
+            model.EscolaList = GetEscolasIPS();
+            model.CursoList = new List<IpsCurso>();
+            model.PaisesList = GetPaises();
+            model.ParentescoList = GetParentesco();
+            model.DataNascimento = user.DataNascimento;
+            model.Numero = user.Numero;
+            model.Nome = user.Nome;
+            model.Email = user.Email;
+
+            return View(model);
         }
 
         // POST: Application/Create
@@ -116,27 +165,15 @@ namespace cimob.Controllers
             }
         }
 
-        // GET: Application/Delete/5
-        public ActionResult Delete(int id)
+        [HttpPatch]
+        public ActionResult UpdateSelectedCurso(ApplicationViewModel model, [FromBody] int value, [FromBody] bool add)
         {
-            return View();
-        }
+            if (add)
+                model.SelectedCursos.Add(value);
+            else
+                model.SelectedCursos.Remove(value);
 
-        // POST: Application/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return StatusCode(200);
         }
 
         // GET: Application/GetCursosByEscola/1

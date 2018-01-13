@@ -36,7 +36,7 @@
 </div>
 
 @section Scripts {
-<script>
+    <script>
         $(() => {
             var curr = window.location.hash.split("#/")[1];
 
@@ -107,12 +107,27 @@
             });
 
             $(".destino-form .listing input[type='checkbox']").on("click", (ev) => {
-                var parent = $(ev.currentTarget).parent().parent();
+                var parent = ev.currentTarget.parentElement.parentElement;
+                var updateList = (val, add) => {
+                    $.ajax({
+                        url: "/Application/UpdateSelectedCurso",
+                        cache: false,
+                        type: "PATCH",
+                        data: { add: add, val: val }
+                    });
+                };
 
                 if (!canSelect(parent))
                     return;
-
-                parent.toggleClass("selected");
+               
+                if (parent.classList.contains("selected")) {
+                    updateList(ev.currentTarget.getAttribute("data-id"), false);
+                    parent.removeClass("selected");
+                }
+                else {
+                    updateList(ev.currentTarget.getAttribute("data-id"), true);
+                    parent.addClass("selected");
+                }
             });
 
             $("#btn_upload").on("click", () => {
@@ -177,6 +192,19 @@
             $("#btn_submit_docs").on("click", () => {
                 $("#file_name").val("");
             })
+
+            $("#CursoList").on("change", (ev) => {
+                model.Curso = ev.currentTarget.value;
+            });
+
+            $("#EscolaList").on("change", (ev) => {
+                model.Escola = ev.currentTarget.value;
+            });
+
+            $("#ParentescoList").on("change", (ev) => {
+                model.Parentesco = ev.currentTarget.value;
+            });
+
         }
 
         var changePage = () => {
@@ -235,6 +263,5 @@
 
             return true;
         }
-       
-</script>
+    </script>
 }

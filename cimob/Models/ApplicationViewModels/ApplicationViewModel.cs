@@ -8,6 +8,17 @@ namespace cimob.Models.ApplicationViewModels
 {
     public class ApplicationViewModel
     {
+        public int TipoMobilidade { get; set; }
+        
+        #region comboboxes
+        public List<IpsCurso> CursoList { get; set; }
+        public List<IpsEscola> EscolaList { get; set; }
+        public List<Parentesco> ParentescoList { get; set; }
+        public List<Escola> EscolasList { get; set; }
+        public List<Pais> PaisesList { get; set; }
+        #endregion
+
+
         #region general 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [RegularExpression("([0-9]+)", ErrorMessage = "Insira um número válido.")]
@@ -26,11 +37,11 @@ namespace cimob.Models.ApplicationViewModels
 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [Display(Name = "Escola")]
-        public List<IpsEscola> Escola { get; set; }
+        public int Escola { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [Display(Name = "Curso")]
-        public List<IpsCurso> Curso { get; set; }
+        public int Curso { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [Display(Name = "Ano")]
@@ -53,17 +64,17 @@ namespace cimob.Models.ApplicationViewModels
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [RegularExpression("([0-9]+)", ErrorMessage = "Insira um número válido.")]
         [Display(Name = "Contacto Pessoal")]
-        public string ContactoPessoal { get; set; }
+        public int ContactoPessoal { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [RegularExpression("([0-9]+)", ErrorMessage = "Insira um número válido.")]
         [SameValue(nameof(ContactoPessoal), ErrorMessage = "Contacto de Emergência não pode ser igual ao Contacto Pessoal")]
         [Display(Name = "Contacto de Emergência")]
-        public string ContactoEmergencia { get; set; }
+        public int ContactoEmergencia { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [Display(Name = "Parentesco")]
-        public List<Parentesco> Parentesco { get; set; }
+        public int Parentesco { get; set; }
         #endregion
 
 
@@ -75,14 +86,8 @@ namespace cimob.Models.ApplicationViewModels
 
 
         #region destino
-        [Required(ErrorMessage = "O campo {0} é obrigatório.")]
-        public List<string> Escolhas { get; set; }
-        
-        public List<Escola> Escolas { get; set; }
-
-        public int SearchPais { get; set; }
-        public string SearchName { get; set; }
-        public List<Pais> Paises { get; set; }
+        [Required(ErrorMessage = "Necessário escolher pelo menos um.")]
+        public List<int> SelectedCursos { get; set; }
         #endregion
 
         public IDictionary<string, Ajuda> AjudasDictionary { get; set; }

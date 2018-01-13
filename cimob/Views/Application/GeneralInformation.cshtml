@@ -55,7 +55,7 @@
             <label asp-for="Escola"></label>
         </div>
         <div class="input-group col-md-7">
-            @Html.DropDownListFor(p => Model.Escola, new SelectList(Model.Escola, "IpsEscolaID", "Descricao"), "Escolha uma Opção", new { @class = "form-control", @onchange = "javascript:GetCurso(this.value);" })
+            @Html.DropDownListFor(p => Model.EscolaList, new SelectList(Model.EscolaList, "IpsEscolaID", "Descricao"), "Escolha uma Opção", new { @class = "form-control", @onchange = "javascript:GetCurso(this.value);" })
             <i class="glyphicon glyphicon-book form-control-feedback"></i>
             <div class="input-group-btn">
                 <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Escola"].Titulo" data-content="@Model.AjudasDictionary["Escola"].Corpo">
@@ -71,7 +71,7 @@
             <label asp-for="Curso"></label>
         </div>
         <div class="input-group col-md-7">
-            @Html.DropDownListFor(p => Model.Curso, new SelectList(Model.Curso, "IpsCurosID", "Nome"), "Escolha uma Escola", new { @class = "form-control" })
+            @Html.DropDownListFor(p => Model.CursoList, new SelectList(Model.CursoList, "IpsCurosID", "Nome"), "Escolha uma Escola", new { @class = "form-control" })
             <i class="glyphicon glyphicon-book form-control-feedback"></i>
             <div class="input-group-btn">
                 <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Curso"].Titulo" data-content="@Model.AjudasDictionary["Curso"].Corpo">

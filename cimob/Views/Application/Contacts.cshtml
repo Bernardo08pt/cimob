@@ -71,7 +71,7 @@
             <label asp-for="Parentesco"></label>
         </div>
         <div class="input-group col-md-7">
-            @Html.DropDownListFor(p => Model.Parentesco, new SelectList(Model.Parentesco, "ParentescoID", "Descricao"), "Escolha uma opção", new { @class = "form-control" })
+            @Html.DropDownListFor(p => Model.ParentescoList, new SelectList(Model.ParentescoList, "ParentescoID", "Descricao"), "Escolha uma opção", new { @class = "form-control" })
             <i class="glyphicon glyphicon-user form-control-feedback"></i>
             <div class="input-group-btn">
                 <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Parentesco"].Titulo" data-content="@Model.AjudasDictionary["Parentesco"].Corpo">

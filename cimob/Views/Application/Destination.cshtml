@@ -24,7 +24,7 @@
             </div>
             <div class="col-md-4 no-padding-margin">
                 <div class="input-group">
-                    @Html.DropDownListFor(p => Model.Paises, new SelectList(Model.Paises, "PaisID", "Descricao"), "Escolha uma opção", new { @class = "form-control", @id = "filter_pais" })
+                    @Html.DropDownListFor(p => Model.PaisesList, new SelectList(Model.PaisesList, "PaisID", "Descricao"), "Escolha uma opção", new { @class = "form-control", @id = "filter_pais" })
                     <i class="glyphicon glyphicon-user form-control-feedback"></i>
                     <div class="input-group-btn">
                         <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Pais"].Titulo" data-content="@Model.AjudasDictionary["Pais"].Corpo">
@@ -43,6 +43,7 @@
     </div>
 
     <div class="listing">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <table class="table" border="1">
             <tr>
                 <th></th>
@@ -51,26 +52,28 @@
                 <th>Curso</th>
             </tr>
 
-            @foreach (var item in Model.Escolas)
-            {
-                @foreach (var curr in item.Cursos)
-                {
-                    <tr>
-                        <td>
-                            <input type="checkbox" data-id="@curr.CursoID" />
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Pais.Descricao)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Nome)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => curr.Nome)
-                        </td>
-                    </tr>
-                }
-            }
+            @foreach (var item in Model.EscolasList)
+        {
+            @foreach (var curr in item.Cursos)
+        {
+            <tr>
+                <td>
+                    <input type="checkbox" data-id="@curr.CursoID" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Pais.Descricao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => curr.Nome)
+                </td>
+            </tr>
+    }
+    }
         </table>
+        <span asp-validation-for="SelectedCursos" class="text-danger"></span>
+
     </div>
 </div>
