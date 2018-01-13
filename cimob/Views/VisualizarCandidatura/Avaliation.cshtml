@@ -1,0 +1,53 @@
+﻿@model VisualizarCandidaturaViewModel;
+
+<div class="geral-form form">
+    <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="get">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row form-group has-feedback has-feedback-left">
+            <div class="col-md-3 col-md-offset-1">
+                <label asp-for="Entrevista"></label>
+            </div>
+            <div class="input-group col-md-7">
+                <input asp-for="Entrevista" class="form-control" />
+                <i class="glyphicon glyphicon-calendar form-control-feedback"></i>
+            </div>
+        </div>
+
+        <div class="form-group row has-feedback has-feedback-left">
+            <div class="col-md-3 col-md-offset-1">
+                <label asp-for="Pontuacao"></label>
+            </div>
+            <div class="input-group col-md-7">
+                <input asp-for="Pontuacao" class="form-control" />
+                <i class="glyphicon form-control-feedback"></i>
+            </div>
+        </div>
+
+        <div class="form-group row has-feedback has-feedback-left">
+            <div class="col-md-3 col-md-offset-1">
+                <label asp-for="Observacoes"></label>
+            </div>
+            <div class="input-group col-md-7">
+                <input asp-for="Observacoes" class="form-control" />
+                <i class="glyphicon form-control-feedback"></i>
+            </div>
+        </div>
+
+
+        <div class="form-group row has-feedback has-feedback-left">
+            <div class="col-md-3 col-md-offset-1">
+                <label asp-for="Listagem"></label>
+            </div>
+            <div class="listing">
+                <table class="table" border="1">
+                    <tr>
+                        <th>Unidade Curricular</th>
+                        <th>Critério</th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>
+
+

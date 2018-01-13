@@ -1,0 +1,30 @@
+﻿@model VisualizarCandidaturaViewModel;
+
+<div class="documents-form panel">
+    <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row form-group has-feedback has-feedback-left">
+            <div class="col-md-3 col-md-offset-1">
+                <label asp-for="NovosDocumentos"></label>
+            </div>
+            <div class="input-group col-md-5">
+                <input asp-for="NovosDocumentos" class="form-control" placeholder="File: ficheiro.pdf" />
+                <i class="glyphicon glyphicon-file form-control-feedback"></i>
+            </div>
+            <span asp-validation-for="NovosDocumentos" class="text-danger"></span>
+
+            <button id="btn_submit_docs" class="button button-submeter">Submeter documentos</button>
+        </div>
+    </form>
+</div>
+<div class="listing">
+    <table class="table" border="1">
+        <tr>
+            <th>Nome ficheiro</th>
+            <th>Data</th>
+            <th>Visualizar</th>
+            <th>Download</th>
+        </tr>
+    </table>
+</div>
+
