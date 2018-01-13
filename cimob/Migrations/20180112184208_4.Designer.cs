@@ -11,9 +11,10 @@ using System;
 namespace cimob.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180112184208_4")]
+    partial class _4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -95,96 +96,6 @@ namespace cimob.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("cimob.Models.Candidatura", b =>
-                {
-                    b.Property<int>("CandidaturaID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AnoLetivo");
-
-                    b.Property<int>("ContactoPessoal");
-
-                    b.Property<DateTime>("DataNascimento");
-
-                    b.Property<string>("EmailAlternativo");
-
-                    b.Property<int>("EmegerenciaParentescoID");
-
-                    b.Property<int>("EmergenciaContacto");
-
-                    b.Property<string>("Entrevista");
-
-                    b.Property<int>("EstadoCandidaturaID");
-
-                    b.Property<int>("Estagio");
-
-                    b.Property<int>("IpsCursoID");
-
-                    b.Property<string>("Observacoes");
-
-                    b.Property<int>("Pontuacao");
-
-                    b.Property<string>("RejeicaoRazao");
-
-                    b.Property<int>("Rejeitada");
-
-                    b.Property<int>("Semestre");
-
-                    b.Property<int>("TipoMobilidadeID");
-
-                    b.Property<string>("UtilizadorID");
-
-                    b.HasKey("CandidaturaID");
-
-                    b.HasIndex("EmegerenciaParentescoID");
-
-                    b.HasIndex("EstadoCandidaturaID");
-
-                    b.HasIndex("IpsCursoID");
-
-                    b.HasIndex("TipoMobilidadeID");
-
-                    b.HasIndex("UtilizadorID");
-
-                    b.ToTable("Candidaturas");
-                });
-
-            modelBuilder.Entity("cimob.Models.CandidaturaCursos", b =>
-                {
-                    b.Property<int>("CandidaturaCursosID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("CandidaturaID");
-
-                    b.Property<int>("CursoID");
-
-                    b.HasKey("CandidaturaCursosID");
-
-                    b.HasIndex("CandidaturaID");
-
-                    b.HasIndex("CursoID");
-
-                    b.ToTable("CandidaturaCursos");
-                });
-
-            modelBuilder.Entity("cimob.Models.CandidaturaDocumentos", b =>
-                {
-                    b.Property<int>("CandidaturaDocumentosID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("CandidaturaID");
-
-                    b.Property<int>("DocumentoID");
-
-                    b.HasKey("CandidaturaDocumentosID");
-
-                    b.HasIndex("CandidaturaID");
-
-                    b.HasIndex("DocumentoID");
-
-                    b.ToTable("CandidaturaDocumentos");
-                });
-
             modelBuilder.Entity("cimob.Models.Curso", b =>
                 {
                     b.Property<int>("CursoID")
@@ -205,22 +116,6 @@ namespace cimob.Migrations
                     b.HasIndex("PaisID");
 
                     b.ToTable("Cursos");
-                });
-
-            modelBuilder.Entity("cimob.Models.Documento", b =>
-                {
-                    b.Property<int>("DocumentoID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("FicheiroCaminho");
-
-                    b.Property<string>("FicheiroNome");
-
-                    b.Property<int>("OrigemCimob");
-
-                    b.HasKey("DocumentoID");
-
-                    b.ToTable("Documentos");
                 });
 
             modelBuilder.Entity("cimob.Models.Escola", b =>
@@ -245,18 +140,6 @@ namespace cimob.Migrations
                     b.HasIndex("TipoMobilidadeID");
 
                     b.ToTable("Escolas");
-                });
-
-            modelBuilder.Entity("cimob.Models.EstadoCandidatura", b =>
-                {
-                    b.Property<int>("EstadoCandidaturaID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Descricao");
-
-                    b.HasKey("EstadoCandidaturaID");
-
-                    b.ToTable("EstadosCandidatura");
                 });
 
             modelBuilder.Entity("cimob.Models.IpsCurso", b =>
@@ -431,59 +314,6 @@ namespace cimob.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("cimob.Models.Candidatura", b =>
-                {
-                    b.HasOne("cimob.Models.Parentesco", "EmegerenciaParentesco")
-                        .WithMany()
-                        .HasForeignKey("EmegerenciaParentescoID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("cimob.Models.EstadoCandidatura", "EstadoCandidatura")
-                        .WithMany()
-                        .HasForeignKey("EstadoCandidaturaID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("cimob.Models.IpsCurso", "IpsCurso")
-                        .WithMany()
-                        .HasForeignKey("IpsCursoID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("cimob.Models.TipoMobilidade", "TipoMobilidade")
-                        .WithMany()
-                        .HasForeignKey("TipoMobilidadeID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("cimob.Models.ApplicationUser", "Utilizador")
-                        .WithMany()
-                        .HasForeignKey("UtilizadorID");
-                });
-
-            modelBuilder.Entity("cimob.Models.CandidaturaCursos", b =>
-                {
-                    b.HasOne("cimob.Models.Candidatura", "Candidatura")
-                        .WithMany("Cursos")
-                        .HasForeignKey("CandidaturaID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("cimob.Models.Curso", "Curso")
-                        .WithMany()
-                        .HasForeignKey("CursoID")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("cimob.Models.CandidaturaDocumentos", b =>
-                {
-                    b.HasOne("cimob.Models.Candidatura", "Candidatura")
-                        .WithMany("Documentos")
-                        .HasForeignKey("CandidaturaID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("cimob.Models.Documento", "Documento")
-                        .WithMany()
-                        .HasForeignKey("DocumentoID")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("cimob.Models.Curso", b =>

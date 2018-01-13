@@ -5,25 +5,27 @@
 
 <div class="candidatura-wrapper">
     <ul>
-        <li data-id="geral" class="selected">Geral</li>
+        <li data-id="geral" class="active">Geral</li>
         <li data-id="contactos">Contactos</li>
         <li data-id="documentacao">Documentação</li>
         <li data-id="destino">Escola Destino</li>
     </ul>
 
     <div class="tab-content">
-        <div id="geral" role="tab">
-            @Html.Partial("GeneralInformation")
-        </div>
-        <div id="contactos" role="tab">
-            @Html.Partial("Contacts")
-        </div>
-        <div id="documentacao" role="tab">
-            @Html.Partial("Documentation")
-        </div>
-        <div id="destino" role="tab">
-            @Html.Partial("Destination")
-        </div>
+        <form id="application-form" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
+            <div id="geral" role="tab">
+                @Html.Partial("GeneralInformation")
+            </div>
+            <div id="contactos" role="tab">
+                @Html.Partial("Contacts")
+            </div>
+            <div id="documentacao" role="tab">
+                @Html.Partial("Documentation")
+            </div>
+            <div id="destino" role="tab">
+                @Html.Partial("Destination")
+            </div>
+        </form>
     </div>
 
     <div class="buttons">
@@ -40,44 +42,207 @@
 
             if (curr != undefined || curr != "geral")
                 changePage();
+
+            $("input[type='number']:not(#Numero)").val("");
+
+            bindEvents();
         });
 
-        $(".candidatura-wrapper li").on("click", (ev) => {
-            window.location.hash = "/" + ev.currentTarget.getAttribute("data-id");
-        });
+        var bindEvents = () => {
+            $(".candidatura-wrapper li").on("click", (ev) => {
+                window.location.hash = "/" + ev.currentTarget.getAttribute("data-id");
+            });
 
-        $("#btn_next").on("click", (ev) => {
-            var curr = window.location.hash.split("#/")[1];
+            $("#btn_next").on("click", (ev) => {
+                var curr = window.location.hash.split("#/")[1];
 
-            if (curr == "" || curr == undefined || curr == "geral") {
-                window.location.hash = "/contactos"
-            }
-            else if (curr == "contactos") {
-                window.location.hash = "/documentacao"
-            }
-            else if (curr == "documentacao") {
-                window.location.hash = "/destino"
-                $("#btn_next").hide();
-                $("#btn_submit").show();
-            }
-        });
+                if (curr == "" || curr == undefined || curr == "geral") {
+                    window.location.hash = "/contactos"
+                }
+                else if (curr == "contactos") {
+                    window.location.hash = "/documentacao"
+                }
+                else if (curr == "documentacao") {
+                    window.location.hash = "/destino"
+                    $("#btn_next").hide();
+                    $("#btn_submit").show();
+                }
+            });
 
-        $("#btn_back").on("click", (ev) => {
-            var id = window.location.hash.split("#/")[1];
+            $("#btn_back").on("click", (ev) => {
+                var id = window.location.hash.split("#/")[1];
 
-            if (id == "geral" || id == undefined || id == "")
-                window.location = "/";
-            else 
-                window.history.back();
-        });
+                if (id == "geral" || id == undefined || id == "")
+                    window.location = "/";
+                else if (id == "contactos") {
+                    window.location.hash = "/geral"
+                }
+                else if (id == "documentacao") {
+                    window.location.hash = "/contactos"
+                }
+                else if (id == "destino") {
+                    window.location.hash = "/documentacao"
+                    $("#btn_next").show();
+                    $("#btn_submit").hide();
+                }
+            });
 
-        $(window).on("hashchange", (ev) => {
-            changePage();
-        });
+            $("#btn_submit").on("click", (ev) => {
+                $("#application-form").submit();
+            })
+
+            $(window).on("hashchange", (ev) => {
+                changePage();
+            });
+
+            $(".destino-form .listing td:not(:first-child)").on("click", (ev) => {
+                var elem = $(ev.currentTarget).parent().find("input[type='checkbox']");
+                var parent = $(ev.currentTarget).parent();
+
+                if (!canSelect(parent))
+                    return;
+
+                elem.prop("checked", !elem.prop("checked"));
+                parent.toggleClass("selected");
+            });
+
+            $(".destino-form .listing input[type='checkbox']").on("click", (ev) => {
+                var parent = ev.currentTarget.parentElement.parentElement;
+                var updateList = (val, add) => {
+                    $.ajax({
+                        url: "/Application/UpdateSelectedCurso",
+                        cache: false,
+                        type: "POST",
+                        data: { add: add, val: val }
+                    });
+                };
+
+                if (!canSelect(parent))
+                    return;
+
+                if (parent.classList.contains("selected")) {
+                    updateList(ev.currentTarget.getAttribute("data-id"), false);
+                    parent.removeClass("selected");
+                }
+                else {
+                    updateList(ev.currentTarget.getAttribute("data-id"), true);
+                    parent.addClass("selected");
+                }
+            });
+
+            $("#btn_upload").on("click", () => {
+                $("#CartaMotivacao").trigger("click")
+            });
+
+            $("#CartaMotivacao").on("change", (ev) => {
+                if ($(ev.currentTarget).val() == "")
+                    return;
+
+                var file = ev.currentTarget.value.split("\\fakepath\\")[1];
+
+                if (file.split(".")[1] != "pdf") {
+                    alert('invalid file');
+                    $("#file_name").val("");
+                    $(ev.currentTarget).val("");
+                }
+                else
+                    $("#file_name").val(ev.currentTarget.value.split("\\fakepath\\")[1]);
+            });
+
+            $("#btn_filter").on("click", () => {
+                var nome = $("#filter_nome").val();
+                var pais = $("#filter_pais").val();
+
+                if (nome == "" && pais == "")
+                    return;
+
+                var filters = "";
+                if (nome != "" && pais == "") {
+                    filters = "nome=" + nome;
+                }
+                else if (nome == "" && pais != "") {
+                    filters = "pais=" + pais;
+                }
+                else {
+                    filters = "nome=" + nome + "&pais=" + pais;
+                }
+
+                //var markup = "<tr><th></th><th>País</th><th>Escola</th><th>Curso</th></tr>";
+
+                //$.ajax({
+                //    url: "/Application/FilterDestino?" + filters,
+                //    cache: false,
+                //    type: "GET",
+                //    success: function (data) {
+                //        data.forEach(item => {
+                //            markup += "<tr><td><input type='checkbox' data-id='" + item.CursoID + "' /></td>" +
+                //                "<td>" + item.Pais.Descricao + "</td>" +
+                //                "<td>" + item.Nome + "</td>" +
+                //                "<td>" + item.Nome + "</td></tr>";
+                //        });
+
+                //        $(".table").html(markup);
+                //    },
+                //    error: function (reponse) {
+                //        console.log("error : " + reponse);
+                //    }
+                //});
+            })
+
+            $("#btn_submit_docs").on("click", () => {
+                $("#file_name").val("");
+            })
+
+            $("#CursoList").on("change", (ev) => {
+                ajaxPost("/Application/UpdateCurso", { val: ev.currentTarget.value })
+            });
+
+            $("#EscolaList").on("change", (ev) => {
+                $("#CursoList").html("<option value='0'> A carregar...</option>").show();
+
+                $.ajax({
+                    url: "/Application/GetCursosByEscola/" + ev.currentTarget.value,
+                    cache: false,
+                    type: "GET",
+                    success: function (data) {
+                        var markup = "<option value='0'>Escolha um opção</option>";
+
+                        data.forEach(item => {
+                            markup += "<option value=" + item.ipsCursoID + ">" + item.nome + "</option>";
+                        });
+
+                        $("#CursoList").html(markup);
+                    },
+                    error: function (reponse) {
+                        console.log("error : " + reponse);
+                    }
+                });
+
+                ajaxPost("/Application/UpdateEscola", { val: ev.currentTarget.value })
+            });
+
+            $("#ParentescoList").on("change", (ev) => {
+                ajaxPost("/Application/UpdateParentesco", { val: ev.currentTarget.value })
+            });
+        }
+
+        var ajaxPost = (url, val) => {
+            $.ajax({
+                url: url,
+                cache: false,
+                type: "POST",
+                data: JSON.stringify(val),
+                dataType: 'json',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+        }
 
         var changePage = () => {
             $("[role='tab']").hide();
-            $(".selected").removeClass("selected");
+            $(".active").removeClass("active");
             var id = window.location.hash.split("#/")[1];
 
             if (id == "destino") {
@@ -91,12 +256,23 @@
 
             if (id == undefined || id == "") {
                 $("#geral").show();
-                $("[data-id='geral']").addClass("selected");
+                $("[data-id='geral']").addClass("active");
             }
             else {
                 $("#" + id).show();
-                $("ul [data-id='" + id + "']").addClass("selected");
+                $("ul [data-id='" + id + "']").addClass("active");
             }
         };
+
+        var canSelect = (elem) => {
+            if (!elem.hasClass("selected")) {
+                if ($(".selected").length == 4) {
+                    alert("O máximo são 3 zeca")
+                    return false;
+                }
+            }
+
+            return true;
+        }
     </script>
 }

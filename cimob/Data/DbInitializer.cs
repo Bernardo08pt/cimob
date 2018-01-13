@@ -54,6 +54,18 @@ namespace cimob.Data
                 AddIpsEscolas(context);
                 context.SaveChanges();
             }
+
+            if (!context.IpsCursos.Any())
+            {
+                AddIpsCursosESTS(context);
+                context.SaveChanges();
+            }
+
+            if (!context.EstadosCandidatura.Any())
+            {
+                AddEstadosCandidatura(context);
+                context.SaveChanges();
+            }
         }
 
 
@@ -122,16 +134,16 @@ namespace cimob.Data
         private static List<IpsCurso> AddIpsCursosESTS(ApplicationDbContext context)
         {
             var cursos = new List<IpsCurso>{
-                new IpsCurso { Nome = "Engenharia Biomédica" },
-                new IpsCurso { Nome = "Engenharia de Automação, Controlo e Instrumentação" },
-                new IpsCurso { Nome = "Licenciatura em Engenharia do Ambiente" },
-                new IpsCurso { Nome = "Licenciatura em Engenharia Eletrotécnica e de Computadores" },
-                new IpsCurso { Nome = "Licenciatura em Engenharia Informática" },
-                new IpsCurso { Nome = "Licenciatura em Engenharia Mecânica" },
-                new IpsCurso { Nome = "Licenciatura em Tecnologia Biomédica" },
-                new IpsCurso { Nome = "Licenciatura em Tecnologias de Energia" },
-                new IpsCurso { Nome = "Licenciatura em Tecnologias do Ambiente e do Mar" },
-                new IpsCurso { Nome = "Licenciatura em Tecnologia e Gestão Industrial" }
+                new IpsCurso { Nome = "Engenharia Biomédica", IpsEscolaID = 1 },
+                new IpsCurso { Nome = "Engenharia de Automação, Controlo e Instrumentação", IpsEscolaID = 1 },
+                new IpsCurso { Nome = "Licenciatura em Engenharia do Ambiente", IpsEscolaID = 1 },
+                new IpsCurso { Nome = "Licenciatura em Engenharia Eletrotécnica e de Computadores", IpsEscolaID = 1 },
+                new IpsCurso { Nome = "Licenciatura em Engenharia Informática", IpsEscolaID = 1 },
+                new IpsCurso { Nome = "Licenciatura em Engenharia Mecânica", IpsEscolaID = 1 },
+                new IpsCurso { Nome = "Licenciatura em Tecnologia Biomédica", IpsEscolaID = 1 },
+                new IpsCurso { Nome = "Licenciatura em Tecnologias de Energia", IpsEscolaID = 1 },
+                new IpsCurso { Nome = "Licenciatura em Tecnologias do Ambiente e do Mar", IpsEscolaID = 1 },
+                new IpsCurso { Nome = "Licenciatura em Tecnologia e Gestão Industrial", IpsEscolaID = 1 }
             };
 
             foreach (IpsCurso c in cursos)
@@ -145,12 +157,12 @@ namespace cimob.Data
         private static List<IpsCurso> AddIpsCursosESTB(ApplicationDbContext context)
         {
             var cursos = new List<IpsCurso>{
-                new IpsCurso { Nome = "Bioinformática" },
-                new IpsCurso { Nome = "Biotecnologia" },
-                new IpsCurso { Nome = "Engenharia Civil" },
-                new IpsCurso { Nome = "Engenharia Química" },
-                new IpsCurso { Nome = "Gestão da Construção" },
-                new IpsCurso { Nome = "Tecnologias do Petróleo" }
+                new IpsCurso { Nome = "Bioinformática", IpsEscolaID = 2 },
+                new IpsCurso { Nome = "Biotecnologia", IpsEscolaID = 2 },
+                new IpsCurso { Nome = "Engenharia Civil", IpsEscolaID = 2 },
+                new IpsCurso { Nome = "Engenharia Química", IpsEscolaID = 2 },
+                new IpsCurso { Nome = "Gestão da Construção", IpsEscolaID = 2 },
+                new IpsCurso { Nome = "Tecnologias do Petróleo", IpsEscolaID = 2 }
             };
 
             foreach (IpsCurso c in cursos)
@@ -164,10 +176,10 @@ namespace cimob.Data
         private static List<IpsCurso> AddIpsCursosESS(ApplicationDbContext context)
         {
             var cursos = new List<IpsCurso>{
-                new IpsCurso { Nome = "Acupuntura" },
-                new IpsCurso { Nome = "Enfermagem" },
-                new IpsCurso { Nome = "Fisioterapia" },
-                new IpsCurso { Nome = "Terapia da Fala" }
+                new IpsCurso { Nome = "Acupuntura", IpsEscolaID = 3 },
+                new IpsCurso { Nome = "Enfermagem", IpsEscolaID = 3 },
+                new IpsCurso { Nome = "Fisioterapia", IpsEscolaID = 3 },
+                new IpsCurso { Nome = "Terapia da Fala", IpsEscolaID = 3 }
             };
 
             foreach (IpsCurso c in cursos)
@@ -181,12 +193,12 @@ namespace cimob.Data
         private static List<IpsCurso> AddIpsCursosESE(ApplicationDbContext context)
         {
             var cursos = new List<IpsCurso>{
-                new IpsCurso { Nome = "Animação e Intervenção Sociocultural" },
-                new IpsCurso { Nome = "Comunicação Social" },
-                new IpsCurso { Nome = "Desporto" },
-                new IpsCurso { Nome = "Educação Básica" },
-                new IpsCurso { Nome = "Tradução e Interpretação de Língua Gestual Portuguesa" },
-                new IpsCurso { Nome = "Língua Gestual Portuguesa" },
+                new IpsCurso { Nome = "Animação e Intervenção Sociocultural", IpsEscolaID = 4 },
+                new IpsCurso { Nome = "Comunicação Social", IpsEscolaID = 4 },
+                new IpsCurso { Nome = "Desporto", IpsEscolaID = 4 },
+                new IpsCurso { Nome = "Educação Básica", IpsEscolaID = 4 },
+                new IpsCurso { Nome = "Tradução e Interpretação de Língua Gestual Portuguesa", IpsEscolaID = 4 },
+                new IpsCurso { Nome = "Língua Gestual Portuguesa", IpsEscolaID = 4 },
             };
 
             foreach (IpsCurso c in cursos)
@@ -200,14 +212,14 @@ namespace cimob.Data
         private static List<IpsCurso> AddIpsCursosESCE(ApplicationDbContext context)
         {
             var cursos = new List<IpsCurso>{
-                new IpsCurso { Nome = "Contabilidade e Finanças" },
-                new IpsCurso { Nome = "Contabilidade e Finanças Noturno" },
-                new IpsCurso { Nome = "Gestão da Distribuição e da Logística" },
-                new IpsCurso { Nome = "Gestão da Distribuição e da Logística Pós-Laboral" },
-                new IpsCurso { Nome = "Gestão de Recursos Humanos" },
-                new IpsCurso { Nome = "Gestão de Recursos Humanos Pós-Laboral" },
-                new IpsCurso { Nome = "Gestão de Sistemas de Informação" },
-                new IpsCurso { Nome = "Marketing" }
+                new IpsCurso { Nome = "Contabilidade e Finanças", IpsEscolaID = 5 },
+                new IpsCurso { Nome = "Contabilidade e Finanças Noturno", IpsEscolaID = 5 },
+                new IpsCurso { Nome = "Gestão da Distribuição e da Logística", IpsEscolaID = 5 },
+                new IpsCurso { Nome = "Gestão da Distribuição e da Logística Pós-Laboral", IpsEscolaID = 5 },
+                new IpsCurso { Nome = "Gestão de Recursos Humanos", IpsEscolaID = 5 },
+                new IpsCurso { Nome = "Gestão de Recursos Humanos Pós-Laboral", IpsEscolaID = 5 },
+                new IpsCurso { Nome = "Gestão de Sistemas de Informação", IpsEscolaID = 5 },
+                new IpsCurso { Nome = "Marketing", IpsEscolaID = 5 }
             };
 
             foreach (IpsCurso c in cursos)
@@ -341,6 +353,19 @@ namespace cimob.Data
             {
                 context.Ajudas.Add(a);
             }
+        }
+
+        private static void AddEstadosCandidatura(ApplicationDbContext context)
+        {
+            context.EstadosCandidatura.Add(new EstadoCandidatura { Descricao = "Submitida" });
+            context.EstadosCandidatura.Add(new EstadoCandidatura { Descricao = "Enviar Documentação" });
+            context.EstadosCandidatura.Add(new EstadoCandidatura { Descricao = "Confirmar Documentação" });
+            context.EstadosCandidatura.Add(new EstadoCandidatura { Descricao = "Entrevista" });
+            context.EstadosCandidatura.Add(new EstadoCandidatura { Descricao = "Aceite" });
+            context.EstadosCandidatura.Add(new EstadoCandidatura { Descricao = "Recusada" });
+
+            //Gravar alterações
+            context.SaveChanges();
         }
     }
 }

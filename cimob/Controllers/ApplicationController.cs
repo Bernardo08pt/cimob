@@ -1,21 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Http;
 using cimob.Models;
 using cimob.Models.ApplicationViewModels;
 using cimob.Services;
 using cimob.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
+using cimob.Extensions;
 
 namespace cimob.Controllers
 {
@@ -46,15 +43,25 @@ namespace cimob.Controllers
         }
 
         // GET: Application
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
             return View(new ApplicationViewModel {
-                AjudasDictionary = GetAjudas(new List<string>(new string[] { "Application" })),
-                Escolas = GetEscolas(),
-                Escola = GetEscolasIPS(),
-                Curso = GetCursoIPS(),
-                Paises = GetPaises(),
-                Parentesco = GetParentesco()
+                AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Applications" }), _context),
+                EscolasList = GetEscolas(),
+                EscolaList = GetEscolasIPS(),
+                CursoList = new List<IpsCurso>(),
+                PaisesList = GetPaises(),
+                ParentescoList = GetParentesco(),
+                DataNascimento = user.DataNascimento,
+                Numero = user.Numero,
+                Nome = user.Nome,
+                Email = user.Email
             });
         }
 
@@ -64,93 +71,138 @@ namespace cimob.Controllers
             return View();
         }
 
-        // GET: Application/Create
-        public ActionResult Create()
+        // POST: Application
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Application(ApplicationViewModel model)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            if (ModelState.IsValid)
+            {
+                var result = _context.Candidaturas.AddAsync(new Candidatura
+                {
+                    AnoLetivo = model.Ano,
+                    ContactoPessoal = model.ContactoPessoal,
+                    DataNascimento = model.DataNascimento,
+                    EmailAlternativo = model.EmailAlternativo,
+                    EmegerenciaParentescoID = model.Parentesco,
+                    EmergenciaContacto = model.ContactoEmergencia,
+                    Entrevista = "",
+                    EstadoCandidaturaID = 1,
+                    Estagio = 1,
+                    IpsCursoID = model.Curso,
+                    Observacoes = "",
+                    Pontuacao = 0,
+                    RejeicaoRazao = "",
+                    Rejeitada = -1,
+                    Semestre = 1,
+                    TipoMobilidadeID = model.TipoMobilidade,
+                    UtilizadorID = user.Id
+                });
+
+                if (result.IsCompletedSuccessfully)
+                {
+                    _logger.LogInformation("User created a new application.");
+
+                    return RedirectToAction(nameof(ApplicationConfirmation));
+                }
+
+                HelperFunctionsExtensions.AddErrors(result.Exception.Data, ModelState);
+            }
+
+            // If we got this far, something failed, redisplay form
+            model.AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Application" }), _context);
+            model.EscolasList = GetEscolas();
+            model.EscolaList = GetEscolasIPS();
+            model.CursoList = new List<IpsCurso>();
+            model.PaisesList = GetPaises();
+            model.ParentescoList = GetParentesco();
+            model.DataNascimento = user.DataNascimento;
+            model.Numero = user.Numero;
+            model.Nome = user.Nome;
+            model.Email = user.Email;
+
+            return View(model);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ApplicationConfirmation()
         {
             return View();
         }
 
-        // POST: Application/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult UpdateSelectedCurso(ApplicationViewModel model, [FromBody] int value, [FromBody] bool add)
         {
-            try
-            {
-                // TODO: Add insert logic here
+            if (add)
+                model.SelectedCursos.Add(value);
+            else
+                model.SelectedCursos.Remove(value);
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return StatusCode(200);
         }
 
-        // GET: Application/Edit/5
-        public ActionResult Edit(int id)
+        // GET: Application/GetCursosByEscola/1
+        [HttpGet]
+        public ActionResult GetCursosByEscola(int id, IFormCollection collection)
         {
-            return View();
+            return Json(_context.IpsCursos.Where(c => c.IpsEscolaID == id).ToList());
         }
 
-        // POST: Application/Edit/5
+        // GET: Application/FilterDestino?nome=ze&pais=alemanha
+        [HttpGet]
+        public ActionResult FilterDestino(int id, IFormCollection collection)
+        {
+            return Json(_context.Escolas.AsEnumerable().Where((e) => {
+                var nome = HttpContext.Request.Query["nome"];
+                var pais = HttpContext.Request.Query["pais"];
+                
+                if (nome != "" && pais == "")
+                    return e.Nome.Contains(nome);
+
+
+                if (nome == "" && pais != "")
+                    return e.PaisID == pais;
+                
+                return e.Nome.Contains(nome) && e.PaisID == pais;
+            }).ToList());
+        }
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult UpdateCurso (ApplicationViewModel model, [FromBody] int value)
         {
-            try
-            {
-                // TODO: Add update logic here
+            model.Curso = value;
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return StatusCode(200);
         }
 
-        // GET: Application/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Application/Delete/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult UpdateEscola(ApplicationViewModel model, [FromBody] int value)
         {
-            try
-            {
-                // TODO: Add delete logic here
+            model.Escola = value;
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return StatusCode(200);
         }
 
-        private IDictionary<string, Ajuda> GetAjudas(List<string> campos)
+        [HttpPost]
+        public ActionResult UpdateParentesco(ApplicationViewModel model, [FromBody] int value)
         {
-            var ajudasContext = _context.Ajudas;
-            var ajudas = from a in ajudasContext select a;
-            ajudas = ajudas.Where(a => campos.Contains(a.Pagina));
+            model.Parentesco = value;
 
-            IDictionary<string, Ajuda> ajudasDictionary = new Dictionary<string, Ajuda>();
-            foreach (Ajuda a in ajudas)
-            {
-                ajudasDictionary[a.Nome] = a;
-            }
-
-            return ajudasDictionary;
+            return StatusCode(200);
         }
 
+
+        /** HELPER FUNCTIONS **/
         private List<Escola> GetEscolas()
         {
-            return _context.Escolas.ToList();
+            return _context.Escolas.Include(e => e.Cursos).ToList();
         }
 
         private List<IpsEscola> GetEscolasIPS()
@@ -171,6 +223,15 @@ namespace cimob.Controllers
         private List<Parentesco> GetParentesco()
         {
             return _context.Parentescos.ToList();
+        }
+
+        private List<CandidaturaCursos> GetCursosCandidatura(ApplicationViewModel model)
+        {
+            var tmp = new List<CandidaturaCursos>();
+
+            model.SelectedCursos.ForEach(c => tmp.Add(new CandidaturaCursos { CursoID = c }));
+
+            return tmp;
         }
     }
 }

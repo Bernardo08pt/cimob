@@ -2,13 +2,12 @@
 
 <div class="destino-form">
     <div class="panel">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="row form-group has-feedback has-feedback-left">
             <div class="col-md-3 col-md-offset-1">
                 <label>Nome</label>
             </div>
             <div class="input-group col-md-4">
-                <input name="Nome" class="form-control" placeholder="Nome" />
+                <input name="Nome" id="filter_nome" class="form-control" placeholder="Nome" />
                 <i class="glyphicon glyphicon-user form-control-feedback"></i>
                 <div class="input-group-btn">
                     <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Nome"].Titulo" data-content="@Model.AjudasDictionary["Nome"].Corpo">
@@ -16,16 +15,16 @@
                     </button>
                 </div>
             </div>
+            <div class="col-md-3"></div>
         </div>
 
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="row form-group has-feedback has-feedback-left">
             <div class="col-md-3 col-md-offset-1">
                 <label>País</label>
             </div>
             <div class="col-md-4 no-padding-margin">
                 <div class="input-group">
-                    @Html.DropDownListFor(p => Model.Paises, new SelectList(Model.Paises, "PaisID", "Descricao"), "Escolha uma opção", new { @class = "form-control" })
+                    @Html.DropDownListFor(p => Model.PaisesList, new SelectList(Model.PaisesList, "PaisID", "Descricao"), "Escolha uma opção", new { @class = "form-control", @id = "filter_pais" })
                     <i class="glyphicon glyphicon-user form-control-feedback"></i>
                     <div class="input-group-btn">
                         <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Pais"].Titulo" data-content="@Model.AjudasDictionary["Pais"].Corpo">
@@ -35,15 +34,16 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <Button class="btn-search">
+                <div class="button-no-arrow" id="btn_filter">
                     <i class="glyphicon glyphicon-search"></i>
                     <span>Pesquisar</span>
-                </Button>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="listing">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <table class="table" border="1">
             <tr>
                 <th></th>
@@ -51,27 +51,29 @@
                 <th>Escola</th>
                 <th>Curso</th>
             </tr>
-           
-            @foreach (var item in Model.Escolas)
-            {
-                @foreach (var curr in item.Cursos)
-                { 
-                    <tr>
-                        <td>
-                            <input type="checkbox" data-id="@curr.CursoID" />
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Pais)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Nome)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => curr.Nome)
-                        </td>
-                    </tr>
-                }
-            }
+
+            @foreach (var item in Model.EscolasList)
+        {
+            @foreach (var curr in item.Cursos)
+        {
+            <tr>
+                <td>
+                    <input type="checkbox" data-id="@curr.CursoID" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Pais.Descricao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => curr.Nome)
+                </td>
+            </tr>
+    }
+    }
         </table>
+        <span asp-validation-for="SelectedCursos" class="text-danger"></span>
+
     </div>
 </div>
