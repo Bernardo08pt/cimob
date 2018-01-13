@@ -16,6 +16,15 @@
     <img src="~/images/home/9.svg">
 </div>
 
+<!--TODO: POR O ALERT NO INICIO DA PÁGINA-->
+@if (ViewBag.ShowAlert)
+{
+    <div class="alert alert-success alert-dismissable fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        A sua palavra passe foi alterada com sucesso !
+    </div>
+}
+
 <div class="button-wrapper">
     <!--No lado do candidato nos editais vai para página que com uma lista de editais-->
     <a href="/Editais" class="button">Editais</a>

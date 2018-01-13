@@ -470,6 +470,17 @@ namespace cimob.Controllers
         [HttpGet]
         public IActionResult Profile()
         {
+            //Acedemos a flag passada no EditProfile
+            var alert = TempData["ShowAlert"];
+
+            if (alert != null) //Caso nao seja null, passo a variavel por View Bag e mostro o alert na página Área Pessoal
+            {
+                ViewBag.ShowAlert = alert;
+            }
+            else //Caso tenha clicado no botão voltar, envia-se a false para não dar um erro
+            { 
+                ViewBag.ShowAlert = false;
+            }
 
             return View();
         }
@@ -521,7 +532,11 @@ namespace cimob.Controllers
                 }
             }
 
-            return View(model);
+            //Passa-se uma flag para mostrar o alert para a action Profile
+            TempData["ShowAlert"] = true;
+
+            //Depois de submeter a alteração da password volta para a página Área Pessoal
+            return RedirectToAction(nameof(Profile));
         }
 
         #region Helpers
