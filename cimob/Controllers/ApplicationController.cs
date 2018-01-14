@@ -52,7 +52,7 @@ namespace cimob.Controllers
             }
 
             return View(new ApplicationViewModel {
-                AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Applications" }), _context),
+                AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Application" }), _context),
                 EscolasList = GetEscolas(),
                 EscolaList = GetEscolasIPS(),
                 CursoList = new List<IpsCurso>(),

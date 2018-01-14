@@ -340,7 +340,9 @@ namespace cimob.Data
                new Ajuda{Pagina = "Application", Nome="CartaMotivacao", Titulo="Carta de Motivação", Corpo="<p>Carta de motivação da candidatura, em inglês e em format PDF.</p>"},
 
                //inserção de editais 
+               new Ajuda{Pagina = "Editais", Nome="NomeEdital", Titulo="Nome do edital", Corpo="<p>O nome do edital que vai submeter.</p>"},
                new Ajuda{Pagina = "Editais", Nome="CarregarEdital", Titulo="Carregar edital", Corpo="<p>O ficheiro tem de ser em formato PDF.</p>"},
+               new Ajuda{Pagina = "Editais", Nome="SelecionarPrograma", Titulo="Selecionar Programa", Corpo="<p>Selecione o programa a que se refere o edital.</p>"},
 
                //avaliação da candidatura 
                new Ajuda{Pagina = "VisualizarCandidatura", Nome="Pontuacao", Titulo="Pontuação", Corpo="<p>Pontuação que quer dar à candidatura submetida</p>"},

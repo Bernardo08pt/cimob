@@ -18,6 +18,9 @@ namespace cimob.Data
         public DbSet<Candidatura> Candidaturas { get; set; }
         public DbSet<Documento> Documentos { get; set; }
 
+        public DbSet<Edital> Editais { get; set; }
+
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

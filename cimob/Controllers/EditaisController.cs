@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using cimob.Data;
+using cimob.Extensions;
 using cimob.Models;
 using cimob.Models.ApplicationViewModels;
 using cimob.Services;
@@ -40,24 +41,38 @@ namespace cimob.Controllers
         public IActionResult Index()
         {
             return View(new EditaisViewModel {
-                AjudasDictionary = GetAjudas(new List<string>(new string[] { "Editais" })),
+                AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Editais" }), _context),
+                TipoMobilidadeList = GetTiposMobilidade()
             });
         }
 
-        //Método para obter as ajudas da BD
-        private IDictionary<string, Ajuda> GetAjudas(List<string> campos)
+        //Método para obter os tipos de mobilidade existentes na bd para mostrar no dropdown list da inserção dos editais
+        private List<TipoMobilidade> GetTiposMobilidade()
         {
-            var ajudasContext = _context.Ajudas;
-            var ajudas = from a in ajudasContext select a;
-            ajudas = ajudas.Where(a => campos.Contains(a.Pagina));
+            var tiposMobilidade = from p in _context.TiposMobilidade where p.Estagio == 0 select p;
+            return tiposMobilidade.ToList();
+        }
 
-            IDictionary<string, Ajuda> ajudasDictionary = new Dictionary<string, Ajuda>();
-            foreach (Ajuda a in ajudas)
+
+        // POST: Edital
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult InsertEdital(EditaisViewModel model)
+        {
+
+            if (ModelState.IsValid)
             {
-                ajudasDictionary[a.Nome] = a;
-            }
+                var result = _context.Editais.Add(new Edital
+                {
+                    Nome = model.Nome,
+                    Caminho = model.CarregarEdital.ToString(),
+                    TipoMobilidade = model.TipoMobilidadeList.ElementAt(0),
+                    DataLimite = model.DataLimite
+                });
+            } 
+            
 
-            return ajudasDictionary;
+            return View(model);
         }
 
     }

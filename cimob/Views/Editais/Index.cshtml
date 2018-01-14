@@ -5,17 +5,39 @@
     Layout = "/Views/Shared/_LayoutWhite.cshtml";
 }
 <!--VIEW DOS EDITAIS-->
-<div class="teste">
+<div class="documents-form panel clearfix">
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="row form-group has-feedback has-feedback-left">
+        <div class="col-md-3 col-md-offset-1">
+            <label asp-for="Nome"></label>
+        </div>
+        <div class="input-group col-md-5">
+
+            <input type="text" class="form-control" placeholder="Nome do edital" />
+            <i class="glyphicon glyphicon-file form-control-feedback"></i>
+            <!--<div class="input-group-btn">
+                <button class="btn btn-info bottom-right pop" type="button"
+                        data-title="Model.AjudasDictionary["NomeEdital"].Titulo"
+                        data-content="Model.AjudasDictionary["NomeEdital"].Corpo">
+                    <span class="glyphicon glyphicon-question-sign"></span>
+                </button>
+            </div>-->
+        </div>
+        <span asp-validation-for="Nome" class="text-danger"></span>
+    </div>
+
     <div class="row form-group has-feedback has-feedback-left">
         <div class="col-md-3 col-md-offset-1">
             <label asp-for="CarregarEdital"></label>
         </div>
         <div class="input-group col-md-5">
-            <input asp-for="CarregarEdital" class="form-control" placeholder="File: ficheiro.pdf" />
+            <input asp-for="CarregarEdital" class="hidden" accept="application/pdf" />
+            <input type="text" class="form-control" id="file_name" placeholder="ficheiro.pdf" />
             <i class="glyphicon glyphicon-file form-control-feedback"></i>
             <div class="input-group-btn">
                 <button class="btn btn-info bottom-right pop" type="button"
-                        
                         data-title="@Model.AjudasDictionary["CarregarEdital"].Titulo"
                         data-content="@Model.AjudasDictionary["CarregarEdital"].Corpo">
                     <span class="glyphicon glyphicon-question-sign"></span>
@@ -23,15 +45,36 @@
             </div>
         </div>
         <span asp-validation-for="CarregarEdital" class="text-danger"></span>
+        <div class="col-md-3">
+            <div class="button-no-arrow" id="btn_upload">
+                <i class="glyphicon glyphicon-plus"></i>
+                <span>Carregar</span>
+            </div>
+        </div>
     </div>
+
     <p style="color:red">Nota: Ficheiros suportados .pdf</p>
 
-    <label>Programa de mobilidade: </label>
-    <select>
-        <!--TODOOOOOOO: PENSAR COMO FAZER ISTO-->
+
+    <div class="row form-group has-feedback has-feedback-left">
+        <div class="col-md-3 col-md-offset-1">
+            <label asp-for="ProgramaMobilidade"></label>
+        </div>
+        <div class="input-group col-md-5">
+            @Html.DropDownListFor(p => Model.TipoMobilidadeList, new SelectList(Model.TipoMobilidadeList, "TipoMobilidadeID", "Descricao"), "Escolha uma opção")
+            
+            <!--<div class="input-group-btn">
+        <button class="btn btn-info bottom-right pop" type="button"
+                data-title="Model.AjudasDictionary["SelecionarPrograma"].Titulo"
+                data-content="Model.AjudasDictionary["SelecionarPrograma"].Corpo">
+            <span class="glyphicon glyphicon-question-sign"></span>
+        </button>
+    </div>-->
+        </div>
+        <span asp-validation-for="ProgramaMobilidade" class="text-danger"></span>
+    </div>
 
 
-    </select>
     <div class="row form-group has-feedback has-feedback-left">
         <div class="col-md-3 col-md-offset-1">
             <label asp-for="DataLimite"></label>
@@ -43,8 +86,47 @@
         <span asp-validation-for="DataLimite" class="text-danger"></span>
     </div>
 
+    <!--Falta por a parte de guardar o ficheiro na bd  e mostrar na tabela abaixo-->
     <button type="submit" class="button btn btn-default">Submeter documentos</button>
 
-    <!--<a class="back-button">Voltar</a>-->
 </div>
 
+    <div class="listing">
+        <table class="table" border="1">
+            <tr>
+                <th>Edital</th>
+                <th>Data Limite</th>
+                <th>Programa Mobilidade</th>
+                <th>Estado</th>
+            </tr>
+            <tr>
+                <td>Edital 1</td>
+                <td>12/11/2016</td>
+                <td>+Erasmus</td>
+                <td>x</td>
+            </tr>
+        </table>
+    </div>
+
+
+
+
+    <a asp-controller="Home" asp-action="Index" class="back-button">Voltar</a>
+
+    <!-- Para verificar o ficheiro submetido
+    <script>
+        $("#carregarEdital").on("change", (ev) => {
+            if ($(ev.currentTarget).val() == "")
+                return;
+
+            var file = ev.currentTarge.value.split("\\fakepath\\")[1];
+
+            if (file.split(".")[1] != "pdf") {
+                alert('invalid file');
+                $("#file_name").val("");
+                $(ev.currentTarget).val("");
+            } else {
+                $("#file_name").val(ev.currentTarget.value.split("\\fakepath")[1]);
+            }
+        });
+    </script>-->

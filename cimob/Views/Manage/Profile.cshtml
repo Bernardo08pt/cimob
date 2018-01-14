@@ -3,7 +3,15 @@
     ViewData["Title"] = "Área Pessoal";
     Layout = "~/Views/Shared/_LayoutWhite.cshtml";
 }
-<!--TODO: FALTA APARECER UM POP UP OU ALGO DO GENERO A MOSTRAR QUE A PALAVRA PASSE FOI ALTERADA COM SUCESSO-->
+
+<!--Alert da alteração da password-->
+@if (ViewBag.ShowAlert)
+{
+    <div class="alert alert-success alert-dismissable fade in" style="margin: 0 21% 0 21%">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        A sua palavra passe foi alterada com sucesso !
+    </div>
+}
 <div class="header">
     <img src="~/images/home/1.svg">
     <img src="~/images/home/2.svg">
@@ -16,19 +24,23 @@
     <img src="~/images/home/9.svg">
 </div>
 
-<!--TODO: POR O ALERT NO INICIO DA PÁGINA-->
-@if (ViewBag.ShowAlert)
+
+@if (ViewBag.CandidaturaSubmetida != null)
 {
-    <div class="alert alert-success alert-dismissable fade in">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        A sua palavra passe foi alterada com sucesso !
-    </div>
-}
-
 <div class="button-wrapper">
-    <!--No lado do candidato nos editais vai para página que com uma lista de editais-->
-    <a href="/Editais" class="button">Editais</a>
-    <a href="/Application" class="button">Candidaturas</a>
-
+    <!--TODO: METER A IR PARA AS PÁGINAS CERTAS -->
+    <a href="#" class="button">Estado da Candidatura</a>
+    <a href="#" class="button">Documentos da Candidatura</a>
 </div>
 
+}
+else
+{
+    <!--Caso não esteja candidatado-->
+    <div class="button-wrapper">
+        <!--Vai para a página com a tabela de editais-->
+        <a href="#" class="button">Editais</a>
+        <!--Vai para a página da candidatura-->
+        <a asp-controller="ProgramasMobilidade" asp-action="Index" class="button">Candidaturas</a>
+    </div>
+}
