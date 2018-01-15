@@ -59,6 +59,7 @@ namespace cimob.Controllers
             {
                 var optionSelected = from p in _context.TiposMobilidade where p.TipoMobilidadeID == model.ProgramaMobilidadeID select p;
 
+                //Criar o edital com as informações que o utilizador inseriu na página
                 Edital e = new Edital
                 {
                     Nome = model.Nome,
@@ -68,18 +69,22 @@ namespace cimob.Controllers
                     Estado = 0
                 };
 
-
+                //Obter um edital que tenha o mesmo nome que o inserido no model
                 var result = from edital in _context.Editais where edital.Nome == e.Nome select edital;
 
                 //Obter todos os utilizadores, convêm ser é os que são só candidatos
                 var allUsers = from utilizador in _context.Users select utilizador;
+
+                //Se não houver nenhum com o mesmo nome é porque esse edital ainda não existe na BD
                 if (!result.Any())
                 {
                     _context.Editais.Add(e);
                     _context.SaveChanges();
-                    /*foreach (var u in allUsers)
+                    
+                    //email a notificar todos os utilizadores que um edital foi publicado
+                    foreach (var u in allUsers)
                     {
-                        //Envio de email
+                        //Envio do email
                         await _emailSender.SendEmailAsync(u.Email, "Edital Publicado",
                         "<p><span style='font-size: 18px;'>Caro(a) " + u.Nome + ",<strong> </strong></span></p>" +
                         "<p><span style='font-size: 18px;'>Gostaríamos de informar que foi publicado o edital referente a " + e.TipoMobilidade.Descricao+ ".</span></p>" +
@@ -87,14 +92,14 @@ namespace cimob.Controllers
                         "<p><span style = 'font-size: 18px;'> Melhores cumprimentos Equipa CIMOB - IPS </span></p>" +
                         "<p><span style = 'font-size: 14px;'> Nota: este e-mail foi gerado automaticamente, pelo que n&atilde;o deve responder pois quaisquer respostas n&atilde;o ser&atilde;o vistas.</span></p>" +
                          "<span style = 'font-size: 12px;'> &nbsp;</span></p>");
-                    }*/
+                    }
 
-                    //Serve para mostrar o alert de sucesso
+                    //Serve para mostrar o alert de sucesso/insucesso
                     ViewBag.IsSucceded = true;
                 }
                 else
                 {
-                    //Serve para mostrar o alert de sucesso
+                    //Serve para mostrar o alert de sucesso/insucesso
                     ViewBag.IsSucceded = false;
                 }
             }
@@ -107,6 +112,7 @@ namespace cimob.Controllers
         }
 
         //Método para obter os tipos de mobilidade existentes na bd para mostrar no dropdown list da inserção dos editais
+        [HttpGet]
         private List<TipoMobilidade> GetTiposMobilidade()
         {
             var tiposMobilidade = from p in _context.TiposMobilidade where p.Estagio == 0 select p;
@@ -118,6 +124,7 @@ namespace cimob.Controllers
         private List<Edital> GetEditais()
         {
             var tipoEdital = from edital in _context.Editais select edital;
+           
             //se a data tiver expirado altera-se o valor do estado para 1
             foreach (var editalAux in tipoEdital)
             {
@@ -126,15 +133,15 @@ namespace cimob.Controllers
                     editalAux.Estado = 1;
                 }
             }
-            //Se não houver editais na BD envia-se uma lista vazia para não dar erro
+            
             if(tipoEdital != null)
             {
-
                 return tipoEdital.ToList();
             }
+
+            //Se não houver editais na BD envia-se uma lista vazia para não dar erro
             return new List<Edital>();
         }
-
 
     }
 }
