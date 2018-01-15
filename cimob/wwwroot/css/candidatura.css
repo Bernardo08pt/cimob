@@ -352,13 +352,12 @@ select.form-control{
 
 
 /*PROGRAMAS DE MOBILIDADE*/
-
-.row {
+/*.row {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
-}
+}*/
 
 .program-button {
     background-color: blue;
@@ -412,4 +411,5 @@ select.form-control{
     color: white;
     margin: 20px;
 }
+
     
