@@ -2,83 +2,104 @@
 
 <div class="contacts-form form">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input asp-for="Parentesco" class="hidden" />
     <div class="row form-group has-feedback has-feedback-left">
-        <div class="col-md-3 col-md-offset-1">
-            <label asp-for="Email"></label>
-        </div>
-        <div class="input-group col-md-7">
-            <input asp-for="Email" class="form-control" placeholder="Email" />
-            <i class="glyphicon glyphicon-user form-control-feedback"></i>
-            <div class="input-group-btn">
-                <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Email"].Titulo" data-content="@Model.AjudasDictionary["Email"].Corpo">
-                    <span class="glyphicon glyphicon-question-sign"></span>
-                </button>
+        <div class="col-md-12">
+            <div class="col-md-4 col-md-offset-1">
+                <label asp-for="Email"></label>
+            </div>
+            <div class="input-group col-md-6">
+                <input asp-for="Email" class="form-control" placeholder="Email" />
+                <i class="glyphicon glyphicon-user form-control-feedback"></i>
+                <div class="input-group-btn">
+                    <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Email"].Titulo" data-content="@Model.AjudasDictionary["Email"].Corpo">
+                        <span class="glyphicon glyphicon-question-sign"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-6 col-md-offset-5">
+                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
         </div>
-        <span asp-validation-for="Email" class="text-danger"></span>
     </div>
 
     <div class="form-group row has-feedback has-feedback-left">
-        <div class="col-md-3 col-md-offset-1">
-            <label asp-for="EmailAlternativo"></label>
-        </div>
-        <div class="input-group col-md-7">
-            <input asp-for="EmailAlternativo" class="form-control" placeholder="Email Alternativo" />
-            <i class="glyphicon glyphicon-user form-control-feedback"></i>
-            <div class="input-group-btn">
-                <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["EmailAlternativo"].Titulo" data-content="@Model.AjudasDictionary["EmailAlternativo"].Corpo">
-                    <span class="glyphicon glyphicon-question-sign"></span>
-                </button>
+        <div class="col-md-12">
+            <div class="col-md-4 col-md-offset-1">
+                <label asp-for="EmailAlternativo"></label>
+            </div>
+            <div class="input-group col-md-6">
+                <input asp-for="EmailAlternativo" class="form-control" placeholder="Email Alternativo" />
+                <i class="glyphicon glyphicon-user form-control-feedback"></i>
+                <div class="input-group-btn">
+                    <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["EmailAlternativo"].Titulo" data-content="@Model.AjudasDictionary["EmailAlternativo"].Corpo">
+                        <span class="glyphicon glyphicon-question-sign"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-6 col-md-offset-5">
+                <span asp-validation-for="EmailAlternativo" class="text-danger"></span>
             </div>
         </div>
-        <span asp-validation-for="EmailAlternativo" class="text-danger"></span>
     </div>
 
     <div class="row form-group has-feedback has-feedback-left">
-        <div class="col-md-3 col-md-offset-1">
-            <label asp-for="ContactoPessoal"></label>
-        </div>
-        <div class="input-group col-md-7">
-            <input asp-for="ContactoPessoal" class="form-control" placeholder="Contacto pessoal" />
-            <i class="glyphicon glyphicon-user form-control-feedback"></i>
-            <div class="input-group-btn">
-                <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["ContactoPessoal"].Titulo" data-content="@Model.AjudasDictionary["ContactoPessoal"].Corpo">
-                    <span class="glyphicon glyphicon-question-sign"></span>
-                </button>
+        <div class="col-md-12">
+            <div class="col-md-4 col-md-offset-1">
+                <label asp-for="ContactoPessoal"></label>
+            </div>
+            <div class="input-group col-md-6">
+                <input asp-for="ContactoPessoal" class="form-control" placeholder="Contacto pessoal" />
+                <i class="glyphicon glyphicon-user form-control-feedback"></i>
+                <div class="input-group-btn">
+                    <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["ContactoPessoal"].Titulo" data-content="@Model.AjudasDictionary["ContactoPessoal"].Corpo">
+                        <span class="glyphicon glyphicon-question-sign"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-6 col-md-offset-5">
+                <span asp-validation-for="ContactoPessoal" class="text-danger"></span>
             </div>
         </div>
-        <span asp-validation-for="ContactoPessoal" class="text-danger"></span>
     </div>
 
     <div class="row form-group has-feedback has-feedback-left">
-        <div class="col-md-3 col-md-offset-1">
-            <label asp-for="ContactoEmergencia"></label>
-        </div>
-        <div class="input-group col-md-7">
-            <input asp-for="ContactoEmergencia" class="form-control" placeholder="Contacto de Emergência" />
-            <i class="glyphicon glyphicon-user form-control-feedback"></i>
-            <div class="input-group-btn">
-                <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["ContactoEmergencia"].Titulo" data-content="@Model.AjudasDictionary["ContactoEmergencia"].Corpo">
-                    <span class="glyphicon glyphicon-question-sign"></span>
-                </button>
+        <div class="col-md-12">
+            <div class="col-md-4 col-md-offset-1">
+                <label asp-for="ContactoEmergencia"></label>
+            </div>
+            <div class="input-group col-md-6">
+                <input asp-for="ContactoEmergencia" class="form-control" placeholder="Contacto de Emergência" />
+                <i class="glyphicon glyphicon-user form-control-feedback"></i>
+                <div class="input-group-btn">
+                    <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["ContactoEmergencia"].Titulo" data-content="@Model.AjudasDictionary["ContactoEmergencia"].Corpo">
+                        <span class="glyphicon glyphicon-question-sign"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-6 col-md-offset-5">
+                <span asp-validation-for="ContactoEmergencia" class="text-danger"></span>
             </div>
         </div>
-        <span asp-validation-for="ContactoEmergencia" class="text-danger"></span>
     </div>
 
     <div class="row form-group has-feedback has-feedback-left">
-        <div class="col-md-3 col-md-offset-1">
-            <label asp-for="Parentesco"></label>
-        </div>
-        <div class="input-group col-md-7">
-            @Html.DropDownListFor(p => Model.ParentescoList, new SelectList(Model.ParentescoList, "ParentescoID", "Descricao"), "Escolha uma opção", new { @class = "form-control" })
-            <i class="glyphicon glyphicon-user form-control-feedback"></i>
-            <div class="input-group-btn">
-                <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Parentesco"].Titulo" data-content="@Model.AjudasDictionary["Parentesco"].Corpo">
-                    <span class="glyphicon glyphicon-question-sign"></span>
-                </button>
+        <div class="col-md-12">
+            <div class="col-md-4 col-md-offset-1">
+                <label asp-for="Parentesco"></label>
+            </div>
+            <div class="input-group col-md-6">
+                @Html.DropDownListFor(p => Model.ParentescoList, new SelectList(Model.ParentescoList, "ParentescoID", "Descricao"), "Escolha uma opção", new { @class = "form-control" })
+                <i class="glyphicon glyphicon-user form-control-feedback"></i>
+                <div class="input-group-btn">
+                    <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Parentesco"].Titulo" data-content="@Model.AjudasDictionary["Parentesco"].Corpo">
+                        <span class="glyphicon glyphicon-question-sign"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-6 col-md-offset-5">
+                <span asp-validation-for="Parentesco" class="text-danger"></span>
             </div>
         </div>
-        <span asp-validation-for="Parentesco" class="text-danger"></span>
     </div>
 </div>

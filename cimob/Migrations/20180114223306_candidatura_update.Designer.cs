@@ -11,9 +11,10 @@ using System;
 namespace cimob.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180114223306_candidatura_update")]
+    partial class candidatura_update
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -212,8 +213,6 @@ namespace cimob.Migrations
                     b.Property<int>("DocumentoID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("DataUpload");
-
                     b.Property<string>("FicheiroCaminho");
 
                     b.Property<string>("FicheiroNome");
@@ -223,28 +222,6 @@ namespace cimob.Migrations
                     b.HasKey("DocumentoID");
 
                     b.ToTable("Documentos");
-                });
-
-            modelBuilder.Entity("cimob.Models.Edital", b =>
-                {
-                    b.Property<int>("EditalID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Caminho");
-
-                    b.Property<DateTime>("DataLimite");
-
-                    b.Property<int>("Estado");
-
-                    b.Property<string>("Nome");
-
-                    b.Property<int?>("TipoMobilidadeID");
-
-                    b.HasKey("EditalID");
-
-                    b.HasIndex("TipoMobilidadeID");
-
-                    b.ToTable("Editais");
                 });
 
             modelBuilder.Entity("cimob.Models.Escola", b =>
@@ -521,13 +498,6 @@ namespace cimob.Migrations
                         .WithMany()
                         .HasForeignKey("PaisID")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("cimob.Models.Edital", b =>
-                {
-                    b.HasOne("cimob.Models.TipoMobilidade", "TipoMobilidade")
-                        .WithMany()
-                        .HasForeignKey("TipoMobilidadeID");
                 });
 
             modelBuilder.Entity("cimob.Models.Escola", b =>

@@ -114,7 +114,6 @@ namespace cimob.Controllers
 
             // If we got this far, something failed, redisplay form
             
-
             return View(model);
         }
 
@@ -129,13 +128,10 @@ namespace cimob.Controllers
         [AllowAnonymous]
         public IActionResult Register()
         {
-            //// Get page help
-            RegisterViewModel model = new RegisterViewModel
-            {
-                AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Registo" }), _context)
-            };
-            model.DataNascimento=DateTime.Today;
-            return View(model);
+            return View(new RegisterViewModel {
+                AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Registo" }), _context),
+                DataNascimento = DateTime.Today
+            });
         }
 
         [HttpPost]
@@ -164,6 +160,7 @@ namespace cimob.Controllers
                     _logger.LogInformation("User created a new account with password.");
                     return RedirectToAction(nameof(RegisterConfirmation));
                 }
+
                 HelperFunctionsExtensions.AddErrors(result, ModelState);
             }
 

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model ApplicationViewModel;
+@{
     ViewData["Title"] = "Candidatura";
     Layout = "~/Views/Shared/_LayoutWhite.cshtml";
 }
@@ -42,8 +43,6 @@
 
             if (curr != undefined || curr != "geral")
                 changePage();
-
-            $("input[type='number']:not(#Numero)").val("");
 
             bindEvents();
         });
@@ -97,38 +96,50 @@
 
             $(".destino-form .listing td:not(:first-child)").on("click", (ev) => {
                 var elem = $(ev.currentTarget).parent().find("input[type='checkbox']");
-                var parent = $(ev.currentTarget).parent();
-
-                if (!canSelect(parent))
-                    return;
 
                 elem.prop("checked", !elem.prop("checked"));
-                parent.toggleClass("selected");
+                elem.trigger("change");
             });
 
-            $(".destino-form .listing input[type='checkbox']").on("click", (ev) => {
+            $(".destino-form .listing input[type='checkbox']").on("change", (ev) => {
                 var parent = ev.currentTarget.parentElement.parentElement;
-                var updateList = (val, add) => {
-                    $.ajax({
-                        url: "/Application/UpdateSelectedCurso",
-                        cache: false,
-                        type: "POST",
-                        data: { add: add, val: val }
-                    });
-                };
+                var isSelecting = !parent.classList.contains("selected");
 
-                if (!canSelect(parent))
+                if (isSelecting && !canSelect(parent)) {
+                    ev.currentTarget.checked = false
                     return;
+                }
 
-                if (parent.classList.contains("selected")) {
-                    updateList(ev.currentTarget.getAttribute("data-id"), false);
-                    parent.removeClass("selected");
+                var tmp = $("#SelectedCursos");
+                var val = tmp.val()
+                var id = ev.currentTarget.getAttribute("data-id")
+
+                if (isSelecting) {
+                    parent.classList.add("selected");
+
+                    if (val != "")
+                        tmp.val(val + ", " + id);
+                    else
+                        tmp.val(id);
                 }
                 else {
-                    updateList(ev.currentTarget.getAttribute("data-id"), true);
-                    parent.addClass("selected");
+                    parent.classList.remove("selected");
+
+                    tmp2 = val.split(",");
+                    val = "";
+                    tmp2.forEach((item, index) => {
+                        if (parseInt(id) != parseInt(item)) {
+                            val += item;
+
+                            if (index < tmp2.length - 1)
+                                val += ","
+                        }
+                    });
+
+                    tmp.val(val);
                 }
             });
+
 
             $("#btn_upload").on("click", () => {
                 $("#CartaMotivacao").trigger("click")
@@ -190,22 +201,66 @@
             })
 
             $("#btn_submit_docs").on("click", () => {
-                $("#file_name").val("");
+                var data = new FormData();
+
+                data.append("file", $("#CartaMotivacao").get(0).files[0]);
+
+                $.ajax({
+                    type: "POST",
+                    url: "Application/UploadFile",
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function (result) {
+                        $("#DocID").val(result.documentoID);
+                        $("#file_name").val("");
+
+                        $(".docs-list").removeClass("hidden");
+
+                        if (result.origemCimob == 1) {
+                            var origem = "<td><img src='/images/application/in.png' title='Enviado pelo CIMOB' alt='Enviado pelo CIMOB' /></td>"
+                        }
+                        else {
+                            var origem = "<td><img src='/images/application/out.png' title='Enviado pelo Candidato' alt='Enviado pelo Candidato' /></td>"
+                        }
+
+                        $(".docs-list table").append(
+                            $("<tr data-id='" + result.documentoID +"' > " +
+                                "<td>" + result.ficheiroNome + "</td>" + 
+                                "<td>" + formatDate(result.dataUpload) + "</td>" + 
+                                "<td>" +
+                                    "<a target='_blank' href='localhost:61970/Application/View/" + result.documentoID +"'>" + 
+                                        "<img src= '/images/application/visualizar.png' alt='Visualizar' />" + 
+                                    "</a>" +
+                                "</td>" + 
+                                "<td>" +
+                                    "<a target='_blank' href='localhost:61970/Application/Download/" + result.documentoID + "'>" +
+                                        "<img src= '/images/application/descarregar.png' alt='Descarregar' />" +
+                                    "</a>" +
+                                "</td>" +
+                                origem + 
+                            "</tr>"));
+                    },
+                    error: function (err) {
+                        console.log(err);
+                        alert("There was error uploading files!");
+                    }
+                });
             })
 
             $("#CursoList").on("change", (ev) => {
-                ajaxPost("/Application/UpdateCurso", { val: ev.currentTarget.value })
+                $("#Curso").val(ev.currentTarget.value);
             });
 
             $("#EscolaList").on("change", (ev) => {
-                $("#CursoList").html("<option value='0'> A carregar...</option>").show();
+                $("#CursoList").html("<option value=''> A carregar...</option>").show();
 
                 $.ajax({
                     url: "/Application/GetCursosByEscola/" + ev.currentTarget.value,
                     cache: false,
                     type: "GET",
                     success: function (data) {
-                        var markup = "<option value='0'>Escolha um opção</option>";
+                        var markup = "<option value=''>Escolha um opção</option>";
 
                         data.forEach(item => {
                             markup += "<option value=" + item.ipsCursoID + ">" + item.nome + "</option>";
@@ -218,28 +273,15 @@
                     }
                 });
 
-                ajaxPost("/Application/UpdateEscola", { val: ev.currentTarget.value })
+
+                $("#Escola").val(ev.currentTarget.value);
             });
 
             $("#ParentescoList").on("change", (ev) => {
-                ajaxPost("/Application/UpdateParentesco", { val: ev.currentTarget.value })
+                $("#Parentesco").val(ev.currentTarget.value);
             });
         }
-
-        var ajaxPost = (url, val) => {
-            $.ajax({
-                url: url,
-                cache: false,
-                type: "POST",
-                data: JSON.stringify(val),
-                dataType: 'json',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            });
-        }
-
+        
         var changePage = () => {
             $("[role='tab']").hide();
             $(".active").removeClass("active");
@@ -265,7 +307,7 @@
         };
 
         var canSelect = (elem) => {
-            if (!elem.hasClass("selected")) {
+            if (!elem.classList.contains("selected")) {
                 if ($(".selected").length == 4) {
                     alert("O máximo são 3 zeca")
                     return false;
@@ -273,6 +315,17 @@
             }
 
             return true;
+        }
+
+        var formatDate = (date) => {
+            var tmp = new Date(date);
+            var mes = tmp.getMonth() + 1;
+            var dia = tmp.getDia();
+
+            mes = mes < 10 ? "0" + mes : mes;
+            dia = dia < 10 ? "0" + dia : dia;
+
+            return dia + " / " + mes + " / " + tmp.getFullYear();
         }
     </script>
 }

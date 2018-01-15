@@ -14,11 +14,10 @@ namespace cimob.Extensions
     {
         public static IDictionary<string, Ajuda> GetAjudas(List<string> campos, ApplicationDbContext _context)
         {
-            var ajudasContext = _context.Ajudas;
-            var ajudas = from a in ajudasContext select a;
-            ajudas = ajudas.Where(a => campos.Contains(a.Pagina));
-
+            var ajudas = _context.Ajudas.Where(a => campos.Contains(a.Pagina));
+            
             IDictionary<string, Ajuda> ajudasDictionary = new Dictionary<string, Ajuda>();
+
             foreach (Ajuda a in ajudas)
             {
                 ajudasDictionary[a.Nome] = a;
@@ -32,14 +31,6 @@ namespace cimob.Extensions
             foreach (var error in result.Errors)
             {
                 modelState.AddModelError(string.Empty, error.Description);
-            }
-        }
-
-        public static void AddErrors(IDictionary result, ModelStateDictionary modelState)
-        {
-            foreach (var error in result)
-            {
-                modelState.AddModelError(string.Empty, error.ToString());
             }
         }
     }

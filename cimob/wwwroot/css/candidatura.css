@@ -264,15 +264,21 @@
             line-height: 35px;
         }
 
-    .candidatura-wrapper .tab-content .documents-form #btn_submit_docs {
-        width: auto;
-        border: 0;
-        margin: 0 40px 10px;
-        padding: 0 10px;
-    }
+        .candidatura-wrapper .tab-content .documents-form #btn_submit_docs {
+            width: auto;
+            border: 0;
+            margin: 10px;
+            padding: 0 10px;
+        }
 
-        .candidatura-wrapper .tab-content .documents-form #btn_submit_docs:after{
-            top: 0;
+            .candidatura-wrapper .tab-content .documents-form #btn_submit_docs:after{
+                top: 0;
+            }
+
+        .candidatura-wrapper .tab-content .documents-form .table td:nth-child(3),
+        .candidatura-wrapper .tab-content .documents-form .table td:nth-child(4),
+        .candidatura-wrapper .tab-content .documents-form .table td:nth-child(5) {
+            width: 48px;
         }
 
     .candidatura-wrapper .tab-content .destino-form .table {

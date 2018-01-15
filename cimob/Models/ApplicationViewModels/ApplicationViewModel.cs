@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using cimob.Attributes;
 
 namespace cimob.Models.ApplicationViewModels
 {
@@ -36,16 +35,19 @@ namespace cimob.Models.ApplicationViewModels
         public DateTime DataNascimento { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
+        [RegularExpression("([1-9]+)", ErrorMessage = "O campo {0} é obrigatório.")]
         [Display(Name = "Escola")]
         public int Escola { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
+        [RegularExpression("([1-9]+)", ErrorMessage = "O campo {0} é obrigatório.")]
         [Display(Name = "Curso")]
         public int Curso { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [Display(Name = "Ano")]
-        public int Ano { get; set; }
+        [RegularExpression("([1-9]+){1,1}", ErrorMessage = "Insira um número válido.")]
+        public string Ano { get; set; }
         #endregion
 
 
@@ -57,37 +59,38 @@ namespace cimob.Models.ApplicationViewModels
 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [EmailAddress(ErrorMessage = "Introduza um {0} válido.")]
-        [SameValue(nameof(Email), ErrorMessage = "Email alternativo não pode ser igual ao Email")]
         [Display(Name = "Email Alternativo")]
         public string EmailAlternativo { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [RegularExpression("([0-9]+)", ErrorMessage = "Insira um número válido.")]
         [Display(Name = "Contacto Pessoal")]
-        public int ContactoPessoal { get; set; }
+        public string ContactoPessoal { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [RegularExpression("([0-9]+)", ErrorMessage = "Insira um número válido.")]
-        [SameValue(nameof(ContactoPessoal), ErrorMessage = "Contacto de Emergência não pode ser igual ao Contacto Pessoal")]
         [Display(Name = "Contacto de Emergência")]
-        public int ContactoEmergencia { get; set; }
+        public string ContactoEmergencia { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
+        [RegularExpression("([1-9]+){1,1}", ErrorMessage = "O campo {0} é obrigatório.")]
         [Display(Name = "Parentesco")]
         public int Parentesco { get; set; }
         #endregion
 
 
         #region docs
-        [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [Display(Name = "Carta de Motivação")]
+        [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         public IFormFile CartaMotivacao { get; set; }
+
+        public int DocID { get; set; }
         #endregion
 
 
         #region destino
-        [Required(ErrorMessage = "Necessário escolher pelo menos um.")]
-        public List<int> SelectedCursos { get; set; }
+        [Required(ErrorMessage = "É necessário escolher pelo menos um curso.")]
+        public string SelectedCursos { get; set; }
         #endregion
 
         public IDictionary<string, Ajuda> AjudasDictionary { get; set; }

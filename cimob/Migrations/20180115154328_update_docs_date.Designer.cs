@@ -11,9 +11,10 @@ using System;
 namespace cimob.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180115154328_update_docs_date")]
+    partial class update_docs_date
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -223,28 +224,6 @@ namespace cimob.Migrations
                     b.HasKey("DocumentoID");
 
                     b.ToTable("Documentos");
-                });
-
-            modelBuilder.Entity("cimob.Models.Edital", b =>
-                {
-                    b.Property<int>("EditalID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Caminho");
-
-                    b.Property<DateTime>("DataLimite");
-
-                    b.Property<int>("Estado");
-
-                    b.Property<string>("Nome");
-
-                    b.Property<int?>("TipoMobilidadeID");
-
-                    b.HasKey("EditalID");
-
-                    b.HasIndex("TipoMobilidadeID");
-
-                    b.ToTable("Editais");
                 });
 
             modelBuilder.Entity("cimob.Models.Escola", b =>
@@ -521,13 +500,6 @@ namespace cimob.Migrations
                         .WithMany()
                         .HasForeignKey("PaisID")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("cimob.Models.Edital", b =>
-                {
-                    b.HasOne("cimob.Models.TipoMobilidade", "TipoMobilidade")
-                        .WithMany()
-                        .HasForeignKey("TipoMobilidadeID");
                 });
 
             modelBuilder.Entity("cimob.Models.Escola", b =>
