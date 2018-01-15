@@ -5,7 +5,7 @@
     Layout = "/Views/Shared/_LayoutWhite.cshtml";
 }
 <!--VIEW DOS EDITAIS-->
-<!--Alert da repetição de edital-->
+<!--Alert da repetição de edital, aparece no início da página-->
 @if (ViewBag.IsSucceded != null)
 {
     @if (ViewBag.IsSucceded)
@@ -128,7 +128,13 @@
                     @Html.DisplayFor(modelItem => item.TipoMobilidade.Descricao)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Estado)
+                    @if(item.Estado == 0)
+                    {                        
+                        <img src="~/images/valid.png" style="height:30px; width:30px"/>
+                    } else
+                    {
+                        <img src="~/images/not_valid.png" style="height:30px; width:30px"/>
+                    }
                 </td>
             </tr>
         }
