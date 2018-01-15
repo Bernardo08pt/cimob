@@ -157,18 +157,18 @@ namespace cimob.Controllers
         [HttpGet]
         public ActionResult FilterDestino(int id, IFormCollection collection)
         {
-            var nome = Request.Query["nome"].Count == 0 ? "" : Request.Query["nome"][0];
+            var nome = Request.Query["nome"].Count == 0 ? "" : Request.Query["nome"][0].ToLower();
             var pais = Request.Query["pais"].Count == 0 ? "" : Request.Query["pais"][0];
 
             var res = _context.Escolas.Include(e => e.Cursos).Include(e => e.Pais).AsEnumerable().Where((e) =>
             {
                 if (nome != "" && pais == "")
-                    return e.Nome.Contains(nome);
+                    return e.Nome.ToLower().Contains(nome);
 
                 if (nome == "" && pais != "")
                     return e.PaisID == int.Parse(pais);
 
-                return e.Nome.Contains(nome) && e.PaisID == int.Parse(pais);
+                return e.Nome.ToLower().Contains(nome) && e.PaisID == int.Parse(pais);
             }).ToList();
 
             var tmp = new List<object>();
