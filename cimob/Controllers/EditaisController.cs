@@ -42,16 +42,6 @@ namespace cimob.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            //ESTA A DAR ERRO AQUI
-            /*var alert = ViewBag.ShowEditalAlert;
-            if(ViewBag.ShowEditalAlert != null)
-            {
-                alert = ViewBag.ShowEditalAlert;
-            } else
-            {
-                ViewBag.ShowEditalAlert = false;
-            }*/
-            
             return View(new EditaisViewModel {
                 AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Editais" }), _context),
                 TipoMobilidadeList = GetTiposMobilidade(),
@@ -87,11 +77,9 @@ namespace cimob.Controllers
                 {
                     _context.Editais.Add(e);
                     _context.SaveChanges();
-                    foreach (var u in allUsers)
+                    /*foreach (var u in allUsers)
                     {
-                        // For more information on how to enable account confirmation and password reset please
-                        // visit https://go.microsoft.com/fwlink/?LinkID=532713
-
+                        //Envio de email
                         await _emailSender.SendEmailAsync(u.Email, "Edital Publicado",
                         "<p><span style='font-size: 18px;'>Caro(a) " + u.Nome + ",<strong> </strong></span></p>" +
                         "<p><span style='font-size: 18px;'>Gostaríamos de informar que foi publicado o edital referente a " + e.TipoMobilidade.Descricao+ ".</span></p>" +
@@ -99,16 +87,18 @@ namespace cimob.Controllers
                         "<p><span style = 'font-size: 18px;'> Melhores cumprimentos Equipa CIMOB - IPS </span></p>" +
                         "<p><span style = 'font-size: 14px;'> Nota: este e-mail foi gerado automaticamente, pelo que n&atilde;o deve responder pois quaisquer respostas n&atilde;o ser&atilde;o vistas.</span></p>" +
                          "<span style = 'font-size: 12px;'> &nbsp;</span></p>");
-                    }
+                    }*/
+
+                    //Serve para mostrar o alert de sucesso
+                    ViewBag.IsSucceded = true;
                 }
                 else
                 {
-                   // ViewBag.ShowEditalAlert = true;
-                    //mostrar um popup
+                    //Serve para mostrar o alert de sucesso
+                    ViewBag.IsSucceded = false;
                 }
-                
             }
-
+            
             model.AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Editais" }), _context);
             model.TipoMobilidadeList = GetTiposMobilidade();
             model.Editais = GetEditais();
@@ -129,13 +119,14 @@ namespace cimob.Controllers
         {
             var tipoEdital = from edital in _context.Editais select edital;
             //se a data tiver expirado altera-se o valor do estado para 1
-            foreach (var e in tipoEdital)
+            foreach (var editalAux in tipoEdital)
             {
-                if(e.DataLimite < DateTime.Now)
+                if(editalAux.DataLimite < DateTime.Now)
                 {
-                    e.Estado = 1;
+                    editalAux.Estado = 1;
                 }
             }
+            //Se não houver editais na BD envia-se uma lista vazia para não dar erro
             if(tipoEdital != null)
             {
 

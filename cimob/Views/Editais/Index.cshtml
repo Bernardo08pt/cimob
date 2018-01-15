@@ -5,20 +5,30 @@
     Layout = "/Views/Shared/_LayoutWhite.cshtml";
 }
 <!--VIEW DOS EDITAIS-->
-
-<!--Alert da repetição de edital@if (ViewBag.ShowEditalAlert)
+<!--Alert da repetição de edital-->
+@if (ViewBag.IsSucceded != null)
 {
-    <div class="alert alert-warning alert-dismissable fade in" style="margin: 0 21% 2% 21%">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        Atenção: Já existe um edital com esse nome
-    </div>
-}-->
+    @if (ViewBag.IsSucceded)
+    {
+        <div class="alert alert-success alert-dismissable fade in" style="margin: 0 21% 2% 21%">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            O edital foi adicionado com sucesso
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning alert-dismissable fade in" style="margin: 0 21% 2% 21%">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            Atenção: Já existe um edital com esse nome
+        </div>
+    }
+}
 
 <div class="documents-form panel clearfix">
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <form asp-controller="Editais" asp-action="Index">
+    <form id="editaisForm" asp-controller="Editais" asp-action="Index">
 
         <div class="row form-group has-feedback has-feedback-left">
             <div class="col-md-3 col-md-offset-1">
@@ -56,6 +66,7 @@
             </div>
             <span asp-validation-for="CarregarEdital" class="text-danger"></span>
         </div>
+
         <p style="color:red">Nota: Ficheiros suportados .pdf</p>
 
         <div class="row form-group has-feedback has-feedback-left">
@@ -63,7 +74,7 @@
                 <label asp-for="ProgramaMobilidadeID"></label>
             </div>
             <div class="input-group col-md-5">
-               <select asp-for="ProgramaMobilidadeID" asp-items="@(new SelectList(Model.TipoMobilidadeList, "TipoMobilidadeID", "Descricao"))">
+                <select asp-for="ProgramaMobilidadeID" asp-items="@(new SelectList(Model.TipoMobilidadeList, "TipoMobilidadeID", "Descricao"))">
                     <option>Escolha uma opção</option>
                 </select>
 
@@ -89,11 +100,10 @@
             <span asp-validation-for="DataLimite" class="text-danger"></span>
         </div>
 
-        
+
         <button type="submit" class="button btn btn-default">Submeter documentos</button>
 
     </form>
-
 </div>
 
 <!--Mostrar os editais existentes na bd-->
@@ -121,11 +131,10 @@
                     @Html.DisplayFor(modelItem => item.Estado)
                 </td>
             </tr>
-
         }
     </table>
-</div>
 
-<a asp-controller="Home" asp-action="Index" class="back-button">Voltar</a>
+    <a asp-controller="Home" asp-action="Index" class="back-button">Voltar</a>
+</div>
 
 
