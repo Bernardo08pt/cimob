@@ -14,22 +14,22 @@ namespace cimob.Models.ApplicationViewModels
 
         
         /*[Required(ErrorMessage = "O campo {0} é obrigatório.")]*/
-        [Display(Name = "Carregar edital:")]
+        [Display(Name = "Carregar edital")]
         public IFormFile CarregarEdital { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
-        [Display(Name = "Nome do edital:")]
+        [Display(Name = "Nome do edital")]
         public string Nome { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
-        [Display(Name = "Data limite:")]
+        [Display(Name = "Data limite")]
         [DataType(DataType.Date, ErrorMessage = "A data é inválida.")]
         
         public DateTime DataLimite { get; set; }
         
         //Passou a ser int para depois ir buscar a dropdownlist o objeto com o esse ID
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
-        [Display(Name = "Programa de mobilidade:")]
+        [Display(Name = "Programa de mobilidade")]
         public int ProgramaMobilidadeID { get; set; }
 
         public List<TipoMobilidade> TipoMobilidadeList { get; set; }

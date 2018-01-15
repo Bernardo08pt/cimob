@@ -544,6 +544,7 @@ namespace cimob.Controllers
             return RedirectToAction(nameof(Profile));
         }
 
+        //TODO: Provavelmente tem que passar para outra classe not sure
         //Método que permite saber se o Candidato já submeteu a candidatura
         [HttpGet]
         public async Task<IActionResult> IsApplicationSubmited()
