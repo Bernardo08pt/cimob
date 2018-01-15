@@ -140,7 +140,6 @@
                 }
             });
 
-
             $("#btn_upload").on("click", () => {
                 $("#CartaMotivacao").trigger("click")
             });
@@ -193,7 +192,7 @@
                                 "<td>" + item.curso + "</td></tr>";
                         });
 
-                        $(".table").html(markup);
+                        $(".destino-form .table").html(markup);
                     },
                     error: function (reponse) {
                         console.log("error : " + reponse);
@@ -241,6 +240,8 @@
                                 "</td>" +
                                 origem + 
                             "</tr>"));
+
+                        $("#btn_submit_docs").remove();
                     },
                     error: function (err) {
                         console.log(err);
@@ -321,7 +322,7 @@
         var formatDate = (date) => {
             var tmp = new Date(date);
             var mes = tmp.getMonth() + 1;
-            var dia = tmp.getDia();
+            var dia = tmp.getDate();
 
             mes = mes < 10 ? "0" + mes : mes;
             dia = dia < 10 ? "0" + dia : dia;
