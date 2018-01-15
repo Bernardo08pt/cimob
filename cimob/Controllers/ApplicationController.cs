@@ -13,6 +13,7 @@ using cimob.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using cimob.Extensions;
+using System.IO;
 
 namespace cimob.Controllers
 {
@@ -177,7 +178,8 @@ namespace cimob.Controllers
             var d = new Documento {
                 FicheiroCaminho = await FileHandling.Upload(file),
                 FicheiroNome = file.FileName,
-                OrigemCimob = 0
+                OrigemCimob = 0,
+                DataUpload = DateTime.Today
             };
 
             _context.Documentos.Add(d);
@@ -186,6 +188,35 @@ namespace cimob.Controllers
             return Json(d);
         }
 
+        // GET: Application/Download/1
+        // TODO: Passar isto para o FileHandling
+        [HttpGet]
+        public FileResult Download (int id)
+        {
+            var tmp = _context.Documentos.
+                Where(d => d.DocumentoID == id).
+                Select(d => new {
+                    caminho = d.FicheiroCaminho,
+                    nome = d.FicheiroNome
+                }).FirstOrDefault();
+            
+            return File(System.IO.File.ReadAllBytes(tmp.caminho), "application/x-msdownload", tmp.nome);
+        }
+
+        // GET: Application/View/1
+        // TODO: Passar isto para o FileHandling
+        [HttpGet]
+        public ActionResult View (int id)
+        {   
+            return new FileStreamResult(
+                new FileStream(
+                    _context.Documentos.Where(d => d.DocumentoID == id).Select(d => d.FicheiroCaminho).FirstOrDefault(), 
+                    FileMode.Open, 
+                    FileAccess.Read
+                ), 
+                "application/pdf"
+            );
+        }
 
         /** HELPER FUNCTIONS **/
         private List<Escola> GetEscolas()

@@ -1,14 +1,17 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.IO;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace cimob.Services
 {
     public class FileHandling
     {
-        public static async Task<string> Upload(IFormFile file)
+        internal static async Task<string> Upload(IFormFile file)
         {
-            var path = Path.GetTempFileName();
+            var path = "dsads";
 
             if (file.Length > 0)
             {
@@ -19,6 +22,12 @@ namespace cimob.Services
             }
 
             return path;
+        }
+
+        // TODO: implement this
+        internal static void Download(string path)
+        {
+            
         }
     }
 }

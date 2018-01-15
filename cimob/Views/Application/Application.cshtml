@@ -210,17 +210,41 @@
                     contentType: false,
                     processData: false,
                     data: data,
-                    success: function (message) {
-                        console.log(message);
-                        $("#DocID").val(message);
+                    success: function (result) {
+                        $("#DocID").val(result.documentoID);
+                        $("#file_name").val("");
+
+                        $(".docs-list").removeClass("hidden");
+
+                        if (result.origemCimob == 1) {
+                            var origem = "<td><img src='~/images/application/out.png' title='Enviado pelo CIMOB' alt='Enviado pelo CIMOB' /></td>"
+                        }
+                        else {
+                            var origem = "<td><img src='~/images/application/in.png' title='Enviado pelo Candidato' alt='Enviado pelo Candidato' /></td>"
+                        }
+
+                        $(".docs-list table").append(
+                            $("<tr data-id='" + result.documentoID +"' > " +
+                                "<td>" + result.ficheiroNome + "</td>" + 
+                                "<td>" + result.dataUpload + "</td>" + 
+                                "<td>" +
+                                    "<a target='_blank' href='localhost:61970/Application/View/" + message.documentoID +"'>" + 
+                                        "<img src= '~/images/application/visualizar.png' alt='Visualizar' />" + 
+                                    "</a>" +
+                                "</td>" + 
+                                "<td>" +
+                                    "<a target='_blank' href='localhost:61970/Application/Download/" + message.documentoID + "'>" +
+                                        "<img src= '~/images/application/descarregar.png' alt='Descarregar' />" +
+                                    "</a>" +
+                                "</td>" +
+                                origem + 
+                            "</tr>"));
                     },
                     error: function (err) {
                         console.log(err);
                         alert("There was error uploading files!");
                     }
                 });
-
-                $("#file_name").val("");
             })
 
             $("#CursoList").on("change", (ev) => {
@@ -256,29 +280,7 @@
                 $("#Parentesco").val(ev.currentTarget.value);
             });
         }
-
-        var ajaxGet = (url) => {
-            $.ajax({
-                url: url,
-                cache: false,
-                type: "GET"
-            });
-        }
-
-        var ajaxPost = (url, val) => {
-            $.ajax({
-                url: url,
-                cache: false,
-                type: "POST",
-                data: JSON.stringify(val),
-                dataType: "json",
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-            });
-        }
-
+        
         var changePage = () => {
             $("[role='tab']").hide();
             $(".active").removeClass("active");
@@ -313,5 +315,6 @@
 
             return true;
         }
+        
     </script>
 }
