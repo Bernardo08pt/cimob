@@ -9,5 +9,8 @@ namespace cimob.Models
         public string Caminho { get; set; }
         public TipoMobilidade TipoMobilidade { get; set; }
         public DateTime DataLimite { get; set; }
+
+        //Adicionado
+        public int Estado { get; set; }
     }
 }
