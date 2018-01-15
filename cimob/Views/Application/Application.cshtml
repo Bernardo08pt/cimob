@@ -217,24 +217,24 @@
                         $(".docs-list").removeClass("hidden");
 
                         if (result.origemCimob == 1) {
-                            var origem = "<td><img src='~/images/application/out.png' title='Enviado pelo CIMOB' alt='Enviado pelo CIMOB' /></td>"
+                            var origem = "<td><img src='/images/application/in.png' title='Enviado pelo CIMOB' alt='Enviado pelo CIMOB' /></td>"
                         }
                         else {
-                            var origem = "<td><img src='~/images/application/in.png' title='Enviado pelo Candidato' alt='Enviado pelo Candidato' /></td>"
+                            var origem = "<td><img src='/images/application/out.png' title='Enviado pelo Candidato' alt='Enviado pelo Candidato' /></td>"
                         }
 
                         $(".docs-list table").append(
                             $("<tr data-id='" + result.documentoID +"' > " +
                                 "<td>" + result.ficheiroNome + "</td>" + 
-                                "<td>" + result.dataUpload + "</td>" + 
+                                "<td>" + formatDate(result.dataUpload) + "</td>" + 
                                 "<td>" +
-                                    "<a target='_blank' href='localhost:61970/Application/View/" + message.documentoID +"'>" + 
-                                        "<img src= '~/images/application/visualizar.png' alt='Visualizar' />" + 
+                                    "<a target='_blank' href='localhost:61970/Application/View/" + result.documentoID +"'>" + 
+                                        "<img src= '/images/application/visualizar.png' alt='Visualizar' />" + 
                                     "</a>" +
                                 "</td>" + 
                                 "<td>" +
-                                    "<a target='_blank' href='localhost:61970/Application/Download/" + message.documentoID + "'>" +
-                                        "<img src= '~/images/application/descarregar.png' alt='Descarregar' />" +
+                                    "<a target='_blank' href='localhost:61970/Application/Download/" + result.documentoID + "'>" +
+                                        "<img src= '/images/application/descarregar.png' alt='Descarregar' />" +
                                     "</a>" +
                                 "</td>" +
                                 origem + 
@@ -315,6 +315,16 @@
 
             return true;
         }
-        
+
+        var formatDate = (date) => {
+            var tmp = new Date(date);
+            var mes = tmp.getMonth() + 1;
+            var dia = tmp.getDia();
+
+            mes = mes < 10 ? "0" + mes : mes;
+            dia = dia < 10 ? "0" + dia : dia;
+
+            return dia + " / " + mes + " / " + tmp.getFullYear();
+        }
     </script>
 }
