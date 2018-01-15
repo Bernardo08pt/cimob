@@ -275,6 +275,14 @@
                 top: 0;
             }
 
+            .table td,
+            .table th {
+                padding: 8px;
+                line-height: 1.42857143;
+                vertical-align: top;
+                border-top: 1px solid #ddd;
+            }
+
         .candidatura-wrapper .tab-content .documents-form .table td:nth-child(3),
         .candidatura-wrapper .tab-content .documents-form .table td:nth-child(4),
         .candidatura-wrapper .tab-content .documents-form .table td:nth-child(5) {

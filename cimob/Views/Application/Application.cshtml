@@ -178,26 +178,27 @@
                     filters = "nome=" + nome + "&pais=" + pais;
                 }
 
-                //var markup = "<tr><th></th><th>País</th><th>Escola</th><th>Curso</th></tr>";
+                var markup = "<tr><th></th><th>País</th><th>Escola</th><th>Curso</th></tr>";
 
-                //$.ajax({
-                //    url: "/Application/FilterDestino?" + filters,
-                //    cache: false,
-                //    type: "GET",
-                //    success: function (data) {
-                //        data.forEach(item => {
-                //            markup += "<tr><td><input type='checkbox' data-id='" + item.CursoID + "' /></td>" +
-                //                "<td>" + item.Pais.Descricao + "</td>" +
-                //                "<td>" + item.Nome + "</td>" +
-                //                "<td>" + item.Nome + "</td></tr>";
-                //        });
+                $.ajax({
+                    url: "/Application/FilterDestino?" + filters,
+                    cache: false,
+                    type: "GET",
+                    success: function (data) {
+                        console.log(data);
+                        data.forEach(item => {
+                            markup += "<tr><td><input type='checkbox' data-id='" + item.id + "' /></td>" +
+                                "<td>" + item.pais + "</td>" +
+                                "<td>" + item.escola + "</td>" +
+                                "<td>" + item.curso + "</td></tr>";
+                        });
 
-                //        $(".table").html(markup);
-                //    },
-                //    error: function (reponse) {
-                //        console.log("error : " + reponse);
-                //    }
-                //});
+                        $(".table").html(markup);
+                    },
+                    error: function (reponse) {
+                        console.log("error : " + reponse);
+                    }
+                });
             })
 
             $("#btn_submit_docs").on("click", () => {
