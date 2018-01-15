@@ -1,4 +1,8 @@
-﻿
+﻿<script>
+    window.location = "/Manage/Profile";
+</script>
+
+
 @{
     ViewData["Title"] = "Início";
     Layout = "~/Views/Shared/_LayoutWhite.cshtml";
@@ -15,12 +19,16 @@
     <img src="~/images/home/8.svg">
     <img src="~/images/home/9.svg">
 </div>
-<div class="button-wrapper">
-    <a href="/Editais" class="button">Editais</a>
-    <a href="/ProgramasMobilidade" class="button">Candidaturas</a>
-
-    <!--Para Testar o que ando a fazer-->
-    <a asp-area="" asp-controller="Editais" asp-action="Index">Editais</a>
-    <a asp-area="" asp-controller="Manage" asp-action="Profile">Área Pessoal</a>
-    <a asp-area="" asp-controller="VisualizarCandidatura" asp-action="Index">Candidatura</a>
+<div class="container-fluid button-wrapper">
+    <div class="col-md-3 col-md-offset-3">
+        <a href="/Editais" class="menu-button">Editais</a>
+    </div>
+    <div class="col-md-2">
+        <a href="/ProgramasMobilidade" class="menu-button">Candidaturas</a>
+    </div>
 </div>
+
+<!--Para Testar o que ando a fazer-->
+<a asp-area="" asp-controller="Editais" asp-action="Index">Editais</a>
+<a asp-area="" asp-controller="Manage" asp-action="Profile">Área Pessoal</a>
+<a asp-area="" asp-controller="VisualizarCandidatura" asp-action="Index">Candidatura</a>

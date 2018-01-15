@@ -25,22 +25,27 @@
 </div>
 
 
+<!-- is candidatado -->
 @if (ViewBag.CandidaturaSubmetida != null)
 {
-<div class="button-wrapper">
-    <!--TODO: METER A IR PARA AS PÁGINAS CERTAS -->
-    <a href="#" class="button">Estado da Candidatura</a>
-    <a href="#" class="button">Documentos da Candidatura</a>
-</div>
-
+    <div class="container-fluid button-wrapper">
+        <div class="col-md-3 col-md-offset-3">
+            <a asp-controller="Editais" asp-action="Index" class="menu-button">Estado da Candidatura</a>
+        </div>
+        <div class="col-md-2">
+            <a asp-controller="ProgramasMobilidade" asp-action="Index" class="menu-button">Documentos da Candidatura</a>
+        </div>
+    </div>
 }
+// não candidatado
 else
 {
-    <!--Caso não esteja candidatado-->
-    <div class="button-wrapper">
-        <!--Vai para a página com a tabela de editais-->
-        <a href="#" class="button">Editais</a>
-        <!--Vai para a página da candidatura-->
-        <a asp-controller="ProgramasMobilidade" asp-action="Index" class="button">Candidaturas</a>
+    <div class="container-fluid button-wrapper">
+        <div class="col-md-3 col-md-offset-3">
+            <a asp-controller="Editais" asp-action="Index" class="menu-button">Editais</a>
+        </div>
+        <div class="col-md-2">
+            <a asp-controller="ProgramasMobilidade" asp-action="Index" class="menu-button">Candidaturas</a>
+        </div>
     </div>
 }

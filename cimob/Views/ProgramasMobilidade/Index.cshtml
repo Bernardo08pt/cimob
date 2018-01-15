@@ -5,25 +5,35 @@
 }
 <!-- VIEW DOS PROGRAMAS DE MOBILIDADE-->
 <div class="main-div">
-    <div class="row">
-        <a id="erasmus-modal" data-id='1' class="program-button" style="background-color: dodgerblue">Erasmus+</a>
-        <a id="luso-modal" data-id='4' class="program-button" style="background-color: green">Bolsas Luso-Brasileiras Santander Universidades</a>
-        <a id="ibero-modal"  data-id='5' class="program-button" style="background-color: red">Bolsas Ibero-Americanas Santander Universidades</a>
+    <div class="container-fluid">
+        <div class="col-md-2 col-md-offset-2">
+            <a id="erasmus-modal" data-id="1" class="program-button" style="background-color: dodgerblue;">Erasmus+</a>
+        </div>
+        <div class="col-md-2 col-md-offset-1">
+            <a id="luso-modal" data-id="4" class="program-button" style="background-color: green">Bolsas Luso-Brasileiras Santander Universidades</a>
+        </div>
+        <div class="col-md-3 col-md-offset-1">
+            <a id="ibero-modal" data-id="5" class="program-button" style="background-color: red">Bolsas Ibero-Americanas Santander Universidades</a>
+        </div>
     </div>
-    <div class="row">
-        <a id="macau-modal" data-id='6' class="program-button" style="background-color: orange; margin-right:-10%">Cooperação com o Instituto Politécnico de Macau</a>
-        <a id="vasco-gama-modal" data-id='3' class="program-button" style="background-color: purple">Mobilidade Vasco da Gama</a>
+    <div class="container-fluid">
+        <div class="col-md-2 col-md-offset-3">
+            <a id="macau-modal" data-id="6" class="program-button col-md-3 col-md-offset-3" style="background-color: orange;">Cooperação com o Instituto Politécnico de Macau</a>
+        </div>
+        <div class="col-md-3 col-md-offset-1">
+            <a id="vasco-gama-modal" data-id="3" class="program-button col-md-3 col-md-offset-1" style="background-color: purple">Mobilidade Vasco da Gama</a>
+        </div>
     </div>
 
     <!--Modal-->
     <!--TODO: FAZER O CSS-->
     <div>
         <div class="modal fade" tabindex="-1" id="programModal"
-             data-keyboard="false" data-backdrop="static">
+                data-keyboard="false" data-backdrop="static">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <form>
-                        
+
                         <h4 id="titulo" class="modal-title">Erasmus+</h4>
                         <p style="font-weight:bold">Candidato para:</p>
                         <input type="radio" name="periodo" value="estudos"> Período de ESTUDOS<br>
@@ -35,15 +45,16 @@
                             <button type="submit" id="btnSubmit" class="btnConfirmar btnStyle" style="background-color:green">Confirmar</button>
                         </div>
                     </form>
-                   
+
                 </div>
             </div>
         </div>
     </div>
 
     <!--Volta para a página inicial-->
-    <a asp-area="" asp-controller="Home" asp-action="Index" class="back-button">Voltar</a>
+    <div class="col-md-offset-2">
+        <a asp-area="" asp-controller="Home" asp-action="Index" class="button button-back">Voltar</a>
+    </div>
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script type="text/javascript" src="~/js/pop-up-modal.js"></script>
