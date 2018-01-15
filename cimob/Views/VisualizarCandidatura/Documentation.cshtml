@@ -1,21 +1,28 @@
 ﻿@model VisualizarCandidaturaViewModel;
 
-<div class="documents-form panel">
-    <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="row form-group has-feedback has-feedback-left">
-            <div class="col-md-3 col-md-offset-1">
-                <label asp-for="NovosDocumentos"></label>
-            </div>
-            <div class="input-group col-md-5">
-                <input asp-for="NovosDocumentos" class="form-control" placeholder="File: ficheiro.pdf" />
-                <i class="glyphicon glyphicon-file form-control-feedback"></i>
-            </div>
-            <span asp-validation-for="NovosDocumentos" class="text-danger"></span>
+<div class="documents-form panel" style="padding-bottom: 40px;">
 
-            <button id="btn_submit_docs" class="button button-submeter">Submeter documentos</button>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row form-group has-feedback has-feedback-left">
+        <div class="col-md-3 col-md-offset-1">
+            <label asp-for="NovosDocumentos"></label>
         </div>
-    </form>
+        <div class="input-group col-md-5">
+            <input asp-for="NovosDocumentos" class="form-control" placeholder="File: ficheiro.pdf" />
+            <i class="glyphicon glyphicon-file form-control-feedback"></i>
+        </div>
+        <span asp-validation-for="NovosDocumentos" class="text-danger"></span>
+        <div class="col-md-3">
+            <div class="button-no-arrow" id="btn_upload">
+                <i class="glyphicon glyphicon-plus"></i>
+                <span>Carregar</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="btn_submit_docs" class="button button-submeter">Submeter documentos</div>
+
 </div>
 <div class="listing">
     <table class="table" border="1">

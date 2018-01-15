@@ -9,69 +9,69 @@ namespace cimob.Models.ApplicationViewModels
     public class VisualizarCandidaturaViewModel
     {
         #region geral 
-        [Display(Name = "Nome:")]
+        [Display(Name = "Nome")]
         public string Nome { get; set; }
 
-        [Display(Name = "Nº de aluno:")]
+        [Display(Name = "Nº de aluno")]
         public string Numero { get; set; }
 
-        [Display(Name = "Email:")]
+        [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Display(Name = "Email alternativo:")]
+        [Display(Name = "Email alternativo")]
         public string EmailAlternativo { get; set; }
 
-        [Display(Name = "Escola:")]
+        [Display(Name = "Escola")]
         public List<IpsEscola> Escola { get; set; }
         
-        [Display(Name = "Curso:")]
+        [Display(Name = "Curso")]
         public IpsCurso Curso { get; set; }
 
-        [Display(Name = "Ano:")]
+        [Display(Name = "Ano")]
         public int Ano { get; set; }
                 
-        [Display(Name = "Contacto pessoal:")]
+        [Display(Name = "Contacto pessoal")]
         public string ContactoPessoal { get; set; }
         
-        [Display(Name = "Contacto de urgência:")]
+        [Display(Name = "Contacto de urgência")]
         public string ContactoEmergencia { get; set; }
         
-        [Display(Name = "Parentesco (contacto):")]
+        [Display(Name = "Parentesco (contacto)")]
         public string Parentesco { get; set; }
         #endregion
 
         #region destino
-        [Display(Name = "Nome escola:")]
+        [Display(Name = "Nome escola")]
         public string NomeEscola { get; set; }
 
-        [Display(Name = "País:")]
+        [Display(Name = "País")]
         public string Pais { get; set; }
 
-        [Display(Name = "Curso: ")]
+        [Display(Name = "Curso ")]
         public string CursoDestino { get; set; }
 
-        [Display(Name = "Vagas disponíveis: ")]
+        [Display(Name = "Vagas disponívei: ")]
         public int VagasDisponiveis { get; set; }
         #endregion
 
         #region documentos
-        [Display(Name = "Novos Documentos:")]
+        [Display(Name = "Novos Documentos")]
         public string NovosDocumentos { get; set; }
 
         public List<Documento> Documentos { get; set; }
         #endregion
 
         #region avaliacao
-        [Display(Name = "Entrevista:")]
+        [Display(Name = "Entrevista")]
         public string Entrevista { get; set; }
 
-        [Display(Name = "Pontuação:")]
+        [Display(Name = "Pontuação")]
         public string Pontuacao { get; set; }
 
-        [Display(Name = "Observações:")]
+        [Display(Name = "Observações")]
         public string Observacoes { get; set; }
 
-        [Display(Name = "Listagem:")]
+        [Display(Name = "Listagem")]
         public string Listagem { get; set; } //Será uma lista com as unidades curriculares??
         #endregion
 

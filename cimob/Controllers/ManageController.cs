@@ -473,8 +473,18 @@ namespace cimob.Controllers
 
         //Método adicionado para mostrar a página de área pessoal
         [HttpGet]
-        public IActionResult Profile()
+        public async Task<IActionResult> Profile()
         {
+
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+            //permite saber se o candidato ja submeteu uma candidatura
+            ViewBag.CandidaturaSubmetida = _context.Candidaturas.Where(c => c.UtilizadorID == user.Id);
+
             //Acedemos a flag passada no EditProfile
             var alert = TempData["ShowAlert"];
 
@@ -487,8 +497,10 @@ namespace cimob.Controllers
                 ViewBag.ShowAlert = false;
             }
 
+
             return View();
         }
+        
 
         //Método adicionado para mostrar a informação ao utilizador quando carrega no perfil
         [HttpGet]
@@ -542,21 +554,6 @@ namespace cimob.Controllers
 
             //Depois de submeter a alteração da password volta para a página Área Pessoal
             return RedirectToAction(nameof(Profile));
-        }
-
-        //Método que permite saber se o Candidato já submeteu a candidatura
-        [HttpGet]
-        public async Task<IActionResult> IsApplicationSubmited()
-        {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
-
-            ViewBag.CandidaturaSubmetida = _context.Candidaturas.Where(c => c.UtilizadorID == user.Id);
-
-            return View();
         }
 
         #region Helpers
