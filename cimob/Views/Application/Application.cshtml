@@ -140,7 +140,6 @@
                 }
             });
 
-
             $("#btn_upload").on("click", () => {
                 $("#CartaMotivacao").trigger("click")
             });
@@ -178,26 +177,27 @@
                     filters = "nome=" + nome + "&pais=" + pais;
                 }
 
-                //var markup = "<tr><th></th><th>País</th><th>Escola</th><th>Curso</th></tr>";
+                var markup = "<tr><th></th><th>País</th><th>Escola</th><th>Curso</th></tr>";
 
-                //$.ajax({
-                //    url: "/Application/FilterDestino?" + filters,
-                //    cache: false,
-                //    type: "GET",
-                //    success: function (data) {
-                //        data.forEach(item => {
-                //            markup += "<tr><td><input type='checkbox' data-id='" + item.CursoID + "' /></td>" +
-                //                "<td>" + item.Pais.Descricao + "</td>" +
-                //                "<td>" + item.Nome + "</td>" +
-                //                "<td>" + item.Nome + "</td></tr>";
-                //        });
+                $.ajax({
+                    url: "/Application/FilterDestino?" + filters,
+                    cache: false,
+                    type: "GET",
+                    success: function (data) {
+                        console.log(data);
+                        data.forEach(item => {
+                            markup += "<tr><td><input type='checkbox' data-id='" + item.id + "' /></td>" +
+                                "<td>" + item.pais + "</td>" +
+                                "<td>" + item.escola + "</td>" +
+                                "<td>" + item.curso + "</td></tr>";
+                        });
 
-                //        $(".table").html(markup);
-                //    },
-                //    error: function (reponse) {
-                //        console.log("error : " + reponse);
-                //    }
-                //});
+                        $(".destino-form .table").html(markup);
+                    },
+                    error: function (reponse) {
+                        console.log("error : " + reponse);
+                    }
+                });
             })
 
             $("#btn_submit_docs").on("click", () => {
@@ -240,6 +240,8 @@
                                 "</td>" +
                                 origem + 
                             "</tr>"));
+
+                        $("#btn_submit_docs").remove();
                     },
                     error: function (err) {
                         console.log(err);
@@ -320,7 +322,7 @@
         var formatDate = (date) => {
             var tmp = new Date(date);
             var mes = tmp.getMonth() + 1;
-            var dia = tmp.getDia();
+            var dia = tmp.getDate();
 
             mes = mes < 10 ? "0" + mes : mes;
             dia = dia < 10 ? "0" + dia : dia;

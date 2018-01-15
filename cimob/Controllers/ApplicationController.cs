@@ -157,19 +157,34 @@ namespace cimob.Controllers
         [HttpGet]
         public ActionResult FilterDestino(int id, IFormCollection collection)
         {
-            return Json(_context.Escolas.AsEnumerable().Where((e) => {
-                var nome = HttpContext.Request.Query["nome"];
-                var pais = HttpContext.Request.Query["pais"];
-                
-                if (nome != "" && pais == "")
-                    return e.Nome.Contains(nome);
+            var nome = Request.Query["nome"].Count == 0 ? "" : Request.Query["nome"][0].ToLower();
+            var pais = Request.Query["pais"].Count == 0 ? "" : Request.Query["pais"][0];
 
+            var res = _context.Escolas.Include(e => e.Cursos).Include(e => e.Pais).AsEnumerable().Where((e) =>
+            {
+                if (nome != "" && pais == "")
+                    return e.Nome.ToLower().Contains(nome);
 
                 if (nome == "" && pais != "")
-                    return e.PaisID == pais;
-                
-                return e.Nome.Contains(nome) && e.PaisID == pais;
-            }).ToList());
+                    return e.PaisID == int.Parse(pais);
+
+                return e.Nome.ToLower().Contains(nome) && e.PaisID == int.Parse(pais);
+            }).ToList();
+
+            var tmp = new List<object>();
+
+            res.ForEach(item => {
+                item.Cursos.ToList().ForEach(c => {
+                    tmp.Add(new {
+                        escola = item.Nome,
+                        pais = item.Pais.Descricao,
+                        curso = c.Nome,
+                        id = c.CursoID
+                    });
+                });
+            });
+            
+            return Json(tmp);
         }
 
         [HttpPost]
