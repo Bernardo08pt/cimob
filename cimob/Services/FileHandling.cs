@@ -1,5 +1,4 @@
-﻿using cimob.Models;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -7,7 +6,7 @@ namespace cimob.Services
 {
     public class FileHandling
     {
-        public static async Task<Documento> Upload(IFormFile file, int cimob)
+        public static async Task<string> Upload(IFormFile file)
         {
             var path = Path.GetTempFileName();
 
@@ -19,7 +18,7 @@ namespace cimob.Services
                 }
             }
 
-            return new Documento { FicheiroCaminho = path, FicheiroNome = file.FileName, OrigemCimob = cimob };
+            return path;
         }
     }
 }

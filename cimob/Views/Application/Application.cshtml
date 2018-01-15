@@ -1,4 +1,5 @@
-﻿@{
+﻿@model ApplicationViewModel;
+@{
     ViewData["Title"] = "Candidatura";
     Layout = "~/Views/Shared/_LayoutWhite.cshtml";
 }
@@ -42,7 +43,7 @@
 
             if (curr != undefined || curr != "geral")
                 changePage();
-            
+
             bindEvents();
         });
 
@@ -95,38 +96,49 @@
 
             $(".destino-form .listing td:not(:first-child)").on("click", (ev) => {
                 var elem = $(ev.currentTarget).parent().find("input[type='checkbox']");
-                var parent = $(ev.currentTarget).parent();
-
-                if (!canSelect(parent))
-                    return;
 
                 elem.prop("checked", !elem.prop("checked"));
-                parent.toggleClass("selected");
             });
 
-            $(".destino-form .listing input[type='checkbox']").on("click", (ev) => {
+            $(".destino-form .listing input[type='checkbox']").off("change").on("change", (ev) => {
                 var parent = ev.currentTarget.parentElement.parentElement;
-                var updateList = (val, add) => {
-                    $.ajax({
-                        url: "/Application/UpdateSelectedCurso",
-                        cache: false,
-                        type: "POST",
-                        data: { add: add, val: val }
-                    });
-                };
+                var isSelecting = !parent.classList.contains("selected");
 
-                if (!canSelect(parent))
+                if (isSelecting && !canSelect(parent)) {
+                    ev.currentTarget.checked = false
                     return;
+                }
 
-                if (parent.classList.contains("selected")) {
-                    updateList(ev.currentTarget.getAttribute("data-id"), false);
-                    parent.removeClass("selected");
+                var tmp = $("#SelectedCursos");
+                var val = tmp.val()
+                var id = ev.currentTarget.getAttribute("data-id")
+
+                if (isSelecting) {
+                    parent.classList.add("selected");
+
+                    if (val != "")
+                        tmp.val(val + ", " + id);
+                    else
+                        tmp.val(id);
                 }
                 else {
-                    updateList(ev.currentTarget.getAttribute("data-id"), true);
-                    parent.addClass("selected");
+                    parent.classList.remove("selected");
+
+                    tmp2 = val.split(",");
+                    val = "";
+                    tmp2.forEach((item, index) => {
+                        if (parseInt(id) != parseInt(item)) {
+                            val += item;
+
+                            if (index < tmp2.length - 1)
+                                val += ","
+                        }
+                    });
+
+                    tmp.val(val);
                 }
             });
+
 
             $("#btn_upload").on("click", () => {
                 $("#CartaMotivacao").trigger("click")
@@ -188,11 +200,31 @@
             })
 
             $("#btn_submit_docs").on("click", () => {
+                var data = new FormData();
+
+                data.append("file", $("#CartaMotivacao").get(0).files[0]);
+
+                $.ajax({
+                    type: "POST",
+                    url: "Application/UploadFile",
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function (message) {
+                        console.log(message);
+                        $("#DocID").val(message);
+                    },
+                    error: function (err) {
+                        console.log(err);
+                        alert("There was error uploading files!");
+                    }
+                });
+
                 $("#file_name").val("");
             })
 
             $("#CursoList").on("change", (ev) => {
-                ajaxPost("/Application/UpdateCurso", { val: ev.currentTarget.value })
+                $("#Curso").val(ev.currentTarget.value);
             });
 
             $("#EscolaList").on("change", (ev) => {
@@ -216,11 +248,20 @@
                     }
                 });
 
-                ajaxPost("/Application/UpdateEscola", { val: ev.currentTarget.value })
+
+                $("#Escola").val(ev.currentTarget.value);
             });
 
             $("#ParentescoList").on("change", (ev) => {
-                ajaxPost("/Application/UpdateParentesco", { val: ev.currentTarget.value })
+                $("#Parentesco").val(ev.currentTarget.value);
+            });
+        }
+
+        var ajaxGet = (url) => {
+            $.ajax({
+                url: url,
+                cache: false,
+                type: "GET"
             });
         }
 
@@ -230,11 +271,11 @@
                 cache: false,
                 type: "POST",
                 data: JSON.stringify(val),
-                dataType: 'json',
+                dataType: "json",
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
-                }
+                },
             });
         }
 
@@ -263,7 +304,7 @@
         };
 
         var canSelect = (elem) => {
-            if (!elem.hasClass("selected")) {
+            if (!elem.classList.contains("selected")) {
                 if ($(".selected").length == 4) {
                     alert("O máximo são 3 zeca")
                     return false;

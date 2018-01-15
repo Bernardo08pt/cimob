@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using cimob.Attributes;
 
 namespace cimob.Models.ApplicationViewModels
 {
@@ -36,18 +35,18 @@ namespace cimob.Models.ApplicationViewModels
         public DateTime DataNascimento { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
-        [RegularExpression("([1-9]+){1,1}", ErrorMessage = "O campo {0} é obrigatório.")]
+        [RegularExpression("([1-9]+)", ErrorMessage = "O campo {0} é obrigatório.")]
         [Display(Name = "Escola")]
         public int Escola { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
-        [RegularExpression("([1-9]+){1,1}", ErrorMessage = "O campo {0} é obrigatório.")]
+        [RegularExpression("([1-9]+)", ErrorMessage = "O campo {0} é obrigatório.")]
         [Display(Name = "Curso")]
         public int Curso { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [Display(Name = "Ano")]
-        [RegularExpression("([1-9]+){1,2}", ErrorMessage = "Insira um número válido.")]
+        [RegularExpression("([1-9]+){1,1}", ErrorMessage = "Insira um número válido.")]
         public string Ano { get; set; }
         #endregion
 
@@ -81,15 +80,17 @@ namespace cimob.Models.ApplicationViewModels
 
 
         #region docs
-        [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [Display(Name = "Carta de Motivação")]
+        [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         public IFormFile CartaMotivacao { get; set; }
+
+        public int DocID { get; set; }
         #endregion
 
 
         #region destino
         [Required(ErrorMessage = "É necessário escolher pelo menos um curso.")]
-        public List<int> SelectedCursos { get; set; }
+        public string SelectedCursos { get; set; }
         #endregion
 
         public IDictionary<string, Ajuda> AjudasDictionary { get; set; }

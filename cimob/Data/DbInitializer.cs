@@ -59,6 +59,18 @@ namespace cimob.Data
             {
                 AddIpsCursosESTS(context);
                 context.SaveChanges();
+
+                AddIpsCursosESTB(context);
+                context.SaveChanges();
+
+                AddIpsCursosESS(context);
+                context.SaveChanges();
+
+                AddIpsCursosESE(context);
+                context.SaveChanges();
+
+                AddIpsCursosESCE(context);
+                context.SaveChanges();
             }
 
             if (!context.EstadosCandidatura.Any())
@@ -143,7 +155,20 @@ namespace cimob.Data
                 new IpsCurso { Nome = "Licenciatura em Tecnologia Biomédica", IpsEscolaID = 1 },
                 new IpsCurso { Nome = "Licenciatura em Tecnologias de Energia", IpsEscolaID = 1 },
                 new IpsCurso { Nome = "Licenciatura em Tecnologias do Ambiente e do Mar", IpsEscolaID = 1 },
-                new IpsCurso { Nome = "Licenciatura em Tecnologia e Gestão Industrial", IpsEscolaID = 1 }
+                new IpsCurso { Nome = "Licenciatura em Tecnologia e Gestão Industrial", IpsEscolaID = 1 },
+                new IpsCurso { Nome = "Mestrado em Energia", IpsEscolaID = 1 },
+                new IpsCurso { Nome = "Mestrado em Engenharia Biomédica - Desporto e Reabilitação", IpsEscolaID = 1 },
+                new IpsCurso { Nome = "Mestrado em Engenharia de Produção", IpsEscolaID = 1 },
+                new IpsCurso { Nome = "Mestrado em Engenharia de Software Novo", IpsEscolaID = 1 },
+                new IpsCurso { Nome = "Mestrado em Engenharia Eletrotécnica e de Computadores", IpsEscolaID = 1 },
+                new IpsCurso { Nome = "Mestrado em Informática de Gestão", IpsEscolaID = 1 },
+                new IpsCurso { Nome = "Mestrado em Segurança e Higiene no Trabalho", IpsEscolaID = 1 },
+                new IpsCurso { Nome = "Pós-Graduação em Motorização de Veículos Elétricos e Híbridos", IpsEscolaID = 1 },
+                new IpsCurso { Nome = "Pós-Graduação em Eficiência Energética e Energias Renováveis em Edíficios", IpsEscolaID = 1 },
+                new IpsCurso { Nome = "Pós-Graduação em Engenharia da Instrumentação e Sistemas de Automação", IpsEscolaID = 1 },
+                new IpsCurso { Nome = "Pós-Graduação em Engenharia Informática", IpsEscolaID = 1 },
+                new IpsCurso { Nome = "Pós-Graduação em Lean Operations Management", IpsEscolaID = 1 },
+                new IpsCurso { Nome = "Pós-Graduação em Tecnologia Aeronáutica", IpsEscolaID = 1 },
             };
 
             foreach (IpsCurso c in cursos)
@@ -159,10 +184,13 @@ namespace cimob.Data
             var cursos = new List<IpsCurso>{
                 new IpsCurso { Nome = "Bioinformática", IpsEscolaID = 2 },
                 new IpsCurso { Nome = "Biotecnologia", IpsEscolaID = 2 },
-                new IpsCurso { Nome = "Engenharia Civil", IpsEscolaID = 2 },
+                new IpsCurso { Nome = "Licenciatura em Engenharia Civil", IpsEscolaID = 2 },
                 new IpsCurso { Nome = "Engenharia Química", IpsEscolaID = 2 },
                 new IpsCurso { Nome = "Gestão da Construção", IpsEscolaID = 2 },
-                new IpsCurso { Nome = "Tecnologias do Petróleo", IpsEscolaID = 2 }
+                new IpsCurso { Nome = "Tecnologias do Petróleo", IpsEscolaID = 2 },
+                new IpsCurso { Nome = "Conservação e Reabilitação do Edificado", IpsEscolaID = 2 },
+                new IpsCurso { Nome = "Engenharia Biológica e Química", IpsEscolaID = 2 },
+                new IpsCurso { Nome = "Mestrado em Engenharia Civil", IpsEscolaID = 2 },
             };
 
             foreach (IpsCurso c in cursos)
@@ -179,7 +207,15 @@ namespace cimob.Data
                 new IpsCurso { Nome = "Acupuntura", IpsEscolaID = 3 },
                 new IpsCurso { Nome = "Enfermagem", IpsEscolaID = 3 },
                 new IpsCurso { Nome = "Fisioterapia", IpsEscolaID = 3 },
-                new IpsCurso { Nome = "Terapia da Fala", IpsEscolaID = 3 }
+                new IpsCurso { Nome = "Terapia da Fala", IpsEscolaID = 3 },
+                new IpsCurso { Nome = "Pós-Licenciatura de Especialização em Enfermagem Médico-Cirúrgica", IpsEscolaID = 3 },
+                new IpsCurso { Nome = "Pós-Licenciatura de Especialização em Enfermagem de Saúde Mental e Psiquiatria", IpsCursoID = 3 },
+                new IpsCurso { Nome = "Pós-Licenciatura de Especialização em Enfermagem Médico-Cirúrgica", IpsEscolaID = 3 },
+                new IpsCurso { Nome = "Enfermagem do Trabalho", IpsEscolaID = 3 },
+                new IpsCurso { Nome = "Saúde Sexual e Reprodutiva: Mutilação Genital Feminina", IpsEscolaID = 3 },
+                new IpsCurso { Nome = "Enfermagem", IpsEscolaID = 3 },
+                new IpsCurso { Nome = "Enfermagem Perioperatória", IpsEscolaID = 3 },
+                new IpsCurso { Nome = "Fisioterapia", IpsEscolaID = 3 }
             };
 
             foreach (IpsCurso c in cursos)
@@ -199,6 +235,13 @@ namespace cimob.Data
                 new IpsCurso { Nome = "Educação Básica", IpsEscolaID = 4 },
                 new IpsCurso { Nome = "Tradução e Interpretação de Língua Gestual Portuguesa", IpsEscolaID = 4 },
                 new IpsCurso { Nome = "Língua Gestual Portuguesa", IpsEscolaID = 4 },
+                new IpsCurso { Nome = "Mestrado em Educação Pré-Escolar", IpsEscolaID = 4 },
+                new IpsCurso { Nome = "Mestrado em Educação Pré-Escolar e Ensino do 1º ciclo do Ensino Básico", IpsEscolaID = 4 },
+                new IpsCurso { Nome = "Mestrado em Ensino do 1º Ciclo do Ensino Básico e de Matemática e Ciências Naturais do 2º Ciclo do Ensino Básico", IpsEscolaID = 4 },
+                new IpsCurso { Nome = "Mestrado em Ensino do 1º ciclo do Ensino Básico e de Português e História e Geografia de Portugal no 2º ciclo do Ensino Básico", IpsEscolaID = 4 },
+                new IpsCurso { Nome = "Mestrado em Gestão e Administração de Escolas ", IpsEscolaID = 4 },
+                new IpsCurso { Nome = "Pós-Graduação em Educação Especial - Domínio Cognitivo e Motor", IpsEscolaID = 4 },
+                new IpsCurso { Nome = "Pós-Graduação em Supervisão Pedagógica e Formação de Formadores", IpsEscolaID = 4 }
             };
 
             foreach (IpsCurso c in cursos)
@@ -212,14 +255,23 @@ namespace cimob.Data
         private static List<IpsCurso> AddIpsCursosESCE(ApplicationDbContext context)
         {
             var cursos = new List<IpsCurso>{
-                new IpsCurso { Nome = "Contabilidade e Finanças", IpsEscolaID = 5 },
+                new IpsCurso { Nome = "Licenciatura em Contabilidade e Finanças", IpsEscolaID = 5 },
                 new IpsCurso { Nome = "Contabilidade e Finanças Noturno", IpsEscolaID = 5 },
                 new IpsCurso { Nome = "Gestão da Distribuição e da Logística", IpsEscolaID = 5 },
                 new IpsCurso { Nome = "Gestão da Distribuição e da Logística Pós-Laboral", IpsEscolaID = 5 },
                 new IpsCurso { Nome = "Gestão de Recursos Humanos", IpsEscolaID = 5 },
                 new IpsCurso { Nome = "Gestão de Recursos Humanos Pós-Laboral", IpsEscolaID = 5 },
-                new IpsCurso { Nome = "Gestão de Sistemas de Informação", IpsEscolaID = 5 },
-                new IpsCurso { Nome = "Marketing", IpsEscolaID = 5 }
+                new IpsCurso { Nome = "Licenciatura em Gestão de Sistemas de Informação", IpsEscolaID = 5 },
+                new IpsCurso { Nome = "Marketing", IpsEscolaID = 5 },
+                new IpsCurso { Nome = "Ciências Empresariais ", IpsEscolaID = 5 },
+                new IpsCurso { Nome = "Mestrado em Contabilidade e Finanças", IpsEscolaID = 5 },
+                new IpsCurso { Nome = "Gestão de Marketing", IpsEscolaID = 5 },
+                new IpsCurso { Nome = "Mestrado em Gestão de Sistemas de Informação", IpsEscolaID = 5 },
+                new IpsCurso { Nome = "Gestão e Administração de Escolas", IpsEscolaID = 5 },
+                new IpsCurso { Nome = "Gestão Estratégica de Recursos Humanos", IpsEscolaID = 5 },
+                new IpsCurso { Nome = "Segurança e Higiene no Trabalho", IpsEscolaID = 5 },
+                new IpsCurso { Nome = "Contabilidade Pública", IpsEscolaID = 5 },
+                new IpsCurso { Nome = "Gestão e Marketing Turístico", IpsEscolaID = 5 },
             };
 
             foreach (IpsCurso c in cursos)

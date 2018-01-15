@@ -5,6 +5,12 @@ namespace cimob.Models
 {
     public class Candidatura
     {
+        public Candidatura()
+        {
+            Cursos = new HashSet<CandidaturaCursos>();
+            Documentos = new List<CandidaturaDocumentos>();
+        }
+
         public int CandidaturaID { get; set; }
         public string UtilizadorID { get; set; }
         public int TipoMobilidadeID{ get; set; }
@@ -20,12 +26,12 @@ namespace cimob.Models
         public string ContactoPessoal { get; set; }
         public string EmergenciaContacto { get; set; }
         public string AnoLetivo { get; set; }
-        public int Semestre { get; set; }
+        public short Semestre { get; set; }
         public int IpsCursoID { get; set; }
-        public int Estagio { get; set; }
-        public List<CandidaturaCursos> Cursos { get; set; }
-        public List<CandidaturaDocumentos> Documentos { get; set; }
+        public short Estagio { get; set; }
         
+        public virtual ICollection<CandidaturaCursos> Cursos { get; set; }
+        public virtual ICollection<CandidaturaDocumentos> Documentos { get; set; }
         public virtual ApplicationUser Utilizador { get; set; }
         public virtual TipoMobilidade TipoMobilidade { get; set; }
         public virtual EstadoCandidatura EstadoCandidatura { get; set; }

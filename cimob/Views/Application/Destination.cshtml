@@ -1,6 +1,7 @@
 ﻿@model ApplicationViewModel;
 
 <div class="destino-form">
+    <input asp-for="SelectedCursos" class="hidden" />
     <div class="panel">
         <div class="row form-group has-feedback has-feedback-left">
             <div class="col-md-3 col-md-offset-1">
@@ -54,25 +55,25 @@
             </tr>
 
             @foreach (var item in Model.EscolasList)
-        {
-            @foreach (var curr in item.Cursos)
-        {
-            <tr>
-                <td>
-                    <input type="checkbox" data-id="@curr.CursoID" />
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Pais.Descricao)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nome)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => curr.Nome)
-                </td>
-            </tr>
-    }
-    }
+            {
+                @foreach (var curr in item.Cursos)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" data-id="@curr.CursoID" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Pais.Descricao)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nome)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => curr.Nome)
+                        </td>
+                    </tr>
+                }
+            }
         </table>
     </div>
 </div>

@@ -2,6 +2,9 @@
 
 <div class="geral-form form">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <input asp-for="Curso" class="hidden" />
+    <input asp-for="Escola" class="hidden" />
     <div class="row form-group has-feedback has-feedback-left">
         <div class="col-md-12">
             <div class="col-md-3 col-md-offset-1">
@@ -80,7 +83,7 @@
                 <label asp-for="Curso"></label>
             </div>
             <div class="input-group col-md-7">
-                @Html.DropDownListFor(p => Model.CursoList, new SelectList(Model.CursoList, "IpsCurosID", "Nome"), "Escolha uma Escola", new { @class = "form-control" })
+                @Html.DropDownListFor(p => Model.CursoList, new SelectList(Model.CursoList, "IpsCursoID", "Nome"), "Escolha uma Escola", new { @class = "form-control" })
                 <i class="glyphicon glyphicon-book form-control-feedback"></i>
                 <div class="input-group-btn">
                     <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Curso"].Titulo" data-content="@Model.AjudasDictionary["Curso"].Corpo">

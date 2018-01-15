@@ -20,26 +20,22 @@ namespace cimob.Controllers
     public class ApplicationController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly ApplicationDbContext _context;
+        private List<int> selectedCurso;
 
         public ApplicationController(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
-            RoleManager<IdentityRole> roleManager,
             IEmailSender emailSender,
             ILogger<ApplicationController> logger,
             ApplicationDbContext context)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
-            _roleManager = roleManager;
             _emailSender = emailSender;
             _logger = logger;
-            _context = context;
+            _context = context; 
+            selectedCurso = new List<int>();
         }
 
         // GET: Application
@@ -51,7 +47,7 @@ namespace cimob.Controllers
             {
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-            
+
             return View(new ApplicationViewModel {
                 AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Application" }), _context),
                 EscolasList = GetEscolas(),
@@ -62,7 +58,11 @@ namespace cimob.Controllers
                 DataNascimento = user.DataNascimento,
                 Numero = user.Numero,
                 Nome = user.Nome,
-                Email = user.Email
+                Email = user.Email,
+                SelectedCursos = "",
+                Escola = 0,
+                Curso = 0,
+                Parentesco = 0
             });
         }
 
@@ -85,7 +85,7 @@ namespace cimob.Controllers
 
             if (ModelState.IsValid)
             {
-                var result = await _context.Candidaturas.AddAsync(new Candidatura
+                var c = new Candidatura
                 {
                     AnoLetivo = model.Ano,
                     ContactoPessoal = model.ContactoPessoal,
@@ -102,33 +102,38 @@ namespace cimob.Controllers
                     RejeicaoRazao = "",
                     Rejeitada = -1,
                     Semestre = GetSemestre(),
-                    TipoMobilidadeID = model.TipoMobilidade,
-                    UtilizadorID = user.Id
-                });
-                Console.WriteLine("result state - " + result.State.ToString());
-                if (result.State.ToString() == "RanToCompletion")
+                    TipoMobilidadeID = 1,
+                    UtilizadorID = user.Id,
+                    Documentos = null
+                };
+
+                var result = await _context.Candidaturas.AddAsync(c);
+                
+                if (result.State.ToString() == "Added")
                 {
+                    _context.SaveChanges();
+
+                    var tmp = new List<CandidaturaCursos>();
+
+                    model.SelectedCursos.Split(",").ToList().ForEach(item => {
+                        tmp.Add(new CandidaturaCursos { CandidaturaID = c.CandidaturaID, CursoID = int.Parse(item) });
+                    });
+                    
+                    _context.CandidaturaCursos.AddRange(tmp);
+
+                    _context.SaveChanges();
+                    
+                    _context.CandidaturaDocumentos.Add(
+                        new CandidaturaDocumentos {
+                            CandidaturaID = c.CandidaturaID,
+                            CandidaturaDocumentosID = model.DocID
+                        });
+
                     _logger.LogInformation("User created a new application.");
 
                     return RedirectToAction(nameof(ApplicationConfirmation));
                 }
-                
-                Console.WriteLine(result);
-
-                //HelperFunctionsExtensions.AddErrors(result, ModelState);
             }
-            Console.WriteLine("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-            // If we got this far, something failed, redisplay form
-            model.AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Application" }), _context);
-            model.EscolasList = GetEscolas();
-            model.EscolaList = GetEscolasIPS();
-            model.CursoList = new List<IpsCurso>();
-            model.PaisesList = GetPaises();
-            model.ParentescoList = GetParentesco();
-            model.DataNascimento = user.DataNascimento;
-            model.Numero = user.Numero;
-            model.Nome = user.Nome;
-            model.Email = user.Email;
 
             return View(model);
         }
@@ -138,17 +143,6 @@ namespace cimob.Controllers
         public IActionResult ApplicationConfirmation()
         {
             return View();
-        }
-
-        [HttpPost]
-        public ActionResult UpdateSelectedCurso(ApplicationViewModel model, [FromBody] int value, [FromBody] bool add)
-        {
-            if (add)
-                model.SelectedCursos.Add(value);
-            else
-                model.SelectedCursos.Remove(value);
-
-            return StatusCode(200);
         }
 
         // GET: Application/GetCursosByEscola/1
@@ -178,27 +172,18 @@ namespace cimob.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateCurso (ApplicationViewModel model, [FromBody] int value)
+        public async Task<ActionResult> UploadFile(IFormFile file)
         {
-            model.Curso = value;
+            var d = new Documento {
+                FicheiroCaminho = await FileHandling.Upload(file),
+                FicheiroNome = file.FileName,
+                OrigemCimob = 0
+            };
 
-            return StatusCode(200);
-        }
+            _context.Documentos.Add(d);
+            _context.SaveChanges();
 
-        [HttpPost]
-        public ActionResult UpdateEscola(ApplicationViewModel model, [FromBody] int value)
-        {
-            model.Escola = value;
-
-            return StatusCode(200);
-        }
-
-        [HttpPost]
-        public ActionResult UpdateParentesco(ApplicationViewModel model, [FromBody] int value)
-        {
-            model.Parentesco = value;
-
-            return StatusCode(200);
+            return Json(d);
         }
 
 
@@ -215,7 +200,7 @@ namespace cimob.Controllers
 
         private List<IpsCurso> GetCursoIPS()
         {
-            return _context.IpsCursos.ToList();
+            return _context.IpsCursos.OrderBy(c => c.Nome).ToList();
         }
 
         private List<Pais> GetPaises()
@@ -228,19 +213,10 @@ namespace cimob.Controllers
             return _context.Parentescos.ToList();
         }
 
-        private List<CandidaturaCursos> GetCursosCandidatura(ApplicationViewModel model)
-        {
-            var tmp = new List<CandidaturaCursos>();
-
-            model.SelectedCursos.ForEach(c => tmp.Add(new CandidaturaCursos { CursoID = c }));
-
-            return tmp;
-        }
-
-        private int GetSemestre()
+        private short GetSemestre()
         {
             var mes = DateTime.Today.Month;
-            return (mes >= 8 && mes <= 2) ? 1 : 2;
+            return (short)((mes >= 8 && mes <= 2) ? 1 : 2);
         }
     }
 }
