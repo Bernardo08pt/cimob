@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IO;
-using System.Net;
 using System.Threading.Tasks;
+using cimob.Extensions;
 
 namespace cimob.Services
 {
@@ -13,12 +12,20 @@ namespace cimob.Services
         {
             var path = "Files/" + folder + "/" + new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds() + ".pdf";
 
-            if (file.Length > 0)
+            if (file.Length == 0)
+                throw new NoFileExpcetion();
+
+            if (file.Length > 1000000)
+                throw new FileSizeException();
+
+            var tmp = file.FileName.Split(".");
+
+            if (tmp[tmp.Length - 1].ToLower() != "pdf")
+                throw new FormatException();
+                
+            using (var stream = new FileStream(path, FileMode.Create))
             {
-                using (var stream = new FileStream(path, FileMode.Create))
-                {
-                    await file.CopyToAsync(stream);
-                }
+                await file.CopyToAsync(stream);
             }
 
             return path;

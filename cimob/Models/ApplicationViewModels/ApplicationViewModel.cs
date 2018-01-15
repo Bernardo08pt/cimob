@@ -7,8 +7,6 @@ namespace cimob.Models.ApplicationViewModels
 {
     public class ApplicationViewModel
     {
-        public int TipoMobilidade { get; set; }
-        
         #region comboboxes
         public List<IpsCurso> CursoList { get; set; }
         public List<IpsEscola> EscolaList { get; set; }
@@ -81,9 +79,9 @@ namespace cimob.Models.ApplicationViewModels
 
         #region docs
         [Display(Name = "Carta de Motivação")]
-        [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         public IFormFile CartaMotivacao { get; set; }
 
+        [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         public int DocID { get; set; }
         #endregion
 
@@ -93,6 +91,12 @@ namespace cimob.Models.ApplicationViewModels
         public string SelectedCursos { get; set; }
         #endregion
 
+
+        #region misc 
         public IDictionary<string, Ajuda> AjudasDictionary { get; set; }
+        public IDictionary<string, Erro> ErrosDictionary { get; set; }
+
+        public int TipoMobilidade { get; set; }
+        #endregion 
     }
 }

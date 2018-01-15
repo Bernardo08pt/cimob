@@ -14,6 +14,7 @@
 
     <div class="tab-content">
         <form id="application-form" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
+            <input asp-for="TipoMobilidade" class="hidden" />
             <div id="geral" role="tab">
                 @Html.Partial("GeneralInformation")
             </div>
@@ -40,9 +41,12 @@
     <script>
         $(() => {
             var curr = window.location.hash.split("#/")[1];
-
-            if (curr != undefined || curr != "geral")
+            
+            if (curr != undefined || curr != "geral") {
                 changePage();
+            }
+
+            $("#TipoMobilidade").val(window.location.href.split("?tipo_mobilidade=")[1]);
 
             bindEvents();
         });

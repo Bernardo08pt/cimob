@@ -59,11 +59,7 @@ namespace cimob.Controllers
                 DataNascimento = user.DataNascimento,
                 Numero = user.Numero,
                 Nome = user.Nome,
-                Email = user.Email,
-                SelectedCursos = "",
-                Escola = 0,
-                Curso = 0,
-                Parentesco = 0
+                Email = user.Email
             });
         }
 
@@ -94,6 +90,7 @@ namespace cimob.Controllers
                     EmailAlternativo = model.EmailAlternativo,
                     EmegerenciaParentescoID = model.Parentesco,
                     EmergenciaContacto = model.ContactoEmergencia,
+                    TipoMobilidadeID = model.TipoMobilidade,
                     Entrevista = "",
                     EstadoCandidaturaID = 1,
                     Estagio = 1,
@@ -103,7 +100,6 @@ namespace cimob.Controllers
                     RejeicaoRazao = "",
                     Rejeitada = -1,
                     Semestre = GetSemestre(),
-                    TipoMobilidadeID = 1,
                     UtilizadorID = user.Id,
                     Documentos = null
                 };
@@ -132,16 +128,27 @@ namespace cimob.Controllers
 
                     _logger.LogInformation("User created a new application.");
 
-                    return RedirectToAction(nameof(ApplicationConfirmation));
+                    return RedirectToAction(nameof(Confirmation));
                 }
             }
+
+            model.AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Application" }), _context);
+            model.EscolasList = GetEscolas();
+            model.EscolaList = GetEscolasIPS();
+            model.CursoList = new List<IpsCurso>();
+            model.PaisesList = GetPaises();
+            model.ParentescoList = GetParentesco();
+            model.DataNascimento = user.DataNascimento;
+            model.Numero = user.Numero;
+            model.Nome = user.Nome;
+            model.Email = user.Email;
 
             return View(model);
         }
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult ApplicationConfirmation()
+        public IActionResult Confirmation()
         {
             return View();
         }
@@ -190,17 +197,35 @@ namespace cimob.Controllers
         [HttpPost]
         public async Task<ActionResult> UploadFile(IFormFile file)
         {
-            var d = new Documento {
-                FicheiroCaminho = await FileHandling.Upload(file, "Candidaturas"),
-                FicheiroNome = file.FileName,
-                OrigemCimob = 0,
-                DataUpload = DateTime.Today
-            };
+            try
+            {
+                var d = new Documento
+                {
+                    FicheiroCaminho = await FileHandling.Upload(file, "Candidaturas"),
+                    FicheiroNome = file.FileName,
+                    OrigemCimob = 0,
+                    DataUpload = DateTime.Today
 
-            _context.Documentos.Add(d);
-            _context.SaveChanges();
+                };
+                _context.Documentos.Add(d);
+                _context.SaveChanges();
 
-            return Json(d);
+                return Json(new { status = "error", data = d });
+            }
+            catch (Exception ex)
+            {
+                return Json(
+                    new {
+                        status = "error",
+                        data = GetErro((
+                            ex is FileSizeException ? "FileToo" : 
+                            ex is FormatException ? "InvalidFormat" : 
+                            "InvalidFile"
+                        ))
+                    }
+                );
+
+            }   
         }
 
         // GET: Application/Download/1
@@ -263,6 +288,11 @@ namespace cimob.Controllers
         {
             var mes = DateTime.Today.Month;
             return (short)((mes >= 8 && mes <= 2) ? 1 : 2);
+        }
+
+        private string GetErro(string err)
+        {
+            return _context.Erros.Where(e => e.Nome == err).Select(e => e.Mensagem).FirstOrDefault();
         }
     }
 }
