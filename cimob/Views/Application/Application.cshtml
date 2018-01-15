@@ -98,9 +98,10 @@
                 var elem = $(ev.currentTarget).parent().find("input[type='checkbox']");
 
                 elem.prop("checked", !elem.prop("checked"));
+                elem.trigger("change");
             });
 
-            $(".destino-form .listing input[type='checkbox']").off("change").on("change", (ev) => {
+            $(".destino-form .listing input[type='checkbox']").on("change", (ev) => {
                 var parent = ev.currentTarget.parentElement.parentElement;
                 var isSelecting = !parent.classList.contains("selected");
 

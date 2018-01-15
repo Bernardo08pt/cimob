@@ -176,7 +176,7 @@ namespace cimob.Controllers
         public async Task<ActionResult> UploadFile(IFormFile file)
         {
             var d = new Documento {
-                FicheiroCaminho = await FileHandling.Upload(file),
+                FicheiroCaminho = await FileHandling.Upload(file, "Candidaturas"),
                 FicheiroNome = file.FileName,
                 OrigemCimob = 0,
                 DataUpload = DateTime.Today

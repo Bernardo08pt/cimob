@@ -9,9 +9,9 @@ namespace cimob.Services
 {
     public class FileHandling
     {
-        internal static async Task<string> Upload(IFormFile file)
+        internal static async Task<string> Upload(IFormFile file, string folder)
         {
-            var path = "dsads";
+            var path = "Files/" + folder + "/" + new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds() + ".pdf";
 
             if (file.Length > 0)
             {
