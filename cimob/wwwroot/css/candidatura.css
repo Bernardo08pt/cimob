@@ -400,11 +400,4 @@ select.form-control{
     color: white;
     margin: 20px;
 }
-
-/*Alerta de alteração de password*/
-.alert-password-sucess {
-    color: white;
-    font-weight: normal;
-    background-color: #6aa84f;
-    display: none;
-}
+    

@@ -11,9 +11,10 @@ using System;
 namespace cimob.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180114171314_editais")]
+    partial class editais
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,9 +101,9 @@ namespace cimob.Migrations
                     b.Property<int>("CandidaturaID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AnoLetivo");
+                    b.Property<int>("AnoLetivo");
 
-                    b.Property<string>("ContactoPessoal");
+                    b.Property<int>("ContactoPessoal");
 
                     b.Property<DateTime>("DataNascimento");
 
@@ -110,13 +111,13 @@ namespace cimob.Migrations
 
                     b.Property<int>("EmegerenciaParentescoID");
 
-                    b.Property<string>("EmergenciaContacto");
+                    b.Property<int>("EmergenciaContacto");
 
                     b.Property<string>("Entrevista");
 
                     b.Property<int>("EstadoCandidaturaID");
 
-                    b.Property<short>("Estagio");
+                    b.Property<int>("Estagio");
 
                     b.Property<int>("IpsCursoID");
 
@@ -128,7 +129,7 @@ namespace cimob.Migrations
 
                     b.Property<int>("Rejeitada");
 
-                    b.Property<short>("Semestre");
+                    b.Property<int>("Semestre");
 
                     b.Property<int>("TipoMobilidadeID");
 
@@ -212,8 +213,6 @@ namespace cimob.Migrations
                     b.Property<int>("DocumentoID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("DataUpload");
-
                     b.Property<string>("FicheiroCaminho");
 
                     b.Property<string>("FicheiroNome");
@@ -233,8 +232,6 @@ namespace cimob.Migrations
                     b.Property<string>("Caminho");
 
                     b.Property<DateTime>("DataLimite");
-
-                    b.Property<int>("Estado");
 
                     b.Property<string>("Nome");
 

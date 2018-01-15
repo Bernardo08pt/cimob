@@ -14,6 +14,7 @@ using cimob.Models;
 using cimob.Models.ManageViewModels;
 using cimob.Services;
 using cimob.Extensions;
+using cimob.Data;
 
 namespace cimob.Controllers
 {
@@ -26,6 +27,7 @@ namespace cimob.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
+        private readonly ApplicationDbContext _context;
 
         private const string AuthenicatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 
@@ -34,13 +36,15 @@ namespace cimob.Controllers
           SignInManager<ApplicationUser> signInManager,
           IEmailSender emailSender,
           ILogger<ManageController> logger,
-          UrlEncoder urlEncoder)
+          UrlEncoder urlEncoder,
+          ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
             _urlEncoder = urlEncoder;
+            _context = context;
         }
 
         [TempData]
@@ -471,6 +475,17 @@ namespace cimob.Controllers
         [HttpGet]
         public IActionResult Profile()
         {
+            //Acedemos a flag passada no EditProfile
+            var alert = TempData["ShowAlert"];
+
+            if (alert != null) //Caso nao seja null, passo a variavel por View Bag e mostro o alert na página Área Pessoal
+            {
+                ViewBag.ShowAlert = alert;
+            }
+            else //Caso tenha clicado no botão voltar, envia-se a false para não dar um erro
+            { 
+                ViewBag.ShowAlert = false;
+            }
 
             return View();
         }
@@ -522,7 +537,26 @@ namespace cimob.Controllers
                 }
             }
 
-            return View(model);
+            //Passa-se uma flag para mostrar o alert para a action Profile
+            TempData["ShowAlert"] = true;
+
+            //Depois de submeter a alteração da password volta para a página Área Pessoal
+            return RedirectToAction(nameof(Profile));
+        }
+
+        //Método que permite saber se o Candidato já submeteu a candidatura
+        [HttpGet]
+        public async Task<IActionResult> IsApplicationSubmited()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            ViewBag.CandidaturaSubmetida = _context.Candidaturas.Where(c => c.UtilizadorID == user.Id);
+
+            return View();
         }
 
         #region Helpers

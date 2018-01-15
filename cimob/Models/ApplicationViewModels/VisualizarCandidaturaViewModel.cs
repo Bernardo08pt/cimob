@@ -56,23 +56,23 @@ namespace cimob.Models.ApplicationViewModels
 
         #region documentos
         [Display(Name = "Novos Documentos:")]
-        public string NovosDocumentos;
+        public string NovosDocumentos { get; set; }
 
-        public List<Documento> Documentos;
+        public List<Documento> Documentos { get; set; }
         #endregion
 
         #region avaliacao
         [Display(Name = "Entrevista:")]
-        public string Entrevista;
+        public string Entrevista { get; set; }
 
         [Display(Name = "Pontuação:")]
-        public string Pontuacao;
+        public string Pontuacao { get; set; }
 
         [Display(Name = "Observações:")]
-        public string Observacoes;
+        public string Observacoes { get; set; }
 
         [Display(Name = "Listagem:")]
-        public string Listagem; //Será uma lista com as unidades curriculares??
+        public string Listagem { get; set; } //Será uma lista com as unidades curriculares??
         #endregion
 
         public IDictionary<string, Ajuda> AjudasDictionary { get; set; }
