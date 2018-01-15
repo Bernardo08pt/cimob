@@ -218,7 +218,7 @@ namespace cimob.Controllers
                     new {
                         status = "error",
                         data = GetErro((
-                            ex is FileSizeException ? "FileToo" : 
+                            ex is FileSizeException ? "FileTooBig" : 
                             ex is FormatException ? "InvalidFormat" : 
                             "InvalidFile"
                         ))

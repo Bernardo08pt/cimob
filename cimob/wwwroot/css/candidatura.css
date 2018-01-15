@@ -71,11 +71,49 @@
                 box-shadow: inset 1px 2px 1px rgba(0,0,0,0.5);
             }
 
+    .content-wrapper #alert-wrapper {
+        width: 50%;
+        position: absolute;
+        z-index: 9999;
+        left: 0;
+        right: 0;
+        margin: auto;
+        top: 30px;
+        transition: .4s;
+    }
+
+    .content-wrapper .fade-in {
+        opacity: 1;
+        animation-name: fadeInOpacity;
+        animation-iteration-count: 1;
+        animation-timing-function: ease-in;
+        animation-duration: 2s;
+    }
+
+        .content-wrapper .fade-out {
+            opacity: 0;
+            animation-name: fadeInOpacity;
+            animation-iteration-count: 1;
+            animation-timing-function: ease-out;
+            animation-duration: 2s;
+        }
+
+        @keyframes fadeInOpacity {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
 .candidatura-wrapper {
     width: 50%;
     margin: 30px auto 0;
 }
 
+    
     .candidatura-wrapper .buttons {
         padding: 10px 0;
         position: absolute;

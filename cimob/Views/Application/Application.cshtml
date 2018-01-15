@@ -52,6 +52,10 @@
         });
 
         var bindEvents = () => {
+            $(window).on("hashchange", (ev) => {
+                changePage();
+            });
+
             $(".candidatura-wrapper li").on("click", (ev) => {
                 window.location.hash = "/" + ev.currentTarget.getAttribute("data-id");
             });
@@ -93,10 +97,6 @@
             $("#btn_submit").on("click", (ev) => {
                 $("#application-form").submit();
             })
-
-            $(window).on("hashchange", (ev) => {
-                changePage();
-            });
 
             $(".destino-form .listing td:not(:first-child)").on("click", (ev) => {
                 var elem = $(ev.currentTarget).parent().find("input[type='checkbox']");
@@ -216,6 +216,11 @@
                     processData: false,
                     data: data,
                     success: function (result) {
+                        if (result.status == "error") {
+                            alerta(result.data, "danger");
+                            return;
+                        }
+
                         $("#DocID").val(result.documentoID);
                         $("#file_name").val("");
 
@@ -332,6 +337,22 @@
             dia = dia < 10 ? "0" + dia : dia;
 
             return dia + " / " + mes + " / " + tmp.getFullYear();
+        }
+
+        var alerta = (mensagem, type) => {
+            var wrapper = $("#alert-wrapper");
+            var tmp = $("#alert");
+
+            wrapper.removeClass("fade-out");
+            tmp.addClass("alert-" + type);
+            tmp.html(mensagem);
+
+            setTimeout(() => {
+                wrapper.addClass("fade-out");
+                setTimeout(() => {
+                    tmp.removeClass("alert-" + type);
+                }, 2100)
+            }, 5000);
         }
     </script>
 }
