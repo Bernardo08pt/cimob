@@ -397,6 +397,7 @@ namespace cimob.Data
             context.Ajudas.Add(new Ajuda{Pagina = "Editais", Nome="NomeEdital", Titulo="Nome do edital", Corpo="<p>O nome do edital que vai submeter.</p>"});
             context.Ajudas.Add(new Ajuda{Pagina = "Editais", Nome="CarregarEdital", Titulo="Carregar edital", Corpo="<p>O ficheiro tem de ser em formato PDF.</p>"});
             context.Ajudas.Add(new Ajuda{Pagina = "Editais", Nome="SelecionarPrograma", Titulo="Selecionar Programa", Corpo="<p>Selecione o programa a que se refere o edital.</p>"});
+            context.Ajudas.Add(new Ajuda { Pagina = "Editais", Nome = "DataLimite", Titulo = "Data Limite", Corpo = "<p>Data em que o edital \"Fecha\". Esta data não pode ser inferior ou igual à atual.</p>" });
 
             //avaliação da candidatura 
             context.Ajudas.Add(new Ajuda{Pagina = "VisualizarCandidatura", Nome="Pontuacao", Titulo="Pontuação", Corpo="<p>Pontuação que quer dar à candidatura submetida</p>"});
@@ -420,7 +421,8 @@ namespace cimob.Data
         {
             context.Erros.Add(new Erro { Nome = "FileTooBig", Mensagem = "Tamanho do ficheiro tem que ser inferior a 1mb." });
             context.Erros.Add(new Erro { Nome = "InvalidFile", Mensagem = "Ficheiro inserido inválido, tente outro ficheiro." });
-            context.Erros.Add(new Erro { Nome = "InvalidFormat", Mensagem = "Ficheiro tem que ter o formato .pdf ." });
+            context.Erros.Add(new Erro { Nome = "InvalidFormat", Mensagem = "Ficheiro tem que ter o formato pdf." });
+            context.Erros.Add(new Erro { Nome = "EditalExists", Mensagem = "Atenção: Já existe um edital com esse nome." });
 
             //Gravar alterações
             context.SaveChanges();

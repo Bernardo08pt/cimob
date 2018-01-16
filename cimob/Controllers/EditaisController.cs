@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using cimob.Data;
@@ -8,12 +7,15 @@ using cimob.Extensions;
 using cimob.Models;
 using cimob.Models.ApplicationViewModels;
 using cimob.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace cimob.Controllers
 {
+    [Authorize]
     public class EditaisController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -50,65 +52,71 @@ namespace cimob.Controllers
         }
 
         // POST: Edital
-        [HttpPost]
+        [HttpPost("UploadFiles")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(EditaisViewModel model)
         {
-
             if (ModelState.IsValid)
             {
-                var optionSelected = from p in _context.TiposMobilidade where p.TipoMobilidadeID == model.ProgramaMobilidadeID select p;
-
-                //Criar o edital com as informações que o utilizador inseriu na página
-                Edital e = new Edital
+                try
                 {
-                    Nome = model.Nome,
-                    Caminho = "SW", //TODO: Por o caminho certo
-                    TipoMobilidade = optionSelected.First(),
-                    DataLimite = model.DataLimite,
-                    Estado = 0
-                };
+                    //Obter um edital que tenha o mesmo nome que o inserido no model
+                    var result = _context.Editais.Where(ed => ed.Nome == model.Nome).Count();
 
-                //Obter um edital que tenha o mesmo nome que o inserido no model
-                var result = from edital in _context.Editais where edital.Nome == e.Nome select edital;
+                    //Serve para mostrar o alert de sucesso/insucesso
+                    if (result > 0)
+                        return View(SetupError(model, "EditalExists"));
 
-                //Obter todos os utilizadores, convêm ser é os que são só candidatos
-                var allUsers = from utilizador in _context.Users select utilizador;
+                    //Criar o edital com as informações que o utilizador inseriu na página
+                    var e = new Edital
+                    {
+                        Nome = model.Nome,
+                        Caminho = await FileHandling.Upload(model.CarregarEdital, "Editais"),
+                        NomeFicheiro = model.CarregarEdital.FileName,
+                        TipoMobilidadeID = model.ProgramaMobilidadeID,
+                        DataLimite = model.DataLimite,
+                        Estado = 0
+                    };
 
-                //Se não houver nenhum com o mesmo nome é porque esse edital ainda não existe na BD
-                if (!result.Any())
-                {
                     _context.Editais.Add(e);
                     _context.SaveChanges();
-                    
-                    //email a notificar todos os utilizadores que um edital foi publicado
-                    foreach (var u in allUsers)
-                    {
-                        //Envio do email
-                        await _emailSender.SendEmailAsync(u.Email, "Edital Publicado",
-                        "<p><span style='font-size: 18px;'>Caro(a) " + u.Nome + ",<strong> </strong></span></p>" +
-                        "<p><span style='font-size: 18px;'>Gostaríamos de informar que foi publicado o edital referente a " + e.TipoMobilidade.Descricao+ ".</span></p>" +
-                        "<p><br></p>" +
-                        "<p><span style = 'font-size: 18px;'> Melhores cumprimentos Equipa CIMOB - IPS </span></p>" +
-                        "<p><span style = 'font-size: 14px;'> Nota: este e-mail foi gerado automaticamente, pelo que n&atilde;o deve responder pois quaisquer respostas n&atilde;o ser&atilde;o vistas.</span></p>" +
-                         "<span style = 'font-size: 12px;'> &nbsp;</span></p>");
-                    }
+                }
+                catch (Exception ex)
+                { 
+                    return View(SetupError(model, 
+                        (ex is FileSizeException ? "FileTooBig" :
+                            ex is FormatException ? "InvalidFormat" :
+                            "InvalidFile")
+                        )
+                    );
+                }
+                
+                //Obter todos os utilizadores, convêm ser é os que são só candidatos
+                var allUsers = from utilizador in _context.Users select utilizador;
+                var mobilidade = _context.TiposMobilidade.Where(p => p.TipoMobilidadeID == model.ProgramaMobilidadeID).Select(p => p.Descricao).FirstOrDefault();
 
-                    //Serve para mostrar o alert de sucesso/insucesso
-                    ViewBag.IsSucceded = true;
-                }
-                else
+                //email a notificar todos os utilizadores que um edital foi publicado
+                foreach (var u in allUsers)
                 {
-                    //Serve para mostrar o alert de sucesso/insucesso
-                    ViewBag.IsSucceded = false;
+                    //Envio do email
+                    await _emailSender.SendEmailAsync(u.Email, "Edital Publicado",
+                    "<p><span style='font-size: 18px;'>Caro(a) " + u.Nome + ",<strong> </strong></span></p>" +
+                    "<p><span style='font-size: 18px;'>Gostaríamos de informar que foi publicado o edital referente a " + mobilidade + ".</span></p>" +
+                    "<p><br></p>" +
+                    "<p><span style = 'font-size: 18px;'> Melhores cumprimentos Equipa CIMOB - IPS </span></p>" +
+                    "<p><span style = 'font-size: 14px;'> Nota: este e-mail foi gerado automaticamente, pelo que n&atilde;o deve responder pois quaisquer respostas n&atilde;o ser&atilde;o vistas.</span></p>" +
+                        "<span style = 'font-size: 12px;'> &nbsp;</span></p>");
                 }
+
+                //Serve para mostrar o alert de sucesso/insucesso
+                ViewBag.IsSucceded = true;
             }
             
             model.AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Editais" }), _context);
             model.TipoMobilidadeList = GetTiposMobilidade();
             model.Editais = GetEditais();
 
-             return View(model);
+            return View(model);
         }
 
         //Método para obter os tipos de mobilidade existentes na bd para mostrar no dropdown list da inserção dos editais
@@ -143,5 +151,16 @@ namespace cimob.Controllers
             return new List<Edital>();
         }
 
+        private EditaisViewModel SetupError(EditaisViewModel model, string error)
+        {
+            ViewBag.Message = HelperFunctionsExtensions.GetError(error, _context);
+            ViewBag.IsSucceded = false;
+
+            model.AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Editais" }), _context);
+            model.TipoMobilidadeList = GetTiposMobilidade();
+            model.Editais = GetEditais();
+            
+            return model;
+        }
     }
 }
