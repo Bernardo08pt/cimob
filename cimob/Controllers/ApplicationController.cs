@@ -117,7 +117,7 @@ namespace cimob.Controllers
                     _context.CandidaturaDocumentos.Add(
                         new CandidaturaDocumentos {
                             CandidaturaID = c.CandidaturaID,
-                            CandidaturaDocumentosID = model.DocID
+                            DocumentoID = model.DocID
                         });
 
                     _context.SaveChanges();

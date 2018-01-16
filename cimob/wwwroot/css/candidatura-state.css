@@ -127,3 +127,7 @@ li {
     height: 150px;
     margin-top: 10px;
 }
+
+.complete {
+    opacity: 1;
+}

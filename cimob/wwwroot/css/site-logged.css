@@ -222,9 +222,15 @@
         }
 
         .content-wrapper .table .selected,
-        .content-wrapper .table tr:not(:first-child):hover {
+        .content-wrapper .table tr:not(:first-child):hover,
+        .content-wrapper .table tr:not(:first-child):hover > td a {
             background: #8EA9CC;
-            color: #fff;
+            color: #f9f9f9;
+        }
+
+        .table td i {
+            display: block;
+            text-align: center;
         }
 
 .no-padding-margin {

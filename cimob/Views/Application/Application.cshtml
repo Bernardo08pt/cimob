@@ -41,19 +41,23 @@
     <script>
         $(() => {
             var curr = window.location.hash.split("#/")[1];
-            
+
             if (curr != undefined || curr != "geral") {
                 changePage();
             }
 
-            var mobilidade = window.location.href.split("?tipo_mobilidade=")[1];
+            var elem = $("#TipoMobilidade");
 
-            if (mobilidade == undefined) {
-                window.location = "/ProgramasMobilidade";
-                return;
+            if (elem.val() == "" || elem.val() == "0" || elem.val() == 0) {
+                var mobilidade = window.location.href.split("?tipo_mobilidade=")[1];
+
+                if (mobilidade == undefined) {
+                    window.location = "/ProgramasMobilidade";
+                    return;
+                }
+
+                elem.val(mobilidade);
             }
-
-            $("#TipoMobilidade").val(mobilidade);
 
             bindEvents();
         });

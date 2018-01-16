@@ -11,15 +11,3 @@
         .editais-listing .table td:last-child {
             width: 48px;
         }
-
-        .editais-listing .table td a {
-            display: block;
-            text-align: center;
-            color: #000;
-            text-decoration: none;
-        }
-
-        .editais-listing .table td a:hover {
-            text-decoration: none;
-            color: #000;
-        }
