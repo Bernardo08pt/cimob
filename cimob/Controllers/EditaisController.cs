@@ -78,7 +78,7 @@ namespace cimob.Controllers
                         NomeFicheiro = model.CarregarEdital.FileName,
                         TipoMobilidadeID = model.ProgramaMobilidadeID,
                         DataLimite = model.DataLimite,
-                        Estado = 1
+                        Estado = 0
                     };
 
                     _context.Editais.Add(e);
@@ -128,6 +128,7 @@ namespace cimob.Controllers
         {
             return View(new EditaisViewModel
             {
+                TipoMobilidadeList = GetTiposMobilidade(),
                 Editais = GetEditais()
             });
         }

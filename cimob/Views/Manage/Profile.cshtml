@@ -4,11 +4,6 @@
     Layout = "~/Views/Shared/_LayoutWhite.cshtml";
 }
 
-<a asp-area="" asp-controller="Editais" asp-action="VisualizarEditais">Editais</a>
-
-
-
-
 <!--Alert da alteração da password-->
 @if (ViewBag.ShowAlert)
 {
@@ -35,9 +30,11 @@
 {
     <div class="container-fluid button-wrapper">
         <div class="col-md-3 col-md-offset-3">
+            <!--Meter para o caminho certo-->
             <a class="menu-button">Estado da Candidatura</a>
         </div>
         <div class="col-md-2">
+            <!--Meter para o caminho certo-->
             <a class="menu-button">Documentos da Candidatura</a>
         </div>
     </div>
@@ -47,7 +44,7 @@ else
 {
     <div class="container-fluid button-wrapper">
         <div class="col-md-3 col-md-offset-3">
-            <a asp-controller="Editais" asp-action="Index" class="menu-button">Editais</a>
+            <a asp-controller="Editais" asp-action="VisualizarEditais" class="menu-button">Editais</a>
         </div>
         <div class="col-md-2">
             <a asp-controller="ProgramasMobilidade" asp-action="Index" class="menu-button">Candidaturas</a>
