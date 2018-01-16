@@ -397,6 +397,7 @@ namespace cimob.Data
             context.Ajudas.Add(new Ajuda{Pagina = "Editais", Nome="NomeEdital", Titulo="Nome do edital", Corpo="<p>O nome do edital que vai submeter.</p>"});
             context.Ajudas.Add(new Ajuda{Pagina = "Editais", Nome="CarregarEdital", Titulo="Carregar edital", Corpo="<p>O ficheiro tem de ser em formato PDF.</p>"});
             context.Ajudas.Add(new Ajuda{Pagina = "Editais", Nome="SelecionarPrograma", Titulo="Selecionar Programa", Corpo="<p>Selecione o programa a que se refere o edital.</p>"});
+            context.Ajudas.Add(new Ajuda { Pagina = "Editais", Nome = "DataLimite", Titulo = "Data Limite", Corpo = "<p>Data em que o edital \"Fecha\". Esta data não pode ser inferior ou igual à atual.</p>" });
 
             //avaliação da candidatura 
             context.Ajudas.Add(new Ajuda{Pagina = "VisualizarCandidatura", Nome="Pontuacao", Titulo="Pontuação", Corpo="<p>Pontuação que quer dar à candidatura submetida</p>"});

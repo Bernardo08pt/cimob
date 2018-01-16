@@ -1,0 +1,54 @@
+﻿.editais {
+    width: 60%;
+    margin: auto;
+}
+
+#editaisForm .row:not(p) {
+    text-align: left;
+    line-height: 35px;
+}
+
+.form-group {
+    text-align: left;
+}
+
+.note {
+    color: red;
+    position: relative;
+    text-align: left;
+    line-height: normal;
+}
+
+.input-group input:disabled {
+    background: #fff;
+}
+
+.button-no-arrow:hover {
+    transform: scale(1.01);
+}
+
+.editais .listing {
+    width: 70%;
+    display: block;
+    margin: auto;
+}
+
+.editais .table img {
+    width: 32px;
+    margin: auto;
+    display: block;
+}
+
+.editais .table td {
+    line-height: 30px !important;
+}
+
+.editais .button-back {
+    width: 100px;
+}
+
+.editais #btn_upload {
+    height: 30px;
+    line-height: 20px;
+    text-align: center;
+}
