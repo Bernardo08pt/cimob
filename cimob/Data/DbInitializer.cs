@@ -73,7 +73,7 @@ namespace cimob.Data
                 context.SaveChanges();
             }
 
-            if (!context.EstadosCandidatura.Any())
+            if (context.EstadosCandidatura.Count() == 0)
             {
                 AddEstadosCandidatura(context);
                 context.SaveChanges();

@@ -126,13 +126,15 @@ namespace cimob.Controllers
 
                     var mobilidade = _context.TiposMobilidade.Where(p => p.TipoMobilidadeID == model.TipoMobilidade).Select(p => p.Descricao).FirstOrDefault();
 
-                    await _emailSender.SendEmailAsync(user.Email, "Candidatura efetuado",
-                    "<p><span style='font-size: 18px;'>Caro(a) " + user.Nome + ",<strong> </strong></span></p>" +
+                    var mensagem = "<p><span style='font-size: 18px;'>Caro(a) " + user.Nome + ",<strong> </strong></span></p>" +
                     "<p><span style='font-size: 18px;'>Gostaríamos de informar que a sua candidatura para " + mobilidade + " foi efetuada com sucesso! Iremos avaliar assim que possível e mantêmo-lo-emos informado.</span></p>" +
                     "<p><br></p>" +
                     "<p><span style = 'font-size: 18px;'> Melhores cumprimentos Equipa CIMOB - IPS </span></p>" +
                     "<p><span style = 'font-size: 14px;'> Nota: este e-mail foi gerado automaticamente, pelo que n&atilde;o deve responder pois quaisquer respostas n&atilde;o ser&atilde;o vistas.</span></p>" +
-                        "<span style = 'font-size: 12px;'> &nbsp;</span></p>");
+                        "<span style = 'font-size: 12px;'> &nbsp;</span></p>";
+
+                    await _emailSender.SendEmailAsync(model.Email, "Candidatura efetuada", mensagem);
+                    await _emailSender.SendEmailAsync(model.EmailAlternativo, "Candidatura efetuada", mensagem);
 
                     return RedirectToAction(nameof(State));
                 }
@@ -239,7 +241,6 @@ namespace cimob.Controllers
         }
 
         // GET: Application/Download/1
-        // TODO: Passar isto para o FileHandling
         [HttpGet]
         public FileResult Download (int id)
         {
@@ -249,23 +250,15 @@ namespace cimob.Controllers
                     caminho = d.FicheiroCaminho,
                     nome = d.FicheiroNome
                 }).FirstOrDefault();
-            
-            return File(System.IO.File.ReadAllBytes(tmp.caminho), "application/x-msdownload", tmp.nome);
+
+            return FileHandling.Download(tmp.caminho, tmp.nome);
         }
 
         // GET: Application/View/1
-        // TODO: Passar isto para o FileHandling
         [HttpGet]
         public ActionResult View (int id)
         {   
-            return new FileStreamResult(
-                new FileStream(
-                    _context.Documentos.Where(d => d.DocumentoID == id).Select(d => d.FicheiroCaminho).FirstOrDefault(), 
-                    FileMode.Open, 
-                    FileAccess.Read
-                ), 
-                "application/pdf"
-            );
+            return FileHandling.View(_context.Documentos.Where(d => d.DocumentoID == id).Select(d => d.FicheiroCaminho).FirstOrDefault());
         }
 
         /** HELPER FUNCTIONS **/

@@ -5,13 +5,15 @@
     Layout = "/Views/Shared/_LayoutWhite.cshtml";
 }
 
+<link href="~/css/editais-listing.css" rel="stylesheet" />
+
 <!--Mostrar os editais existentes na bd-->
-<div class="listing">
+<div class="editais-listing">
     <table class="table" border="1">
         <tr>
             <th>Edital</th>
             <th>Programa Mobilidade</th>
-            <th>Download</th>
+            <th>Descarregar</th>
         </tr>
         @foreach (var item in Model.Editais)
         {
@@ -23,11 +25,14 @@
                     @Html.DisplayFor(modelItem => item.TipoMobilidade.Descricao)
                 </td>
                 <td>
-                    <!--TODO: Meter a ação de download-->
-                    <img src="~/images/application/descarregar.png" />
+                    <a target="_blank" href="/Editais/VisualizarEditais/Download/@item.EditalID">
+                        <i class="fa fa-2x fa-download" aria-hidden="true"></i>
+                    </a>
                 </td>
             </tr>
         }
     </table>
     <a asp-controller="Home" asp-action="Index" class="button button-back">Voltar</a>
 </div>
+
+<script src="https://use.fontawesome.com/3f965b3028.js"></script>

@@ -133,6 +133,21 @@ namespace cimob.Controllers
             });
         }
 
+        // GET: Editais/VisualizarEditais/Download/id
+        [HttpGet]
+        [Route("[controller]/VisualizarEditais/Download/{id}")]
+        public FileResult Download(int id)
+        {
+            var tmp = _context.Documentos.
+                Where(d => d.DocumentoID == id).
+                Select(d => new {
+                    caminho = d.FicheiroCaminho,
+                    nome = d.FicheiroNome
+                }).FirstOrDefault();
+
+            return FileHandling.Download(tmp.caminho, tmp.nome);
+        }
+
         //Método para obter os tipos de mobilidade existentes na bd para mostrar no dropdown list da inserção dos editais
         [HttpGet]
         private List<TipoMobilidade> GetTiposMobilidade()

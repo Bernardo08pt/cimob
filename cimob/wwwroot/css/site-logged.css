@@ -249,3 +249,6 @@ select.form-control {
 }
 
 
+td {
+    vertical-align: middle !important;
+}

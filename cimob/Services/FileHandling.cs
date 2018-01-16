@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using cimob.Extensions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace cimob.Services
 {
@@ -30,11 +31,25 @@ namespace cimob.Services
 
             return path;
         }
-
-        // TODO: implement this
-        internal static void Download(string path)
+        
+        internal static FileResult Download(string path, string name)
         {
-            
+            return new FileContentResult(File.ReadAllBytes(path), "application/x-msdownload")
+            {
+                FileDownloadName = name
+            };
+        }
+        
+        internal static FileResult View(string path)
+        {
+            return new FileStreamResult(
+                new FileStream(
+                    path,
+                    FileMode.Open,
+                    FileAccess.Read
+                ),
+                "application/pdf"
+            );
         }
     }
 }
