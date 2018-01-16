@@ -49,25 +49,37 @@
             <span asp-validation-for="Nome" class="text-danger"></span>
         </div>
 
+
+
         <div class="row form-group has-feedback has-feedback-left">
             <div class="col-md-3 col-md-offset-1">
                 <label asp-for="CarregarEdital"></label>
             </div>
-            <div class="input-group col-md-5">
-                <input asp-for="CarregarEdital" class="form-control" placeholder="File: ficheiro.pdf" accept="application/pdf" />
-                <i class="glyphicon glyphicon-file form-control-feedback"></i>
-                <div class="input-group-btn">
-                    <button class="btn btn-info bottom-right pop" type="button"
-                            data-title="@Model.AjudasDictionary["CarregarEdital"].Titulo"
-                            data-content="@Model.AjudasDictionary["CarregarEdital"].Corpo">
-                        <span class="glyphicon glyphicon-question-sign"></span>
-                    </button>
+            <div class="col-md-5">
+                <div class="input-group">
+                    <input asp-for="CarregarEdital" class="hidden" accept="application/pdf" />
+                    <input type="text" class="form-control" id="file_name" placeholder="Ficheiro.pdf" />
+                    <i class="glyphicon glyphicon-file form-control-feedback"></i>
+                    <div class="input-group-btn">
+                        <button class="btn btn-info bottom-right pop" type="button"
+                                data-title="@Model.AjudasDictionary["CarregarEdital"].Titulo"
+                                data-content="@Model.AjudasDictionary["CarregarEdital"].Corpo">
+                            <span class="glyphicon glyphicon-question-sign"></span>
+                        </button>
+                    </div>
+                </div>
+                <span asp-validation-for="CarregarEdital" class="text-danger"></span>
+            </div>
+            <div class="col-md-3">
+                <div class="button-no-arrow" id="btn_upload">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span>Carregar</span>
                 </div>
             </div>
-            <span asp-validation-for="CarregarEdital" class="text-danger"></span>
         </div>
 
-        <p style="color:red">Nota: Ficheiros suportados .pdf</p>
+
+        <!--<p style="color:red">Nota: Ficheiros suportados .pdf</p>-->
 
         <div class="row form-group has-feedback has-feedback-left">
             <div class="col-md-3 col-md-offset-1">

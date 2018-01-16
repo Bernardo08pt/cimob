@@ -25,21 +25,20 @@
 </div>
 
 
-<!-- is candidatado -->
-@if (ViewBag.CandidaturaSubmetida != null)
+<!-- is candidatado if (ViewBag.CandidaturaSubmetida != null)
 {
     <div class="container-fluid button-wrapper">
         <div class="col-md-3 col-md-offset-3">
-            <a asp-controller="Editais" asp-action="Index" class="menu-button">Estado da Candidatura</a>
+            <a class="menu-button">Estado da Candidatura</a>
         </div>
         <div class="col-md-2">
-            <a asp-controller="ProgramasMobilidade" asp-action="Index" class="menu-button">Documentos da Candidatura</a>
+            <a class="menu-button">Documentos da Candidatura</a>
         </div>
     </div>
 }
 // não candidatado
 else
-{
+{-->
     <div class="container-fluid button-wrapper">
         <div class="col-md-3 col-md-offset-3">
             <a asp-controller="Editais" asp-action="Index" class="menu-button">Editais</a>
@@ -48,4 +47,3 @@ else
             <a asp-controller="ProgramasMobilidade" asp-action="Index" class="menu-button">Candidaturas</a>
         </div>
     </div>
-}

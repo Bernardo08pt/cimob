@@ -482,8 +482,8 @@ namespace cimob.Controllers
             {
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-            //permite saber se o candidato ja submeteu uma candidatura
-            ViewBag.CandidaturaSubmetida = _context.Candidaturas.Where(c => c.UtilizadorID == user.Id);
+            //permite saber se o candidato ja submeteu uma candidatura - TODO: TESTAR
+            //ViewBag.CandidaturaSubmetida = _context.Candidaturas.Where(c => c.UtilizadorID == user.Id);
 
             //Acedemos a flag passada no EditProfile
             var alert = TempData["ShowAlert"];
