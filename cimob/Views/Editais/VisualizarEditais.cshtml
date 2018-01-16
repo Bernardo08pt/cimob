@@ -23,9 +23,11 @@
                     @Html.DisplayFor(modelItem => item.TipoMobilidade.Descricao)
                 </td>
                 <td>
-                    <!--Imagem para fazer download-->
+                    <!--TODO: Meter a ação de download-->
+                    <img src="~/images/application/descarregar.png" />
                 </td>
             </tr>
         }
     </table>
+    <a asp-controller="Home" asp-action="Index" class="button button-back">Voltar</a>
 </div>
