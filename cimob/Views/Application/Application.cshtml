@@ -46,7 +46,14 @@
                 changePage();
             }
 
-            $("#TipoMobilidade").val(window.location.href.split("?tipo_mobilidade=")[1]);
+            var mobilidade = window.location.href.split("?tipo_mobilidade=")[1];
+
+            if (mobilidade == undefined) {
+                window.location = "/ProgramasMobilidade";
+                return;
+            }
+
+            $("#TipoMobilidade").val(mobilidade);
 
             bindEvents();
         });
@@ -221,6 +228,8 @@
                             return;
                         }
 
+                        result = result.data;
+
                         $("#DocID").val(result.documentoID);
                         $("#file_name").val("");
 
@@ -238,12 +247,12 @@
                                 "<td>" + result.ficheiroNome + "</td>" + 
                                 "<td>" + formatDate(result.dataUpload) + "</td>" + 
                                 "<td>" +
-                                    "<a target='_blank' href='localhost:61970/Application/View/" + result.documentoID +"'>" + 
+                                    "<a target='_blank' href='/Application/View/" + result.documentoID +"'>" + 
                                         "<img src= '/images/application/visualizar.png' alt='Visualizar' />" + 
                                     "</a>" +
                                 "</td>" + 
                                 "<td>" +
-                                    "<a target='_blank' href='localhost:61970/Application/Download/" + result.documentoID + "'>" +
+                                    "<a target='_blank' href='/Application/Download/" + result.documentoID + "'>" +
                                         "<img src= '/images/application/descarregar.png' alt='Descarregar' />" +
                                     "</a>" +
                                 "</td>" +

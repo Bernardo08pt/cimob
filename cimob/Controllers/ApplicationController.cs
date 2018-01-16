@@ -210,7 +210,7 @@ namespace cimob.Controllers
                 _context.Documentos.Add(d);
                 _context.SaveChanges();
 
-                return Json(new { status = "error", data = d });
+                return Json(new { status = "success", data = d });
             }
             catch (Exception ex)
             {

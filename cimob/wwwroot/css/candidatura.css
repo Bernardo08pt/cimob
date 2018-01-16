@@ -120,14 +120,17 @@
             border-top: 1px solid #ddd;
         }
 
-        .candidatura-wrapper .tab-content .documents-form .table img{
+        .candidatura-wrapper .tab-content .documents-form .table img {
             width: 24px;
+            display: block;
+            margin: auto;
         }
 
         .candidatura-wrapper .tab-content .documents-form .table td:nth-child(3),
         .candidatura-wrapper .tab-content .documents-form .table td:nth-child(4),
         .candidatura-wrapper .tab-content .documents-form .table td:nth-child(5) {
             width: 48px;
+            vertical-align: middle;
         }
 
     

@@ -58,6 +58,7 @@
             width: 250px;
             text-decoration: none;
             outline: none;
+            cursor: pointer;
         }
 
         .content-wrapper .button-wrapper .button:first-child {
@@ -197,11 +198,13 @@
 
     .content-wrapper .button-no-arrow {
         background: #2779EA;
-        padding: 5px 10px;
+        padding: 5px 0;
         color: #fff;
         border-radius: 5px;
         border: solid 1px #000;
         cursor: pointer;
+        text-align: center;
+        width: 70%;
     }
 
     .content-wrapper .table {

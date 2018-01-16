@@ -1,34 +1,3 @@
 ﻿<script>
     window.location = "/Manage/Profile";
 </script>
-
-
-@{
-    ViewData["Title"] = "Início";
-    Layout = "~/Views/Shared/_LayoutWhite.cshtml";
-}
-
-<div class="header">
-    <img src="~/images/home/1.svg">
-    <img src="~/images/home/2.svg">
-    <img src="~/images/home/3.svg">
-    <img src="~/images/home/4.svg">
-    <img src="~/images/home/5.svg">
-    <img src="~/images/home/6.svg">
-    <img src="~/images/home/7.svg">
-    <img src="~/images/home/8.svg">
-    <img src="~/images/home/9.svg">
-</div>
-<div class="container-fluid button-wrapper">
-    <div class="col-md-3 col-md-offset-3">
-        <a href="/Editais" class="menu-button">Editais</a>
-    </div>
-    <div class="col-md-2">
-        <a href="/ProgramasMobilidade" class="menu-button">Candidaturas</a>
-    </div>
-</div>
-
-<!--Para Testar o que ando a fazer-->
-<a asp-area="" asp-controller="Editais" asp-action="Index">Editais</a>
-<a asp-area="" asp-controller="Manage" asp-action="Profile">Área Pessoal</a>
-<a asp-area="" asp-controller="VisualizarCandidatura" asp-action="Index">Candidatura</a>
