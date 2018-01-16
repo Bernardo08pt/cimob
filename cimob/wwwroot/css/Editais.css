@@ -40,7 +40,7 @@
 }
 
 .editais .table td {
-    line-height: 30px !important;
+    vertical-align: middle;
 }
 
 .editais .button-back {

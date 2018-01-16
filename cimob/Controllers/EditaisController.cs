@@ -8,7 +8,6 @@ using cimob.Models;
 using cimob.Models.ApplicationViewModels;
 using cimob.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -47,21 +46,25 @@ namespace cimob.Controllers
             return View(new EditaisViewModel {
                 AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Editais" }), _context),
                 TipoMobilidadeList = GetTiposMobilidade(),
-                Editais = GetEditais()
+                Editais = GetEditais(),
+                DataLimite = DateTime.Now
             });
         }
 
         // POST: Edital
-        [HttpPost("UploadFiles")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(EditaisViewModel model)
         {
+            if (model.DataLimite.CompareTo(DateTime.Now) <= 0)
+                ModelState.AddModelError("DataLimite", "Data inválida. Tem que ser superior à atual");
+
             if (ModelState.IsValid)
             {
                 try
                 {
                     //Obter um edital que tenha o mesmo nome que o inserido no model
-                    var result = _context.Editais.Where(ed => ed.Nome == model.Nome).Count();
+                    var result = _context.Editais.Where(ed => ed.Nome == model.Nome && ed.TipoMobilidadeID == model.ProgramaMobilidadeID).Count();
 
                     //Serve para mostrar o alert de sucesso/insucesso
                     if (result > 0)
@@ -75,7 +78,7 @@ namespace cimob.Controllers
                         NomeFicheiro = model.CarregarEdital.FileName,
                         TipoMobilidadeID = model.ProgramaMobilidadeID,
                         DataLimite = model.DataLimite,
-                        Estado = 0
+                        Estado = 1
                     };
 
                     _context.Editais.Add(e);
@@ -142,23 +145,21 @@ namespace cimob.Controllers
         private List<Edital> GetEditais()
         {
             var tipoEdital = from edital in _context.Editais select edital;
-           
+
+            //Se não houver editais na BD envia-se uma lista vazia para não dar erro
+            if (tipoEdital == null)
+                return new List<Edital>();
+
             //se a data tiver expirado altera-se o valor do estado para 1
             foreach (var editalAux in tipoEdital)
             {
-                if(editalAux.DataLimite < DateTime.Now)
+                if (editalAux.DataLimite < DateTime.Now)
                 {
                     editalAux.Estado = 1;
                 }
             }
             
-            if(tipoEdital != null)
-            {
-                return tipoEdital.ToList();
-            }
-
-            //Se não houver editais na BD envia-se uma lista vazia para não dar erro
-            return new List<Edital>();
+            return tipoEdital.ToList();
         }
 
         private EditaisViewModel SetupError(EditaisViewModel model, string error)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace cimob.Models
 {
@@ -9,6 +10,8 @@ namespace cimob.Models
         public string Nome { get; set; }
         public string Caminho { get; set; }
         public string NomeFicheiro { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime DataLimite { get; set; }
 
         //Adicionado
