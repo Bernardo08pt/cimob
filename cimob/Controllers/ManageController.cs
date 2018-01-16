@@ -476,14 +476,13 @@ namespace cimob.Controllers
         public async Task<IActionResult> Profile()
         {
 
-
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-            //permite saber se o candidato ja submeteu uma candidatura - TODO: TESTAR
-            //ViewBag.CandidaturaSubmetida = _context.Candidaturas.Where(c => c.UtilizadorID == user.Id);
+            //permite saber se o candidato ja submeteu uma candidatura
+            ViewBag.CandidaturaSubmetida = _context.Candidaturas.Where(c => c.UtilizadorID == user.Id).Any();
 
             //Acedemos a flag passada no EditProfile
             var alert = TempData["ShowAlert"];
@@ -496,7 +495,6 @@ namespace cimob.Controllers
             { 
                 ViewBag.ShowAlert = false;
             }
-
 
             return View();
         }
