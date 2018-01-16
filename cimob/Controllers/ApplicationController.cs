@@ -62,13 +62,7 @@ namespace cimob.Controllers
                 Email = user.Email
             });
         }
-
-        // GET: Application/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("[controller]")]
@@ -126,9 +120,21 @@ namespace cimob.Controllers
                             CandidaturaDocumentosID = model.DocID
                         });
 
+                    _context.SaveChanges();
+
                     _logger.LogInformation("User created a new application.");
 
-                    return RedirectToAction(nameof(Confirmation));
+                    var mobilidade = _context.TiposMobilidade.Where(p => p.TipoMobilidadeID == model.TipoMobilidade).Select(p => p.Descricao).FirstOrDefault();
+
+                    await _emailSender.SendEmailAsync(user.Email, "Candidatura efetuado",
+                    "<p><span style='font-size: 18px;'>Caro(a) " + user.Nome + ",<strong> </strong></span></p>" +
+                    "<p><span style='font-size: 18px;'>Gostaríamos de informar que a sua candidatura para " + mobilidade + " foi efetuada com sucesso! Iremos avaliar assim que possível e mantêmo-lo-emos informado.</span></p>" +
+                    "<p><br></p>" +
+                    "<p><span style = 'font-size: 18px;'> Melhores cumprimentos Equipa CIMOB - IPS </span></p>" +
+                    "<p><span style = 'font-size: 14px;'> Nota: este e-mail foi gerado automaticamente, pelo que n&atilde;o deve responder pois quaisquer respostas n&atilde;o ser&atilde;o vistas.</span></p>" +
+                        "<span style = 'font-size: 12px;'> &nbsp;</span></p>");
+
+                    return RedirectToAction(nameof(State));
                 }
             }
 
@@ -148,9 +154,14 @@ namespace cimob.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Confirmation()
+        [Route("[controller]/{id}/State")]
+        public IActionResult State(int id)
         {
-            return View();
+            return View(new ApplicationStateViewModel {
+                AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Application" }), _context),
+                EstadosList = GetEstadosCandidatura(),
+                Estado = _context.Candidaturas.Where(c => c.CandidaturaID == id).Select(c => c.EstadoCandidaturaID).FirstOrDefault()
+            });
         }
 
         // GET: Application/GetCursosByEscola/1
@@ -287,6 +298,11 @@ namespace cimob.Controllers
         {
             var mes = DateTime.Today.Month;
             return (short)((mes >= 8 && mes <= 2) ? 1 : 2);
+        }
+
+        private List<EstadoCandidatura> GetEstadosCandidatura()
+        {
+            return _context.EstadosCandidatura.ToList();
         }
     }
 }
