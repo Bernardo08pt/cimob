@@ -217,15 +217,14 @@ namespace cimob.Controllers
                 return Json(
                     new {
                         status = "error",
-                        data = GetErro((
+                        data = HelperFunctionsExtensions.GetError((
                             ex is FileSizeException ? "FileTooBig" : 
                             ex is FormatException ? "InvalidFormat" : 
                             "InvalidFile"
-                        ))
+                        ), _context)
                     }
                 );
-
-            }   
+            }
         }
 
         // GET: Application/Download/1
@@ -288,11 +287,6 @@ namespace cimob.Controllers
         {
             var mes = DateTime.Today.Month;
             return (short)((mes >= 8 && mes <= 2) ? 1 : 2);
-        }
-
-        private string GetErro(string err)
-        {
-            return _context.Erros.Where(e => e.Nome == err).Select(e => e.Mensagem).FirstOrDefault();
         }
     }
 }

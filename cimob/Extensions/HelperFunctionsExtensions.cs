@@ -2,11 +2,8 @@
 using cimob.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace cimob.Extensions
 {
@@ -32,6 +29,11 @@ namespace cimob.Extensions
             {
                 modelState.AddModelError(string.Empty, error.Description);
             }
+        }
+
+        public static string GetError(string err, ApplicationDbContext _context)
+        {
+            return _context.Erros.Where(e => e.Nome == err).Select(e => e.Mensagem).FirstOrDefault();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model cimob.Models.ApplicationViewModels.EditaisViewModel
+﻿@model EditaisViewModel
 
 @{
     ViewData["Title"] = "Editais";
@@ -19,7 +19,7 @@
     {
         <div class="alert alert-warning alert-dismissable fade in" style="margin: 0 21% 2% 21%">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            Atenção: Já existe um edital com esse nome
+            @ViewBag.Message
         </div>
     }
 }
@@ -28,7 +28,7 @@
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <form id="editaisForm" asp-controller="Editais" asp-action="Index">
+    <form id="editaisForm" asp-controller="Editais" asp-action="Index" enctype="multipart/form-data">
 
         <div class="row form-group has-feedback has-feedback-left">
             <div class="col-md-3 col-md-offset-1">
