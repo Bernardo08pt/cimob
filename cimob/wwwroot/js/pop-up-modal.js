@@ -7,6 +7,7 @@
         $("#programModal").modal('hide');
     });
 
+    
     $(document).on("keydown", function (e) {
         if (window.location.href.indexOf("ProgramasMobilidade") != -1 && e.keyCode == 27) {
             $("#programModal").modal('hide');
