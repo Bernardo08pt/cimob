@@ -422,7 +422,7 @@ namespace cimob.Data
             context.Erros.Add(new Erro { Nome = "FileTooBig", Mensagem = "Tamanho do ficheiro tem que ser inferior a 1mb." });
             context.Erros.Add(new Erro { Nome = "InvalidFile", Mensagem = "Ficheiro inserido inválido, tente outro ficheiro." });
             context.Erros.Add(new Erro { Nome = "InvalidFormat", Mensagem = "Ficheiro tem que ter o formato pdf." });
-            context.Erros.Add(new Erro { Nome = "EditalExists", Mensagem = "Atenção: Já existe um edital com esse nome." });
+            context.Erros.Add(new Erro { Nome = "EditalExists", Mensagem = "Atenção: Já existe um edital com esse nome e tipo de mobilidade." });
 
             //Gravar alterações
             context.SaveChanges();

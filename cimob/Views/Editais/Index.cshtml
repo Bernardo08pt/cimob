@@ -36,7 +36,7 @@
                 <div class="col-md-5 no-padding-margin">
                     <div class="input-group">
                         <input asp-for="CarregarEdital" class="hidden" accept="application/pdf" />
-                        <input type="text" class="form-control" placeholder="Ficheiro.pdf" />
+                        <input type="text" class="form-control" placeholder="Ficheiro.pdf" disabled id="file_name" />
                         <i class="glyphicon glyphicon-file form-control-feedback"></i>
                         <div class="input-group-btn">
                             <button class="btn btn-info bottom-right pop" type="button"
@@ -45,8 +45,8 @@
                                 <span class="glyphicon glyphicon-question-sign"></span>
                             </button>
                         </div>
-                        <span asp-validation-for="CarregarEdital" class="text-danger"></span>
                     </div>
+                    <span asp-validation-for="CarregarEdital" class="text-danger"></span>
                     <p class="note">Nota: Ficheiros suportados .pdf</p>
                 </div>
                 <div class="col-md-2">
@@ -136,7 +136,7 @@
                         @Html.DisplayFor(modelItem => item.Nome)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.DataLimite.Date)
+                        @Html.DisplayFor(modelItem => item.DataLimite)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.TipoMobilidade.Descricao)
@@ -162,16 +162,33 @@
 @section Scripts {
     <script>
         $(() => {
-            var formatDate = (date) => {
-                var tmp = new Date(date);
-                var mes = tmp.getMonth() + 1;
-                var dia = tmp.getDate();
+            var tmp = new Date();
+            var mes = tmp.getMonth() + 1;
+            var dia = tmp.getDate();
 
-                mes = mes < 10 ? "0" + mes : mes;
-                dia = dia < 10 ? "0" + dia : dia;
+            mes = mes < 10 ? "0" + mes : mes;
+            dia = dia < 10 ? "0" + dia : dia;
 
-                return dia + " / " + mes + " / " + tmp.getFullYear();
-            }
+            $("#DataLimite").attr("min", tmp.getFullYear() + "-" + mes + "-" + dia);
+
+            $("#btn_upload").on("click", () => {
+                $("#CarregarEdital").trigger("click")
+            });
+
+            $("#CarregarEdital").on("change", (ev) => {
+                if ($(ev.currentTarget).val() == "")
+                    return;
+
+                var file = ev.currentTarget.value.split("\\fakepath\\")[1];
+
+                if (file.split(".")[1] != "pdf") {
+                    alert('invalid file');
+                    $("#file_name").val("");
+                    $(ev.currentTarget).val("");
+                }
+                else
+                    $("#file_name").val(ev.currentTarget.value.split("\\fakepath\\")[1]);
+            });
         });
     </script>
 }
