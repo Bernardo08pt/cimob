@@ -7,7 +7,7 @@
 <div class="main-div">
     <div class="container-fluid">
         <div class="col-md-2 col-md-offset-2">
-            <a id="erasmus-modal" data-id="1" class="program-button" style="background-color: dodgerblue;">Erasmus+</a>
+            <a id="erasmus-modal" class="program-button" style="background-color: dodgerblue;">Erasmus+</a>
         </div>
         <div class="col-md-2 col-md-offset-1">
             <a id="luso-modal" data-id="4" class="program-button" style="background-color: green">Bolsas Luso-Brasileiras Santander Universidades</a>
@@ -28,24 +28,35 @@
     <!--Modal-->
     <!--TODO: FAZER O CSS-->
     <div>
-        <div class="modal fade" tabindex="-1" id="programModal"
-                data-keyboard="false" data-backdrop="static">
+        <div class="modal fade" tabindex="-1" id="programModal" data-keyboard="false" data-backdrop="static">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <form>
-
-                        <h4 id="titulo" class="modal-title">Erasmus+</h4>
-                        <p style="font-weight:bold">Candidato para:</p>
-                        <input type="radio" name="periodo" value="estudos"> Período de ESTUDOS<br>
-                        <input type="radio" name="periodo" value="estagio"> Período de ESTÁGIO<br>
-
-                        <div id="buttonsDiv">
-                            <button type="button" id="btnCancelar" class="btnStyle" style="background-color: red">Cancelar</button>
-
-                            <button type="submit" id="btnSubmit" class="btnConfirmar btnStyle" style="background-color:green">Confirmar</button>
+                        <h4 id="titulo">Erasmus+</h4>
+                        <div class="modal-content-wrapper">
+                            <p>Candidato para:</p>
+                            <div class="radio-group">
+                                <div>
+                                    <input type="radio" name="periodo" value="1" checked>
+                                    <label>Período de ESTUDOS</label>
+                                </div>
+                                <div>
+                                    <input type="radio" name="periodo" value="2">
+                                    <label>Período de ESTÁGIO</label>
+                                </div>
+                            </div>
+                            <div class="modal-button-group">
+                                <button type="button" id="btnCancelar">
+                                    <i class="glyphicon glyphicon glyphicon-remove-circle"></i>
+                                    Cancelar
+                                </button>
+                                <button type="submit" id="btnSubmit">
+                                    <i class="glyphicon glyphicon glyphicon-ok-circle"></i>
+                                    Confirmar
+                                </button>
+                            </div>
                         </div>
                     </form>
-
                 </div>
             </div>
         </div>
@@ -57,4 +68,5 @@
     </div>
 </div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script type="text/javascript" src="~/js/pop-up-modal.js"></script>
