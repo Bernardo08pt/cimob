@@ -122,6 +122,16 @@ namespace cimob.Controllers
             return View(model);
         }
 
+
+        [HttpGet]
+        public IActionResult VisualizarEditais()
+        {
+            return View(new EditaisViewModel
+            {
+                Editais = GetEditais()
+            });
+        }
+
         //Método para obter os tipos de mobilidade existentes na bd para mostrar no dropdown list da inserção dos editais
         [HttpGet]
         private List<TipoMobilidade> GetTiposMobilidade()

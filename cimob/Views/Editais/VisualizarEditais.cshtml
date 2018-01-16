@@ -1,0 +1,31 @@
+﻿@model EditaisViewModel
+
+@{
+    ViewData["Title"] = "Editais";
+    Layout = "/Views/Shared/_LayoutWhite.cshtml";
+}
+
+<!--Mostrar os editais existentes na bd-->
+<div class="listing">
+    <table class="table" border="1">
+        <tr>
+            <th>Edital</th>
+            <th>Programa Mobilidade</th>
+            <th>Download</th>
+        </tr>
+        @foreach (var item in Model.Editais)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoMobilidade.Descricao)
+                </td>
+                <td>
+                    <!--Imagem para fazer download-->
+                </td>
+            </tr>
+        }
+    </table>
+</div>
