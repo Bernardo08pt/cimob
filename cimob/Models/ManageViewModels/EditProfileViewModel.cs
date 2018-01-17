@@ -12,7 +12,7 @@ namespace cimob.Models.ManageViewModels
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [RegularExpression("([0-9]+)", ErrorMessage = "Insira um número válido.")]
         [Display(Name = "Número")]
-        public string Numero { get; set; }
+        public int Numero { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [Display(Name = "Nome")]
