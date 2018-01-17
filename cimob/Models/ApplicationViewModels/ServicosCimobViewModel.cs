@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace cimob.Models.ApplicationViewModels
 {
-    public class VisualizarCandidaturaViewModel
+    public class ServicosCimobViewModel
     {
         #region geral 
         [Display(Name = "Nome")]

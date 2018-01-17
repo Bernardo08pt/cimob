@@ -422,8 +422,8 @@ namespace cimob.Data
             context.Ajudas.Add(new Ajuda { Pagina = "Editais", Nome = "DataLimite", Titulo = "Data Limite", Corpo = "<p>Data em que o edital \"Fecha\". Esta data não pode ser inferior ou igual à atual.</p>" });
 
             //avaliação da candidatura 
-            context.Ajudas.Add(new Ajuda { Pagina = "VisualizarCandidatura", Nome = "Pontuacao", Titulo = "Pontuação", Corpo = "<p>Pontuação que quer dar à candidatura submetida</p>" });
-            context.Ajudas.Add(new Ajuda { Pagina = "VisualizarCandidatura", Nome = "Observacoes", Titulo = "Observações", Corpo = "<p>Informação adicional sobre a candidatura submetida</p>" });
+            context.Ajudas.Add(new Ajuda { Pagina = "ServicosCimob", Nome = "Pontuacao", Titulo = "Pontuação", Corpo = "<p>Pontuação que quer dar à candidatura submetida</p>" });
+            context.Ajudas.Add(new Ajuda { Pagina = "ServicosCimob", Nome = "Observacoes", Titulo = "Observações", Corpo = "<p>Informação adicional sobre a candidatura submetida</p>" });
 
             // escolas parceiras
             context.Ajudas.Add(new Ajuda { Pagina = "EscolasParceiras", Nome = "Nome", Titulo = "Nome", Corpo = "<p>Nome da instituição com a qual o IPS tem acordo bilateral</p>" });
