@@ -473,16 +473,10 @@ namespace cimob.Controllers
 
         //Método adicionado para mostrar a página de área pessoal
         [HttpGet]
-        public async Task<IActionResult> Profile()
+        public IActionResult Profile()
         {
-
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
             //permite saber se o candidato ja submeteu uma candidatura
-            ViewBag.CandidaturaSubmetida = _context.Candidaturas.Where(c => c.UtilizadorID == user.Id).Any();
+            ViewBag.CandidaturaSubmetida = (HelperFunctionsExtensions.GetUserCandidatura(_context, _userManager, User).User != "");
 
             //Acedemos a flag passada no EditProfile
             var alert = TempData["ShowAlert"];

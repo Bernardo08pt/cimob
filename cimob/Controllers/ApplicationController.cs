@@ -153,16 +153,43 @@ namespace cimob.Controllers
 
             return View(model);
         }
+        
+        [HttpGet]
+        [Route("[controller]/Not-Found")]
+        public IActionResult Not_Found()
+        {
+            return View();
+        }
 
         [HttpGet]
-        [AllowAnonymous]
-        [Route("[controller]/{id}/State")]
-        public IActionResult State(int id)
+        [Route("[controller]/State")]
+        public IActionResult State()
         {
+            var tmp = HelperFunctionsExtensions.GetUserCandidatura(_context, _userManager, User);
+
+            if (tmp.User == null)
+                return View(nameof(Not_Found));
+
             return View(new ApplicationStateViewModel {
                 AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Application" }), _context),
                 EstadosList = GetEstadosCandidatura(),
-                Estado = _context.Candidaturas.Where(c => c.CandidaturaID == id).Select(c => c.EstadoCandidaturaID).FirstOrDefault()
+                Estado = _context.Candidaturas.Where(c => c.CandidaturaID == tmp.Candidatura).Select(c => c.EstadoCandidaturaID).FirstOrDefault()
+            });
+        }
+
+        [HttpGet]
+        [Route("[controller]/Documents")]
+        public IActionResult Documents()
+        {
+            var tmp = HelperFunctionsExtensions.GetUserCandidatura(_context, _userManager, User);
+
+            if (tmp.User == null)
+                return View(nameof(Not_Found));
+
+            return View(new ApplicationDocumentsViewModel
+            {
+                AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Application" }), _context),
+                Documentos = GetDocumentosCandidatura(tmp.Candidatura),
             });
         }
 
@@ -297,5 +324,11 @@ namespace cimob.Controllers
         {
             return _context.EstadosCandidatura.ToList();
         }
+
+        private List<CandidaturaDocumentos> GetDocumentosCandidatura(int id)
+        {
+            return _context.CandidaturaDocumentos.Include(cd => cd.Documento).Where(cd => cd.CandidaturaID == id).ToList();
+        }
+
     }
 }
