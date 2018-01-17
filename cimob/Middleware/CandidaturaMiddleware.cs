@@ -10,12 +10,11 @@ namespace cimob.Middleware
     public class CandidaturaMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly ApplicationStatus _candidaturaStatus;
+        //private readonly ApplicationStatus _candidaturaStatus;
 
-        public CandidaturaMiddleware(RequestDelegate next, ApplicationStatus candidaturaStatus)
+        public CandidaturaMiddleware(RequestDelegate next)
         {
             _next = next;
-            _candidaturaStatus = candidaturaStatus;
         }
 
         public Task Invoke(HttpContext context)

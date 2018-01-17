@@ -1,19 +1,32 @@
-﻿@model MergeViewModel;
+﻿@model EscolasParceirasViewModel;
 
 <div class="mobilidade container-fluid">
+    <input asp-for="Mobilidade" class="hidden" />
+    <span asp-validation-for="Mobilidade" class="text-danger"></span>
     <table class="table">
         <tr>
             <th></th>
             <th>Programa</th>
+            <th>Tipo</th>
         </tr>
-        @foreach (var item in @Model.EscolasViewModel.MobilidadeList)
+        @foreach (var item in @Model.MobilidadeList)
         {
             <tr>
                 <td>
-                    <input type="radio" name="mobilidade" value="@item.TipoMobilidadeID" />
+                    <input type="radio" name="mobilidade" value="@item.TipoMobilidadeID" id="radio-@item.TipoMobilidadeID"/>
                 </td>
                 <td>
                     @Html.DisplayFor(i => item.Descricao)
+                </td>
+                <td>
+                    @if (item.Estagio == 1)
+                    {
+                        <text>Estágio</text>
+                    }
+                    else
+                    {
+                        <text>Estudos</text>
+                    }
                 </td>
             </tr>
         }

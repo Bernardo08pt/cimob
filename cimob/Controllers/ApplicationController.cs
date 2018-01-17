@@ -13,7 +13,6 @@ using cimob.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using cimob.Extensions;
-using System.IO;
 
 namespace cimob.Controllers
 {
@@ -308,7 +307,7 @@ namespace cimob.Controllers
         /** HELPER FUNCTIONS **/
         private List<Escola> GetEscolas()
         {
-            return _context.Escolas.Include(e => e.Cursos).ToList();
+            return _context.Escolas.Include(e => e.Cursos).Where(e => e.Estado == 1).ToList();
         }
 
         private List<IpsEscola> GetEscolasIPS()

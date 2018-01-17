@@ -37,6 +37,19 @@
                 changePage();
             }
 
+            $("#Vagas").val("");
+
+            if (window.location.href.indexOf("Edit")) {
+                $(".mobilidade").find("#radio-" + $("#Mobilidade").val()).prop("checked", true);
+                
+                var elem = $("#Estado");
+
+                elem.prop("disabled", false);
+
+                if (elem.val() == 0)
+                    elem.removeClass("checked");
+            }
+
             bindEvents();
         });
 
@@ -57,7 +70,7 @@
                 var id = window.location.hash.split("#/")[1];
 
                 if (id == "geral" || id == undefined || id == "")
-                    window.location = "/Manage/Profile";
+                    window.location = "/Escolas";
                 else if (id == "mobilidade") {
                     window.location.hash = "/geral"
                 }
@@ -66,6 +79,78 @@
             $("#btn_submit").on("click", (ev) => {
                 $("#escola-form").submit();
             });
+
+            $("#btn_add_curso").on("click", () => {
+                $("#modal").modal("show");
+            });
+
+            $("#btn_cancel").on("click", () => {
+                $("#modal").modal("hide");
+            });
+
+            $(".mobilidade .table td:not(:first-child)").on("click", (ev) => {
+                var elem = $(ev.currentTarget).parent().find("input[type='radio']");
+
+                elem.prop("checked", !elem.prop("checked"));
+                elem.trigger("change");
+            });
+
+            $(".mobilidade .table input[type='radio']").on("change", function (ev) {
+                $(".selected").removeClass("selected");
+                $(this.parentElement.parentElement).toggleClass("selected");
+
+                $("#Mobilidade").val($(this).val());
+            });
+
+            $("#btn_submit_curso").on("click", () => {
+                var vagas = $("#Vagas").val();
+                var nome = $("#NomeCurso").val();
+                
+                if (vagas == 0 || vagas == "" || nome == "") {
+                    if (nome == 0)
+                        $("#nome-err-validation").removeClass("hidden");
+                    else
+                        $("#vagas-err-validation").removeClass("hidden");
+
+                    return;
+                }
+
+                $("#modal").modal("hide");
+
+                $(vagas).val("");
+                $(nome).val("");
+
+                alerta("Curso criado com sucesso!", "success");
+
+                $("#geral").append($('<input type="hidden" name="CursosNovos" value=' + JSON.stringify({ Nome: nome, Vagas: vagas }) + ' />'));
+
+                $("#geral .table").append(
+                    $("<tr> " +
+                        "<td>" + nome + "</td>" +
+                        "<td>" + vagas + "</td>" +
+                    "</tr>")
+                );
+            });
+
+            $("#Estado").on("change", function () {
+                this.value = ((this.checked == true) ? 1 : 0);
+            })
+        }
+        
+        var alerta = (mensagem, type) => {
+            var wrapper = $("#alert-wrapper");
+            var tmp = $("#alert");
+
+            wrapper.removeClass("fade-out");
+            tmp.addClass("alert-" + type);
+            tmp.html(mensagem);
+
+            setTimeout(() => {
+                wrapper.addClass("fade-out");
+                setTimeout(() => {
+                    tmp.removeClass("alert-" + type);
+                }, 2100)
+            }, 5000);
         }
 
         var changePage = () => {

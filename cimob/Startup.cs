@@ -11,8 +11,6 @@ using cimob.Data;
 using cimob.Models;
 using cimob.Services;
 using Microsoft.AspNetCore.Http.Features;
-using cimob.Middleware;
-using Microsoft.AspNetCore.Http;
 
 namespace cimob
 {

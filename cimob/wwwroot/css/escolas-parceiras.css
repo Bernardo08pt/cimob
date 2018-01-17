@@ -106,3 +106,30 @@
     .escola-wrapper .mobilidade .button-submeter {
         margin: 10px 0;
     }
+
+    .escola-wrapper .mobilidade #modal .titulo {
+        margin-bottom: 25px;
+    }
+
+    .escola-wrapper .mobilidade .modal-button-grop {
+        width: 60%;
+    }
+
+    .escola-wrapper .modal-content .modal-button-group #btn_cancel {
+        background: #CF2A27;
+    }
+
+    .escola-wrapper .modal-content .modal-button-group #btn_submit_curso {
+        background: #009E0F;
+    }
+
+    .escola-wrapper input[type='checkbox'] {
+        cursor: pointer;
+        margin: 0;
+        display: block;
+        top: -1px;
+        width: 9%;
+        position: absolute;
+        left: -1px;
+        outline: none;
+    }

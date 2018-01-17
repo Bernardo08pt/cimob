@@ -431,6 +431,10 @@ namespace cimob.Data
             context.Ajudas.Add(new Ajuda { Pagina = "EscolasParceiras", Nome = "Vagas", Titulo = "Vagas", Corpo = "<p>Número de vagas que o curso tem para estudantes do IPS</p>" });
             context.Ajudas.Add(new Ajuda { Pagina = "EscolasParceiras", Nome = "Pais", Titulo = "País", Corpo = "<p>País da instituição em questão</p>" });
             context.Ajudas.Add(new Ajuda { Pagina = "EscolasParceiras", Nome = "Email", Titulo = "Email", Corpo = "<p>Email da instituição em questão. Meio de comunicação entre o CIMOB-IPS e a instituição" });
+            context.Ajudas.Add(new Ajuda { Pagina = "EscolasParceiras", Nome = "NomeFilter", Titulo = "Nome", Corpo = "<p>Nome de instituições a pesquisar.</p>" });
+            context.Ajudas.Add(new Ajuda { Pagina = "EscolasParceiras", Nome = "PaisFilter", Titulo = "País", Corpo = "<p>País de instituições a pesquisar.</p>" });
+            context.Ajudas.Add(new Ajuda { Pagina = "EscolasParceiras", Nome = "Estado", Titulo = "Estado", Corpo = "<p>Indica se esta escola atualmente é uma opção para os candidatos.</p>" });
+            
         }
 
         private static void AddEstadosCandidatura(ApplicationDbContext context)

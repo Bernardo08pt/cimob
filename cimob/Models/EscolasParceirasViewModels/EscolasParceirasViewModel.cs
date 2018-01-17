@@ -23,11 +23,22 @@ namespace cimob.Models.EscolasParceirasViewModels
         [Display(Name = "País")]
         public int Pais { get; set; }
 
-        [Required(ErrorMessage = "O campo {0} é obrigatório.")]
-        [Display(Name = "Cursos")]
-        public string Cursos { get; set; }
+        [Display(Name = "Estado")]
+        public int Estado { get; set; }
+
+        public List<Curso> Cursos { get; set; }
 
         [Required(ErrorMessage = "É obrigatório escolher um programa.")]
         public int Mobilidade { get; set; }
+
+        [Display(Name = "Nome")]
+        public string NomeCurso { get; set; }
+
+        [Display(Name = "Vagas")]
+        public int Vagas { get; set; }
+
+        [Required(ErrorMessage = "O campo {0} é obrigatório.")]
+        [Display(Name = "Cursos")]
+        public List<string> CursosNovos { get; set; }
     }
 }

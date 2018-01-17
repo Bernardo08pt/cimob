@@ -1,42 +1,42 @@
-﻿@model MergeViewModel;
+﻿@model EscolasParceirasViewModel;
 
-<div class="modal fade" tabindex="-1" id="programModal" data-keyboard="false" data-backdrop="static">
+<div class="modal fade" tabindex="-1" id="modal" data-keyboard="false" data-backdrop="static">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <h4 id="titulo">Novo curso</h4>
-            <div class="modal-content-wrapper">
+            <div class="modal-content-wrapper has-feedback has-feedback-left container-fluid">
                 <div class="col-md-12">
-                    <div class="col-md-3 col-md-offset-1">
-                        <label asp-for="CursosViewModel.Nome"></label>
+                    <div class="col-md-2 col-md-offset-1">
+                        <label asp-for="NomeCurso"></label>
                     </div>
-                    <div class="input-group col-md-7">
-                        <input asp-for="CursosViewModel.Nome" class="form-control" placeholder="Nome" />
+                    <div class="input-group col-md-8">
+                        <input asp-for="NomeCurso" class="form-control" placeholder="Nome" />
                         <i class="glyphicon glyphicon-home form-control-feedback"></i>
                         <div class="input-group-btn">
-                            <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.CursosViewModel.AjudasDictionary["NomeCurso"].Titulo" data-content="@Model.CursosViewModel.AjudasDictionary["NomeCurso"].Corpo">
+                            <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["NomeCurso"].Titulo" data-content="@Model.AjudasDictionary["NomeCurso"].Corpo">
                                 <span class="glyphicon glyphicon-question-sign"></span>
                             </button>
                         </div>
                     </div>
-                    <span asp-validation-for="CursosViewModel.Nome" class="text-danger"></span>
+                    <span id="nome-err-validation" class="text-danger hidden"  style="text-align: left; display: inherit;">O campo Nome é obrigatório.</span>
                 </div>
 
-                <div class="col-md-12">
-                    <div class="col-md-3 col-md-offset-1">
-                        <label asp-for="CursosViewModel.Vagas"></label>
+                <div class="col-md-12" style="margin-bottom: 20px;">
+                    <div class="col-md-2 col-md-offset-1">
+                        <label asp-for="Vagas"></label>
                     </div>
-                    <div class="input-group col-md-7">
-                        <input asp-for="CursosViewModel.Vagas" class="form-control" placeholder="Vagas" />
-                        <i class="glyphicon glyphicon-home form-control-feedback"></i>
+                    <div class="input-group col-md-8">
+                        <input asp-for="Vagas" class="form-control" placeholder="Vagas" />
+                        <i class="fa fa-users form-control-feedback" style="top: 30%;"></i>
                         <div class="input-group-btn">
-                            <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.CursosViewModel.AjudasDictionary["Vagas"].Titulo" data-content="@Model.CursosViewModel.AjudasDictionary["Vagas"].Corpo">
+                            <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Vagas"].Titulo" data-content="@Model.AjudasDictionary["Vagas"].Corpo">
                                 <span class="glyphicon glyphicon-question-sign"></span>
                             </button>
                         </div>
                     </div>
-                    <span asp-validation-for="CursosViewModel.Vagas" class="text-danger"></span>
+                    <span id="vagas-err-validation" class="text-danger hidden" style="text-align: left; display: inherit;">O campo Vagas é obrigatório.</span>
                 </div>
 
                 <div class="modal-button-group">
@@ -44,7 +44,7 @@
                         <i class="glyphicon glyphicon glyphicon-remove-circle"></i>
                         Cancelar
                     </button>
-                    <button type="submit" id="btn_submit_curso">
+                    <button type="button" id="btn_submit_curso">
                         <i class="glyphicon glyphicon glyphicon-ok-circle"></i>
                         Confirmar
                     </button>
@@ -53,3 +53,5 @@
         </div>
     </div>
 </div>
+
+<script src="https://use.fontawesome.com/3f965b3028.js"></script>
