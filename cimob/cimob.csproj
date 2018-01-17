@@ -14,10 +14,6 @@
     <Compile Remove="Migrations\20180115141918_update_docs.Designer.cs" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Remove="Views\Home\Menu.cshtml" />
-  </ItemGroup>
-
 
 
   <ItemGroup>
