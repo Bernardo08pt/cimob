@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 
 namespace cimob.Controllers
 {
-    public class VisualizarCandidaturaController : Controller
+    public class ServicosCimobController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -21,7 +21,7 @@ namespace cimob.Controllers
         private readonly ILogger _logger;
         private readonly ApplicationDbContext _context;
 
-        public VisualizarCandidaturaController(
+        public ServicosCimobController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             RoleManager<IdentityRole> roleManager,

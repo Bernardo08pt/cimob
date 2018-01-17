@@ -18,23 +18,17 @@ namespace cimob.Controllers
     public class EditaisController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly ApplicationDbContext _context;
 
         public EditaisController(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
-            RoleManager<IdentityRole> roleManager,
             IEmailSender emailSender,
             ILogger<ApplicationController> logger, 
             ApplicationDbContext context)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
-            _roleManager = roleManager;
             _emailSender = emailSender;
             _logger = logger;
             _context = context;

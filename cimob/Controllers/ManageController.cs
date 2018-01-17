@@ -506,7 +506,7 @@ namespace cimob.Controllers
 
             var model = new EditProfileViewModel
             {
-                Numero = user.Numero.ToString(),
+                Numero = user.Numero,
                 Nome = user.Nome,
                 Email = user.Email
             };
