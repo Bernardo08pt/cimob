@@ -1,0 +1,20 @@
+﻿.candidatura-docs {
+    width: 60%;
+    margin: auto;
+}
+
+    .candidatura-docs .docs-list {
+        margin: 30px 0;
+    }
+
+    .candidatura-docs #btn_submit_docs {
+        margin: 0 15px
+    }
+
+
+    .candidatura-docs .table td:nth-child(3),
+    .candidatura-docs .table td:nth-child(4),
+    .candidatura-docs .table td:nth-child(5) {
+        width: 48px;
+        vertical-align: middle;
+    }

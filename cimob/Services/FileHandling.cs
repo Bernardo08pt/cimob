@@ -34,14 +34,19 @@ namespace cimob.Services
         
         internal static FileResult Download(string path, string name)
         {
-            return new FileContentResult(File.ReadAllBytes(path), "application/x-msdownload")
-            {
+            if (path == null || path == "" || name == "" || name == null)
+                throw new NoFileExpcetion();
+
+            return new FileContentResult(File.ReadAllBytes(path), "application/x-msdownload") {
                 FileDownloadName = name
             };
         }
         
         internal static FileResult View(string path)
         {
+            if (path == null || path == "")
+                throw new NoFileExpcetion();
+
             return new FileStreamResult(
                 new FileStream(
                     path,

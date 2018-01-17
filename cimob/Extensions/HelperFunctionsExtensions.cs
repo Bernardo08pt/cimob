@@ -54,7 +54,7 @@ namespace cimob.Extensions
                         User = id,
                         Candidatura = c.CandidaturaID
                     }).
-                First();
+                FirstOrDefault();
         }
     }
 }

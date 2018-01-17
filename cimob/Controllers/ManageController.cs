@@ -476,17 +476,17 @@ namespace cimob.Controllers
         public IActionResult Profile()
         {
             //permite saber se o candidato ja submeteu uma candidatura
-            ViewBag.CandidaturaSubmetida = (HelperFunctionsExtensions.GetUserCandidatura(_context, _userManager, User).User != "");
+            ViewBag.CandidaturaSubmetida = (HelperFunctionsExtensions.GetUserCandidatura(_context, _userManager, User).User != null);
 
             //Acedemos a flag passada no EditProfile
             var alert = TempData["ShowAlert"];
-
+            
             if (alert != null) //Caso nao seja null, passo a variavel por View Bag e mostro o alert na página Área Pessoal
             {
                 ViewBag.ShowAlert = alert;
             }
             else //Caso tenha clicado no botão voltar, envia-se a false para não dar um erro
-            { 
+            {
                 ViewBag.ShowAlert = false;
             }
 

@@ -117,6 +117,7 @@
     text-align: center;
     cursor: pointer;
     outline: none;
+    color: #fff;
 }
 
     .content-wrapper .button:before,
@@ -254,7 +255,10 @@ select.form-control {
     border: 1px solid #000;
 }
 
-
 td {
     vertical-align: middle !important;
+}
+
+label {
+    line-height: 35px;
 }

@@ -22,7 +22,7 @@
                 @Html.Partial("Contacts")
             </div>
             <div id="documentacao" role="tab">
-                @Html.Partial("Documentation")
+                @Html.Partial("CartaMotivacao")
             </div>
             <div id="destino" role="tab">
                 @Html.Partial("Destination")
@@ -238,14 +238,7 @@
                         $("#file_name").val("");
 
                         $(".docs-list").removeClass("hidden");
-
-                        if (result.origemCimob == 1) {
-                            var origem = "<td><i class='fa fa-2x fa-sign-out' aria-hidden='true' title='Enviado pelo CIMOB'></i></td>"
-                        }
-                        else {
-                            var origem = "<td><i class='fa fa-2x fa-sign-in' aria-hidden='true' title='Enviado pelo Candidato'></i></td>"
-                        }
-
+                        
                         $(".docs-list table").append(
                             $("<tr data-id='" + result.documentoID +"' > " +
                                 "<td>" + result.ficheiroNome + "</td>" + 
@@ -260,7 +253,9 @@
                                         "<i class='fa fa-2x fa-download' aria-hidden='true'></i>" +
                                     "</a>" +
                                 "</td>" +
-                                origem + 
+                                "<td>" +
+                                    "<i class='fa fa-2x fa-sign-in' aria-hidden='true' title='Enviado pelo Candidato'></i>" +
+                                "</td>"+
                             "</tr>"));
 
                         $("#btn_submit_docs").remove();

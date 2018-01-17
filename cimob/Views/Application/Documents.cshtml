@@ -1,0 +1,159 @@
+﻿@model ApplicationDocumentsViewModel;
+@{
+    ViewData["Title"] = "Documentação";
+    Layout = "~/Views/Shared/_LayoutWhite.cshtml";
+}
+
+<link href="~/css//candidatura-docs.css" rel="stylesheet" />
+
+<div class="candidatura-docs">
+    <div class="panel clearfix">
+        <input asp-for="CandidaturaID" class="hidden" />
+        <div class="row form-group has-feedback has-feedback-left">
+            <div class="col-md-3 col-md-offset-1">
+                <label asp-for="Documento"></label>
+            </div>
+            <div class="col-md-5">
+                <div class="input-group">
+                    <input asp-for="Documento" class="hidden" accept="application/pdf" />
+                    <input type="text" class="form-control" id="file_name" placeholder="Ficheiro.pdf" />
+                    <i class="glyphicon glyphicon-file form-control-feedback"></i>
+                    <div class="input-group-btn">
+                        <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Documento"].Titulo" data-content="@Model.AjudasDictionary["Documento"].Corpo">
+                            <span class="glyphicon glyphicon-question-sign"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="button-no-arrow" id="btn_upload">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span>Carregar</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-md-offset-8">
+            <div id="btn_submit_docs" class="button button-submeter">Submeter documentos</div>
+        </div>
+    </div>
+
+    <div class="docs-list">
+        <table class="table" border="1">
+            <tr>
+                <th>Nome Ficheiro</th>
+                <th>Data</th>
+                <th>Visualizar</th>
+                <th>Descarregar</th>
+                <th>Origem</th>
+            </tr>
+            @foreach (var item in Model.DocumentosList)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Documento.FicheiroNome)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Documento.DataUpload)
+                    </td>
+                    <td>
+                        <a target='_blank' href='/Application/View/@item.DocumentoID'>
+                            <i class='fa fa-2x fa-search' aria-hidden='true'></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a target='_blank' href='/Application/Download/@item.DocumentoID'>
+                            <i class='fa fa-2x fa-download' aria-hidden='true'></i>
+                        </a>
+                    </td>
+                    <td>
+                        @if (item.Documento.OrigemCimob == 1)
+                        {
+                            <i class='fa fa-2x fa-sign-out' aria-hidden='true' title='Enviado pelo CIMOB'></i>
+                        }
+                        else
+                        {
+                            <i class='fa fa-2x fa-sign-in' aria-hidden='true' title='Enviado pelo Candidato'></i>
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+    <a href="Manage/Profile" class="button button-back">Voltar</a>
+</div>
+
+@section scripts {
+    <script>
+        $(() => {
+            $("#btn_upload").on("click", () => {
+                $("#Documento").trigger("click")
+            });
+
+            $("#Documento").on("change", (ev) => {
+                if ($(ev.currentTarget).val() == "")
+                    return;
+
+                var file = ev.currentTarget.value.split("\\fakepath\\")[1];
+
+                if (file.split(".")[1] != "pdf") {
+                    alerta("Formato inválido! Tem que ser PDF.", "error")
+                    $("#file_name").val("");
+                    $(ev.currentTarget).val("");
+                }
+                else
+                    $("#file_name").val(ev.currentTarget.value.split("\\fakepath\\")[1]);
+            });
+
+            $("#btn_submit_docs").on("click", () => {
+                    var data = new FormData();
+
+                    data.append("file", $("#Documento").get(0).files[0]);
+                    data.append("candidatura", $("#CandidaturaID").val());
+
+                    $.ajax({
+                        type: "POST",
+                        url: "Application/UploadFile",
+                        contentType: false,
+                        processData: false,
+                        data: data,
+                        success: function (result) {
+                            if (result.status == "error") {
+                                alerta(result.data, "danger");
+                                return;
+                            }
+
+                            result = result.data;
+
+                            $("#file_name").val("");
+
+                            $(".docs-list table").append(
+                                $("<tr data-id='" + result.documentoID +"' > " +
+                                    "<td>" + result.ficheiroNome + "</td>" + 
+                                    "<td>" + formatDate(result.dataUpload) + "</td>" + 
+                                    "<td>" +
+                                        "<a target='_blank' href='/Application/View/" + result.documentoID +"'>" + 
+                                            "<i class='fa fa-2x fa-search' aria-hidden='true'></i>" + 
+                                        "</a>" +
+                                    "</td>" + 
+                                    "<td>" +
+                                        "<a target='_blank' href='/Application/Download/" + result.documentoID + "'>" +
+                                            "<i class='fa fa-2x fa-download' aria-hidden='true'></i>" +
+                                        "</a>" +
+                                    "</td>" +
+                                    "<td>" +
+                                        "<i class='fa fa-2x fa-sign-in' aria-hidden='true' title='Enviado pelo Candidato'></i>" +
+                                    "</td>" +
+                                "</tr>"));
+                        },
+                        error: function (err) {
+                            console.log(err);
+                            alert("There was error uploading files!");
+                        }
+                    });
+                })
+
+        });
+    </script>
+}
+<script src="https://use.fontawesome.com/3f965b3028.js"></script>

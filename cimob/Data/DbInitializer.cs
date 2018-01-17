@@ -392,7 +392,8 @@ namespace cimob.Data
             context.Ajudas.Add(new Ajuda{Pagina = "Application", Nome="Nome", Titulo="Nome", Corpo="<p>Nome da escola a procurar.</p>"});
             context.Ajudas.Add(new Ajuda{Pagina = "Application", Nome="Pais", Titulo="País", Corpo="<p>País sobre o qual quer saber que escolas / cursos existem.</p>"});
             context.Ajudas.Add(new Ajuda{Pagina = "Application", Nome="CartaMotivacao", Titulo="Carta de Motivação", Corpo="<p>Carta de motivação da candidatura, em inglês e em format PDF.</p>"});
-
+            context.Ajudas.Add(new Ajuda { Pagina = "Application", Nome = "Documento", Titulo = "Documento", Corpo = "<p>Novo documento a ser inseiro a pedido do CIMOB, em format PDF.</p>" });
+            
             //inserção de editais 
             context.Ajudas.Add(new Ajuda{Pagina = "Editais", Nome="NomeEdital", Titulo="Nome do edital", Corpo="<p>O nome do edital que vai submeter.</p>"});
             context.Ajudas.Add(new Ajuda{Pagina = "Editais", Nome="CarregarEdital", Titulo="Carregar edital", Corpo="<p>O ficheiro tem de ser em formato PDF.</p>"});

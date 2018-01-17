@@ -136,16 +136,23 @@ namespace cimob.Controllers
         // GET: Editais/VisualizarEditais/Download/id
         [HttpGet]
         [Route("[controller]/VisualizarEditais/Download/{id}")]
-        public FileResult Download(int id)
+        public ActionResult Download(int id)
         {
-            var tmp = _context.Documentos.
-                Where(d => d.DocumentoID == id).
-                Select(d => new {
-                    caminho = d.FicheiroCaminho,
-                    nome = d.FicheiroNome
-                }).FirstOrDefault();
+            try
+            {
+                var tmp = _context.Documentos.
+                    Where(d => d.DocumentoID == id).
+                    Select(d => new {
+                        caminho = d.FicheiroCaminho,
+                        nome = d.FicheiroNome
+                    }).FirstOrDefault();
 
-            return FileHandling.Download(tmp.caminho, tmp.nome);
+                return FileHandling.Download(tmp.caminho, tmp.nome);
+            }
+            catch (Exception ex)
+            {
+                return View("~/Views/Shared/NoFile.cshtml");
+            }
         }
 
         //Método para obter os tipos de mobilidade existentes na bd para mostrar no dropdown list da inserção dos editais
@@ -154,6 +161,12 @@ namespace cimob.Controllers
         {
             var tiposMobilidade = from p in _context.TiposMobilidade where p.Estagio == 0 select p;
             return tiposMobilidade.ToList();
+        }
+
+        [HttpGet]
+        public ActionResult NoFile()
+        {
+            return View();
         }
 
         //Método para obter os editais

@@ -186,10 +186,9 @@ namespace cimob.Controllers
             if (tmp.User == null)
                 return View(nameof(Not_Found));
 
-            return View(new ApplicationDocumentsViewModel
-            {
+            return View(new ApplicationDocumentsViewModel{
                 AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Application" }), _context),
-                Documentos = GetDocumentosCandidatura(tmp.Candidatura),
+                DocumentosList = GetDocumentosCandidatura(tmp.Candidatura),
             });
         }
 
@@ -269,23 +268,43 @@ namespace cimob.Controllers
 
         // GET: Application/Download/1
         [HttpGet]
-        public FileResult Download (int id)
+        public ActionResult Download (int id)
         {
-            var tmp = _context.Documentos.
+            try
+            {
+                var tmp = _context.Documentos.
                 Where(d => d.DocumentoID == id).
                 Select(d => new {
                     caminho = d.FicheiroCaminho,
                     nome = d.FicheiroNome
                 }).FirstOrDefault();
 
-            return FileHandling.Download(tmp.caminho, tmp.nome);
+                return FileHandling.Download(tmp.caminho, tmp.nome);
+            }
+            catch (Exception ex)
+            {
+                return View("~/Views/Shared/NoFile.cshtml");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult NoFile()
+        {
+            return View();
         }
 
         // GET: Application/View/1
         [HttpGet]
         public ActionResult View (int id)
         {   
-            return FileHandling.View(_context.Documentos.Where(d => d.DocumentoID == id).Select(d => d.FicheiroCaminho).FirstOrDefault());
+            try
+            {
+                return FileHandling.View(_context.Documentos.Where(d => d.DocumentoID == id).Select(d => d.FicheiroCaminho).FirstOrDefault());
+            }
+            catch (Exception ex)
+            {
+                return View("~/Views/Shared/NoFile.cshtml");
+            }
         }
 
         /** HELPER FUNCTIONS **/
