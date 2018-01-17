@@ -476,7 +476,7 @@ namespace cimob.Controllers
         public IActionResult Profile()
         {
             //permite saber se o candidato ja submeteu uma candidatura
-            ViewBag.CandidaturaSubmetida = (HelperFunctionsExtensions.GetUserCandidatura(_context, _userManager, User).User != "");
+            ViewBag.CandidaturaSubmetida = (HelperFunctionsExtensions.GetUserCandidatura(_context, _userManager, User).User != null);
 
             //Acedemos a flag passada no EditProfile
             var alert = TempData["ShowAlert"];
