@@ -1,0 +1,96 @@
+﻿@{
+    ViewData["Title"] = "Escolas Parceiras";
+    Layout = "~/Views/Shared/_LayoutWhite.cshtml";
+}
+
+<link href="~/css/escolas-parceiras.css" rel="stylesheet" />
+
+<div class="escola-wrapper">
+    <ul>
+        <li data-id="geral" class="active">Escola</li>
+        <li data-id="mobilidade">Programa de Mobilidade</li>
+    </ul>
+
+    <div class="tab-content">
+        <form id="escola-form" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
+            <div id="geral" role="tab">
+                @Html.Partial("Geral")
+            </div>
+            <div id="mobilidade" role="tab">
+                @Html.Partial("ProgramaMobilidade")
+            </div>
+        </form>
+    </div>
+
+    <div class="buttons">
+        <span id="btn_back" class="button button-back">Voltar</span>
+        <span id="btn_next" class="button button-next">Seguinte</span>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(() => {
+            var curr = window.location.hash.split("#/")[1];
+
+            if (curr != undefined || curr != "geral") {
+                changePage();
+            }
+
+            bindEvents();
+        });
+
+        var bindEvents = () => {
+            $(window).on("hashchange", (ev) => {
+                changePage();
+            });
+
+            $(".escola-wrapper li").on("click", (ev) => {
+                window.location.hash = "/" + ev.currentTarget.getAttribute("data-id");
+            });
+
+            $("#btn_next").on("click", (ev) => {
+                window.location.hash = "/mobilidade"
+            });
+
+            $("#btn_back").on("click", (ev) => {
+                var id = window.location.hash.split("#/")[1];
+
+                if (id == "geral" || id == undefined || id == "")
+                    window.location = "/Manage/Profile";
+                else if (id == "mobilidade") {
+                    window.location.hash = "/geral"
+                }
+            });
+
+            $("#btn_submit").on("click", (ev) => {
+                $("#escola-form").submit();
+            });
+        }
+
+        var changePage = () => {
+            $("[role='tab']").hide();
+            $(".active").removeClass("active");
+
+            var id = window.location.hash.split("#/")[1];
+
+            if (id == "mobilidade") {
+                $("#btn_submit").show();
+                $("#btn_next").hide();
+            }
+            else {
+                $("#btn_submit").hide();
+                $("#btn_next").show();
+            }
+
+            if (id == undefined || id == "") {
+                $("#geral").show();
+                $("[data-id='geral']").addClass("active");
+            }
+            else {
+                $("#" + id).show();
+                $("ul [data-id='" + id + "']").addClass("active");
+            }
+        };
+    </script>
+}

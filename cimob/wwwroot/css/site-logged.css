@@ -212,14 +212,22 @@
         width: 80%;
         margin: 20px auto;
         text-align: left;
+        border: solid 1px black;
     }
 
         .content-wrapper .table th {
             background: #ccc;
+            padding: 5px;
+            border-top: solid 1px #000;
         }
 
         .content-wrapper .table tr:not(:first-child) {
             cursor: pointer;
+        }
+        
+        .content-wrapper .table tr:nth-child(even) {
+            background: #9FC5F8;
+            color: #f9f9f9;
         }
 
         .content-wrapper .table .selected,

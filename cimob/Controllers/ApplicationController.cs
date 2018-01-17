@@ -24,7 +24,6 @@ namespace cimob.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly ApplicationDbContext _context;
-        private List<int> selectedCurso;
 
         public ApplicationController(
             UserManager<ApplicationUser> userManager,
@@ -36,7 +35,6 @@ namespace cimob.Controllers
             _emailSender = emailSender;
             _logger = logger;
             _context = context; 
-            selectedCurso = new List<int>();
         }
 
         // GET: Application
@@ -281,7 +279,7 @@ namespace cimob.Controllers
 
                 return FileHandling.Download(tmp.caminho, tmp.nome);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return View("~/Views/Shared/NoFile.cshtml");
             }
@@ -301,7 +299,7 @@ namespace cimob.Controllers
             {
                 return FileHandling.View(_context.Documentos.Where(d => d.DocumentoID == id).Select(d => d.FicheiroCaminho).FirstOrDefault());
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return View("~/Views/Shared/NoFile.cshtml");
             }

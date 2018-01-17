@@ -1,0 +1,25 @@
+﻿@model MergeViewModel;
+
+<div class="mobilidade container-fluid">
+    <table class="table">
+        <tr>
+            <th></th>
+            <th>Programa</th>
+        </tr>
+        @foreach (var item in @Model.EscolasViewModel.MobilidadeList)
+        {
+            <tr>
+                <td>
+                    <input type="radio" name="mobilidade" value="@item.TipoMobilidadeID" />
+                </td>
+                <td>
+                    @Html.DisplayFor(i => item.Descricao)
+                </td>
+            </tr>
+        }
+    </table>
+
+    <div class="col-md-3 col-md-offset-9">
+        <button type="submit" id="btn_submit" class="button button-submeter">Submeter</button>
+    </div>
+</div>

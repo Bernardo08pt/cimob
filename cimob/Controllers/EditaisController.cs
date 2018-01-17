@@ -149,7 +149,7 @@ namespace cimob.Controllers
 
                 return FileHandling.Download(tmp.caminho, tmp.nome);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return View("~/Views/Shared/NoFile.cshtml");
             }

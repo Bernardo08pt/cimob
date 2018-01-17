@@ -1,0 +1,60 @@
+﻿@model MergeViewModel;
+
+<div>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="row form-group has-feedback has-feedback-left">
+        <div class="col-md-12">
+            <div class="col-md-3 col-md-offset-1">
+                <label asp-for="EscolasViewModel.Nome"></label>
+            </div>
+            <div class="input-group col-md-7">
+                <input asp-for="EscolasViewModel.Nome" class="form-control" placeholder="Numero" />
+                <i class="glyphicon glyphicon-home form-control-feedback"></i>
+                <div class="input-group-btn">
+                    <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.EscolasViewModel.AjudasDictionary["Nome"].Titulo" data-content="@Model.EscolasViewModel.AjudasDictionary["Nome"].Corpo">
+                        <span class="glyphicon glyphicon-question-sign"></span>
+                    </button>
+                </div>
+            </div>
+            <span asp-validation-for="EscolasViewModel.Nome" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-12">
+            <div class="col-md-3 col-md-offset-1">
+                <label asp-for="EscolasViewModel.Pais"></label>
+            </div>
+            <div class="input-group col-md-7">
+                <select asp-for="EscolasViewModel.Pais" class="form-control" asp-items="@(new SelectList(Model.EscolasViewModel.PaisesList, "PaisID", "Descricao"))">
+                    <option>Escolha uma opção</option>
+                </select>
+                <i class="glyphicon glyphicon-globe form-control-feedback"></i>
+                <div class="input-group-btn">
+                    <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.EscolasViewModel.AjudasDictionary["Pais"].Titulo" data-content="@Model.EscolasViewModel.AjudasDictionary["Pais"].Corpo">
+                        <span class="glyphicon glyphicon-question-sign"></span>
+                    </button>
+                </div>
+            </div>
+            <span asp-validation-for="EscolasViewModel.Pais" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-12">
+            <div class="col-md-3 col-md-offset-1">
+                <label asp-for="EscolasViewModel.Cursos"></label>
+            </div>
+            <div class="input-group col-md-7">
+                <table class="table">
+                    <tr>
+                        <th>Nome</th>
+                        <th>Vagas</th>
+                    </tr>
+                </table>
+            </div>
+            <span asp-validation-for="EscolasViewModel.Cursos" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-3 col-md-offset-8">
+            <button type="button" class="button button-no-arrow" id="btn_add_curso">Adicionar Curso</button>
+        </div>
+    </div>
+</div>
