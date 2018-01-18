@@ -215,6 +215,11 @@
         border: solid 1px black;
     }
 
+        .table tr:nth-child(even) a {
+            color: #fff;
+        }
+
+
         .content-wrapper .table th {
             background: #ccc;
             padding: 5px;
