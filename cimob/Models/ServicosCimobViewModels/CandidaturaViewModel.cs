@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace cimob.Models.ApplicationViewModels
+namespace cimob.Models.ServicosCimobViewModels
 {
-    public class ServicosCimobViewModel
+    public class CandidaturaViewModel
     {
         #region geral 
         [Display(Name = "Nome")]
         public string Nome { get; set; }
 
         [Display(Name = "Nº de aluno")]
-        public string Numero { get; set; }
+        public int Numero { get; set; }
 
         [Display(Name = "Email")]
         public string Email { get; set; }
@@ -22,13 +19,13 @@ namespace cimob.Models.ApplicationViewModels
         public string EmailAlternativo { get; set; }
 
         [Display(Name = "Escola")]
-        public List<IpsEscola> Escola { get; set; }
+        public string Escola { get; set; }
         
         [Display(Name = "Curso")]
-        public IpsCurso Curso { get; set; }
+        public string Curso { get; set; }
 
-        [Display(Name = "Ano")]
-        public int Ano { get; set; }
+        [Display(Name = "Ano Letivo")]
+        public string AnoLetivo { get; set; }
                 
         [Display(Name = "Contacto pessoal")]
         public string ContactoPessoal { get; set; }
@@ -48,7 +45,7 @@ namespace cimob.Models.ApplicationViewModels
         public string Pais { get; set; }
 
         [Display(Name = "Curso ")]
-        public string CursoDestino { get; set; }
+        public Dictionary<string, int> CursoDestino { get; set; }
 
         [Display(Name = "Vagas disponívei: ")]
         public int VagasDisponiveis { get; set; }
@@ -66,7 +63,7 @@ namespace cimob.Models.ApplicationViewModels
         public string Entrevista { get; set; }
 
         [Display(Name = "Pontuação")]
-        public string Pontuacao { get; set; }
+        public int Pontuacao { get; set; }
 
         [Display(Name = "Observações")]
         public string Observacoes { get; set; }
@@ -76,6 +73,5 @@ namespace cimob.Models.ApplicationViewModels
         #endregion
 
         public IDictionary<string, Ajuda> AjudasDictionary { get; set; }
-
     }
 }

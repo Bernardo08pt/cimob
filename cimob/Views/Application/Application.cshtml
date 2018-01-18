@@ -59,6 +59,8 @@
                 elem.val(mobilidade);
             }
 
+            getAnoLetivo();
+
             bindEvents();
         });
 
@@ -361,6 +363,15 @@
                     tmp.removeClass("alert-" + type);
                 }, 2100)
             }, 5000);
+        }
+
+        var getAnoLetivo = () => {
+            var tmp = new Date();
+
+            if (tmp.getMonth() >= 7 && tmp.getMonth() <= 11)
+                $("#AnoLetivo").val(tmp.getFullYear() + "/" + (tmp.getFullYear() + 1));
+            else 
+                $("#AnoLetivo").val((tmp.getFullYear() - 1) + "/" + tmp.getFullYear());
         }
     </script>
 }

@@ -42,10 +42,8 @@ namespace cimob.Models.ApplicationViewModels
         [Display(Name = "Curso")]
         public int Curso { get; set; }
 
-        [Required(ErrorMessage = "O campo {0} é obrigatório.")]
-        [Display(Name = "Ano")]
-        [RegularExpression("([1-9]+){1,1}", ErrorMessage = "Insira um número válido.")]
-        public string Ano { get; set; }
+        [Display(Name = "Ano Letivo")]
+        public string AnoLetivo { get; internal set; }
         #endregion
 
 

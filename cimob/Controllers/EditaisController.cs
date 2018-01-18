@@ -48,6 +48,7 @@ namespace cimob.Controllers
         // POST: Edital
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Funcionario")]
         public async Task<IActionResult> Index(EditaisViewModel model)
         {
             if (model.DataLimite.CompareTo(DateTime.Now) <= 0)
@@ -150,11 +151,9 @@ namespace cimob.Controllers
         }
 
         //Método para obter os tipos de mobilidade existentes na bd para mostrar no dropdown list da inserção dos editais
-        [HttpGet]
         private List<TipoMobilidade> GetTiposMobilidade()
         {
-            var tiposMobilidade = from p in _context.TiposMobilidade where p.Estagio == 0 select p;
-            return tiposMobilidade.ToList();
+            return _context.TiposMobilidade.Where(p => p.Estagio == 0).ToList();
         }
 
         [HttpGet]
@@ -164,7 +163,6 @@ namespace cimob.Controllers
         }
 
         //Método para obter os editais
-        [HttpGet]
         private List<Edital> GetEditais()
         {
             var tipoEdital = from edital in _context.Editais select edital;

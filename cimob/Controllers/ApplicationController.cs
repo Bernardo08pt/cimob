@@ -16,7 +16,6 @@ using cimob.Extensions;
 
 namespace cimob.Controllers
 {
-    [Authorize]
     public class ApplicationController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -75,7 +74,7 @@ namespace cimob.Controllers
             {
                 var c = new Candidatura
                 {
-                    AnoLetivo = model.Ano,
+                    AnoLetivo = model.AnoLetivo,
                     ContactoPessoal = model.ContactoPessoal,
                     DataNascimento = model.DataNascimento,
                     EmailAlternativo = model.EmailAlternativo,
@@ -345,6 +344,5 @@ namespace cimob.Controllers
         {
             return _context.CandidaturaDocumentos.Include(cd => cd.Documento).Where(cd => cd.CandidaturaID == id).ToList();
         }
-
     }
 }

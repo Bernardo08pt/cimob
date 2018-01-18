@@ -1,104 +1,37 @@
-﻿
-@{
-    ViewData["Title"] = "Visualizar Candidatura";
+﻿@{
+    ViewData["Title"] = "Serviços CIMOB";
     Layout = "~/Views/Shared/_LayoutWhite.cshtml";
 }
 
+<link href="~/css/cimob.css" rel="stylesheet" />
 
-<div class="candidatura-wrapper">
-    <ul>
-        <li data-id="geral" class="selected">Geral</li>
-        <li data-id="contactos">Escola de Destino</li>
-        <li data-id="documentacao">Documentação</li>
-        <li data-id="destino">Avaliação</li>
-    </ul>
-
-    <div class="tab-content">
-        <div id="geral" role="tab">
-            @Html.Partial("GeneralInformation")
-        </div>
-        <div id="contactos" role="tab">
-            @Html.Partial("Destination")
-        </div>
-        <div id="documentacao" role="tab">
-            @Html.Partial("Documentation")
-        </div>
-        <div id="destino" role="tab">
-            @Html.Partial("Avaliation")
-        </div>
+<div class="cimob">
+    <div class="header">
+        <img src="~/images/home/1.svg">
+        <img src="~/images/home/2.svg">
+        <img src="~/images/home/3.svg">
+        <img src="~/images/home/4.svg">
+        <img src="~/images/home/5.svg">
+        <img src="~/images/home/6.svg">
+        <img src="~/images/home/7.svg">
+        <img src="~/images/home/8.svg">
+        <img src="~/images/home/9.svg">
     </div>
 
-    <div class="buttons">
-        <span id="btn_back" class="button button-back">Voltar</span>
-        <span id="btn_next" class="button button-next">Seguinte</span>
-        <span id="btn_submit" class="button button-submeter">Submeter</span>
+    <div class="button-wrapper">
+        <div class="container-fluid ">
+            <div class="col-md-3 col-md-offset-3">
+                <a asp-controller="Editais" asp-action="Index" class="menu-button">Editais</a>
+            </div>
+            <div class="col-md-3">
+                <a asp-controller="ServicosCIMOB" asp-action="Candidaturas" class="menu-button">Candidaturas</a>
+            </div>
+        </div>
+
+        <div class="container-fluid" style="margin-top: 20px">
+            <div class="col-md-4 col-md-offset-4">
+                <a asp-controller="EscolasParceiras" asp-action="Index" class="menu-button">Escolas Parceiras</a>
+            </div>
+        </div>
     </div>
 </div>
-
-@section Scripts {
-    <script>
-        $(() => {
-            var curr = window.location.hash.split("#/")[1];
-
-            if (curr != undefined || curr != "geral")
-                changePage();
-        });
-
-        $(".candidatura-wrapper li").on("click", (ev) => {
-            window.location.hash = "/" + ev.currentTarget.getAttribute("data-id");
-        });
-
-        $("#btn_next").on("click", (ev) => {
-            var curr = window.location.hash.split("#/")[1];
-
-            if (curr == "" || curr == undefined || curr == "geral") {
-                window.location.hash = "/contactos"
-            }
-            else if (curr == "contactos") {
-                window.location.hash = "/documentacao"
-            }
-            else if (curr == "documentacao") {
-                window.location.hash = "/destino"
-                $("#btn_next").hide();
-                $("#btn_submit").show();
-            }
-        });
-
-        $("#btn_back").on("click", (ev) => {
-            var id = window.location.hash.split("#/")[1];
-
-            if (id == "geral" || id == undefined || id == "")
-                window.location = "/";
-            else
-                window.history.back();
-        });
-
-        $(window).on("hashchange", (ev) => {
-            changePage();
-        });
-
-        var changePage = () => {
-            $("[role='tab']").hide();
-            $(".selected").removeClass("selected");
-            var id = window.location.hash.split("#/")[1];
-
-            if (id == "destino") {
-                $("#btn_submit").show();
-                $("#btn_next").hide();
-            }
-            else {
-                $("#btn_submit").hide();
-                $("#btn_next").show();
-            }
-
-            if (id == undefined || id == "") {
-                $("#geral").show();
-                $("[data-id='geral']").addClass("selected");
-            }
-            else {
-                $("#" + id).show();
-                $("ul [data-id='" + id + "']").addClass("selected");
-            }
-        };
-    </script>
-}

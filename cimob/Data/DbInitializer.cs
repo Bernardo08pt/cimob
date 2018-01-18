@@ -399,8 +399,8 @@ namespace cimob.Data
             context.Ajudas.Add(new Ajuda { Pagina = "Application", Nome = "Nome", Titulo = "Nome", Corpo = "<p>O seu nome, preferencialmente completo.</p>" });
             context.Ajudas.Add(new Ajuda { Pagina = "Application", Nome = "DataNascimento", Titulo = "Data de Nascimento", Corpo = "<p>A Data de Nascimento tem de ser escrita no formato dd/mm/aaaa.</p><p>O candidato tem de ter entre 17 a 100 anos.</p>" });
             context.Ajudas.Add(new Ajuda { Pagina = "Application", Nome = "Escola", Titulo = "Escola", Corpo = "<p>A escola que frequenta atualmente.</p>" });
-            context.Ajudas.Add(new Ajuda { Pagina = "Application", Nome = "Curso", Titulo = "Número", Corpo = "<p>O curso que frequenta atualmente.</p>" });
-            context.Ajudas.Add(new Ajuda { Pagina = "Application", Nome = "Ano", Titulo = "Número", Corpo = "<p>O ano atual no curso (matrícula atual).</p>" });
+            context.Ajudas.Add(new Ajuda { Pagina = "Application", Nome = "Curso", Titulo = "Curso", Corpo = "<p>O curso que frequenta atualmente.</p>" });
+            context.Ajudas.Add(new Ajuda { Pagina = "Application", Nome = "AnoLetivo", Titulo = "Número", Corpo = "<p>Ano letivo atual. Este campo é preenchdio automáticamente.</p>" });
 
             // candidatura - contactos
             context.Ajudas.Add(new Ajuda { Pagina = "Application", Nome = "Email", Titulo = "Email", Corpo = "<p>Email através do qual possa ser contacto.</p>" });

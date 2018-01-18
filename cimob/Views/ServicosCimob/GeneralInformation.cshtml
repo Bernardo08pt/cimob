@@ -1,4 +1,4 @@
-﻿@model ServicosCimobViewModel;
+﻿@model CandidaturaViewModel;
 
 <!--TEM QUE SER A INFORMAÇÃO DO ALUNO QUE FOI SELECIONADO PELO FUNCIONÁRIO DA CIMOB-->
 <div class="geral-form form">
@@ -9,7 +9,7 @@
                 <label asp-for="Nome"></label>
             </div>
             <div class="input-group col-md-7">
-                <label>Zé Maria</label>
+                <input asp-for="Nome" disabled class="form-control"/>
             </div>
         </div>
 
@@ -18,7 +18,7 @@
                 <label asp-for="Numero"></label>               
             </div>
             <div class="input-group col-md-7">
-                <label>125061651</label>
+                <input asp-for="Numero" disabled class="form-control" />
             </div>
         </div>
 
@@ -27,7 +27,7 @@
                 <label asp-for="Email"></label>
             </div>
             <div class="input-group col-md-7">
-                <label>zemaria@gmail.com</label>
+                <input asp-for="Email" disabled class="form-control" />
             </div>
         </div>
 
@@ -36,7 +36,7 @@
                 <label asp-for="EmailAlternativo"></label>
             </div>
             <div class="input-group col-md-7">
-                <label>zemaria_alternativo@gmail.com</label>
+                <input asp-for="EmailAlternativo" disabled class="form-control" />
             </div>
         </div>
 
@@ -45,7 +45,7 @@
                 <label asp-for="Escola"></label>
             </div>
             <div class="input-group col-md-7">
-                <label>Instituto Politécnico de Setúbal</label>
+                <input asp-for="Escola" disabled class="form-control" />
             </div>
         </div>
 
@@ -54,16 +54,16 @@
                 <label asp-for="Curso"></label>
             </div>
             <div class="input-group col-md-7">
-                <label>Licenciatura</label>
+                <input asp-for="Nome" disabled class="form-control" />
             </div>
         </div>
 
         <div class="form-group row has-feedback has-feedback-left">
             <div class="col-md-3 col-md-offset-1">
-                <label asp-for="Ano"></label>
+                <label asp-for="AnoLetivo"></label>
             </div>
             <div class="input-group col-md-7">
-                <label>2</label>
+                <input asp-for="AnoLetivo" disabled class="form-control" />
             </div>
         </div>
 
@@ -72,7 +72,7 @@
                 <label asp-for="ContactoPessoal"></label>
             </div>
             <div class="input-group col-md-7">
-                <label>913258569</label>
+                <input asp-for="ContactoPessoal" disabled class="form-control" />
             </div>
         </div>
 
@@ -81,7 +81,7 @@
                 <label asp-for="ContactoEmergencia"></label>
             </div>
             <div class="input-group col-md-7">
-                <label>936587432</label>
+                <input asp-for="ContactoEmergencia" disabled class="form-control" />
             </div>
         </div>
 
@@ -90,7 +90,7 @@
                 <label asp-for="Parentesco"></label>
             </div>
             <div class="input-group col-md-7">
-                <label>Pai</label>
+                <input asp-for="Parentesco" disabled class="form-control" />
             </div>
         </div>
     </form>

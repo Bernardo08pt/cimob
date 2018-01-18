@@ -1,61 +1,105 @@
-﻿using System;
+﻿using cimob.Data;
+using cimob.Extensions;
+using cimob.Models;
+using cimob.Models.ServicosCimobViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using cimob.Data;
-using cimob.Models;
-using cimob.Models.ApplicationViewModels;
-using cimob.Services;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace cimob.Controllers
 {
+    [Authorize(Roles = "Funcionario")]
     public class ServicosCimobController : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly IEmailSender _emailSender;
-        private readonly ILogger _logger;
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ServicosCimobController(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
-            RoleManager<IdentityRole> roleManager,
-            IEmailSender emailSender,
-            ILogger<ApplicationController> logger,
-            ApplicationDbContext context)
+
+        public ServicosCimobController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
-            _roleManager = roleManager;
-            _emailSender = emailSender;
-            _logger = logger;
             _context = context;
         }
 
+        [HttpGet]
+        [Route("[Controller]")]
         public IActionResult Index()
         {
             return View();
         }
 
-        //Método para obter as ajudas da BD
-        private IDictionary<string, Ajuda> GetAjudas(List<string> campos)
+        [HttpGet]
+        [Route("[Controller]/Candidaturas")]
+        public IActionResult Candidaturas()
         {
-            var ajudasContext = _context.Ajudas;
-            var ajudas = from a in ajudasContext select a;
-            ajudas = ajudas.Where(a => campos.Contains(a.Pagina));
-
-            IDictionary<string, Ajuda> ajudasDictionary = new Dictionary<string, Ajuda>();
-            foreach (Ajuda a in ajudas)
-            {
-                ajudasDictionary[a.Nome] = a;
-            }
-
-            return ajudasDictionary;
+            return View(nameof(CandidaturasList), new CandidaturasListingViewModel {
+                Candidaturas = _context.Candidaturas.
+                                Include(c => c.Utilizador).
+                                Include(c => c.TipoMobilidade).
+                                Include(c => c.IpsCurso).
+                                Include(c => c.IpsCurso.IpsEscola).
+                            ToList()
+            });
         }
+
+        [HttpGet]
+        [Route("[Controller]/Candidaturas/{id}")]
+        public async Task<ActionResult> ViewCandidatura(int id)
+        {
+            try
+            {
+                var c = _context.Candidaturas.
+                            Include(cu => cu.IpsCurso).
+                            Include(cu => cu.IpsCurso.IpsEscola).
+                            Include(cu => cu.EmegerenciaParentesco).
+                            Where(cu => cu.CandidaturaID == id).
+                        FirstOrDefault();
+                var cursos = new Dictionary<string, int>();
+                var docs = new List<Documento>();
+                var user = await _userManager.GetUserAsync(User);
+                var escola = "";
+                var pais = "";
+
+                c.Cursos.ToList().ForEach(item => {
+                    cursos.Add(item.Curso.Nome, item.Curso.Vagas);
+                    escola = item.Curso.Escola.Nome;
+                    pais = item.Curso.Pais.Descricao;
+                });
+
+                return View(nameof(Candidatura), new CandidaturaViewModel {
+                    AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Application" }), _context),
+                    AnoLetivo = c.AnoLetivo,
+                    ContactoEmergencia = c.AnoLetivo,
+                    ContactoPessoal = c.ContactoPessoal,
+                    Curso = c.IpsCurso.Nome,
+                    CursoDestino = cursos,
+                    Documentos = docs,
+                    Email = user.Email,
+                    EmailAlternativo = c.EmailAlternativo,
+                    Entrevista = c.Entrevista,
+                    Nome = user.Nome,
+                    Escola = c.IpsCurso.IpsEscola.Descricao,
+                    NomeEscola = escola,
+                    Numero = user.Numero,
+                    Observacoes = c.Observacoes,
+                    Pais = pais,
+                    Parentesco = c.EmegerenciaParentesco.Descricao,
+                    Pontuacao = c.Pontuacao,
+                });
+            }
+            catch (Exception)
+            {
+                
+                return View(nameof(CandidaturasList));
+            }
+        }
+
+        private ActionResult Candidatura => View();
+        private ActionResult CandidaturasList => View();
     }
 }

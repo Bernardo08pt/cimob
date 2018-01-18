@@ -98,18 +98,17 @@
     <div class="row form-group has-feedback has-feedback-left">
         <div class="col-md-12">
             <div class="col-md-3 col-md-offset-1">
-                <label asp-for="Ano"></label>
+                <label asp-for="AnoLetivo"></label>
             </div>
             <div class="input-group col-md-7">
-                <input asp-for="Ano" class="form-control" placeholder="Ano" />
+                <input asp-for="AnoLetivo" class="form-control" placeholder="Ano" disabled />
                 <i class="glyphicon glyphicon-book form-control-feedback"></i>
                 <div class="input-group-btn">
-                    <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Ano"].Titulo" data-content="@Model.AjudasDictionary["Ano"].Corpo">
+                    <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["AnoLetivo"].Titulo" data-content="@Model.AjudasDictionary["AnoLetivo"].Corpo">
                         <span class="glyphicon glyphicon-question-sign"></span>
                     </button>
                 </div>
             </div>
-            <span asp-validation-for="Ano" class="text-danger"></span>
         </div>
     </div>
 </div>
