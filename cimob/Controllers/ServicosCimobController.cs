@@ -367,7 +367,7 @@ namespace cimob.Controllers
         }
         
         [HttpGet]
-        [Route("[Controller]/Candidatura/{id}/Download")]
+        [Route("[Controller]/Candidaturas/{id}/Download")]
         public ActionResult Download(int id)
         {
             try
@@ -394,7 +394,7 @@ namespace cimob.Controllers
         }
         
         [HttpGet]
-        [Route("[Controller]/Candidatura/{id}/View")]
+        [Route("[Controller]/Candidaturas/{id}/View")]
         public ActionResult View(int id)
         {
             try
