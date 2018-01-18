@@ -1,0 +1,194 @@
+﻿@model EditaisViewModel
+
+@{
+    ViewData["Title"] = "Editais";
+    Layout = "/Views/Shared/_LayoutWhite.cshtml";
+}
+<!--VIEW DOS EDITAIS-->
+<!--Alert da repetição de edital, aparece no início da página-->
+@if (ViewBag.IsSucceded != null)
+{
+    @if (ViewBag.IsSucceded)
+    {
+        <div class="alert alert-success alert-dismissable fade in" style="margin: 0 21% 2% 21%">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            O edital foi adicionado com sucesso
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning alert-dismissable fade in" style="margin: 0 21% 2% 21%">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            @ViewBag.Message
+        </div>
+    }
+}
+
+<div class="editais">
+    <div class="panel clearfix">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form id="editaisForm" asp-controller="Editais" asp-action="Index" enctype="multipart/form-data">
+
+            <div class="row form-group has-feedback has-feedback-left">
+                <div class="col-md-3 col-md-offset-1">
+                    <label asp-for="CarregarEdital"></label>
+                </div>
+                <div class="col-md-5 no-padding-margin">
+                    <div class="input-group">
+                        <input asp-for="CarregarEdital" class="hidden" accept="application/pdf" />
+                        <input type="text" class="form-control" placeholder="Ficheiro.pdf" disabled id="file_name" />
+                        <i class="glyphicon glyphicon-file form-control-feedback"></i>
+                        <div class="input-group-btn">
+                            <button class="btn btn-info bottom-right pop" type="button"
+                                    data-title="@Model.AjudasDictionary["CarregarEdital"].Titulo"
+                                    data-content="@Model.AjudasDictionary["CarregarEdital"].Corpo">
+                                <span class="glyphicon glyphicon-question-sign"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <span asp-validation-for="CarregarEdital" class="text-danger"></span>
+                    <p class="note">Nota: Ficheiros suportados .pdf</p>
+                </div>
+                <div class="col-md-2">
+                    <div class="button-no-arrow" id="btn_upload">
+                        <i class="glyphicon glyphicon-plus"></i>
+                        <span>Carregar</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row form-group has-feedback has-feedback-left">
+                <div class="col-md-3 col-md-offset-1">
+                    <label asp-for="Nome"></label>
+                </div>
+                <div class="input-group col-md-5">
+
+                    <input asp-for="Nome" class="form-control" placeholder="Nome do edital" />
+                    <i class="glyphicon glyphicon-file form-control-feedback"></i>
+                    <div class="input-group-btn">
+                        <button class="btn btn-info bottom-right pop" type="button"
+                                data-title="@Model.AjudasDictionary["NomeEdital"].Titulo"
+                                data-content="@Model.AjudasDictionary["NomeEdital"].Corpo">
+                            <span class="glyphicon glyphicon-question-sign"></span>
+                        </button>
+                    </div>
+                </div>
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
+
+            <div class="row form-group has-feedback has-feedback-left">
+                <div class="col-md-3 col-md-offset-1">
+                    <label asp-for="ProgramaMobilidadeID"></label>
+                </div>
+                <div class="input-group col-md-5">
+                    <select asp-for="ProgramaMobilidadeID" class="form-control" asp-items="@(new SelectList(Model.TipoMobilidadeList, "TipoMobilidadeID", "Descricao"))">
+                        <option>Escolha uma opção</option>
+                    </select>
+                    <i class="glyphicon glyphicon-book form-control-feedback"></i>
+                    <div class="input-group-btn">
+                        <button class="btn btn-info bottom-right pop" type="button"
+                                data-title="@Model.AjudasDictionary["SelecionarPrograma"].Titulo"
+                                data-content="@Model.AjudasDictionary["SelecionarPrograma"].Corpo">
+                            <span class="glyphicon glyphicon-question-sign"></span>
+                        </button>
+                    </div>
+                </div>
+                <span asp-validation-for="ProgramaMobilidadeID" class="text-danger"></span>
+            </div>
+
+            <div class="row form-group has-feedback has-feedback-left">
+                <div class="col-md-3 col-md-offset-1">
+                    <label asp-for="DataLimite"></label>
+                </div>
+                <div class="input-group col-md-5">
+                    <input asp-for="DataLimite" class="form-control" />
+                    <i class="glyphicon glyphicon-calendar form-control-feedback"></i>
+                    <div class="input-group-btn">
+                        <button class="btn btn-info bottom-right pop" type="button"
+                                data-title="@Model.AjudasDictionary["DataLimite"].Titulo"
+                                data-content="@Model.AjudasDictionary["DataLimite"].Corpo">
+                            <span class="glyphicon glyphicon-question-sign"></span>
+                        </button>
+                    </div>
+                </div>
+                <span asp-validation-for="DataLimite" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-3 col-md-offset-8">
+                <button type="submit" class="button button-submeter">Submeter documentos</button>
+            </div>
+        </form>
+    </div>
+
+    <!--Mostrar os editais existentes na bd-->
+    <div class="listing">
+        <table class="table">
+            <tr>
+                <th>Edital</th>
+                <th>Data Limite</th>
+                <th>Programa Mobilidade</th>
+                <th>Estado</th>
+            </tr>
+            @foreach (var item in Model.Editais)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nome)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DataLimite)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TipoMobilidade.Descricao)
+                    </td>
+                    <td>
+                        @if (item.Estado == 0)
+                        {
+                            <img src="~/images/valid.png" alt="Ativo" />
+                        }
+                        else
+                        {
+                            <img src="~/images/not_valid.png" alt="Inativo"/>
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+    <a asp-controller="ServicosCimob" asp-action="Index" class="button button-back">Voltar</a>
+</div>
+
+@section Scripts {
+    <script>
+        $(() => {
+            var tmp = new Date();
+            var mes = tmp.getMonth() + 1;
+            var dia = tmp.getDate();
+
+            mes = mes < 10 ? "0" + mes : mes;
+            dia = dia < 10 ? "0" + dia : dia;
+
+            $("#DataLimite").attr("min", tmp.getFullYear() + "-" + mes + "-" + dia);
+
+            $("#btn_upload").on("click", () => {
+                $("#CarregarEdital").trigger("click")
+            });
+
+            $("#CarregarEdital").on("change", (ev) => {
+                if ($(ev.currentTarget).val() == "")
+                    return;
+
+                var file = ev.currentTarget.value.split("\\fakepath\\")[1];
+
+                if (file.split(".")[1] != "pdf") {
+                    alert('invalid file');
+                    $("#file_name").val("");
+                    $(ev.currentTarget).val("");
+                }
+                else
+                    $("#file_name").val(ev.currentTarget.value.split("\\fakepath\\")[1]);
+            });
+        });
+    </script>
+}

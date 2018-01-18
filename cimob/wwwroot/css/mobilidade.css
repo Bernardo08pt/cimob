@@ -1,0 +1,109 @@
+﻿.programas-mobilidade{
+    position: relative;
+}
+
+    .programas-mobilidade .program-button {
+        width: 300px;
+        height: 180px;
+        margin-bottom: 40px;
+        text-align: center;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        padding: 0 40px;
+        border: 1px solid black;
+        box-shadow: 1px 1px 1px #ccc;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+        .programas-mobilidade .program-button:hover {
+            text-decoration: none;
+            color: #fff;
+            transform: scale(1.01);
+        }
+
+
+    /*MODAL dos programas de mobilidade*/
+.modal-dialog {
+    margin-top: 0;
+    top: 30%;
+    z-index: 999999999999999;
+}
+
+    .modal-dialog .modal-content {
+        width: 50%;
+        margin: auto;
+    }
+
+.modal-content #titulo {
+    font-weight: bold;
+    color: #1F71E2;
+    font-size: 22px;
+}
+
+.modal-content .modal-content-wrapper {
+    padding: 0 20px;
+}
+
+    .modal-content .modal-content-wrapper p {
+        font-weight: bold;
+        text-align: left;
+        font-size: 15px;
+    }
+
+.modal-content .radio-group {
+    display: inline-block;
+    margin-left: 60px;
+    width: 100%;
+    text-align: left;
+}
+
+    .modal-content .radio-group input[type="radio"] {
+        margin-right: 10px;
+    }
+
+    .modal-content .radio-group label {
+        font-weight: normal;
+    }
+
+    .modal-content .radio-group input,
+    .modal-content .radio-group label {
+        cursor: pointer;
+    }
+
+
+.modal-content .modal-button-group {
+    margin: 20px auto;
+    justify-content: space-between;
+    display: flex;
+    width: 70%;
+}
+
+    .modal-content .modal-button-group button {
+        border: solid 1px #000;
+        border-radius: 5px;
+        width: 100px;
+        padding: 3px 0;
+        color: #fff;
+        outline: none;
+    }
+
+        .modal-content .modal-button-group button:hover {
+            transform: scale(1.02);
+        }
+
+    .modal-content .modal-button-group .glyphicon {
+        margin-right: 5px;
+        top: 2px;
+    }
+
+    .modal-content .modal-button-group #btnCancelar {
+        background: #CF2A27;
+    }
+
+    .modal-content .modal-button-group #btnSubmit {
+        background: #009E0F;
+    }

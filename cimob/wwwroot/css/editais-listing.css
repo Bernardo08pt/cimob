@@ -1,0 +1,13 @@
+﻿.editais-listing {
+    width: 50%;
+    margin: auto;
+}
+
+    .editais-listing .table {
+        width: 100%;
+    }
+
+        .editais-listing .table th:last-child,
+        .editais-listing .table td:last-child {
+            width: 48px;
+        }

@@ -5,6 +5,15 @@
     <UserSecretsId>aspnet-cimob-E8511382-8E83-4730-950F-9EE68A039297</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Migrations\20180112003526_3rd.cs" />
+    <Compile Remove="Migrations\20180112003526_3rd.Designer.cs" />
+    <Compile Remove="Migrations\20180115141725_update_docs.cs" />
+    <Compile Remove="Migrations\20180115141725_update_docs.Designer.cs" />
+    <Compile Remove="Migrations\20180115141918_update_docs.cs" />
+    <Compile Remove="Migrations\20180115141918_update_docs.Designer.cs" />
+  </ItemGroup>
+
 
 
   <ItemGroup>
@@ -24,6 +33,10 @@
     <Content Update="wwwroot\favicon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\images\NewFolder\" />
   </ItemGroup>
 
 </Project>

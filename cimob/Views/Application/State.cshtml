@@ -1,0 +1,37 @@
+﻿@model ApplicationStateViewModel
+@{
+    ViewData["Title"] = "Estado Candidatura";
+    Layout = "~/Views/Shared/_LayoutWhite.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/candidatura-state.css" />
+
+<div class="timeline">
+    <input asp-for="Estado" class="hidden" />
+    <ol class="incomplete">
+        @foreach (var item in Model.EstadosList.Select((value, index) => new { index, value }))
+        {
+            <li id="state-@item.value.EstadoCandidaturaID" class=@(item.index % 2 == 0 ? "top" : "bottom") >
+                <span class="point-arrow" style="background-color: @item.value.Cor;">
+                    <i class="fa fa-2x fa-@item.value.Icon"></i>
+                    <span class="text">@item.value.Descricao</span>
+                </span>
+                <span class="point"></span>
+            </li>
+        }
+    </ol>
+    <img src="~/images/application/finito.png" /> 
+</div>
+
+@section Scripts {
+    <script>
+        $(() => {
+            var val = $("#Estado").val();
+            for (var i = 1; i <= val; i++) {
+                $("#state-" + i).addClass("complete");
+            }
+        });
+    </script>
+}
+
+<script src="https://use.fontawesome.com/3f965b3028.js"></script>

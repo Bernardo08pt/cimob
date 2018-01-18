@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using cimob.Services;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using cimob.Services;
-using System.Net.Mail;
-using System.IO;
 
-namespace cimob.Services
+namespace cimob.Extensions
 {
     public static class EmailSenderExtensions
     {

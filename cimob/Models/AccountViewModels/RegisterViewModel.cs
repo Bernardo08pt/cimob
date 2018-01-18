@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace cimob.Models.AccountViewModels
 {
@@ -41,12 +39,5 @@ namespace cimob.Models.AccountViewModels
         public string ConfirmPassword { get; set; }
 
         public IDictionary<string, Ajuda> AjudasDictionary { get; set; }
-
-        
-
     }
-
-
-
-
 }

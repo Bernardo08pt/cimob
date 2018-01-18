@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewData["Title"] = "Programas de Mobilidade";
+    Layout = "/Views/Shared/_LayoutWhite.cshtml";
+}
+<!-- VIEW DOS PROGRAMAS DE MOBILIDADE-->
+<div class="programas-mobilidade">
+    <div class="container-fluid">
+        <div class="col-md-2 col-md-offset-2">
+            <a id="erasmus-modal" class="program-button" style="background-color: dodgerblue;">Erasmus+</a>
+        </div>
+        <div class="col-md-2 col-md-offset-1">
+            <a id="luso-modal" data-id="4" class="program-button" style="background-color: green">Bolsas Luso-Brasileiras Santander Universidades</a>
+        </div>
+        <div class="col-md-3 col-md-offset-1">
+            <a id="ibero-modal" data-id="5" class="program-button" style="background-color: red">Bolsas Ibero-Americanas Santander Universidades</a>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="col-md-2 col-md-offset-3">
+            <a id="macau-modal" data-id="6" class="program-button col-md-3 col-md-offset-3" style="background-color: orange;">Cooperação com o Instituto Politécnico de Macau</a>
+        </div>
+        <div class="col-md-3 col-md-offset-1">
+            <a id="vasco-gama-modal" data-id="3" class="program-button col-md-3 col-md-offset-1" style="background-color: purple">Mobilidade Vasco da Gama</a>
+        </div>
+    </div>
+
+    <!--Modal-->
+    <div>
+        <div class="modal fade" tabindex="-1" id="programModal" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <form>
+                        <h4 id="titulo">Erasmus+</h4>
+                        <div class="modal-content-wrapper">
+                            <p>Candidato para:</p>
+                            <div class="radio-group">
+                                <div>
+                                    <input type="radio" name="periodo" value="1" checked>
+                                    <label>Período de ESTUDOS</label>
+                                </div>
+                                <div>
+                                    <input type="radio" name="periodo" value="2">
+                                    <label>Período de ESTÁGIO</label>
+                                </div>
+                            </div>
+                            <div class="modal-button-group">
+                                <button type="button" id="btnCancelar">
+                                    <i class="glyphicon glyphicon glyphicon-remove-circle"></i>
+                                    Cancelar
+                                </button>
+                                <button type="submit" id="btnSubmit">
+                                    <i class="glyphicon glyphicon glyphicon-ok-circle"></i>
+                                    Confirmar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Volta para a página inicial-->
+    <div class="col-md-offset-2">
+        <a asp-area="" asp-controller="Home" asp-action="Index" class="button button-back">Voltar</a>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="~/js/pop-up-modal.js"></script>

@@ -1,0 +1,151 @@
+﻿.candidatura-wrapper {
+    width: 50%;
+    margin: 30px auto 0;
+}
+
+    
+    .candidatura-wrapper .buttons {
+        padding: 10px 0;
+        position: absolute;
+        width: 50%;
+        margin-bottom: 30px;
+    }
+
+    .candidatura-wrapper #btn_submit {
+            display: none;
+        }
+
+
+    .candidatura-wrapper ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        font-size: 0;
+        margin-left: 30px;
+        text-align: left;
+    }
+
+    .candidatura-wrapper li {
+        display: inline-block;
+        padding: 5px 12px;
+        cursor: pointer;
+        border-top: 1px solid #000;
+        border-right: 1px solid #000;
+        background: #ccc;
+        font-size: 16px;
+    }
+
+        .candidatura-wrapper li:first-child {
+            border-left: 1px solid #000;
+        }
+
+        .candidatura-wrapper li:hover {
+            background: #c8c8c8;
+            box-shadow: inset 1px 1px 0 rgba(0,0,0,0.5);
+        }
+
+        .candidatura-wrapper li a {
+            color: #000;
+            text-decoration: none;
+        }
+
+            .candidatura-wrapper li a:hover {
+                color: #000;
+                text-decoration: none;
+            }
+
+    .candidatura-wrapper ul .active {
+        background: #fff;
+        position: relative;
+        top: 1px;
+        z-index: 1;
+        padding-top: 6px;
+    }
+
+        .candidatura-wrapper .selected:hover {
+            background: #fff;
+            box-shadow: none;
+        }
+
+    .candidatura-wrapper .tab-content {
+        width: 100%;
+        position: relative;
+        border: solid 1px #000;
+    }
+
+    .candidatura-wrapper [role="tab"]:not(:first-child) {
+        display: none;
+    }
+
+
+    .candidatura-wrapper .tab-content .form {
+        padding: 20px 0;
+        text-align: left;
+    }
+
+        .candidatura-wrapper .tab-content .geral-form .form-group,
+        .candidatura-wrapper .tab-content .contacts-form .form-group {
+            margin-bottom: 5px;
+        }
+
+        .candidatura-wrapper .tab-content .geral-form label {
+            line-height: 30px;
+        }
+
+    .candidatura-wrapper .tab-content .documents-form {
+        padding-bottom: 0;
+        margin-bottom: 30px;
+    }
+
+        .candidatura-wrapper .tab-content .documents-form label {
+            line-height: 35px;
+        }
+
+        .candidatura-wrapper .tab-content .documents-form #btn_submit_docs {
+            width: auto;
+            border: 0;
+            margin: 10px;
+            padding: 0 10px;
+        }
+
+            .candidatura-wrapper .tab-content .documents-form #btn_submit_docs:after{
+                top: 0;
+            }
+
+        .candidatura-wrapper .tab-content .documents-form .table td,
+        .candidatura-wrapper .tab-content .documents-form .table th {
+            padding: 8px;
+            line-height: 1.42857143;
+            vertical-align: top;
+            border-top: 1px solid #ddd;
+        }
+
+        .candidatura-wrapper .tab-content .documents-form .table img {
+            width: 24px;
+            display: block;
+            margin: auto;
+        }
+
+        .candidatura-wrapper .tab-content .documents-form .table td:nth-child(3),
+        .candidatura-wrapper .tab-content .documents-form .table td:nth-child(4),
+        .candidatura-wrapper .tab-content .documents-form .table td:nth-child(5) {
+            width: 48px;
+            vertical-align: middle;
+        }
+
+    
+        .candidatura-wrapper .tab-content .destino-form .btn-search span {
+            margin-left: 10px;
+        }
+
+    .candidatura-wrapper .tab-content .destino-form input[type='checkbox']{
+        transform: scale(1.3);
+        display: block;
+        margin: 5px auto;
+    }
+
+    .candidatura-wrapper .tab-content .destino-form .listing {
+        width: 70%;
+        margin: auto;
+        margin-top: 20px;
+    }

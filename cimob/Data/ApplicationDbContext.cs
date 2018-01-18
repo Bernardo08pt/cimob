@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using cimob.Models;
 
@@ -11,6 +7,20 @@ namespace cimob.Data
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Ajuda> Ajudas { get; set; }
+        public DbSet<Erro> Erros { get; set; }
+        public DbSet<TipoMobilidade> TiposMobilidade { get; set; }
+        public DbSet<Escola> Escolas { get; set; }
+        public DbSet<Curso> Cursos { get; set; }
+        public DbSet<IpsEscola> IpsEscolas { get; set; }
+        public DbSet<IpsCurso> IpsCursos { get; set; }
+        public DbSet<Pais> Paises { get; set; } 
+        public DbSet<Parentesco> Parentescos { get; set; }
+        public DbSet<EstadoCandidatura> EstadosCandidatura { get; set; }
+        public DbSet<Candidatura> Candidaturas { get; set; }
+        public DbSet<CandidaturaCursos> CandidaturaCursos { get; set; }
+        public DbSet<CandidaturaDocumentos> CandidaturaDocumentos { get; set; }
+        public DbSet<Documento> Documentos { get; set; }
+        public DbSet<Edital> Editais { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

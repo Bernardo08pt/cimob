@@ -1,0 +1,35 @@
+﻿.escolas-list{
+    width: 50%;
+    margin: auto;
+}
+
+    .escolas-list .red {
+        color: #CF2A27;
+    }
+
+    .escolas-list .green {
+        color: #009E0F;
+    }
+
+    .escolas-list .orange {
+        color: #FE9000;
+    }
+
+    .escolas-list .table td{
+        vertical-align: middle;
+        padding: 8px;
+    }
+
+        .escolas-list .listing .button {
+            line-height: 20px;
+        }
+
+            .escolas-list .listing .button i {
+                margin-right: 5px;
+            }
+
+            .escolas-list .listing .button span {
+                display: inline-block;
+                top: -1px;
+                position: relative;
+            }
