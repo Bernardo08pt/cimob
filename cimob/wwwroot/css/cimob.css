@@ -5,23 +5,97 @@
     font-size: 20px;
 }
 
-.cimob .menu-button:hover {
-    box-shadow: 0 0 10px #000;
+    .cimob .menu-button:hover {
+        box-shadow: 0 0 10px #000;
+    }
+
+.cimob .form-control {
+    padding-left: 15px;
 }
 
-    .cimob .form-control {
-        padding-left: 15px;
-    }
+.cimob #destino .table,
+.cimob #avaliacao .table {
+    width: 100%;
+    margin-top: 0;
+}
 
-    .cimob #destino .table {
-        width: 100%;
-        margin-top: 0;
-    }
+.cimob .form .form-group {
+    margin-bottom: 5px;
+}
 
-    .cimob .form .form-group {
-        margin-bottom: 5px;
-    }
+.cimob .button-submeter {
+    float: none;
+}
 
-    .cimob .button-submeter {
-        float: none;
-    }
+.cimob #documentacao .panel {
+    padding-bottom: 0;
+}
+
+.cimob #avaliacao #btn_adicionar_uc {
+    line-height: 20px;
+}
+
+.cimob #avaliacao #btn_upload {
+    width: 100%;
+}
+
+.cimob #avaliacao #hora {
+    display: inline-block;
+    width: 48%;
+    margin-right: 3px;
+}
+
+.cimob #avaliacao #minuto {
+    display: inline-block;
+    width: 48%;
+}
+
+.cimob #avaliacao .form {
+    padding-bottom: 0;
+}
+
+.cimob #avaliacao #btn_adicionar_uc {
+    line-height: 20px;
+    width: 100%;
+}
+
+.cimob #avaliacao #btn_submit {
+    display: block;
+    width: 91%;
+}
+
+.cimob #avaliacao .red {
+    background: #CF2A27;
+}
+
+.cimob #avaliacao .green {
+    background: #009E0F;
+}
+
+.cimob .modal-content {
+    text-align: left;
+}
+
+.cimob .modal-content #titulo{
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.cimob .result-button-group {
+    justify-content: space-between;
+    display: flex;
+    padding: 20px 100px;
+    background: #DDD;
+}
+
+.cimob .result-button-group button {
+    border: solid 1px #000;
+    border-radius: 5px;
+    padding: 10px;
+    color: #fff;
+    outline: none;
+}
+
+.cimob #btn_marcar_entrevista {
+    width: 100%;
+}

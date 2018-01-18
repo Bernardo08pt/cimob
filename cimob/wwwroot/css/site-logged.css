@@ -270,3 +270,7 @@ td {
 label {
     line-height: 35px;
 }
+
+.fa-sign-in {
+    transform: rotate(180deg);
+}

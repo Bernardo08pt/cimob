@@ -1,97 +1,96 @@
 ﻿@model CandidaturaViewModel;
 
 <div class="geral-form form">
-    <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="get">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="row form-group has-feedback has-feedback-left">
-            <div class="col-md-3 col-md-offset-1">
-                <label asp-for="Nome"></label>
-            </div>
-            <div class="input-group col-md-7">
-                <input asp-for="Nome" disabled class="form-control"/>
-            </div>
+    <input asp-for="Estado" class="hidden" />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row form-group has-feedback has-feedback-left">
+        <div class="col-md-3 col-md-offset-1">
+            <label asp-for="Nome"></label>
         </div>
+        <div class="input-group col-md-7">
+            <input asp-for="Nome" disabled class="form-control" />
+        </div>
+    </div>
 
-        <div class="form-group row has-feedback has-feedback-left">
-            <div class="col-md-3 col-md-offset-1">
-                <label asp-for="Numero"></label>               
-            </div>
-            <div class="input-group col-md-7">
-                <input asp-for="Numero" disabled class="form-control" />
-            </div>
+    <div class="form-group row has-feedback has-feedback-left">
+        <div class="col-md-3 col-md-offset-1">
+            <label asp-for="Numero"></label>
         </div>
+        <div class="input-group col-md-7">
+            <input asp-for="Numero" disabled class="form-control" />
+        </div>
+    </div>
 
-        <div class="form-group row has-feedback has-feedback-left">
-            <div class="col-md-3 col-md-offset-1">
-                <label asp-for="Email"></label>
-            </div>
-            <div class="input-group col-md-7">
-                <input asp-for="Email" disabled class="form-control" />
-            </div>
+    <div class="form-group row has-feedback has-feedback-left">
+        <div class="col-md-3 col-md-offset-1">
+            <label asp-for="Email"></label>
         </div>
+        <div class="input-group col-md-7">
+            <input asp-for="Email" disabled class="form-control" />
+        </div>
+    </div>
 
-        <div class="form-group row has-feedback has-feedback-left">
-            <div class="col-md-3 col-md-offset-1">
-                <label asp-for="EmailAlternativo"></label>
-            </div>
-            <div class="input-group col-md-7">
-                <input asp-for="EmailAlternativo" disabled class="form-control" />
-            </div>
+    <div class="form-group row has-feedback has-feedback-left">
+        <div class="col-md-3 col-md-offset-1">
+            <label asp-for="EmailAlternativo"></label>
         </div>
+        <div class="input-group col-md-7">
+            <input asp-for="EmailAlternativo" disabled class="form-control" />
+        </div>
+    </div>
 
-        <div class="form-group row has-feedback has-feedback-left">
-            <div class="col-md-3 col-md-offset-1">
-                <label asp-for="Escola"></label>
-            </div>
-            <div class="input-group col-md-7">
-                <input asp-for="Escola" disabled class="form-control" />
-            </div>
+    <div class="form-group row has-feedback has-feedback-left">
+        <div class="col-md-3 col-md-offset-1">
+            <label asp-for="Escola"></label>
         </div>
+        <div class="input-group col-md-7">
+            <input asp-for="Escola" disabled class="form-control" />
+        </div>
+    </div>
 
-        <div class="form-group row has-feedback has-feedback-left">
-            <div class="col-md-3 col-md-offset-1">
-                <label asp-for="Curso"></label>
-            </div>
-            <div class="input-group col-md-7">
-                <input asp-for="Nome" disabled class="form-control" />
-            </div>
+    <div class="form-group row has-feedback has-feedback-left">
+        <div class="col-md-3 col-md-offset-1">
+            <label asp-for="Curso"></label>
         </div>
+        <div class="input-group col-md-7">
+            <input asp-for="Nome" disabled class="form-control" />
+        </div>
+    </div>
 
-        <div class="form-group row has-feedback has-feedback-left">
-            <div class="col-md-3 col-md-offset-1">
-                <label asp-for="AnoLetivo"></label>
-            </div>
-            <div class="input-group col-md-7">
-                <input asp-for="AnoLetivo" disabled class="form-control" />
-            </div>
+    <div class="form-group row has-feedback has-feedback-left">
+        <div class="col-md-3 col-md-offset-1">
+            <label asp-for="AnoLetivo"></label>
         </div>
+        <div class="input-group col-md-7">
+            <input asp-for="AnoLetivo" disabled class="form-control" />
+        </div>
+    </div>
 
-        <div class="form-group row has-feedback has-feedback-left">
-            <div class="col-md-3 col-md-offset-1">
-                <label asp-for="ContactoPessoal"></label>
-            </div>
-            <div class="input-group col-md-7">
-                <input asp-for="ContactoPessoal" disabled class="form-control" />
-            </div>
+    <div class="form-group row has-feedback has-feedback-left">
+        <div class="col-md-3 col-md-offset-1">
+            <label asp-for="ContactoPessoal"></label>
         </div>
+        <div class="input-group col-md-7">
+            <input asp-for="ContactoPessoal" disabled class="form-control" />
+        </div>
+    </div>
 
-        <div class="form-group row has-feedback has-feedback-left">
-            <div class="col-md-3 col-md-offset-1">
-                <label asp-for="ContactoEmergencia"></label>
-            </div>
-            <div class="input-group col-md-7">
-                <input asp-for="ContactoEmergencia" disabled class="form-control" />
-            </div>
+    <div class="form-group row has-feedback has-feedback-left">
+        <div class="col-md-3 col-md-offset-1">
+            <label asp-for="ContactoEmergencia"></label>
         </div>
+        <div class="input-group col-md-7">
+            <input asp-for="ContactoEmergencia" disabled class="form-control" />
+        </div>
+    </div>
 
-        <div class="form-group row has-feedback has-feedback-left">
-            <div class="col-md-3 col-md-offset-1">
-                <label asp-for="Parentesco"></label>
-            </div>
-            <div class="input-group col-md-7">
-                <input asp-for="Parentesco" disabled class="form-control" />
-            </div>
+    <div class="form-group row has-feedback has-feedback-left">
+        <div class="col-md-3 col-md-offset-1">
+            <label asp-for="Parentesco"></label>
         </div>
-    </form>
+        <div class="input-group col-md-7">
+            <input asp-for="Parentesco" disabled class="form-control" />
+        </div>
+    </div>
 </div>
 

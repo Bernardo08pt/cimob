@@ -3,7 +3,7 @@
 <div class="documents-form">
     <div class="panel clearfix">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="row form-group has-feedback has-feedback-left">
+        <div class="row form-group has-feedback has-feedback-left" style="margin-bottom: 0">
             <div class="col-md-3 col-md-offset-1">
                 <label asp-for="NovoDocumento"></label>
             </div>
@@ -12,7 +12,7 @@
                     <input asp-for="NovoDocumento" name="documentos" class="hidden" accept="application/pdf" />
                     <input type="text" class="form-control" id="file_name" placeholder="Ficheiro.pdf" />
                     <div class="input-group-btn">
-                        <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["CartaMotivacao"].Titulo" data-content="@Model.AjudasDictionary["CartaMotivacao"].Corpo">
+                        <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Documento"].Titulo" data-content="@Model.AjudasDictionary["Documento"].Corpo">
                             <span class="glyphicon glyphicon-question-sign"></span>
                         </button>
                     </div>
@@ -45,29 +45,29 @@
             {
                 <tr>
                     <td>
-                        @item.FicheiroNome
+                        @Html.DisplayFor(i => item.FicheiroNome)
                     </td>
                     <td>
-                        formatDate(@item.DataUpload)
+                        @Html.DisplayFor(i => item.DataUpload)
                     </td>
                     <td>
                         <a target='_blank' href='/ServicosCimob/Candidaturas/@item.DocumentoID/View/'>
-                            <i class='fa fa-2x fa-search' aria-hidden='true'></i>"
+                            <i class='fa fa-2x fa-search' aria-hidden='true'></i>
                         </a>
                     </td>
                     <td>
                         <a target='_blank' href='/ServicosCimob/Candidaturas/@item.DocumentoID/Download/'>
-                            <i class='fa fa-2x fa-download' aria-hidden='true'></i>"
+                            <i class='fa fa-2x fa-download' aria-hidden='true'></i>
                         </a>
                     </td>
                     <td>
                         @if (item.OrigemCimob == 1)
                         {
-                            <i class='fa fa-2x fa-sign-out' aria-hidden='true' title='Enviado pelo CIMOB'></i>
+                            <i class='fa fa-2x fa-sign-in' aria-hidden='true' title='Enviado pelo CIMOB'></i>
                         }
                         else
                         {
-                            <i class='fa fa-2x fa-sign-in' aria-hidden='true' title='Enviado pelo Candidato'></i>
+                            <i class='fa fa-2x fa-sign-out  ' aria-hidden='true' title='Enviado pelo Candidato'></i>
                         }
                     </td>
                 </tr>

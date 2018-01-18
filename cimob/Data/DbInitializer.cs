@@ -434,7 +434,12 @@ namespace cimob.Data
             context.Ajudas.Add(new Ajuda { Pagina = "EscolasParceiras", Nome = "NomeFilter", Titulo = "Nome", Corpo = "<p>Nome de instituições a pesquisar.</p>" });
             context.Ajudas.Add(new Ajuda { Pagina = "EscolasParceiras", Nome = "PaisFilter", Titulo = "País", Corpo = "<p>País de instituições a pesquisar.</p>" });
             context.Ajudas.Add(new Ajuda { Pagina = "EscolasParceiras", Nome = "Estado", Titulo = "Estado", Corpo = "<p>Indica se esta escola atualmente é uma opção para os candidatos.</p>" });
-            
+
+            // servicos cimob
+            context.Ajudas.Add(new Ajuda { Pagina = "ServicosCIMOB", Nome = "UC", Titulo = "Unidade Curricular", Corpo = "<p>Unidade Curricular do candidato.</p>" });
+            context.Ajudas.Add(new Ajuda { Pagina = "ServicosCIMOB", Nome = "criterio", Titulo = "Critério de avaliação", Corpo = "<p>Critério de avaliação da UC.</p>" });
+            context.Ajudas.Add(new Ajuda { Pagina = "ServicosCIMOB", Nome = "razao", Titulo = "Razão Rejeição", Corpo = "<p>Rezão pela qual a candidatura está a ser rejeitada.</p>" });
+            context.Ajudas.Add(new Ajuda { Pagina = "ServicosCIMOB", Nome = "Documento", Titulo = "Novo Documento", Corpo = "<p>Novo documento a adicionar a esta candidatura. Tem que ser formato PDF." });
         }
 
         private static void AddEstadosCandidatura(ApplicationDbContext context)
@@ -455,10 +460,13 @@ namespace cimob.Data
             context.Erros.Add(new Erro { Nome = "InvalidFile", Mensagem = "Ficheiro inserido inválido, tente outro ficheiro." });
             context.Erros.Add(new Erro { Nome = "InvalidFormat", Mensagem = "Ficheiro tem que ter o formato pdf." });
             context.Erros.Add(new Erro { Nome = "EditalExists", Mensagem = "Atenção: Já existe um edital com esse nome e tipo de mobilidade." });
-
+            context.Erros.Add(new Erro { Nome = "EmailEscolasParceiras", Mensagem = "Erro a enviar email à escola parceira. Se o problema persistir considere enviar um email manualmente." });
+            context.Erros.Add(new Erro { Nome = "UpdateCandidatura", Mensagem = "Ocorreu um erro inesperado a atualizar a Candidatura. Por favor tente mais tarde!</p>" });
+            context.Erros.Add(new Erro { Nome = "InvalidCandidaturaState", Mensagem = "Não é possível aceitar uma candidatura sem fazer a intervista e com 0 pontuação!</p>" });
+            context.Erros.Add(new Erro { Nome = "NoNewData", Mensagem = "Não houve alterações nenhumas à candidatura.</p>" });
+            
             //Gravar alterações
             context.SaveChanges();
         }
     }
 }
-

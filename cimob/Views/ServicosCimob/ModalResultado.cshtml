@@ -1,0 +1,40 @@
+﻿@model CandidaturaViewModel;
+
+<div class="modal fade" tabindex="-1" id="modalRazao" data-keyboard="false" data-backdrop="static">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <h4 id="titulo">Novo curso</h4>
+            <div class="modal-content-wrapper has-feedback has-feedback-left container-fluid">
+                <div class="col-md-12" style="margin-bottom:20px;">
+                    <div class="col-md-2 col-md-offset-1">
+                        <label asp-for="Razao"></label>
+                    </div>
+                    <div class="input-group col-md-8">
+                        <input asp-for="Razao" class="form-control" placeholder="Razão" />
+                        <div class="input-group-btn">
+                            <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["razao"].Titulo" data-content="@Model.AjudasDictionary["razao"].Corpo">
+                                <span class="glyphicon glyphicon-question-sign"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <span id="razao-err-validation" class="text-danger hidden" style="text-align: left; display: inherit;">O campo Razão é obrigatório.</span>
+                </div>
+
+                <div class="modal-button-group">
+                    <button type="button" id="btn_cancel_razao" class="red">
+                        <i class="glyphicon glyphicon glyphicon-remove-circle"></i>
+                        Cancelar
+                    </button>
+                    <button type="button" id="btn_submit_razao" class="green">
+                        <i class="glyphicon glyphicon glyphicon-ok-circle"></i>
+                        Confirmar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://use.fontawesome.com/3f965b3028.js"></script>

@@ -19,6 +19,7 @@ namespace cimob.Data
         public DbSet<Candidatura> Candidaturas { get; set; }
         public DbSet<CandidaturaCursos> CandidaturaCursos { get; set; }
         public DbSet<CandidaturaDocumentos> CandidaturaDocumentos { get; set; }
+        public DbSet<UCAvaliacao> UCAvaliacao { get; set; }
         public DbSet<Documento> Documentos { get; set; }
         public DbSet<Edital> Editais { get; set; }
 
