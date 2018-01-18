@@ -109,8 +109,6 @@
                     date = new Date(value[2], value[0] - 1, value[1]);
 
                     return minDate < date && date < maxDate;
-
-                    return value.toUpperCase() !== "RED";
             });
      
         $.validator.unobtrusive.adapters.add("dataoffparameters", [], function (options) {
