@@ -1,31 +1,49 @@
 ﻿@model CandidaturaViewModel;
 
-<!--TEM QUE SER A INFORMAÇÃO DO ALUNO QUE FOI SELECIONADO PELO FUNCIONÁRIO DA CIMOB-->
-<div class="destino-form">
+<div class="destino-form form">
     <div class="row form-group has-feedback has-feedback-left">
         <div class="col-md-3 col-md-offset-1">
             <label asp-for="NomeEscola"></label>
-            <label>School</label>
+        </div>
+        <div class="input-group col-md-7">
+            <input asp-for="NomeEscola" disabled class="form-control" />
         </div>
     </div>
+
     <div class="row form-group has-feedback has-feedback-left">
         <div class="col-md-3 col-md-offset-1">
             <label asp-for="Pais"></label>
-            <label>Inglaterra</label>
+        </div>
+        <div class="input-group col-md-7">
+            <input asp-for="Pais" disabled class="form-control" />
         </div>
     </div>
+
     <div class="row form-group has-feedback has-feedback-left">
         <div class="col-md-3 col-md-offset-1">
             <label asp-for="Curso"></label>
-            <label>Graduation</label>
+        </div>
+        <div class="input-group col-md-7">
+            <table class="table">
+                <tr>
+                    <th>Nome</th>
+                    <th>Vagas</th>
+                    <th></th>
+                </tr>
+                @foreach (var item in Model.CursoDestino)
+                {
+                    @foreach(var curr in item.Value)
+                    {
+                        <tr>
+                            <td>@curr.Key</td>
+                            <td>@curr.Value</td>
+                            <td>
+                                <i class="glyphicon glyphicon-plus" title="Requisitar vagas" data-id="@item.Key"></i>
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
         </div>
     </div>
-    <div class="row form-group has-feedback has-feedback-left">
-        <div class="col-md-3 col-md-offset-1">
-            <label asp-for="VagasDisponiveis"></label>
-            <label>0</label>
-        </div>
-        <button style="background-color:dodgerblue; color:white;">+ Requisitar Vagas</button>
-    </div>
-
 </div>

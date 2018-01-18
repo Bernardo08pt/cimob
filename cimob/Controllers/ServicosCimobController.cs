@@ -54,21 +54,29 @@ namespace cimob.Controllers
             try
             {
                 var c = _context.Candidaturas.
+                            Include(cu => cu.Cursos).
                             Include(cu => cu.IpsCurso).
                             Include(cu => cu.IpsCurso.IpsEscola).
                             Include(cu => cu.EmegerenciaParentesco).
                             Where(cu => cu.CandidaturaID == id).
                         FirstOrDefault();
-                var cursos = new Dictionary<string, int>();
+
+                var cursos = new Dictionary<int, Dictionary<string, int>>();
                 var docs = new List<Documento>();
                 var user = await _userManager.GetUserAsync(User);
                 var escola = "";
                 var pais = "";
 
-                c.Cursos.ToList().ForEach(item => {
-                    cursos.Add(item.Curso.Nome, item.Curso.Vagas);
-                    escola = item.Curso.Escola.Nome;
-                    pais = item.Curso.Pais.Descricao;
+                c.Cursos?.ToList().ForEach(item => {
+                    _context.Cursos.
+                        Where(cu => cu.CursoID == item.CursoID).
+                        Include(cu => cu.Escola).
+                        Include(cu => cu.Pais).
+                    ToList().ForEach(curr => {
+                        cursos.Add(item.CursoID, new Dictionary<string, int> { { curr.Nome, curr.Vagas } });
+                        escola = curr.Escola.Nome;
+                        pais = curr.Pais.Descricao;
+                    });
                 });
 
                 return View(nameof(Candidatura), new CandidaturaViewModel {
@@ -92,10 +100,17 @@ namespace cimob.Controllers
                     Pontuacao = c.Pontuacao,
                 });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                
-                return View(nameof(CandidaturasList));
+                Console.WriteLine("err gettting candidtura: " + ex.Message);
+                return View(nameof(CandidaturasList), new CandidaturasListingViewModel {
+                    Candidaturas = _context.Candidaturas.
+                                Include(c => c.Utilizador).
+                                Include(c => c.TipoMobilidade).
+                                Include(c => c.IpsCurso).
+                                Include(c => c.IpsCurso.IpsEscola).
+                            ToList()
+                });
             }
         }
 

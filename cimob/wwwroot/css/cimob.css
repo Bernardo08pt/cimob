@@ -12,3 +12,16 @@
     .cimob .form-control {
         padding-left: 15px;
     }
+
+    .cimob #destino .table {
+        width: 100%;
+        margin-top: 0;
+    }
+
+    .cimob .form .form-group {
+        margin-bottom: 5px;
+    }
+
+    .cimob .button-submeter {
+        float: none;
+    }

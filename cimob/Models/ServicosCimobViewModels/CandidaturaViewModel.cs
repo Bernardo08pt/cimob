@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace cimob.Models.ServicosCimobViewModels
@@ -44,16 +45,13 @@ namespace cimob.Models.ServicosCimobViewModels
         [Display(Name = "País")]
         public string Pais { get; set; }
 
-        [Display(Name = "Curso ")]
-        public Dictionary<string, int> CursoDestino { get; set; }
-
-        [Display(Name = "Vagas disponívei: ")]
-        public int VagasDisponiveis { get; set; }
+        [Display(Name = "Cursos")]
+        public Dictionary<int, Dictionary<string, int>> CursoDestino { get; set; }
         #endregion
 
         #region documentos
         [Display(Name = "Novos Documentos")]
-        public string NovosDocumentos { get; set; }
+        public IFormFile NovoDocumento { get; set; }
 
         public List<Documento> Documentos { get; set; }
         #endregion

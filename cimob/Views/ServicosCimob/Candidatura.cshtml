@@ -8,22 +8,22 @@
 <div class="candidatura-wrapper cimob">
     <ul>
         <li data-id="geral" class="active">Geral</li>
-        <li data-id="contactos">Escola de Destino</li>
+        <li data-id="destino">Escola de Destino</li>
         <li data-id="documentacao">Documentação</li>
-        <li data-id="destino">Avaliação</li>
+        <li data-id="avaliacao">Avaliação</li>
     </ul>
 
     <div class="tab-content">
         <div id="geral" role="tab">
             @Html.Partial("GeneralInformation")
         </div>
-        <div id="contactos" role="tab">
+        <div id="destino" role="tab">
             @Html.Partial("Destination")
         </div>
         <div id="documentacao" role="tab">
             @Html.Partial("Documentation")
         </div>
-        <div id="destino" role="tab">
+        <div id="avaliacao" role="tab">
             @Html.Partial("Avaliation")
         </div>
     </div>
@@ -59,13 +59,13 @@
                 var curr = window.location.hash.split("#/")[1];
 
                 if (curr == "" || curr == undefined || curr == "geral") {
-                    window.location.hash = "/contactos"
+                    window.location.hash = "/destino"
                 }
                 else if (curr == "contactos") {
                     window.location.hash = "/documentacao"
                 }
                 else if (curr == "documentacao") {
-                    window.location.hash = "/destino"
+                    window.location.hash = "/avaliacao"
                     $("#btn_next").hide();
                 }
             });
@@ -75,17 +75,51 @@
 
                 if (id == "geral" || id == undefined || id == "")
                     window.location = "/ServicosCimob/Candidaturas";
-                else if (id == "contactos") {
+                else if (id == "destino") {
                     window.location.hash = "/geral"
                 }
                 else if (id == "documentacao") {
-                    window.location.hash = "/contactos"
+                    window.location.hash = "/destino"
                 }
-                else if (id == "destino") {
+                else if (id == "avaliacao") {
                     window.location.hash = "/documentacao"
                     $("#btn_next").show();
                 }
             });
+
+            $(".destino-form .table i").on("click", function () {
+                alerta("Vagas requisitadas com sucesso!", "success");
+                //$.ajax({
+
+                //})
+            });
+        }
+
+        var alerta = (mensagem, type) => {
+            var wrapper = $("#alert-wrapper");
+            var tmp = $("#alert");
+
+            wrapper.removeClass("fade-out");
+            tmp.addClass("alert-" + type);
+            tmp.html(mensagem);
+
+            setTimeout(() => {
+                wrapper.addClass("fade-out");
+                setTimeout(() => {
+                    tmp.removeClass("alert-" + type);
+                }, 2100)
+            }, 5000);
+        }
+
+        var formatDate = (date) => {
+            var tmp = new Date(date);
+            var mes = tmp.getMonth() + 1;
+            var dia = tmp.getDate();
+
+            mes = mes < 10 ? "0" + mes : mes;
+            dia = dia < 10 ? "0" + dia : dia;
+
+            return dia + " / " + mes + " / " + tmp.getFullYear();
         }
 
         var changePage = () => {
@@ -111,6 +145,5 @@
                     $("ul [data-id='" + id + "']").addClass("active");
                 }
             };
-
    </script>
 }

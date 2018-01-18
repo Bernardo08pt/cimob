@@ -1,37 +1,79 @@
 ﻿@model CandidaturaViewModel;
 
-<div class="documents-form panel" style="padding-bottom: 40px;">
-
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="row form-group has-feedback has-feedback-left">
-        <div class="col-md-3 col-md-offset-1">
-            <label asp-for="NovosDocumentos"></label>
-        </div>
-        <div class="input-group col-md-5">
-            <input asp-for="NovosDocumentos" class="form-control" placeholder="File: ficheiro.pdf" />
-            <i class="glyphicon glyphicon-file form-control-feedback"></i>
-        </div>
-        <span asp-validation-for="NovosDocumentos" class="text-danger"></span>
-        <div class="col-md-3">
-            <div class="button-no-arrow" id="btn_upload">
-                <i class="glyphicon glyphicon-plus"></i>
-                <span>Carregar</span>
+<div class="documents-form">
+    <div class="panel clearfix">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row form-group has-feedback has-feedback-left">
+            <div class="col-md-3 col-md-offset-1">
+                <label asp-for="NovoDocumento"></label>
+            </div>
+            <div class="col-md-5">
+                <div class="input-group">
+                    <input asp-for="NovoDocumento" name="documentos" class="hidden" accept="application/pdf" />
+                    <input type="text" class="form-control" id="file_name" placeholder="Ficheiro.pdf" />
+                    <div class="input-group-btn">
+                        <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["CartaMotivacao"].Titulo" data-content="@Model.AjudasDictionary["CartaMotivacao"].Corpo">
+                            <span class="glyphicon glyphicon-question-sign"></span>
+                        </button>
+                    </div>
+                </div>
+                <span asp-validation-for="NovoDocumento" class="text-danger"></span>
+            </div>
+            <div class="col-md-3">
+                <div class="button-no-arrow" id="btn_upload">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span>Carregar</span>
+                </div>
             </div>
         </div>
 
+        <div class="col-md-5 col-md-offset-7">
+            <div id="btn_submit_docs" class="button button-submeter">Submeter documentos</div>
+        </div>
     </div>
 
-    <div id="btn_submit_docs" class="button button-submeter">Submeter documentos</div>
-
+    <div class="docs-list">
+        <table class="table">
+            <tr>
+                <th>Nome Ficheiro</th>
+                <th>Data</th>
+                <th>Visualizar</th>
+                <th>Descarregar</th>
+                <th>Origem</th>
+            </tr>
+            @foreach (var item in @Model.Documentos)
+            {
+                <tr>
+                    <td>
+                        @item.FicheiroNome
+                    </td>
+                    <td>
+                        formatDate(@item.DataUpload)
+                    </td>
+                    <td>
+                        <a target='_blank' href='/ServicosCimob/Candidaturas/@item.DocumentoID/View/'>
+                            <i class='fa fa-2x fa-search' aria-hidden='true'></i>"
+                        </a>
+                    </td>
+                    <td>
+                        <a target='_blank' href='/ServicosCimob/Candidaturas/@item.DocumentoID/Download/'>
+                            <i class='fa fa-2x fa-download' aria-hidden='true'></i>"
+                        </a>
+                    </td>
+                    <td>
+                        @if (item.OrigemCimob == 1)
+                        {
+                            <i class='fa fa-2x fa-sign-out' aria-hidden='true' title='Enviado pelo CIMOB'></i>
+                        }
+                        else
+                        {
+                            <i class='fa fa-2x fa-sign-in' aria-hidden='true' title='Enviado pelo Candidato'></i>
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
 </div>
-<div class="listing">
-    <table class="table">
-        <tr>
-            <th>Nome ficheiro</th>
-            <th>Data</th>
-            <th>Visualizar</th>
-            <th>Download</th>
-        </tr>
-    </table>
-</div>
 
+<script src="https://use.fontawesome.com/3f965b3028.js"></script>
