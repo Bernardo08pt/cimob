@@ -8,17 +8,34 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
-namespace cimob.Data.Migrations
+namespace cimob.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171215152757_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("cimob.Models.Ajuda", b =>
+                {
+                    b.Property<int>("AjudaID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Corpo");
+
+                    b.Property<string>("Nome");
+
+                    b.Property<string>("Titulo");
+
+                    b.HasKey("AjudaID");
+
+                    b.ToTable("Ajudas");
+                });
 
             modelBuilder.Entity("cimob.Models.ApplicationUser", b =>
                 {
@@ -29,6 +46,8 @@ namespace cimob.Data.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
+
+                    b.Property<DateTime>("DataNascimento");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
@@ -47,7 +66,7 @@ namespace cimob.Data.Migrations
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256);
 
-                    b.Property<string>("Numero");
+                    b.Property<int>("Numero");
 
                     b.Property<string>("PasswordHash");
 

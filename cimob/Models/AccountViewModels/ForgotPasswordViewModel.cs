@@ -8,13 +8,11 @@ namespace cimob.Models.AccountViewModels
 {
     public class ForgotPasswordViewModel
     {
-        [Required]
-        [Display(Name = "Número")]
-        public int Numero { get; set; }
-
-        [Required]
+        [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        public IDictionary<string, Ajuda> AjudasDictionary { get; set; }
     }
 }

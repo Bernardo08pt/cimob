@@ -1,10 +1,13 @@
 ﻿@{
-    ViewData["Title"] = "Confirm email";
+    Layout = "/Views/Shared/_LayoutInitial.cshtml";
+    ViewData["Title"] = "Confirmação Email";
 }
 
-<h2>@ViewData["Title"]</h2>
+<hr />
 <div>
-    <p>
-        Thank you for confirming your email.
-    </p>
+    <label>
+        O seu email foi confirmado com sucesso.
+    </label>
+    <hr />
+    <a asp-area="" asp-controller="Account" asp-action="Login" class="col-md-4 btn btn-primary">Voltar para autenticação</a>
 </div>
