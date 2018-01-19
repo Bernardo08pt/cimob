@@ -47,7 +47,6 @@
     }
 
         .content-wrapper .button-wrapper .menu-button {
-            padding: 30px 0;
             text-align: center;
             vertical-align: middle;
             border: solid 1px #000;
@@ -55,11 +54,17 @@
             border-radius: 10px;
             background: #2B78E4;
             display: inline-block;
-            width: 250px;
             text-decoration: none;
             outline: none;
             cursor: pointer;
+            padding: 30px 0;
+            width: 300px;
+            font-size: 20px;
         }
+
+            .content-wrapper .button-wrapper .menu-button:hover {
+                box-shadow: 0 0 10px #000;
+            }
 
         .content-wrapper .button-wrapper .button:first-child {
             float: left;
