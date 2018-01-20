@@ -1,18 +1,17 @@
 ﻿@model EditaisViewModel
-
 @{
-    ViewData["Title"] = "Editais";
+    ViewData["Title"] = "Editar";
     Layout = "/Views/Shared/_LayoutWhite.cshtml";
 }
-<!--VIEW DOS EDITAIS-->
-<!--Alert da repetição de edital, aparece no início da página-->
+
+<!--Alert do edital ter sido editado com sucesso, aparece no início da página-->
 @if (ViewBag.IsSucceded != null)
 {
     @if (ViewBag.IsSucceded)
     {
         <div class="alert alert-success alert-dismissable fade in" style="margin: 0 21% 2% 21%">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            O edital foi adicionado com sucesso
+            O edital foi editado com sucesso
         </div>
     }
     else
@@ -63,7 +62,7 @@
                 </div>
                 <div class="input-group col-md-5">
 
-                    <input asp-for="Nome" class="form-control" placeholder="Nome do edital" />
+                    <input asp-for="Nome" class="form-control" placeholder="Nome do edital" readonly />
                     <i class="glyphicon glyphicon-file form-control-feedback"></i>
                     <div class="input-group-btn">
                         <button class="btn btn-info bottom-right pop" type="button"
@@ -119,53 +118,7 @@
             </div>
         </form>
     </div>
-
-    <!--Mostrar os editais existentes na bd-->
-    <div class="listing">
-        <table class="table">
-            <tr>
-                <th>Edital</th>
-                <th>Data Limite</th>
-                <th>Programa Mobilidade</th>
-                <th>Estado</th>
-                <th>Editar</th>
-            </tr>
-            @foreach (var item in Model.Editais)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Nome)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DataLimite)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TipoMobilidade.Descricao)
-                    </td>
-                    <td>
-                        @if (item.Estado == 0)
-                        {
-                            <img src="~/images/valid.png" alt="Ativo" />
-                        }
-                        else
-                        {
-                            <img src="~/images/not_valid.png" alt="Inativo"/>
-                        }
-                    </td>
-                    <td>
-                        <!--<a  href="/Editais/@item.EditalID/Editar">   </a>-->
-                        <i class="fa fa-2x fa-pencil orange"></i>
-
-                    </td>
-                </tr>
-            }
-        </table>
-    </div>
-
-    <a asp-controller="ServicosCimob" asp-action="Index" class="button button-back">Voltar</a>
 </div>
-
-<a asp-controller="Editais" asp-action="Editar" class="button button-back">Editar</a>
 
 @section Scripts {
     <script>

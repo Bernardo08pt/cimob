@@ -194,5 +194,56 @@ namespace cimob.Controllers
             
             return model;
         }
+        
+        //TESTE DE EDITAIS
+        [HttpGet]
+        public IActionResult Editar(int id)
+        {
+            try
+            {
+                var editalAEditar = _context.Editais.Where(e => e.EditalID == id).FirstOrDefault();
+
+                return View(new EditaisViewModel
+                {
+                    TipoMobilidadeList = GetTiposMobilidade(),
+                    AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Editais" }), _context),
+                    Nome = editalAEditar.Nome,
+                    ProgramaMobilidadeID = editalAEditar.TipoMobilidadeID,
+                });
+            }
+            catch (Exception)
+            {
+                return View(nameof(Index));
+            }
+
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Editar(EditaisViewModel model, int id)
+        {
+            if (model.DataLimite.CompareTo(DateTime.Now) <= 0)
+                ModelState.AddModelError("DataLimite", "Data inválida. Tem que ser superior à atual");
+
+            if (ModelState.IsValid)
+            {
+                var edital = _context.Editais.Where(e => e.EditalID == 1).First();
+                edital.Caminho = await FileHandling.Upload(model.CarregarEdital, "Editais");
+                edital.NomeFicheiro = model.CarregarEdital.FileName;
+                edital.DataLimite = model.DataLimite;
+                
+            }
+
+            model.TipoMobilidadeList = GetTiposMobilidade();
+            model.AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Editais" }), _context);
+
+            return View(model);
+        }
+
+
+
+
+
+
     }
 }
