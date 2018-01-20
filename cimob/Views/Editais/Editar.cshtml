@@ -34,7 +34,7 @@
                 <div class="col-md-5 no-padding-margin">
                     <div class="input-group">
                         <input asp-for="CarregarEdital" class="hidden" accept="application/pdf" />
-                        <input type="text" class="form-control" placeholder="Ficheiro.pdf" disabled id="file_name" />
+                        <input type="text" class="form-control" placeholder="Ficheiro.pdf" id="file_name" />
                         <i class="glyphicon glyphicon-file form-control-feedback"></i>
                         <div class="input-group-btn">
                             <button class="btn btn-info bottom-right pop" type="button"
@@ -61,7 +61,7 @@
                 </div>
                 <div class="input-group col-md-5">
 
-                    <input asp-for="Nome" class="form-control" placeholder="Nome do edital" disabled />
+                    <input asp-for="Nome" class="form-control" placeholder="Nome do edital" disabled readonly />
                     <i class="glyphicon glyphicon-file form-control-feedback"></i>
                     <div class="input-group-btn">
                         <button class="btn btn-info bottom-right pop" type="button"
@@ -71,7 +71,6 @@
                         </button>
                     </div>
                 </div>
-                <span asp-validation-for="Nome" class="text-danger"></span>
             </div>
 
             <div class="row form-group has-feedback has-feedback-left">
@@ -79,7 +78,7 @@
                     <label asp-for="ProgramaMobilidadeID"></label>
                 </div>
                 <div class="input-group col-md-5">
-                    <select asp-for="ProgramaMobilidadeID" disabled class="form-control" asp-items="@(new SelectList(Model.TipoMobilidadeList, "TipoMobilidadeID", "Descricao"))">
+                    <select asp-for="ProgramaMobilidadeID" disabled readonly class="form-control" asp-items="@(new SelectList(Model.TipoMobilidadeList, "TipoMobilidadeID", "Descricao"))">
                         <option>Escolha uma opção</option>
                     </select>
                     <i class="glyphicon glyphicon-book form-control-feedback"></i>
@@ -91,7 +90,6 @@
                         </button>
                     </div>
                 </div>
-                <span asp-validation-for="ProgramaMobilidadeID" class="text-danger"></span>
             </div>
 
             <div class="row form-group has-feedback has-feedback-left">

@@ -216,7 +216,6 @@ namespace cimob.Controllers
             {
                 return View(nameof(Index));
             }
-
         }
 
         [HttpPost]
@@ -227,11 +226,12 @@ namespace cimob.Controllers
             if (model.DataLimite.CompareTo(DateTime.Now) <= 0)
                 ModelState.AddModelError("DataLimite", "Data inválida. Tem que ser superior à atual");
 
-            if (ModelState.IsValid)
+            var result = _context.Editais.Where(e => e.EditalID == id).FirstOrDefault();
+            
+            try
             {
                 using (var db = _context)
                 {
-                    var result = db.Editais.Where(e => e.EditalID == 1).First();
 
                     if (result != null)
                     {
@@ -243,12 +243,24 @@ namespace cimob.Controllers
 
                         db.SaveChanges();
 
-                        return Index();
+                        return RedirectToAction(nameof(Index));
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("CarregarEdital", 
+                    HelperFunctionsExtensions.GetError((
+                        ex is FileSizeException ? "FileTooBig" :
+                        ex is FormatException ? "InvalidFormat" :
+                        "InvalidFile"
+                    ), _context)
+                );
+            }
 
             model.TipoMobilidadeList = GetTiposMobilidade();
+            model.Nome = result.Nome;
+            model.ProgramaMobilidadeID = result.TipoMobilidadeID;
             model.AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Editais" }), _context);
 
             return View(model);
