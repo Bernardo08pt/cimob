@@ -1,0 +1,57 @@
+﻿@model CandidaturasListingViewModel;
+@{
+    ViewData["Title"] = "Candidaturas";
+    Layout = "~/Views/Shared/_LayoutWhite.cshtml";
+}
+
+<div class="listing">
+    <table class="table">
+        <tr>
+            <th>Número</th>
+            <th>Nome</th>
+            <th>Escola</th>
+            <th>Mobilidade</th>
+            <th>Tipo Mobilidade</th>
+            <th>Ano Letivo</th>
+        </tr>
+        @foreach (var item in Model.Candidaturas){
+            <tr data-id="@item.CandidaturaID">
+                <td>
+                    @Html.DisplayFor(i => @item.Utilizador.Numero)
+                </td>
+                <td>
+                    @Html.DisplayFor(i => @item.Utilizador.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(i => @item.IpsCurso.IpsEscola.Descricao)
+                </td>
+                <td>
+                    @Html.DisplayFor(i => @item.TipoMobilidade.Descricao)
+                </td>
+                <td>
+                    @if (item.TipoMobilidade.Estagio == 1)
+                    {
+                        <text>Estágio</text>
+                    }
+                    else
+                    {
+                        <text>Estudos</text>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(i => @item.AnoLetivo)
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+@section scripts {
+    <script>
+        $(() => {
+            $("tr").on("click", function () {
+                window.location = "Candidaturas/" + this.getAttribute("data-id");
+            })
+        });
+    </script>
+}

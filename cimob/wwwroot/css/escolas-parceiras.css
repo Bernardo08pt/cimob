@@ -1,0 +1,135 @@
+﻿.escola-wrapper {
+    width: 50%;
+    margin: 30px auto 0;
+}
+
+    .escola-wrapper .buttons {
+        padding: 10px 0;
+        position: absolute;
+        width: 50%;
+        margin-bottom: 30px;
+    }
+
+
+    .escola-wrapper ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        font-size: 0;
+        margin-left: 30px;
+        text-align: left;
+    }
+
+        .escola-wrapper li {
+            display: inline-block;
+            padding: 5px 12px;
+            cursor: pointer;
+            border-top: 1px solid #000;
+            border-right: 1px solid #000;
+            background: #ccc;
+            font-size: 16px;
+        }
+
+            .escola-wrapper li:first-child {
+                border-left: 1px solid #000;
+            }
+
+            .escola-wrapper li:hover {
+                background: #c8c8c8;
+                box-shadow: inset 1px 1px 0 rgba(0,0,0,0.5);
+            }
+
+            .escola-wrapper li a {
+                color: #000;
+                text-decoration: none;
+            }
+
+                .escola-wrapper li a:hover {
+                    color: #000;
+                    text-decoration: none;
+                }
+
+            .escola-wrapper ul .active {
+                background: #fff;
+                position: relative;
+                top: 1px;
+                z-index: 1;
+                padding-top: 6px;
+            }
+
+            .escola-wrapper .active:hover {
+                background: #fff;
+                box-shadow: none;
+            }
+
+            .escola-wrapper .tab-content {
+                width: 100%;
+                position: relative;
+                border: solid 1px #000;
+            }
+
+            .escola-wrapper #mobilidade {
+                display: none;
+            }
+    
+    .escola-wrapper .table {
+        width: 100%;
+        margin-top: 0;
+    }
+
+        
+        .escola-wrapper .mobilidade td:first-child {
+            text-align: center;
+            width: 48px;
+        }
+
+    
+    .escola-wrapper #btn_add_curso {
+        line-height: 20px;
+        right: -3px;
+        float: right;
+        width: 90%;
+    }
+
+    .escola-wrapper #escola-form {
+        padding-top: 20px;
+    }
+
+    .escola-wrapper .form-group {
+        margin-bottom: 5px;
+    }
+
+    .escola-wrapper .mobilidade .table {
+        margin-bottom: 0;
+    }
+
+    .escola-wrapper .mobilidade .button-submeter {
+        margin: 10px 0;
+    }
+
+    .escola-wrapper .mobilidade #modal .titulo {
+        margin-bottom: 25px;
+    }
+
+    .escola-wrapper .mobilidade .modal-button-grop {
+        width: 60%;
+    }
+
+    .escola-wrapper .modal-content .modal-button-group #btn_cancel {
+        background: #CF2A27;
+    }
+
+    .escola-wrapper .modal-content .modal-button-group #btn_submit_curso {
+        background: #009E0F;
+    }
+
+    .escola-wrapper input[type='checkbox'] {
+        cursor: pointer;
+        margin: 0;
+        display: block;
+        top: -1px;
+        width: 9%;
+        position: absolute;
+        left: -1px;
+        outline: none;
+    }

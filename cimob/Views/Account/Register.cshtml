@@ -1,9 +1,10 @@
 ﻿@model RegisterViewModel
 @{
     Layout = "/Views/Shared/_LayoutInitial.cshtml";
-    ViewData["Title"] = "Registar";
-    ViewData["HelpTitle"] = Model.AjudasDictionary["Registo"].Titulo;
-    ViewData["HelpContent"] = Model.AjudasDictionary["Registo"].Corpo;
+
+    ViewData["Title"] = "Registar <i class='glyphicon glyphicon-question-sign btn-icon' data-toggle='modal' data-target='#helpModal'></i>";
+    ViewData["HelpTitle"] = Model.AjudasDictionary["Pagina"].Titulo;
+    ViewData["HelpContent"] = Model.AjudasDictionary["Pagina"].Corpo;
 }
 <div class="row register-form">
     <div class="col-md-4">
@@ -12,7 +13,7 @@
             <div class="form-group has-feedback has-feedback-left">
                 <label asp-for="Numero"></label>
                 <div class="input-group">
-                    <input asp-for="Numero" class="form-control" />
+                    <input asp-for="Numero" class="form-control" placeholder="Numero"/>
                     <i class="glyphicon glyphicon-user form-control-feedback"></i>
                     <div class="input-group-btn">
                         <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Numero"].Titulo" data-content="@Model.AjudasDictionary["Numero"].Corpo">
@@ -25,7 +26,7 @@
             <div class="form-group has-feedback has-feedback-left">
                 <label asp-for="Nome"></label>
                 <div class="input-group">
-                    <input asp-for="Nome" class="form-control" />
+                    <input asp-for="Nome" class="form-control" placeholder="Nome"/>
                     <i class="glyphicon glyphicon-user form-control-feedback"></i>
                     <div class="input-group-btn">
                         <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Nome"].Titulo" data-content="@Model.AjudasDictionary["Nome"].Corpo">
@@ -40,7 +41,7 @@
                 <label asp-for="DataNascimento"></label>
                 <div class="input-group">
 
-                    <input asp-for="DataNascimento" class="form-control" value="" />
+                    <input asp-for="DataNascimento" class="form-control" />
                     <i class="glyphicon glyphicon-calendar form-control-feedback"></i>
                     <div class="input-group-btn">
                         <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["DataNascimento"].Titulo" data-content="@Model.AjudasDictionary["DataNascimento"].Corpo">
@@ -53,7 +54,7 @@
             <div class="form-group has-feedback has-feedback-left">
                 <label asp-for="Email"></label>
                 <div class="input-group">
-                    <input asp-for="Email" class="form-control" placeholder="example@example.com" />
+                    <input asp-for="Email" class="form-control" placeholder="exemplo@dominio.pt" />
                     <i class="glyphicon glyphicon-envelope form-control-feedback"></i>
                     <div class="input-group-btn">
                         <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Email"].Titulo" data-content="@Model.AjudasDictionary["Email"].Corpo">
@@ -66,7 +67,7 @@
             <div class="form-group has-feedback has-feedback-left">
                 <label asp-for="Password"></label>
                 <div class="input-group">
-                    <input asp-for="Password" class="form-control" />
+                    <input asp-for="Password" class="form-control" placeholder="Password"/>
                     <i class="glyphicon glyphicon-lock form-control-feedback"></i>
                     <div class="input-group-btn">
                         <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Password"].Titulo" data-content="@Model.AjudasDictionary["Password"].Corpo">
@@ -79,7 +80,7 @@
             <div class="form-group  has-feedback has-feedback-left">
                 <label asp-for="ConfirmPassword"></label>
                 <div class="input-group">
-                    <input asp-for="ConfirmPassword" class="form-control" />
+                    <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirmar Password"/>
                     <i class="glyphicon glyphicon-lock form-control-feedback"></i>
                     <div class="input-group-btn">
                         <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["ConfirmPassword"].Titulo" data-content="@Model.AjudasDictionary["ConfirmPassword"].Corpo">
@@ -90,27 +91,29 @@
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
             <button type="submit" class="button btn btn-default">Registar</button>
-            <a asp-area="" asp-controller="Account" asp-action="Login" class="btn btn-primary btn-back">Voltar para autenticação</a>
+            <a asp-area="" asp-controller="Account" asp-action="Login" class="btn btn-back-form btn-back">Voltar para autenticação</a>
         </form>
-    </div>
-</div>
-<!-- Page Help Modal -->
-<div class="modal fade" id="helpModal" role="dialog">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title"><i class="glyphicon glyphicon-question-sign"></i>  @ViewData["HelpTitle"]</h4>
-            </div>
-            <div class="modal-body">
-                @Html.Raw(ViewData["HelpContent"])
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-green btn-default" data-dismiss="modal">Fechar</button>
-            </div>
-        </div>
     </div>
 </div>
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script>
+        $.validator.addMethod("dataoffparameters",
+            function (value, element, parameters) {
+
+                    value = value.split("/");
+
+                    var minDate = new Date(todayDate.getFullYear() - 100, todayDate.getMonth(), todayDate.getDate()),
+                        maxDate = new Date(todayDate.getFullYear() - 17, todayDate.getMonth(), todayDate.getDate());
+
+                    date = new Date(value[2], value[0] - 1, value[1]);
+
+                    return minDate < date && date < maxDate;
+            });
+     
+        $.validator.unobtrusive.adapters.add("dataoffparameters", [], function (options) {
+                  options.rules.dataoffparameters = {};
+                options.messages["dataoffparameters"] = options.message;
+            });
+    </script>
 }

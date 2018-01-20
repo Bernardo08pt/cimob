@@ -16,6 +16,7 @@ using cimob.Models.AccountViewModels;
 using cimob.Services;
 using cimob.Data;
 using Microsoft.EntityFrameworkCore;
+using cimob.Extensions;
 
 namespace cimob.Controllers
 {
@@ -25,6 +26,7 @@ namespace cimob.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly ApplicationDbContext _context;
@@ -32,12 +34,14 @@ namespace cimob.Controllers
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
+            RoleManager<IdentityRole> roleManager,
             IEmailSender emailSender,
             ILogger<AccountController> logger,
             ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
             _emailSender = emailSender;
             _logger = logger;
             _context = context;
@@ -55,17 +59,13 @@ namespace cimob.Controllers
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
             // Get page help
-            List<String> campos = new List<string>();
-            foreach (var prop in typeof(LoginViewModel).GetProperties())
-                campos.Add(prop.Name);
-            campos.Add("Login");
-
             LoginViewModel model = new LoginViewModel
             {
-                AjudasDictionary = GetAjudas(campos)
+                AjudasDictionary = HelperFunctionsExtensions.GetAjudas( new List<string>(new string[] { "Login" }), _context)
             };
 
             ViewData["ReturnUrl"] = returnUrl;
+
             return View(model);
         }
 
@@ -75,13 +75,7 @@ namespace cimob.Controllers
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
             // Get page help
-            List<String> campos = new List<string>();
-            foreach (var prop in typeof(LoginViewModel).GetProperties())
-                campos.Add(prop.Name);
-            campos.Add("Login");
-
-            model.AjudasDictionary = GetAjudas(campos);
-
+            model.AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Login" }), _context);
 
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
@@ -93,7 +87,7 @@ namespace cimob.Controllers
                     if (!await _userManager.IsEmailConfirmedAsync(user))
                     {
                         ModelState.AddModelError(string.Empty,
-                                      "O Email ainda não está verificado.");
+                                      "O Email ainda não está validado, verifique a sua caixa de correio.");
                         return View(model);
                     }
                 }
@@ -120,65 +114,8 @@ namespace cimob.Controllers
 
             // If we got this far, something failed, redisplay form
             
-
             return View(model);
         }
-
-        /*
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<IActionResult> LoginWithRecoveryCode(string returnUrl = null)
-        {
-            // Ensure the user has gone through the username & password screen first
-            var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
-            if (user == null)
-            {
-                throw new ApplicationException($"Unable to load two-factor authentication user.");
-            }
-
-            ViewData["ReturnUrl"] = returnUrl;
-
-            return View();
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LoginWithRecoveryCode(LoginWithRecoveryCodeViewModel model, string returnUrl = null)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
-            if (user == null)
-            {
-                throw new ApplicationException($"Unable to load two-factor authentication user.");
-            }
-
-            var recoveryCode = model.RecoveryCode.Replace(" ", string.Empty);
-
-            var result = await _signInManager.TwoFactorRecoveryCodeSignInAsync(recoveryCode);
-
-            if (result.Succeeded)
-            {
-                _logger.LogInformation("User with ID {UserId} logged in with a recovery code.", user.Id);
-                return RedirectToLocal(returnUrl);
-            }
-            if (result.IsLockedOut)
-            {
-                _logger.LogWarning("User with ID {UserId} account locked out.", user.Id);
-                return RedirectToAction(nameof(Lockout));
-            }
-            else
-            {
-                _logger.LogWarning("Invalid recovery code entered for user with ID {UserId}", user.Id);
-                ModelState.AddModelError(string.Empty, "Invalid recovery code entered.");
-                return View();
-            }
-        }
-        */
 
         [HttpGet]
         [AllowAnonymous]
@@ -191,17 +128,10 @@ namespace cimob.Controllers
         [AllowAnonymous]
         public IActionResult Register()
         {
-            // Get page help
-            List<String> campos = new List<string>();
-            foreach (var prop in typeof(RegisterViewModel).GetProperties())
-                campos.Add(prop.Name);
-            campos.Add("Registo");
-            RegisterViewModel model = new RegisterViewModel
-            {
-                AjudasDictionary = GetAjudas(campos)
-            };
-
-            return View(model);
+            return View(new RegisterViewModel {
+                AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Registo" }), _context),
+                DataNascimento = DateTime.Today
+            });
         }
 
         [HttpPost]
@@ -213,29 +143,29 @@ namespace cimob.Controllers
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Nome = model.Nome,
                     Numero = Convert.ToInt32(model.Numero), DataNascimento = model.DataNascimento};
+
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-                    
+
+                    //here we tie the new user to the role
+                    await _userManager.AddToRoleAsync(user, "Candidato");
+
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
-                    await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
+                    await _emailSender.SendEmailConfirmationAsync(model.Email, model.Nome, callbackUrl);
                     
                    // await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation("User created a new account with password.");
                     return RedirectToAction(nameof(RegisterConfirmation));
                 }
-                AddErrors(result);
+
+                HelperFunctionsExtensions.AddErrors(result, ModelState);
             }
 
             // If we got this far, something failed, redisplay form
-            // Get page help
-            List<String> campos = new List<string>();
-            foreach (var prop in typeof(RegisterViewModel).GetProperties())
-                campos.Add(prop.Name);
-            campos.Add("Registo");
-            model.AjudasDictionary = GetAjudas(campos);
+            model.AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Login" }), _context);
 
             return View(model);
         }
@@ -278,14 +208,9 @@ namespace cimob.Controllers
         public IActionResult ForgotPassword()
         {
             // Get page help
-            List<String> campos = new List<string>();
-            foreach (var prop in typeof(ForgotPasswordViewModel).GetProperties())
-                campos.Add(prop.Name);
-            campos.Add("RecuperarPassword");
-
             ForgotPasswordViewModel model = new ForgotPasswordViewModel
             {
-                AjudasDictionary = GetAjudas(campos)
+                AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "RecuperarPassword" }), _context)
             };
 
             return View(model);
@@ -309,20 +234,22 @@ namespace cimob.Controllers
                 // visit https://go.microsoft.com/fwlink/?LinkID=532713
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var callbackUrl = Url.ResetPasswordCallbackLink(user.Id, code, Request.Scheme);
-                await _emailSender.SendEmailAsync(model.Email, "Recuperar Password",
-                   $"Para recuperar a sua Password clique : <a href='{callbackUrl}'>aqui</a>");
+                await _emailSender.SendEmailAsync(model.Email, "Recuperação de Password",
+                "<p><span style='font-size: 18px;'>Caro(a) " + user.Nome + ",<strong> </strong></span></p>" +
+                "<p><span style='font-size: 18px;'>Recebemos um pedido de recuperação da palavra passe associada a este e-mail. Se não fez este pedido, ignore este e-mail (a sua conta continua segura).</span></p>" +
+                "<p><span style='font-size: 18px;'>Caso contrário clique <a href='" + callbackUrl + "'>aqui</a> para começar o processo de redefinição de palavra passe.&nbsp;</span></p>" +
+                "<p><br></p>" +
+                "<p><span style = 'font-size: 18px;'> Melhores cumprimentos Equipa CIMOB - IPS </span></p>" +
+                "<p><span style = 'font-size: 14px;'> Nota: este e-mail foi gerado automaticamente, pelo que n&atilde;o deve responder pois quaisquer respostas n&atilde;o ser&atilde;o vistas.</span></p>" +
+                 "<span style = 'font-size: 12px;'> &nbsp;</span></p>");
                 return RedirectToAction(nameof(ForgotPasswordConfirmation));
             }
 
-            // Get page help
-            List<String> campos = new List<string>();
-            foreach (var prop in typeof(ForgotPasswordViewModel).GetProperties())
-                campos.Add(prop.Name);
-            campos.Add("RecuperarPassword");
-
-            model.AjudasDictionary = GetAjudas(campos);
-
             // If we got this far, something failed, redisplay form
+            // Get page help
+            model.AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "RecuperarPassword" }), _context);
+
+
             return View(model);
         }
 
@@ -344,12 +271,8 @@ namespace cimob.Controllers
             var model = new ResetPasswordViewModel { Code = code };
 
             // Get page help
-            List<String> campos = new List<string>();
-            foreach (var prop in typeof(ResetPasswordViewModel).GetProperties())
-                campos.Add(prop.Name);
-            campos.Add("AlterarPassword");
-            model.AjudasDictionary = GetAjudas(campos);
-            
+            model.AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "AlterarPassword" }), _context);
+
             return View(model);
         }
 
@@ -359,14 +282,7 @@ namespace cimob.Controllers
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
             // Get page help
-            List<String> campos = new List<string>();
-            foreach (var prop in typeof(ResetPasswordViewModel).GetProperties())
-                campos.Add(prop.Name);
-            campos.Add("AlterarPassword");
-
-            model.AjudasDictionary = GetAjudas(campos);
-
-        
+            model.AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "AlterarPassword" }), _context);
 
             if (!ModelState.IsValid)
             {
@@ -383,7 +299,7 @@ namespace cimob.Controllers
             {
                 return RedirectToAction(nameof(ResetPasswordConfirmation));
             }
-            AddErrors(result);
+            HelperFunctionsExtensions.AddErrors(result, ModelState);
             return View();
         }
 
@@ -394,7 +310,6 @@ namespace cimob.Controllers
             return View();
         }
 
-
         [HttpGet] 
         public IActionResult AccessDenied()
         {
@@ -402,15 +317,6 @@ namespace cimob.Controllers
         }
 
         #region Helpers
-
-        private void AddErrors(IdentityResult result)
-        {
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
-            }
-        }
-
         private IActionResult RedirectToLocal(string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))
@@ -422,23 +328,6 @@ namespace cimob.Controllers
                 return RedirectToAction(nameof(HomeController.Index), "Home");
             }
         }
-
-
-        private IDictionary<string, Ajuda> GetAjudas(List<string> campos)
-        {
-            var ajudasContext = _context.Ajudas;
-            var ajudas = from a in ajudasContext select a;
-            ajudas = ajudas.Where(a => campos.Contains(a.Nome));
-            
-            IDictionary<string, Ajuda> ajudasDictionary = new Dictionary<string, Ajuda>();
-            foreach (Ajuda a in ajudas)
-            {
-                ajudasDictionary[a.Nome] = a;
-            }
-
-            return ajudasDictionary;
-        }
-
         #endregion
     }
 }

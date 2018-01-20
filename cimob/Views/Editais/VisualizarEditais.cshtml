@@ -1,0 +1,38 @@
+﻿@model EditaisViewModel
+
+@{
+    ViewData["Title"] = "Editais";
+    Layout = "/Views/Shared/_LayoutWhite.cshtml";
+}
+
+<link href="~/css/editais-listing.css" rel="stylesheet" />
+
+<!--Mostrar os editais existentes na bd-->
+<div class="editais-listing">
+    <table class="table">
+        <tr>
+            <th>Edital</th>
+            <th>Programa Mobilidade</th>
+            <th>Descarregar</th>
+        </tr>
+        @foreach (var item in Model.Editais)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoMobilidade.Descricao)
+                </td>
+                <td>
+                    <a target="_blank" href="/Editais/VisualizarEditais/Download/@item.EditalID">
+                        <i class="fa fa-2x fa-download" aria-hidden="true"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </table>
+    <a asp-controller="Manage" asp-action="Profile" class="button button-back">Voltar</a>
+</div>
+
+<script src="https://use.fontawesome.com/3f965b3028.js"></script>

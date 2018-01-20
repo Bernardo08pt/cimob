@@ -1,0 +1,164 @@
+﻿@model EscolasListViewModel;
+@{
+    ViewData["Title"] = "Escolas Parceiras";
+    Layout = "~/Views/Shared/_LayoutWhite.cshtml";
+}
+
+<link href="~/css/escolas-parceiras-list.css" rel="stylesheet" />
+
+<div class="escolas-list">
+    <div class="panel container-fluid">
+        <div class="row form-group has-feedback has-feedback-left">
+            <div class="col-md-3 col-md-offset-1">
+                <label>Nome</label>
+            </div>
+            <div class="input-group col-md-4">
+                <input name="Nome" id="filter_nome" class="form-control" placeholder="Nome" />
+                <i class="glyphicon glyphicon-user form-control-feedback"></i>
+                <div class="input-group-btn">
+                    <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["NomeFilter"].Titulo" data-content="@Model.AjudasDictionary["NomeFilter"].Corpo">
+                        <span class="glyphicon glyphicon-question-sign"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+
+        <div class="row form-group has-feedback has-feedback-left">
+            <div class="col-md-3 col-md-offset-1">
+                <label>País</label>
+            </div>
+            <div class="col-md-4 no-padding-margin">
+                <div class="input-group">
+                    @Html.DropDownListFor(p => Model.PaisesList, new SelectList(Model.PaisesList, "PaisID", "Descricao"), "Escolha uma opção", new { @class = "form-control", @id = "filter_pais" })
+                    <i class="glyphicon glyphicon-globe form-control-feedback"></i>
+                    <div class="input-group-btn">
+                        <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Pais"].Titulo" data-content="@Model.AjudasDictionary["PaisFilter"].Corpo">
+                            <span class="glyphicon glyphicon-question-sign"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="button-no-arrow" id="btn_filter">
+                    <i class="glyphicon glyphicon-search"></i>
+                    <span>Pesquisar</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="listing">
+        <table class="table">
+            <tr>
+                <th width="35%">Programa de Mobilidade</th>
+                <th>Nome</th>
+                <th>País</th>
+                <th>Estado</th>
+                <th>Editar</th>
+            </tr>
+
+            @foreach (var item in Model.EscolasList)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TipoMobilidade.Descricao)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nome)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Pais.Descricao)
+                    </td>
+                    <td>
+                        @if (item.Estado == 0)
+                        {
+                            <i class="fa fa-2x fa-times-circle-o red"></i>
+                        }
+                        else
+                        {
+                            <i class="fa fa-2x fa-check-circle-o green"></i>
+                        }
+                    </td>
+                    <td>
+                        <a href="/Escolas/@item.EscolaID/Edit/">
+                            <i class="fa fa-2x fa-pencil orange"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </table>
+
+        <div class="col-md-4 col-md-offset-8">
+            <a href="/Escolas/Create" class="button button-no-arrow">
+                <i class="glyphicon glyphicon-plus"></i>
+                <span>Adicionar Escola</span>
+            </a>
+        </div>
+    </div>
+
+    <a href="/ServicosCimob" class="button button-back">Voltar</a>
+</div>
+
+<script src="https://use.fontawesome.com/3f965b3028.js"></script>
+
+
+@section scripts {
+    <script>
+        $("#btn_filter").on("click", () => {
+            var nome = $("#filter_nome").val();
+            var pais = $("#filter_pais").val();
+
+            if (nome == "" && pais == "")
+                return;
+
+            var filters = "";
+            if (nome != "" && pais == "") {
+                filters = "nome=" + nome;
+            }
+            else if (nome == "" && pais != "") {
+                filters = "pais=" + pais;
+            }
+            else {
+                filters = "nome=" + nome + "&pais=" + pais;
+            }
+
+            var markup = "<tr>" +
+                "<th width='35%'>Programa de mobilidade</th>" +
+                "<th>Nome</th>" +
+                "<th>País</th>" +
+                "<th>Estado</th>" +
+                "<th>Editar</th>" +
+            "</tr> ";
+
+            $.ajax({
+                url: "/Escolas/FilterEscola?" + filters,
+                cache: false,
+                type: "GET",
+                success: function (data) {
+                    console.log(data);
+                    data.forEach(item => {
+                        markup += "<tr>" +
+                            "<td>" + item.mobilidade + "</td>" +
+                            "<td>" + item.nome + "</td>" +
+                            "<td>" + item.pais + "</td>" +
+                            "<td>" + (item.estado == 1 ?
+                                '<i class="fa fa-2x fa-check-circle-o green"></i>' :
+                                '<i class="fa fa-2x fa-times-circle-o red"></i>') +
+                            "</td>" +
+                            "<td>" +
+                                "<a href='/Escolas/" + item.id + "/Edit/'> " + 
+                                    "<i class='fa fa-2x fa-pencil orange'></i>" +
+                                "</a>" +
+                        "</tr > ";
+                    });
+
+                    $(".escolas-list .listing .table").html(markup);
+                },
+                error: function (reponse) {
+                    console.log("error : " + reponse);
+                }
+            });
+        })
+    </script>
+}

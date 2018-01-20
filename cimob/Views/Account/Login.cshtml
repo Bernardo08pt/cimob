@@ -7,9 +7,9 @@
 
 @{
     Layout = "/Views/Shared/_LayoutInitial.cshtml";
-    ViewData["Title"] = "Autenticação";
-    ViewData["HelpTitle"] = Model.AjudasDictionary["Login"].Titulo;
-    ViewData["HelpContent"] = Model.AjudasDictionary["Login"].Corpo;
+    ViewData["Title"] = "Autenticação <i class='glyphicon glyphicon-question-sign btn-icon' data-toggle='modal' data-target='#helpModal'></i>";
+    ViewData["HelpTitle"] = Model.AjudasDictionary["Pagina"].Titulo;
+    ViewData["HelpContent"] = Model.AjudasDictionary["Pagina"].Corpo;
 }
 <div class="row">
     <div class="col-md-4">
@@ -20,7 +20,7 @@
                 <div class="form-group has-feedback has-feedback-left">
                     <label asp-for="Email"></label>
                     <div class="input-group">
-                        <input asp-for="Email"  class="form-control" placeholder="example@example.com" />
+                        <input asp-for="Email"  class="form-control" placeholder="exemplo@dominio.pt" />
                         <i class="glyphicon glyphicon-user form-control-feedback"></i>
                         <div class="input-group-btn">
                             <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Email"].Titulo" data-content="@Model.AjudasDictionary["Email"].Corpo">
@@ -33,7 +33,7 @@
                 <div class="form-group has-feedback has-feedback-left">
                     <label asp-for="Password"></label>
                     <div class="input-group">
-                        <input asp-for="Password" class="form-control" />
+                        <input asp-for="Password" class="form-control" placeholder="Password"/>
                         <i class="glyphicon glyphicon-lock form-control-feedback"></i>
                         <div class="input-group-btn">
                             <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Password"].Titulo" data-content="@Model.AjudasDictionary["Password"].Corpo" >
@@ -48,10 +48,10 @@
                 </div>
                 <div class="form-group">
                     <p>
-                        Para se registar clique <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">aqui</a>
+                        <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Clique aqui para se registar!</a>
                     </p>
                     <p>
-                        Recuperar password <a asp-action="ForgotPassword">aqui</a>
+                        <a asp-action="ForgotPassword">Clique aqui para recuperar a password!</a>
                     </p>
                 </div>
             </form>
@@ -59,23 +59,7 @@
     </div>
 </div>
 
-<!-- Page Help Modal -->
-<div class="modal fade" id="helpModal" role="dialog">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title"><i class="glyphicon glyphicon-question-sign"></i>  @ViewData["HelpTitle"]</h4>
-            </div>
-            <div class="modal-body">
-                @Html.Raw(ViewData["HelpContent"])
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-green btn-default" data-dismiss="modal">Fechar</button>
-            </div>
-        </div>
-    </div>
-</div>
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
+    
 }

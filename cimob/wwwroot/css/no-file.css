@@ -1,0 +1,20 @@
+﻿.err-wrapper {
+    width: 40%;
+    margin: auto;
+}
+
+    .err-wrapper p {
+        font-size: 16px;
+        margin: 0;
+    }
+
+    .err-wrapper h2 {
+        font-size: 48px;
+        margin-bottom: 30px;
+    }
+
+        .err-wrapper a {
+            font-size: 20px;
+            display: block;
+            text-decoration: underline;
+        }

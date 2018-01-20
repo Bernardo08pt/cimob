@@ -1,0 +1,104 @@
+﻿@model EscolasParceirasViewModel;
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<div class="row form-group has-feedback has-feedback-left">
+    <div class="col-md-12">
+        <div class="col-md-3 col-md-offset-1">
+            <label asp-for="Nome"></label>
+        </div>
+        <div class="input-group col-md-7">
+            <input asp-for="Nome" class="form-control" placeholder="Nome" />
+            <i class="glyphicon glyphicon-home form-control-feedback"></i>
+            <div class="input-group-btn">
+                <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Nome"].Titulo" data-content="@Model.AjudasDictionary["Nome"].Corpo">
+                    <span class="glyphicon glyphicon-question-sign"></span>
+                </button>
+            </div>
+        </div>
+        <span asp-validation-for="Nome" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-12">
+        <div class="col-md-3 col-md-offset-1">
+            <label asp-for="Email"></label>
+        </div>
+        <div class="input-group col-md-7">
+            <input asp-for="Email" class="form-control" placeholder="Email" />
+            <i class="glyphicon glyphicon-user form-control-feedback"></i>
+            <div class="input-group-btn">
+                <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Email"].Titulo" data-content="@Model.AjudasDictionary["Email"].Corpo">
+                    <span class="glyphicon glyphicon-question-sign"></span>
+                </button>
+            </div>
+        </div>
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-12">
+        <div class="col-md-3 col-md-offset-1">
+            <label asp-for="Pais"></label>
+        </div>
+        <div class="input-group col-md-7">
+            <select asp-for="Pais" class="form-control" asp-items="@(new SelectList(Model.PaisesList, "PaisID", "Descricao"))">
+                <option>Escolha uma opção</option>
+            </select>
+            <i class="glyphicon glyphicon-globe form-control-feedback"></i>
+            <div class="input-group-btn">
+                <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Pais"].Titulo" data-content="@Model.AjudasDictionary["Pais"].Corpo">
+                    <span class="glyphicon glyphicon-question-sign"></span>
+                </button>
+            </div>
+        </div>
+        <span asp-validation-for="Pais" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-12">
+        <div class="col-md-3 col-md-offset-1">
+            <label asp-for="Estado"></label>
+        </div>
+        <div class="input-group col-md-7">
+            <div class="form-control">
+                <input id="Estado" class="form-control" type="checkbox" checked disabled value="1" />
+            </div>
+            <div class="input-group-btn">
+                <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Estado"].Titulo" data-content="@Model.AjudasDictionary["Estado"].Corpo">
+                    <span class="glyphicon glyphicon-question-sign"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="col-md-3 col-md-offset-1">
+            <label asp-for="CursosNovos"></label>
+        </div>
+        <div class="input-group col-md-7">
+            <table class="table">
+                <tr>
+                    <th>Nome</th>
+                    <th>Vagas</th>
+                </tr>
+                @foreach (var item in Model.Cursos)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(i => item.Nome)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(i => item.Vagas)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+        <span asp-validation-for="Cursos" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-3 col-md-offset-8">
+        <button type="button" class="button button-no-arrow" id="btn_add_curso">Adicionar Curso</button>
+    </div>
+</div>
+
+@Html.Partial("CursoModal")

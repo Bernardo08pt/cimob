@@ -1,7 +1,5 @@
 ﻿
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -12,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using cimob.Data;
 using cimob.Models;
 using cimob.Services;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace cimob
 {
@@ -33,9 +32,9 @@ namespace cimob
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 // Password settings
-                options.Password.RequireDigit = false;
+                options.Password.RequireDigit = true;
                 options.Password.RequiredLength = 6;
-                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireNonAlphanumeric = true;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequiredUniqueChars = 0;
@@ -58,17 +57,16 @@ namespace cimob
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
-
+            
             services.AddMvc();
-
 
             services.Configure<AuthMessageSenderOptions>(Configuration);
 
-
+            services.Configure<FormOptions>(options => options.BufferBody = true);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -91,6 +89,33 @@ namespace cimob
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            CreateRoles(serviceProvider);
         }
-    } 
+
+        private void CreateRoles(IServiceProvider serviceProvider)
+        {
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            Task<IdentityResult> roleResult;
+            
+            Task<bool> hasCandidatoRole = roleManager.RoleExistsAsync("Candidato");
+            hasCandidatoRole.Wait();
+
+            if (!hasCandidatoRole.Result)
+            {
+                roleResult = roleManager.CreateAsync(new IdentityRole("Candidato"));
+                roleResult.Wait();
+            }
+
+            Task<bool> hasFuncionarioRole = roleManager.RoleExistsAsync("Funcionario");
+            hasFuncionarioRole.Wait();
+
+            if (!hasFuncionarioRole.Result)
+            {
+                roleResult = roleManager.CreateAsync(new IdentityRole("Funcionario"));
+                roleResult.Wait();
+            }
+        }
+    }
 }

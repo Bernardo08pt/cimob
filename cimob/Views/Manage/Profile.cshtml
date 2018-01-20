@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewData["Title"] = "Área Pessoal";
+    Layout = "~/Views/Shared/_LayoutWhite.cshtml";
+}
+
+<!--Alert da alteração da password-->
+@if (ViewBag.ShowAlert)
+{
+    <div class="alert alert-success alert-dismissable fade in" style="margin: 0 21% 0 21%">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        A sua palavra passe foi alterada com sucesso !
+    </div>
+}
+<div class="header">
+    <img src="~/images/home/1.svg">
+    <img src="~/images/home/2.svg">
+    <img src="~/images/home/3.svg">
+    <img src="~/images/home/4.svg">
+    <img src="~/images/home/5.svg">
+    <img src="~/images/home/6.svg">
+    <img src="~/images/home/7.svg">
+    <img src="~/images/home/8.svg">
+    <img src="~/images/home/9.svg">
+</div>
+
+
+<!-- is candidatado -->
+@if (ViewBag.CandidaturaSubmetida)
+{
+    <div class="container-fluid button-wrapper">
+        <div class="col-md-3 col-md-offset-3">
+            <a href="/Application/State" class="menu-button">Estado da Candidatura</a>
+        </div>
+        <div class="col-md-2">
+            <!--Meter para o caminho certo-->
+            <a href="/Application/Documents" class="menu-button">Documentos da Candidatura</a>
+        </div>
+    </div>
+}
+// não candidatado
+else
+{
+    <div class="container-fluid button-wrapper">
+        <div class="col-md-3 col-md-offset-3">
+            <a asp-controller="Editais" asp-action="VisualizarEditais" class="menu-button">Editais</a>
+        </div>
+        <div class="col-md-2">
+            <a asp-controller="ProgramasMobilidade" asp-action="Index" class="menu-button">Candidaturas</a>
+        </div>
+    </div>
+}

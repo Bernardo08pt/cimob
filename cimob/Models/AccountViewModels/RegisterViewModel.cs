@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace cimob.Models.AccountViewModels
 {
@@ -19,8 +17,8 @@ namespace cimob.Models.AccountViewModels
 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [Display(Name = "Data de Nascimento")]
-        [BirthDateValidation(ErrorMessage = "A {0} inválida.")]
-        [DataType(DataType.Date)]
+        [BirthDateValidation(ErrorMessage = "A idade tem de ser entre 17 a 100 anos.")]
+        [DataType(DataType.Date,ErrorMessage ="A data é inválida.")]
         public DateTime DataNascimento { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
@@ -41,12 +39,5 @@ namespace cimob.Models.AccountViewModels
         public string ConfirmPassword { get; set; }
 
         public IDictionary<string, Ajuda> AjudasDictionary { get; set; }
-
-        
-
     }
-
-
-
-
 }

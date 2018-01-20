@@ -1,0 +1,49 @@
+﻿@model CandidaturaViewModel;
+
+<div class="destino-form form">
+    <div class="row form-group has-feedback has-feedback-left">
+        <div class="col-md-3 col-md-offset-1">
+            <label asp-for="NomeEscola"></label>
+        </div>
+        <div class="input-group col-md-7">
+            <input asp-for="NomeEscola" disabled class="form-control" />
+        </div>
+    </div>
+
+    <div class="row form-group has-feedback has-feedback-left">
+        <div class="col-md-3 col-md-offset-1">
+            <label asp-for="Pais"></label>
+        </div>
+        <div class="input-group col-md-7">
+            <input asp-for="Pais" disabled class="form-control" />
+        </div>
+    </div>
+
+    <div class="row form-group has-feedback has-feedback-left">
+        <div class="col-md-3 col-md-offset-1">
+            <label asp-for="Curso"></label>
+        </div>
+        <div class="input-group col-md-7">
+            <table class="table">
+                <tr>
+                    <th>Nome</th>
+                    <th>Vagas</th>
+                    <th></th>
+                </tr>
+                @foreach (var item in Model.CursoDestino)
+                {
+                    @foreach(var curr in item.Value)
+                    {
+                        <tr>
+                            <td>@curr.Key</td>
+                            <td>@curr.Value</td>
+                            <td>
+                                <i class="glyphicon glyphicon-plus" title="Requisitar vagas" data-id="@item.Key"></i>
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+    </div>
+</div>

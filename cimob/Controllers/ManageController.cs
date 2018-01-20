@@ -13,6 +13,8 @@ using Microsoft.Extensions.Options;
 using cimob.Models;
 using cimob.Models.ManageViewModels;
 using cimob.Services;
+using cimob.Extensions;
+using cimob.Data;
 
 namespace cimob.Controllers
 {
@@ -25,6 +27,7 @@ namespace cimob.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
+        private readonly ApplicationDbContext _context;
 
         private const string AuthenicatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 
@@ -33,13 +36,15 @@ namespace cimob.Controllers
           SignInManager<ApplicationUser> signInManager,
           IEmailSender emailSender,
           ILogger<ManageController> logger,
-          UrlEncoder urlEncoder)
+          UrlEncoder urlEncoder,
+          ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
             _urlEncoder = urlEncoder;
+            _context = context;
         }
 
         [TempData]
@@ -123,7 +128,8 @@ namespace cimob.Controllers
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
             var email = user.Email;
-            await _emailSender.SendEmailConfirmationAsync(email, callbackUrl);
+            var name = user.Nome;
+            await _emailSender.SendEmailConfirmationAsync(email, name, callbackUrl);
 
             StatusMessage = "Verification email sent. Please check your email.";
             return RedirectToAction(nameof(Index));
@@ -462,6 +468,84 @@ namespace cimob.Controllers
             _logger.LogInformation("User with ID {UserId} has generated new 2FA recovery codes.", user.Id);
 
             return View(model);
+        }
+
+
+        //Método adicionado para mostrar a página de área pessoal
+        [HttpGet]
+        public IActionResult Profile()
+        {
+            //permite saber se o candidato ja submeteu uma candidatura
+            ViewBag.CandidaturaSubmetida = (HelperFunctionsExtensions.GetUserCandidatura(_context, _userManager, User).User != null);
+
+            //Acedemos a flag passada no EditProfile
+            var alert = TempData["ShowAlert"];
+            
+            if (alert != null) //Caso nao seja null, passo a variavel por View Bag e mostro o alert na página Área Pessoal
+            {
+                ViewBag.ShowAlert = alert;
+            }
+            else //Caso tenha clicado no botão voltar, envia-se a false para não dar um erro
+            {
+                ViewBag.ShowAlert = false;
+            }
+
+            return View();
+        }
+        
+
+        //Método adicionado para mostrar a informação ao utilizador quando carrega no perfil
+        [HttpGet]
+        public async Task<IActionResult> EditProfile()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            var model = new EditProfileViewModel
+            {
+                Numero = user.Numero,
+                Nome = user.Nome,
+                Email = user.Email
+            };
+
+            return View(model);
+        }
+
+        //Método que coloca a informação alterada no servidor
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditProfile(EditProfileViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            //Se a nova password ou o confirm password não forem vazios 
+            if (!model.NewPassword.Equals("") || !model.ConfirmPassword.Equals(""))
+            {
+                var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+                if (!changePasswordResult.Succeeded)
+                {
+                    AddErrors(changePasswordResult);
+                    return View(model);
+                }
+            }
+
+            //Passa-se uma flag para mostrar o alert para a action Profile
+            TempData["ShowAlert"] = true;
+
+            //Depois de submeter a alteração da password volta para a página Área Pessoal
+            return RedirectToAction(nameof(Profile));
         }
 
         #region Helpers
