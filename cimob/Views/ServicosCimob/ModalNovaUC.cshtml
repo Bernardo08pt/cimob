@@ -1,0 +1,55 @@
+﻿@model CandidaturaViewModel;
+
+<div class="modal fade" tabindex="-1" id="modalUC" data-keyboard="false" data-backdrop="static">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <h4 id="titulo">Nova UC</h4>
+            <div class="modal-content-wrapper has-feedback has-feedback-left container-fluid">
+                <div class="col-md-12">
+                    <div class="col-md-5">
+                        <label asp-for="UC"></label>
+                    </div>
+                    <div class="input-group col-md-7">
+                        <input asp-for="UC" class="form-control" placeholder="Unidade Curricular" />
+                        <div class="input-group-btn">
+                            <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["UC"].Titulo" data-content="@Model.AjudasDictionary["UC"].Corpo">
+                                <span class="glyphicon glyphicon-question-sign"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <span id="uc-err-validation" class="text-danger hidden" style="display: table-row;">O campo Unidade Curricular é obrigatório.</span>
+                </div>
+
+                <div class="col-md-12" style="margin-bottom: 20px; margin-top: 10px;">
+                    <div class="col-md-5">
+                        <label asp-for="Criterio"></label>
+                    </div>
+                    <div class="input-group col-md-7">
+                        <input asp-for="Criterio" class="form-control" placeholder="Critério" />
+                        <div class="input-group-btn">
+                            <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["criterio"].Titulo" data-content="@Model.AjudasDictionary["criterio"].Corpo">
+                                <span class="glyphicon glyphicon-question-sign"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <span id="criterio-err-validation" class="text-danger hidden" style="display: table-row;">O campo Critério é obrigatório.</span>
+                </div>
+
+                <div class="modal-button-group">
+                    <button type="button" id="btn_cancel_uc" class="red">
+                        <i class="glyphicon glyphicon glyphicon-remove-circle"></i>
+                        Cancelar
+                    </button>
+                    <button type="button" id="btn_submit_uc" class="green">
+                        <i class="glyphicon glyphicon glyphicon-ok-circle"></i>
+                        Confirmar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://use.fontawesome.com/3f965b3028.js"></script>

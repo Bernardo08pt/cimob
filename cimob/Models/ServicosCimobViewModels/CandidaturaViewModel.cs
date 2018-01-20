@@ -6,6 +6,9 @@ namespace cimob.Models.ServicosCimobViewModels
 {
     public class CandidaturaViewModel
     {
+        public int ID { get; set; }
+        public int DocID { get; set; }
+
         #region geral 
         [Display(Name = "Nome")]
         public string Nome { get; set; }
@@ -67,8 +70,20 @@ namespace cimob.Models.ServicosCimobViewModels
         public string Observacoes { get; set; }
 
         [Display(Name = "Listagem")]
-        public string Listagem { get; set; } //Será uma lista com as unidades curriculares??
+        public List<UCAvaliacao> Listagem { get; set; }
+
+        public List<string> NovaListagem { get; set; }
+
+        [Display(Name = "Razão")]
+        public string Razao{ get; set; }
+        
+        public int Estado { get; set; }
         #endregion
+
+        [Display(Name = "Unidade Curricular")]
+        public string UC { get; set; }
+        [Display(Name = "Critério")]
+        public string Criterio { get; set; }
 
         public IDictionary<string, Ajuda> AjudasDictionary { get; set; }
     }

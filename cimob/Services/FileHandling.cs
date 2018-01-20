@@ -11,7 +11,11 @@ namespace cimob.Services
     {
         internal static async Task<string> Upload(IFormFile file, string folder)
         {
-            var path = "Files/" + folder + "/" + new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds() + ".pdf";
+            var dir = "Files/" + folder;
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+
+            var path = dir + "/" + new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds() + ".pdf";
 
             if (file.Length == 0)
                 throw new NoFileExpcetion();
@@ -55,6 +59,12 @@ namespace cimob.Services
                 ),
                 "application/pdf"
             );
+        }
+
+        internal static void Remove(string caminho)
+        {
+            if (File.Exists(caminho))
+                File.Delete(caminho);
         }
     }
 }

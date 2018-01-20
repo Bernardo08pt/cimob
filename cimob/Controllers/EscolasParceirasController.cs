@@ -70,8 +70,10 @@ namespace cimob.Controllers
 
                 model.CursosNovos.ForEach(item => {
                     var json = JsonConvert.DeserializeObject<Curso>(item);
-
-                    tmp.Add(new Curso { Nome = json.Nome, Vagas = json.Vagas, PaisID = model.Pais });
+                    var c = new Curso { Nome = json.Nome, Vagas = json.Vagas, PaisID = model.Pais };
+                    _context.Cursos.Add(c);
+                    _context.SaveChanges();
+                    tmp.Add(c);
                 });
                 
                 var e = new Escola
@@ -206,7 +208,7 @@ namespace cimob.Controllers
         // GET: Escolas/FilterEscola?nome=ze&pais=alemanha
         [HttpGet]
         [Route("/Escolas/FilterEscola")]
-        public ActionResult FilterEscola(int id, IFormCollection collection)
+        public ActionResult FilterEscola()
         {
             try
             {

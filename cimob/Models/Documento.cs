@@ -7,7 +7,7 @@ namespace cimob.Models
     {
         public int DocumentoID { get; set; }
         [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime DataUpload { get; set; }
         public string FicheiroNome { get; set; }
         public string FicheiroCaminho{ get; set; }

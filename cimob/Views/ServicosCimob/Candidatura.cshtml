@@ -6,7 +6,7 @@
 <link href="~/css/cimob.css" rel="stylesheet" />
 
 <div class="candidatura-wrapper cimob">
-    <ul>
+<ul>
         <li data-id="geral" class="active">Geral</li>
         <li data-id="destino">Escola de Destino</li>
         <li data-id="documentacao">Documentação</li>
@@ -35,14 +35,38 @@
 </div>
 
 @section Scripts {
-    <script>
+<script>
         $(() => {
             var curr = window.location.hash.split("#/")[1];
 
             if (curr != undefined || curr != "geral") {
                 changePage();
             }
-            
+
+            if ($("#Estado").val() != "-1")
+                $("#btns-resultado").remove();
+
+            var entrevista = $("#Entrevista").val();
+            if (entrevista != "") {
+                var dia = entrevista.split(" ");
+                var hora = dia[1].split(":");
+
+                $("#Data").val(dia[0]);
+                $("#Hora").val(hora[0]);
+                $("#Minuto").val(hora[1]);
+            }
+
+            var tmp = new Date();
+            var mes = tmp.getMonth() + 1;
+            var dia = tmp.getDate();
+
+            mes = mes < 10 ? "0" + mes : mes;
+            dia = dia < 10 ? "0" + dia : dia;
+
+            $("#data").attr("min", tmp.getFullYear() + "-" + mes + "-" + dia);
+
+            $("#Pontuacao").val("");
+
             bindEvents();
         });
 
@@ -88,10 +112,230 @@
             });
 
             $(".destino-form .table i").on("click", function () {
-                alerta("Vagas requisitadas com sucesso!", "success");
-                //$.ajax({
+                var elem = $(this);
 
-                //})
+                if (elem.prop("disabled") == true)
+                    return;
+
+                elem.prop("disabled", true);
+
+                $.ajax({
+                    url: "/ServicosCimob/Vagas/" + $(this).attr("data-id"),
+                    method: "get",
+                    cache: false,
+                    success: (data) => {
+                        if (data.status == "success")
+                            alerta("Vagas requisitadas com sucesso!", "success");
+                        else
+                            alerta(data.data, "success");
+
+                        elem.prop("disabled", false);
+                    }
+                })
+            });
+
+            $("#btn_upload").on("click", () => {
+                $("#NovoDocumento").trigger("click")
+            });
+
+            $("#NovoDocumento").on("change", (ev) => {
+                if ($(ev.currentTarget).val() == "")
+                    return;
+
+                var file = ev.currentTarget.value.split("\\fakepath\\")[1];
+
+                if (file.split(".")[1] != "pdf") {
+                    alerta("Formato inválido! Tem que ser PDF.", "error")
+                    $("#file_name").val("");
+                    $(ev.currentTarget).val("");
+                }
+                else
+                    $("#file_name").val(ev.currentTarget.value.split("\\fakepath\\")[1]);
+            });
+
+            $("#btn_submit_docs").on("click", () => {
+                var data = new FormData();
+                var url = "@Url.Action("UploadFile", "ServicosCimob")";
+
+                data.append("file", $("#NovoDocumento").get(0).files[0]);
+                
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function (result) {
+                        if (result.status == "error") {
+                            alerta(result.data, "danger");
+                            return;
+                        }
+                        result = result.data;
+
+                        var url = "@Url.Action("UpdateFile", "ServicosCimob")";
+                        $("#DocID").val(result.documentoID)
+
+                        $.post(url, {
+                            ID: window.location.href.split("Candidaturas/")[1].split("#/")[0],
+                            DocID: $("#DocID").val()
+                        });
+
+                        $("#file_name").val("");
+                        $(".docs-list table").append(
+                            $("<tr data-id='" + result.documentoID + "' > " +
+                                "<td>" + result.ficheiroNome + "</td>" +
+                                "<td>" + formatDate(result.dataUpload) + "</td>" +
+                                "<td>" +
+                                    "<a target='_blank' href='/Application/View/" + result.documentoID + "'>" +
+                                        "<i class='fa fa-2x fa-search' aria-hidden='true'></i>" +
+                                    "</a>" +
+                                "</td>" +
+                                "<td>" +
+                                    "<a target='_blank' href='/Application/Download/" + result.documentoID + "'>" +
+                                        "<i class='fa fa-2x fa-download' aria-hidden='true'></i>" +
+                                    "</a>" +
+                                "</td>" +
+                                "<td>" +
+                                    "<i class='fa fa-2x fa-sign-in' aria-hidden='true' title='Enviado pelo CIMOB'></i>" +
+                                "</td>" +
+                            "</tr>"));
+                    },
+                    error: function (err) {
+                        console.log(err);
+                        alert("There was error uploading files!");
+                    }
+                });
+            })
+
+            $("#btn_adicionar_uc").on("click", () => {
+                $("#modalUC").modal("show");
+            });
+
+            $("#btn_cancel_uc").on("click", () => {
+                $("#modalUC").modal("hide");
+            });
+
+            $("#btn_submit_uc").on("click", () => {
+                var uc = $("#UC").val();
+                var criterio = $("#Criterio").val();
+
+                if (UC == "" || criterio == "") {
+                    if (uc == "" && criterio == "") {
+                        $("#criterio-err-validation").removeClass("hidden");
+                        $("#uc-err-validation").removeClass("hidden");
+                    }
+
+                    else if (criterio == "")
+                        $("#criterio-err-validation").removeClass("hidden");
+                    else
+                        $("#uc-err-validation").removeClass("hidden");
+
+                    return;
+                }
+
+                $("#modalUC").modal("hide");
+
+                $("#UC").val("");
+                $("#Criterio").val("");
+
+                alerta("Item criado com sucesso!", "success");
+
+                $("#avaliacao").append($('<input type="hidden" name="NovaListagem" value=' + JSON.stringify({ UC: uc, Criterio: criterio }) + ' />'));
+
+                $("#avaliacao .table").append(
+                    $("<tr> " +
+                        "<td>" + uc + "</td>" +
+                        "<td>" + criterio + "</td>" +
+                    "</tr>")
+                );
+            });
+
+            $("#btn_cancel_razao").on("click", () => {
+                $("#modalRazao").modal("hide");
+            });
+
+            $("#btn_submit_razao").on("click", () => {
+                var razao = $("#Razao").val();
+
+                if (razao == "") {
+                    $("#razao-err-validation").removeClass("hidden");
+
+                    return;
+                }
+
+                $("#btn_adicionar_razao").prop("disabled", true);
+                $("#btn_cancel_razao").prop("disabled", true);
+
+                submitRes(razao);
+            });
+
+            $("#btn_aceitar").on("click", submitRes);
+
+            $("#btn_recusar").on("click", () => {
+                $("#modalRazao").modal("show");
+            });
+
+            $("#btn_marcar_entrevista").on("click", function () {
+                if ($(this).prop("disabled") == true)
+                    return;
+
+                var data = $("#data").val();
+                var hora = $("#hora").val();
+                var min = $("#minuto").val();
+
+                if (data == "" || hora == "" || min == "") {
+                    $("#data-err-validation").removeClass("hidden");
+                    return;
+                }
+
+                $("#data-err-validation").addClass("hidden");
+
+                $(this).prop("disabled", true);
+
+                var url = "@Url.Action("Entrevista", "ServicosCimob")";
+                var model = { ID: window.location.href.split("Candidaturas/")[1].split("#/")[0], Entrevista: (data + " " + hora + ":" + min) };
+
+                $.post(url, model, (data) => {
+                    alerta("Entrevista agendada com sucesso!", "success");
+                    $(this).prop("disabled", false);
+                });
+            });
+
+            $("#btn_submit").on("click", function () {
+                var tmp = [];
+                Array.from($("[name='NovaListagem'")).forEach(item => tmp.push(item.value))
+
+                var url = "@Url.Action("Avaliacao", "ServicosCimob")";
+                var model = {
+                    ID: window.location.href.split("Candidaturas/")[1].split("#/")[0],
+                    Observacoes: $("#Observacoes").val(),
+                    Pontuacao: $("#Pontuacao").val(),
+                    NovaListagem: (tmp.length == 0) ? "" : JSON.stringify(tmp)
+                };
+
+                $.post(url, model, (data) => {
+                    if (data.status == "success") {
+                        alerta("Candidatura editada com sucesso!", "success");
+                        $(this).prop("disabled", false);
+                    }
+                    else
+                        alerta(data.data, data.status);
+                });
+            })
+        }
+
+        var submitRes = (razao) => {
+            var url = "@Url.Action("Resultado", "ServicosCimob")";
+            var model = { ID: window.location.href.split("Candidaturas/")[1].split("#/")[0], Razao: $("#Razao").val(), Estado: $("#Estado").val() }
+
+            $.post(url, model, (data) => {
+                console.log(data);
+                if (data.status == "success") {
+                    alerta("Resultado definido com sucesso!", "success");
+                    $("#btns-resultado").remove();
+                }
+                else
+                    alerta(data.message, "danger");
             });
         }
 
@@ -119,7 +363,7 @@
             mes = mes < 10 ? "0" + mes : mes;
             dia = dia < 10 ? "0" + dia : dia;
 
-            return dia + " / " + mes + " / " + tmp.getFullYear();
+            return dia + "/" + mes + "/" + tmp.getFullYear();
         }
 
         var changePage = () => {
@@ -127,12 +371,10 @@
                 $(".active").removeClass("active");
                 var id = window.location.hash.split("#/")[1];
 
-                if (id == "destino") {
-                    $("#btn_submit").show();
+                if (id == "avaliacao") {
                     $("#btn_next").hide();
                 }
                 else {
-                    $("#btn_submit").hide();
                     $("#btn_next").show();
                 }
 
@@ -145,5 +387,5 @@
                     $("ul [data-id='" + id + "']").addClass("active");
                 }
             };
-   </script>
+</script>
 }
