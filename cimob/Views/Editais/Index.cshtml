@@ -153,9 +153,9 @@
                         }
                     </td>
                     <td>
-                        <!--<a  href="/Editais/@item.EditalID/Editar">   </a>-->
-                        <i class="fa fa-2x fa-pencil orange"></i>
-
+                        <a href="/Editais/@item.EditalID/Editar">
+                            <i class="fa fa-2x fa-pencil orange"></i>
+                        </a>
                     </td>
                 </tr>
             }
@@ -164,8 +164,6 @@
 
     <a asp-controller="ServicosCimob" asp-action="Index" class="button button-back">Voltar</a>
 </div>
-
-<a asp-controller="Editais" asp-action="Editar" class="button button-back">Editar</a>
 
 @section Scripts {
     <script>
@@ -200,3 +198,5 @@
         });
     </script>
 }
+
+<script src="https://use.fontawesome.com/3f965b3028.js"></script>

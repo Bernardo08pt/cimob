@@ -117,7 +117,7 @@ namespace cimob.Controllers
             return View(model);
         }
 
-
+        
         [HttpGet]
         public IActionResult VisualizarEditais()
         {
@@ -195,17 +195,18 @@ namespace cimob.Controllers
             return model;
         }
         
-        //TESTE DE EDITAIS
         [HttpGet]
+        [Authorize(Roles = "Funcionario")]
+        [Route("[controller]/{id}/Editar")]
         public IActionResult Editar(int id)
         {
             try
             {
                 var editalAEditar = _context.Editais.Where(e => e.EditalID == id).FirstOrDefault();
 
-                return View(new EditaisViewModel
-                {
+                return View(new EditaisViewModel {
                     TipoMobilidadeList = GetTiposMobilidade(),
+                    DataLimite = editalAEditar.DataLimite,
                     AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Editais" }), _context),
                     Nome = editalAEditar.Nome,
                     ProgramaMobilidadeID = editalAEditar.TipoMobilidadeID,
@@ -218,8 +219,9 @@ namespace cimob.Controllers
 
         }
 
-
         [HttpPost]
+        [Authorize(Roles = "Funcionario")]
+        [Route("[controller]/{id}/Editar")]
         public async Task<IActionResult> Editar(EditaisViewModel model, int id)
         {
             if (model.DataLimite.CompareTo(DateTime.Now) <= 0)
@@ -227,11 +229,23 @@ namespace cimob.Controllers
 
             if (ModelState.IsValid)
             {
-                var edital = _context.Editais.Where(e => e.EditalID == 1).First();
-                edital.Caminho = await FileHandling.Upload(model.CarregarEdital, "Editais");
-                edital.NomeFicheiro = model.CarregarEdital.FileName;
-                edital.DataLimite = model.DataLimite;
-                
+                using (var db = _context)
+                {
+                    var result = db.Editais.Where(e => e.EditalID == 1).First();
+
+                    if (result != null)
+                    {
+                        FileHandling.Remove(result.Caminho);
+
+                        result.Caminho = await FileHandling.Upload(model.CarregarEdital, "Editais");
+                        result.NomeFicheiro = model.CarregarEdital.FileName;
+                        result.DataLimite = model.DataLimite;
+
+                        db.SaveChanges();
+
+                        return Index();
+                    }
+                }
             }
 
             model.TipoMobilidadeList = GetTiposMobilidade();
@@ -239,11 +253,5 @@ namespace cimob.Controllers
 
             return View(model);
         }
-
-
-
-
-
-
     }
 }

@@ -26,8 +26,7 @@
 <div class="editais">
     <div class="panel clearfix">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <form id="editaisForm" asp-controller="Editais" asp-action="Index" enctype="multipart/form-data">
-
+        <form id="editaisForm" asp-controller="Editais" asp-action="Editar" method="post" enctype="multipart/form-data">
             <div class="row form-group has-feedback has-feedback-left">
                 <div class="col-md-3 col-md-offset-1">
                     <label asp-for="CarregarEdital"></label>
@@ -62,7 +61,7 @@
                 </div>
                 <div class="input-group col-md-5">
 
-                    <input asp-for="Nome" class="form-control" placeholder="Nome do edital" readonly />
+                    <input asp-for="Nome" class="form-control" placeholder="Nome do edital" disabled />
                     <i class="glyphicon glyphicon-file form-control-feedback"></i>
                     <div class="input-group-btn">
                         <button class="btn btn-info bottom-right pop" type="button"
@@ -80,7 +79,7 @@
                     <label asp-for="ProgramaMobilidadeID"></label>
                 </div>
                 <div class="input-group col-md-5">
-                    <select asp-for="ProgramaMobilidadeID" class="form-control" asp-items="@(new SelectList(Model.TipoMobilidadeList, "TipoMobilidadeID", "Descricao"))">
+                    <select asp-for="ProgramaMobilidadeID" disabled class="form-control" asp-items="@(new SelectList(Model.TipoMobilidadeList, "TipoMobilidadeID", "Descricao"))">
                         <option>Escolha uma opção</option>
                     </select>
                     <i class="glyphicon glyphicon-book form-control-feedback"></i>

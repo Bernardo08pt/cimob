@@ -171,7 +171,6 @@ namespace cimob.Controllers
         {
             try
             {
-                var i = 1;
                 var d = new Documento {
                     FicheiroCaminho = await FileHandling.Upload(file, "Candidaturas"),
                     FicheiroNome = file.FileName,
