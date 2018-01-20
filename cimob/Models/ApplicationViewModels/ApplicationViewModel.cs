@@ -43,7 +43,7 @@ namespace cimob.Models.ApplicationViewModels
         public int Curso { get; set; }
 
         [Display(Name = "Ano Letivo")]
-        public string AnoLetivo { get; internal set; }
+        public string AnoLetivo { get; set; }
         #endregion
 
 

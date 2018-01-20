@@ -243,7 +243,7 @@
         .content-wrapper .table .selected,
         .content-wrapper .table tr:not(:first-child):hover,
         .content-wrapper .table tr:not(:first-child):hover > td a {
-            background: #8EA9CC;
+            background: #8EA9CC !important;
             color: #f9f9f9;
         }
 

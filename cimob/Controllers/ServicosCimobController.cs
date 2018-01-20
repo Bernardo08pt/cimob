@@ -93,7 +93,7 @@ namespace cimob.Controllers
                 return View(nameof(Candidatura), new CandidaturaViewModel {
                     AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "ServicosCIMOB" }), _context),
                     AnoLetivo = c.AnoLetivo,
-                    ContactoEmergencia = c.AnoLetivo,
+                    ContactoEmergencia = c.EmergenciaContacto,
                     ContactoPessoal = c.ContactoPessoal,
                     Curso = c.IpsCurso.Nome,
                     CursoDestino = cursos,

@@ -74,7 +74,7 @@ namespace cimob.Controllers
             {
                 var c = new Candidatura
                 {
-                    AnoLetivo = model.AnoLetivo,
+                    AnoLetivo = GetAnoLetivo(),
                     ContactoPessoal = model.ContactoPessoal,
                     DataNascimento = model.DataNascimento,
                     EmailAlternativo = model.EmailAlternativo,
@@ -149,7 +149,7 @@ namespace cimob.Controllers
 
             return View(model);
         }
-        
+
         [HttpGet]
         [Route("[controller]/Not-Found")]
         public IActionResult Not_Found()
@@ -343,6 +343,16 @@ namespace cimob.Controllers
         private List<CandidaturaDocumentos> GetDocumentosCandidatura(int id)
         {
             return _context.CandidaturaDocumentos.Include(cd => cd.Documento).Where(cd => cd.CandidaturaID == id).ToList();
+        }
+
+        private string GetAnoLetivo()
+        {
+            var tmp = DateTime.Now;
+
+            if (tmp.Month >= 8 && tmp.Month <= 12)
+                return tmp.Year + "/" + (tmp.Year + 1);
+            else
+                return (tmp.Year - 1) + "/" + tmp.Year;
         }
     }
 }
