@@ -135,11 +135,11 @@ namespace cimob.Controllers
         {
             try
             {
-                var tmp = _context.Documentos.
-                    Where(d => d.DocumentoID == id).
+                var tmp = _context.Editais.
+                    Where(d => d.EditalID == id).
                     Select(d => new {
-                        caminho = d.FicheiroCaminho,
-                        nome = d.FicheiroNome
+                        caminho = d.Caminho,
+                        nome = d.NomeFicheiro
                     }).FirstOrDefault();
 
                 return FileHandling.Download(tmp.caminho, tmp.nome);
