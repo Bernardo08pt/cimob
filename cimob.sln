@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cimob", "cimob\cimob.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeleniumTests", "SeleniumTests\SeleniumTests.csproj", "{728C061B-9630-47C4-B6A4-46313204F4FE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cimob.test", "cimob.test\cimob.test.csproj", "{8A0F8E50-325A-4EC6-9352-272C0BF390A2}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{728C061B-9630-47C4-B6A4-46313204F4FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{728C061B-9630-47C4-B6A4-46313204F4FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{728C061B-9630-47C4-B6A4-46313204F4FE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8A0F8E50-325A-4EC6-9352-272C0BF390A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8A0F8E50-325A-4EC6-9352-272C0BF390A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8A0F8E50-325A-4EC6-9352-272C0BF390A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8A0F8E50-325A-4EC6-9352-272C0BF390A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -30,7 +30,7 @@ namespace SeleniumTests
         //É testado se quando o utilizador não insere uma data de nascimento se aparece a mensagem de erro.
         public void RegisterTest()
         {
-            driver = new ChromeDriver();
+            driver = new ChromeDriver(@"C:\Users\Bernardo\Desktop\PROJETOSW\drivers");
             //Para firefox
             //driver = new FirefoxDriver();
             //baseURL = "http://cimob.azurewebsites.net/Account/Register?returnurl=%2F";
