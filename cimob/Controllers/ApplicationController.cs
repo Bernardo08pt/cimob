@@ -167,7 +167,7 @@ namespace cimob.Controllers
                 return View(nameof(Not_Found));
 
             return View(new ApplicationStateViewModel {
-                AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Application" }), _context),
+                AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "ApplicationState" }), _context),
                 EstadosList = GetEstadosCandidatura(),
                 Estado = _context.Candidaturas.Where(c => c.CandidaturaID == tmp.Candidatura).Select(c => c.EstadoCandidaturaID).FirstOrDefault()
             });

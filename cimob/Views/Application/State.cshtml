@@ -1,6 +1,8 @@
 ﻿@model ApplicationStateViewModel
 @{
-    ViewData["Title"] = "Estado Candidatura";
+    ViewData["Title"] = "Estado Candidatura <i class='glyphicon glyphicon-question-sign btn-icon' data-toggle='modal' data-target='#helpModal'></i>";
+    ViewData["HelpTitle"] = Model.AjudasDictionary["Pagina"].Titulo;
+    ViewData["HelpContent"] = Model.AjudasDictionary["Pagina"].Corpo;
     Layout = "~/Views/Shared/_LayoutWhite.cshtml";
 }
 

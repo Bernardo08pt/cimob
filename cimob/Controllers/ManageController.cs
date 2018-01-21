@@ -504,14 +504,12 @@ namespace cimob.Controllers
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var model = new EditProfileViewModel
-            {
+            return View(new EditProfileViewModel {
                 Numero = user.Numero,
                 Nome = user.Nome,
-                Email = user.Email
-            };
-
-            return View(model);
+                Email = user.Email,
+                AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "EditarPerfil" }), _context)
+            });
         }
 
         //Método que coloca a informação alterada no servidor
@@ -519,10 +517,7 @@ namespace cimob.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditProfile(EditProfileViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
+            var err = false;
 
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -530,19 +525,43 @@ namespace cimob.Controllers
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            //Se a nova password ou o confirm password não forem vazios 
-            if (!model.NewPassword.Equals("") || !model.ConfirmPassword.Equals(""))
+            if (!ModelState.IsValid)
+                err = true;
+            
+            if (!err && !await _userManager.CheckPasswordAsync(user, model.OldPassword))
+            {
+                err = true;
+                ModelState.AddModelError("OldPassword", "Password atual incorreta!");
+            }
+            
+            // Se a nova password ou o confirm password não forem vazios 
+            if (!err)
             {
                 var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
                 if (!changePasswordResult.Succeeded)
                 {
-                    AddErrors(changePasswordResult);
-                    return View(model);
+                    err = true;
+                    foreach (var error in changePasswordResult.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
                 }
+            }
+
+            if (err)
+            {
+                model.AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "EditarPerfil" }), _context);
+                model.Numero = user.Numero;
+                model.Nome = user.Nome;
+                model.Email = user.Email;
+
+                return View(model);
             }
 
             //Passa-se uma flag para mostrar o alert para a action Profile
             TempData["ShowAlert"] = true;
+
+            _context.SaveChanges();
 
             //Depois de submeter a alteração da password volta para a página Área Pessoal
             return RedirectToAction(nameof(Profile));
@@ -552,10 +571,7 @@ namespace cimob.Controllers
 
         private void AddErrors(IdentityResult result)
         {
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
-            }
+         
         }
 
         private string FormatKey(string unformattedKey)

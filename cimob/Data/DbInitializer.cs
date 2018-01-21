@@ -342,14 +342,7 @@ namespace cimob.Data
         private static void AddAjudas(ApplicationDbContext context)
         {
             //Login
-            context.Ajudas.Add(new Ajuda
-            {
-                Pagina = "Registo",
-                Nome = "Pagina",
-                Titulo = "Página de Registo",
-                Corpo = "<p>A Página de Registo é onde pode criar a sua conta de forma a entrar na aplicação e realizar a sua candidatura.</p>" +
-                      "<p>Para realizar o seu registo preencha os corretamente os dados do formulário. Após a submissão dos dados será enviado um Email com um link de confirmação, o qual precisa de ser acedido para validar a sua conta</p>"
-            });
+            context.Ajudas.Add(new Ajuda { Pagina = "Registo", Nome = "Pagina", Titulo = "Página de Registo", Corpo = "<p>A Página de Registo é onde pode criar a sua conta de forma a entrar na aplicação e realizar a sua candidatura.</p><p>Para realizar o seu registo preencha os corretamente os dados do formulário. Após a submissão dos dados será enviado um Email com um link de confirmação, o qual precisa de ser acedido para validar a sua conta</p>" });
             context.Ajudas.Add(new Ajuda { Pagina = "Registo", Nome = "Numero", Titulo = "Número", Corpo = "<p>O Número corresponde ao número de aluno/docente do IPS.</p>" });
             context.Ajudas.Add(new Ajuda { Pagina = "Registo", Nome = "Nome", Titulo = "Nome", Corpo = "<p>O seu nome, preferencialmente completo.</p>" });
             context.Ajudas.Add(new Ajuda { Pagina = "Registo", Nome = "DataNascimento", Titulo = "Data de Nascimento", Corpo = "<p>A Data de Nascimento tem de ser escrita no formato dd/mm/aaaa.</p><p>O candidato tem de ter entre 17 a 100 anos.</p>" });
@@ -358,41 +351,24 @@ namespace cimob.Data
             context.Ajudas.Add(new Ajuda { Pagina = "Registo", Nome = "ConfirmPassword", Titulo = "Confirmar Password", Corpo = "<p>O campo Confirmar Password tem de ser igual à Password.</p>" });
 
             //Registo
-            context.Ajudas.Add(new Ajuda
-            {
-                Pagina = "Login",
-                Nome = "Pagina",
-                Titulo = "Página de Autenticação",
-                Corpo = "<p>A Página de Autenticação é onde pode introduzir os dados da sua conta de forma a entrar na aplicação. O Email tem de estar validado através do link de confirmação enviado para o mesmo.</p>" +
-                      "<p>No caso de não possuir uma conta é necessário aceder à Página de Registo de forma a criar uma.</p>" +
-                      "<p>Caso possua uma conta mas esqueceu-se da sua password, aceda à Página de Recuperação de password.</p>"
-            });
+            context.Ajudas.Add(new Ajuda { Pagina = "Login", Nome = "Pagina", Titulo = "Página de Autenticação", Corpo = "<p>A Página de Autenticação é onde pode introduzir os dados da sua conta de forma a entrar na aplicação. O Email tem de estar validado através do link de confirmação enviado para o mesmo.</p><p>No caso de não possuir uma conta é necessário aceder à Página de Registo de forma a criar uma.</p><p>Caso possua uma conta mas esqueceu-se da sua password, aceda à Página de Recuperação de password.</p>"});
             context.Ajudas.Add(new Ajuda { Pagina = "Login", Nome = "Email", Titulo = "Endereço Email", Corpo = "<p>O Email associado à sua conta.</p>" });
             context.Ajudas.Add(new Ajuda { Pagina = "Login", Nome = "Password", Titulo = "Password", Corpo = "<p>A Password da sua conta.</p>" });
 
             //Recuperar Password
-            context.Ajudas.Add(new Ajuda
-            {
-                Pagina = "RecuperarPassword",
-                Nome = "Pagina",
-                Titulo = "Página de Recuperação de Password",
-                Corpo = "<p>A Página de Recuperação de Password é onde pode fazer um pedido para recuperar a sua password no caso esquecimento da mesma.</p>" +
-                      "<p>Para fazer o pedido insira o Email da sua conta no campo correspondente e submeta o formulário. Irá receber um email com um link para restaurar a sua password.</p>"
-            });
+            context.Ajudas.Add(new Ajuda { Pagina = "RecuperarPassword", Nome = "Pagina", Titulo = "Página de Recuperação de Password",                Corpo = "<p>A Página de Recuperação de Password é onde pode fazer um pedido para recuperar a sua password no caso esquecimento da mesma.</p><p>Para fazer o pedido insira o Email da sua conta no campo correspondente e submeta o formulário. Irá receber um email com um link para restaurar a sua password.</p>"});
             context.Ajudas.Add(new Ajuda { Pagina = "RecuperarPassword", Nome = "Email", Titulo = "Endereço Email", Corpo = "<p>O Email associado à sua conta.</p>" });
 
             //Alterar Password
-            context.Ajudas.Add(new Ajuda
-            {
-                Pagina = "AlterarPassword",
-                Nome = "Pagina",
-                Titulo = "Página de Alteração de Password",
-                Corpo = "<p>A Página de Alteração de Password é onde pode alterar a sua password no caso de ter pedido para recuperar a mesma.</p>" +
-                      "<p>Para alterar a passord insira o Email da sua conta, uma nova password e submeta o formulário.</p>"
-            });
+            context.Ajudas.Add(new Ajuda { Pagina = "AlterarPassword", Nome = "Pagina", Titulo = "Página de Alteração de Password", Corpo = "<p>A Página de Alteração de Password é onde pode alterar a sua password no caso de ter pedido para recuperar a mesma.</p><p>Para alterar a passord insira o Email da sua conta, uma nova password e submeta o formulário.</p>" });
             context.Ajudas.Add(new Ajuda { Pagina = "AlterarPassword", Nome = "Email", Titulo = "Endereço Email", Corpo = "<p>O Email associado à sua conta.</p>" });
             context.Ajudas.Add(new Ajuda { Pagina = "AlterarPassword", Nome = "Password", Titulo = "Password", Corpo = "<p>Insira uma nova Password.</p><p>A Password deve seguir as seguintes regras: </p><ul><li>Conter um mínimo de 6 caracteres.</li><li>Conter pelo menos 1 dígito.</li><li>Conter pelo menos 1 caracter especial ['@' '.' '_' ect...].</li></ul>" });
             context.Ajudas.Add(new Ajuda { Pagina = "AlterarPassword", Nome = "ConfirmPassword", Titulo = "Confirmar Password", Corpo = "<p>O campo Confirmar Password tem de ser igual à Password.</p>" });
+
+            // candidatura
+            context.Ajudas.Add(new Ajuda { Pagina = "Application", Nome = "Pagina", Titulo = "Página Candidatura", Corpo = "<p>Esta págna permite-lhe submeter uma nova candidatura. Para tal é necessário preencher informação geral sobre si, contactos, submeter a carta de motivação e escolher até 3 possíveis destinos.</p>" });
+            context.Ajudas.Add(new Ajuda { Pagina = "ApplicationState", Nome = "Pagina", Titulo = "Página Estado da Candidatura", Corpo = "<p>Esta página permite-lhe consultar o estado atual da sua candidatura.</p>" });
+            context.Ajudas.Add(new Ajuda { Pagina = "Application", Nome = "PaginaDocs", Titulo = "Página Documentos da Candidatura", Corpo = "<p>Esta página permite-lhe consultar todos os documentos associados à sua candidatura.</p>" });
 
             // candidatura - geral
             context.Ajudas.Add(new Ajuda { Pagina = "Application", Nome = "Numero", Titulo = "Número", Corpo = "<p>O Número corresponde ao número de aluno/docente do IPS.</p>" });
@@ -419,11 +395,9 @@ namespace cimob.Data
             context.Ajudas.Add(new Ajuda { Pagina = "Editais", Nome = "NomeEdital", Titulo = "Nome do edital", Corpo = "<p>O nome do edital que vai submeter.</p>" });
             context.Ajudas.Add(new Ajuda { Pagina = "Editais", Nome = "CarregarEdital", Titulo = "Carregar edital", Corpo = "<p>O ficheiro tem de ser em formato PDF.</p>" });
             context.Ajudas.Add(new Ajuda { Pagina = "Editais", Nome = "SelecionarPrograma", Titulo = "Selecionar Programa", Corpo = "<p>Selecione o programa a que se refere o edital.</p>" });
-            context.Ajudas.Add(new Ajuda { Pagina = "Editais", Nome = "DataLimite", Titulo = "Data Limite", Corpo = "<p>Data em que o edital \"Fecha\". Esta data não pode ser inferior ou igual à atual.</p>" });
-
-            //avaliação da candidatura 
-            context.Ajudas.Add(new Ajuda { Pagina = "ServicosCimob", Nome = "Pontuacao", Titulo = "Pontuação", Corpo = "<p>Pontuação que quer dar à candidatura submetida</p>" });
-            context.Ajudas.Add(new Ajuda { Pagina = "ServicosCimob", Nome = "Observacoes", Titulo = "Observações", Corpo = "<p>Informação adicional sobre a candidatura submetida</p>" });
+            context.Ajudas.Add(new Ajuda { Pagina = "Editais", Nome = "DataLimite", Titulo = "Data Limite", Corpo = "<p>Data em que o edital \"Fecha\", deixando de aceitar candidaturas. Esta data não pode ser inferior ou igual à atual.</p>" });
+            context.Ajudas.Add(new Ajuda { Pagina = "Editais", Nome = "PaginaList", Titulo = "Página editais", Corpo = "<p>Esta págna permite-lhe consultar os editais existentes e criar novos. Através do \"Lápis\" na tabela, consegue editar um edital.</p>" });
+            context.Ajudas.Add(new Ajuda { Pagina = "Editais", Nome = "Pagina", Titulo = "Página edição editais", Corpo = "<p>Esta págna permite-lhe editar o PDF e a data limite de um edital.</p>" });
 
             // escolas parceiras
             context.Ajudas.Add(new Ajuda { Pagina = "EscolasParceiras", Nome = "Nome", Titulo = "Nome", Corpo = "<p>Nome da instituição com a qual o IPS tem acordo bilateral</p>" });
@@ -434,12 +408,33 @@ namespace cimob.Data
             context.Ajudas.Add(new Ajuda { Pagina = "EscolasParceiras", Nome = "NomeFilter", Titulo = "Nome", Corpo = "<p>Nome de instituições a pesquisar.</p>" });
             context.Ajudas.Add(new Ajuda { Pagina = "EscolasParceiras", Nome = "PaisFilter", Titulo = "País", Corpo = "<p>País de instituições a pesquisar.</p>" });
             context.Ajudas.Add(new Ajuda { Pagina = "EscolasParceiras", Nome = "Estado", Titulo = "Estado", Corpo = "<p>Indica se esta escola atualmente é uma opção para os candidatos.</p>" });
+            context.Ajudas.Add(new Ajuda { Pagina = "EscolasParceiras", Nome = "PaginaList", Titulo = "Página de listagem das escolas parceiras", Corpo = "<p>Esta página permite-lhe visualizar e editar todas as escolas parceiras existentes bem como adicionar uma nova atra´vces do botão adicionar escola. </p>" });
+            context.Ajudas.Add(new Ajuda { Pagina = "EscolasParceiras", Nome = "Pagina", Titulo = "Página criação / edição de escolas parceiras", Corpo = "<p>Esta págna permite-lhe adicionar uma nova escola (bem como os respetivos cursos) ou editar uma escola já existente.</p>" });
 
-            // servicos cimob
+
+            // serviços cimob
+            context.Ajudas.Add(new Ajuda { Pagina = "ServicosCIMOB", Nome = "Pagina", Titulo = "Página de Serviços de CIMOB", Corpo = "<p>A página de editar de Serviços CIMOB é a página central do funcionário do CIMOB. É através desta página que consegue aceder às candidaturas submetidas, adicionar novas escolas parceiras e inserir / atualizar editais. </p>" });
+
+
+            // servicos cimob - candidatura 
             context.Ajudas.Add(new Ajuda { Pagina = "ServicosCIMOB", Nome = "UC", Titulo = "Unidade Curricular", Corpo = "<p>Unidade Curricular do candidato.</p>" });
             context.Ajudas.Add(new Ajuda { Pagina = "ServicosCIMOB", Nome = "criterio", Titulo = "Critério de avaliação", Corpo = "<p>Critério de avaliação da UC.</p>" });
-            context.Ajudas.Add(new Ajuda { Pagina = "ServicosCIMOB", Nome = "razao", Titulo = "Razão Rejeição", Corpo = "<p>Rezão pela qual a candidatura está a ser rejeitada.</p>" });
+            context.Ajudas.Add(new Ajuda { Pagina = "ServicosCIMOB", Nome = "razao", Titulo = "Motivo Rejeição", Corpo = "<p>Motivo pelo qual esta candidatura está a ser recusada.</p>" });
             context.Ajudas.Add(new Ajuda { Pagina = "ServicosCIMOB", Nome = "Documento", Titulo = "Novo Documento", Corpo = "<p>Novo documento a adicionar a esta candidatura. Tem que ser formato PDF." });
+            context.Ajudas.Add(new Ajuda { Pagina = "ServicosCimob", Nome = "Pontuacao", Titulo = "Pontuação", Corpo = "<p>Pontuação que quer dar à candidatura submetida</p>" });
+            context.Ajudas.Add(new Ajuda { Pagina = "ServicosCimob", Nome = "Observacoes", Titulo = "Observações", Corpo = "<p>Informação adicional sobre a candidatura submetida</p>" });
+            context.Ajudas.Add(new Ajuda { Pagina = "ServicosCIMOB", Nome = "PaginaEscolas", Titulo = "Página criação / edição de escolas parceiras", Corpo = "<p>Esta págna permite-lhe adicionar uma nova escola (bem como os respetivos cursos) ou editar uma escola já existente.</p>" });
+            context.Ajudas.Add(new Ajuda { Pagina = "ServicosCIMOB", Nome = "PaginaCandidaturas", Titulo = "Página Candidaturas", Corpo = "Esta página permite-lhe consultar candidaturas submetidas e (através do separador Avaliação) interagir com a mesma, marcando uma data para entrevista, adicionando observações, definir a pontuação e aceitar ou recusar a candidatura.</p>" });
+
+
+            // editar perfil
+            context.Ajudas.Add(new Ajuda { Pagina = "EditarPerfil", Nome = "Pagina", Titulo = "Página de Editar Perfil", Corpo = "<p>A página de editar perfil é onde pode alterar o email e / ou password que utiliza para fazer a autênticação. </p>" });
+            context.Ajudas.Add(new Ajuda { Pagina = "EditarPerfil", Nome = "Numero", Titulo = "Número", Corpo = "<p>Número de aluno / docnete do IPS. Este campo não é editável. </p>" });
+            context.Ajudas.Add(new Ajuda { Pagina = "EditarPerfil", Nome = "Nome", Titulo = "Nome", Corpo = "O seu nome. Este campo não é editável. </p>" });
+            context.Ajudas.Add(new Ajuda { Pagina = "EditarPerfil", Nome = "Email", Titulo = "Email", Corpo = "O seu email. Este campo não é editável.</p>" });
+            context.Ajudas.Add(new Ajuda { Pagina = "EditarPerfil", Nome = "OldPW", Titulo = "Password atual", Corpo = "<p>Corresponde à password que usa atualmente.</p>" });
+            context.Ajudas.Add(new Ajuda { Pagina = "EditarPerfil", Nome = "NewPW", Titulo = "Nova Password", Corpo = "<p>A nova password que deseja utilizar.</p><p>A Password deve seguir as seguintes regras: </p><ul><li>Conter um mínimo de 6 caracteres.</li><li>Conter pelo menos 1 dígito.</li><li>Conter pelo menos 1 caracter especial ['@' '.' '_' ect...].</li></ul>" });
+            context.Ajudas.Add(new Ajuda { Pagina = "EditarPerfil", Nome = "ConfPW", Titulo = "Confirmação da Nova Password", Corpo = "<p>Por questões de segurança, escreva a nova password que deseja novamente.</p>" });
         }
 
         private static void AddEstadosCandidatura(ApplicationDbContext context)
