@@ -1,0 +1,12 @@
+﻿.profile {
+    margin: auto;
+    width: 60%;
+}
+
+.profile #btnSubmit {
+    margin-bottom: 0;
+}
+
+.profile .panel {
+    padding-bottom: 10px;
+}

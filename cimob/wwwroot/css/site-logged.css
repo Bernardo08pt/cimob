@@ -47,7 +47,6 @@
     }
 
         .content-wrapper .button-wrapper .menu-button {
-            padding: 30px 0;
             text-align: center;
             vertical-align: middle;
             border: solid 1px #000;
@@ -55,11 +54,17 @@
             border-radius: 10px;
             background: #2B78E4;
             display: inline-block;
-            width: 250px;
             text-decoration: none;
             outline: none;
             cursor: pointer;
+            padding: 30px 0;
+            width: 300px;
+            font-size: 20px;
         }
+
+            .content-wrapper .button-wrapper .menu-button:hover {
+                box-shadow: 0 0 10px #000;
+            }
 
         .content-wrapper .button-wrapper .button:first-child {
             float: left;
@@ -215,6 +220,11 @@
         border: solid 1px black;
     }
 
+        .table tr:nth-child(even) a {
+            color: #fff;
+        }
+
+
         .content-wrapper .table th {
             background: #ccc;
             padding: 5px;
@@ -233,7 +243,7 @@
         .content-wrapper .table .selected,
         .content-wrapper .table tr:not(:first-child):hover,
         .content-wrapper .table tr:not(:first-child):hover > td a {
-            background: #8EA9CC;
+            background: #8EA9CC !important;
             color: #f9f9f9;
         }
 
@@ -269,4 +279,8 @@ td {
 
 label {
     line-height: 35px;
+}
+
+.fa-sign-in {
+    transform: rotate(180deg);
 }

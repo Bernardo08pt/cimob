@@ -117,7 +117,7 @@ namespace cimob.Controllers
             return View(model);
         }
 
-
+        
         [HttpGet]
         public IActionResult VisualizarEditais()
         {
@@ -135,11 +135,11 @@ namespace cimob.Controllers
         {
             try
             {
-                var tmp = _context.Documentos.
-                    Where(d => d.DocumentoID == id).
+                var tmp = _context.Editais.
+                    Where(d => d.EditalID == id).
                     Select(d => new {
-                        caminho = d.FicheiroCaminho,
-                        nome = d.FicheiroNome
+                        caminho = d.Caminho,
+                        nome = d.NomeFicheiro
                     }).FirstOrDefault();
 
                 return FileHandling.Download(tmp.caminho, tmp.nome);
@@ -193,6 +193,77 @@ namespace cimob.Controllers
             model.Editais = GetEditais();
             
             return model;
+        }
+        
+        [HttpGet]
+        [Authorize(Roles = "Funcionario")]
+        [Route("[controller]/{id}/Editar")]
+        public IActionResult Editar(int id)
+        {
+            try
+            {
+                var editalAEditar = _context.Editais.Where(e => e.EditalID == id).FirstOrDefault();
+
+                return View(new EditaisViewModel {
+                    TipoMobilidadeList = GetTiposMobilidade(),
+                    DataLimite = editalAEditar.DataLimite,
+                    AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Editais" }), _context),
+                    Nome = editalAEditar.Nome,
+                    ProgramaMobilidadeID = editalAEditar.TipoMobilidadeID,
+                });
+            }
+            catch (Exception)
+            {
+                return View(nameof(Index));
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Funcionario")]
+        [Route("[controller]/{id}/Editar")]
+        public async Task<IActionResult> Editar(EditaisViewModel model, int id)
+        {
+            if (model.DataLimite.CompareTo(DateTime.Now) <= 0)
+                ModelState.AddModelError("DataLimite", "Data inválida. Tem que ser superior à atual");
+
+            var result = _context.Editais.Where(e => e.EditalID == id).FirstOrDefault();
+            
+            try
+            {
+                using (var db = _context)
+                {
+
+                    if (result != null)
+                    {
+                        FileHandling.Remove(result.Caminho);
+
+                        result.Caminho = await FileHandling.Upload(model.CarregarEdital, "Editais");
+                        result.NomeFicheiro = model.CarregarEdital.FileName;
+                        result.DataLimite = model.DataLimite;
+
+                        db.SaveChanges();
+
+                        return RedirectToAction(nameof(Index));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("CarregarEdital", 
+                    HelperFunctionsExtensions.GetError((
+                        ex is FileSizeException ? "FileTooBig" :
+                        ex is FormatException ? "InvalidFormat" :
+                        "InvalidFile"
+                    ), _context)
+                );
+            }
+
+            model.TipoMobilidadeList = GetTiposMobilidade();
+            model.Nome = result.Nome;
+            model.ProgramaMobilidadeID = result.TipoMobilidadeID;
+            model.AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Editais" }), _context);
+
+            return View(model);
         }
     }
 }

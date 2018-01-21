@@ -1,57 +1,94 @@
 ﻿@model CandidaturaViewModel;
 
 <div class="geral-form form">
-    <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="get">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="row form-group has-feedback has-feedback-left">
-            <div class="col-md-3 col-md-offset-1">
-                <label asp-for="Entrevista"></label>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input asp-for="Entrevista" class="hidden" />
+    <div class="row form-group has-feedback has-feedback-left">
+        <div class="col-md-3 col-md-offset-1">
+            <label asp-for="Entrevista"></label>
+        </div>
+        <div class="input-group col-md-7">
+            <div class="col-md-5 no-padding-margin">
+                <input type="date" id="data" class="form-control" />
             </div>
-            <div class="input-group col-md-7">
-                <input asp-for="Entrevista" class="form-control" />
-                <i class="glyphicon glyphicon-calendar form-control-feedback"></i>
+            <div class="col-md-4 no-padding-margin">
+                <input type="text" pattern="\d*" maxlength="2" id="hora" class="form-control" placeholder="Hora">
+                <input type="text" pattern="\d*" maxlength="2" id="minuto" class="form-control" placeholder="Min">
+            </div>
+            <div class="col-md-3" style="padding-right: 0;">
+                <button type="button" class="button-no-arrow" id="btn_marcar_entrevista">Marcar</button>
             </div>
         </div>
+        <span id="data-err-validation" class="text-danger hidden" style="text-align: left; display: inherit;">Data inválida. Não pode ser inferior à atual.</span>
+    </div>
 
-        <div class="form-group row has-feedback has-feedback-left">
-            <div class="col-md-3 col-md-offset-1">
-                <label asp-for="Pontuacao"></label>
-            </div>
-            <div class="input-group col-md-7">
-                <input asp-for="Pontuacao" class="form-control" />
-                <i class="glyphicon form-control-feedback"></i>
-            </div>
+    <div class="form-group row has-feedback has-feedback-left">
+        <div class="col-md-3 col-md-offset-1">
+            <label asp-for="Pontuacao"></label>
         </div>
-
-        <div class="form-group row has-feedback has-feedback-left">
-            <div class="col-md-3 col-md-offset-1">
-                <label asp-for="Observacoes"></label>
-            </div>
-            <div class="input-group col-md-7">
-                <input asp-for="Observacoes" class="form-control" />
-                <i class="glyphicon form-control-feedback"></i>
-            </div>
+        <div class="input-group col-md-7">
+            <input asp-for="Pontuacao" placeholder="Pontuação da candidatura" class="form-control" />
         </div>
+    </div>
+
+    <div class="form-group row has-feedback has-feedback-left">
+        <div class="col-md-3 col-md-offset-1">
+            <label asp-for="Observacoes"></label>
+        </div>
+        <div class="input-group col-md-7">
+            <textarea asp-for="Observacoes" placeholder="Quaisquer observações que queira adicionar em relação à candidatura" class="form-control"></textarea>
+        </div>
+    </div>
 
 
-        <div class="form-group row has-feedback has-feedback-left">
-            <div class="col-md-3 col-md-offset-1">
-                <label asp-for="Listagem"></label>
-            </div>
-            <div class="listing">
-                <table class="table">
+    <div class="form-group row has-feedback has-feedback-left">
+        <div class="col-md-3 col-md-offset-1">
+            <label asp-for="Listagem"></label>
+        </div>
+        <div class="col-md-7 no-padding-margin listing">
+            <table class="table">
+                <tr>
+                    <th>Unidade Curricular</th>
+                    <th>Critério</th>
+                </tr>
+                @foreach (var item in Model.Listagem)
+                {
                     <tr>
-                        <th>Unidade Curricular</th>
-                        <th>Critério</th>
+                        <td>
+                            @item.UC
+                        </td>
                     </tr>
-                </table>
-            </div>
+                    <tr>
+                        <td>
+                            @item.Criterio
+                        </td>
+                    </tr>
+                }
+            </table>
         </div>
-    </form>
-    
+    </div>
 
-        <button class="button btn btn-default">Recusar</button>
-        <button class="button btn btn-default">Aceitar</button>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-7" style="padding-right: 0;">
+            <div id="btn_adicionar_uc" class="button button-no-arrow">Adicionar UC</div>
+            <button type="button" class="button button-submeter" id="btn_submit">Submeter Dados</button>
+        </div>
+    </div>
+
+    <div id="btns-resultado" class="result-button-group">
+        <button type="button" id="btn_recusar" class="red">
+            <i class="glyphicon glyphicon glyphicon-remove-circle"></i>
+            Recusar Candidatura
+        </button>
+        <button type="button" id="btn_aceitar" class="green">
+            <i class="glyphicon glyphicon glyphicon-ok-circle"></i>
+            Aceitar Candidatura
+        </button>
+    </div>
 </div>
 
+@Html.Partial("ModalNovaUC")
+@Html.Partial("ModalResultado")
+
+<script src="https://use.fontawesome.com/3f965b3028.js"></script>
 

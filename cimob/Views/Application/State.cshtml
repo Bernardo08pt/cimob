@@ -6,21 +6,25 @@
 
 <link rel="stylesheet" href="~/css/candidatura-state.css" />
 
-<div class="timeline">
-    <input asp-for="Estado" class="hidden" />
-    <ol class="incomplete">
-        @foreach (var item in Model.EstadosList.Select((value, index) => new { index, value }))
-        {
-            <li id="state-@item.value.EstadoCandidaturaID" class=@(item.index % 2 == 0 ? "top" : "bottom") >
-                <span class="point-arrow" style="background-color: @item.value.Cor;">
-                    <i class="fa fa-2x fa-@item.value.Icon"></i>
-                    <span class="text">@item.value.Descricao</span>
-                </span>
-                <span class="point"></span>
-            </li>
-        }
-    </ol>
-    <img src="~/images/application/finito.png" /> 
+<div class="state">
+    <div class="timeline clearfix">
+        <input asp-for="Estado" class="hidden" />
+        <ol>
+            @foreach (var item in Model.EstadosList.Select((value, index) => new { index, value }))
+            {
+                <li id="state-@item.value.EstadoCandidaturaID" class=@(item.index % 2 == 0 ? "top" : "bottom") >
+                    <span class="point-arrow" style="background-color: @item.value.Cor;">
+                        <i class="fa fa-2x fa-@item.value.Icon"></i>
+                        <span class="text">@item.value.Descricao</span>
+                    </span>
+                    <span class="point"></span>
+                </li>
+            }
+        </ol>
+        <img src="~/images/application/finito.png" /> 
+    </div>
+
+    <a asp-controller="Manage" asp-action="Profile" class="button button-back">Voltar</a>
 </div>
 
 @section Scripts {

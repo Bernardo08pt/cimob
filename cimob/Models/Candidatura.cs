@@ -29,9 +29,10 @@ namespace cimob.Models
         public short Semestre { get; set; }
         public int IpsCursoID { get; set; }
         public short Estagio { get; set; }
-        
+
         public virtual ICollection<CandidaturaCursos> Cursos { get; set; }
         public virtual ICollection<CandidaturaDocumentos> Documentos { get; set; }
+        public virtual ICollection<UCAvaliacao> UCAvaliacoes { get; set; }
         public virtual ApplicationUser Utilizador { get; set; }
         public virtual TipoMobilidade TipoMobilidade { get; set; }
         public virtual EstadoCandidatura EstadoCandidatura { get; set; }

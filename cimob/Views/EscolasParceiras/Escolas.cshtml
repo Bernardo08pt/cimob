@@ -107,7 +107,7 @@
                 var nome = $("#NomeCurso").val();
                 
                 if (vagas == 0 || vagas == "" || nome == "") {
-                    if (nome == 0)
+                    if (nome == "")
                         $("#nome-err-validation").removeClass("hidden");
                     else
                         $("#vagas-err-validation").removeClass("hidden");

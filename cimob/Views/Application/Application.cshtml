@@ -168,7 +168,7 @@
                 var file = ev.currentTarget.value.split("\\fakepath\\")[1];
 
                 if (file.split(".")[1] != "pdf") {
-                    alerta("Formato inválido! Tem que ser PDF.", "error")
+                    alerta("Formato inválido! Tem que ser PDF.", "danger")
                     $("#file_name").val("");
                     $(ev.currentTarget).val("");
                 }
@@ -329,8 +329,8 @@
 
         var canSelect = (elem) => {
             if (!elem.classList.contains("selected")) {
-                if ($(".selected").length == 4) {
-                    alert("O máximo são 3 zeca")
+                if ($(".selected").length == 3) {
+                    alerta("Só pode escolher, no máximo, três destinos", "danger");
                     return false;
                 }
             }
@@ -354,14 +354,12 @@
             var tmp = $("#alert");
 
             wrapper.removeClass("fade-out");
+            tmp[0].className = "alert";
             tmp.addClass("alert-" + type);
             tmp.html(mensagem);
 
             setTimeout(() => {
                 wrapper.addClass("fade-out");
-                setTimeout(() => {
-                    tmp.removeClass("alert-" + type);
-                }, 2100)
             }, 5000);
         }
 
