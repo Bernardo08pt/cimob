@@ -123,6 +123,7 @@ namespace cimob.Controllers
         {
             return View(new EditaisViewModel
             {
+                AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Editais" }), _context),
                 TipoMobilidadeList = GetTiposMobilidade(),
                 Editais = GetEditais()
             });

@@ -1,6 +1,8 @@
 ﻿@{
-    ViewData["Title"] = "Escolas Parceiras";
+    ViewData["Title"] = "Escolas Parceiras <i class='glyphicon glyphicon-question-sign btn-icon' data-toggle='modal' data-target='#helpModal'></i>";
     Layout = "~/Views/Shared/_LayoutWhite.cshtml";
+    ViewData["HelpTitle"] = Model.AjudasDictionary["Pagina"].Titulo;
+    ViewData["HelpContent"] = Model.AjudasDictionary["Pagina"].Corpo;
 }
 
 <link href="~/css/escolas-parceiras.css" rel="stylesheet" />
