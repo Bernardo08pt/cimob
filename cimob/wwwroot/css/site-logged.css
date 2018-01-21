@@ -284,3 +284,12 @@ label {
 .fa-sign-in {
     transform: rotate(180deg);
 }
+
+a,
+a:hover,
+a:focus,
+a:active,
+a:visited {
+    color: #000;
+    text-decoration: none;
+}

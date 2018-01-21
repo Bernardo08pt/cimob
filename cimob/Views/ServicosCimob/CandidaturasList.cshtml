@@ -1,10 +1,14 @@
 ﻿@model CandidaturasListingViewModel;
 @{
-    ViewData["Title"] = "Candidaturas";
+    ViewData["Title"] = "Candidaturas <i class='glyphicon glyphicon-question-sign btn-icon' data-toggle='modal' data-target='#helpModal'></i>";
     Layout = "~/Views/Shared/_LayoutWhite.cshtml";
+    ViewData["HelpTitle"] = "Página de Candidaturas";
+    ViewData["HelpContent"] = "<p>Esta página permite-lhe visualizar todas as candidaturas submetidas.</p>";
 }
 
-<div class="listing">
+<link href="~/css/cimob-candidatura-list.css" rel="stylesheet" />
+
+<div class="candidatura-listing">
     <table class="table">
         <tr>
             <th>Número</th>
@@ -14,7 +18,8 @@
             <th>Tipo Mobilidade</th>
             <th>Ano Letivo</th>
         </tr>
-        @foreach (var item in Model.Candidaturas){
+        @foreach (var item in Model.Candidaturas)
+        {
             <tr data-id="@item.CandidaturaID">
                 <td>
                     @Html.DisplayFor(i => @item.Utilizador.Numero)
@@ -44,6 +49,7 @@
             </tr>
         }
     </table>
+    <a asp-controller="ServicosCimob" asp-action="Index" class="button button-back">Voltar</a>
 </div>
 
 @section scripts {

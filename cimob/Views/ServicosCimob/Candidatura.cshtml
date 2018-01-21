@@ -1,6 +1,10 @@
 ﻿@{
-    ViewData["Title"] = "Visualizar Candidatura";
+    ViewData["Title"] = "Visualizar Candidatura <i class='glyphicon glyphicon-question-sign btn-icon' data-toggle='modal' data-target='#helpModal'></i>";
     Layout = "~/Views/Shared/_LayoutWhite.cshtml";
+    ViewData["HelpTitle"] = "Página de Visualizar Candidatura";
+    ViewData["HelpContent"] = "<p>Esta página permite-lhe visualizar os dados inseridos pelo candidato, as escolas de destino inseridas e a documentação enviada pelo candidato." +
+                "</br></br> Pode também requisitar vagas às escolas de destino, fazer download e upload de documentação e ainda marcar uma entrevista com o " +
+                "candidato e aceitar/rejeitar a candidatura do mesmo.</p>";
 }
 
 <link href="~/css/cimob.css" rel="stylesheet" />
@@ -85,7 +89,7 @@
                 if (curr == "" || curr == undefined || curr == "geral") {
                     window.location.hash = "/destino"
                 }
-                else if (curr == "contactos") {
+                else if (curr == "destino") {
                     window.location.hash = "/documentacao"
                 }
                 else if (curr == "documentacao") {
