@@ -14,7 +14,8 @@
             <th>Tipo Mobilidade</th>
             <th>Ano Letivo</th>
         </tr>
-        @foreach (var item in Model.Candidaturas){
+        @foreach (var item in Model.Candidaturas)
+        {
             <tr data-id="@item.CandidaturaID">
                 <td>
                     @Html.DisplayFor(i => @item.Utilizador.Numero)
@@ -44,6 +45,7 @@
             </tr>
         }
     </table>
+    <a asp-controller="ServicosCimob" asp-action="Index" class="button button-back">Voltar</a>
 </div>
 
 @section scripts {
