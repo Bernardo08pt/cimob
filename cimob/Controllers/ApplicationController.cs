@@ -39,6 +39,9 @@ namespace cimob.Controllers
         [Route("[controller]")]
         public async Task<ActionResult> Application()
         {
+            if (HelperFunctionsExtensions.GetUserCandidatura(_context, _userManager, User).User != null)
+                return RedirectToAction(nameof(State));
+
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
