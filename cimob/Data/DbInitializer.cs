@@ -391,13 +391,16 @@ namespace cimob.Data
             context.Ajudas.Add(new Ajuda { Pagina = "Application", Nome = "CartaMotivacao", Titulo = "Carta de Motivação", Corpo = "<p>Carta de motivação da candidatura, em inglês e em format PDF.</p>" });
             context.Ajudas.Add(new Ajuda { Pagina = "Application", Nome = "Documento", Titulo = "Documento", Corpo = "<p>Novo documento a ser inseiro a pedido do CIMOB, em format PDF.</p>" });
 
-            //inserção de editais 
+            //inserção de editais
             context.Ajudas.Add(new Ajuda { Pagina = "Editais", Nome = "NomeEdital", Titulo = "Nome do edital", Corpo = "<p>O nome do edital que vai submeter.</p>" });
             context.Ajudas.Add(new Ajuda { Pagina = "Editais", Nome = "CarregarEdital", Titulo = "Carregar edital", Corpo = "<p>O ficheiro tem de ser em formato PDF.</p>" });
             context.Ajudas.Add(new Ajuda { Pagina = "Editais", Nome = "SelecionarPrograma", Titulo = "Selecionar Programa", Corpo = "<p>Selecione o programa a que se refere o edital.</p>" });
             context.Ajudas.Add(new Ajuda { Pagina = "Editais", Nome = "DataLimite", Titulo = "Data Limite", Corpo = "<p>Data em que o edital \"Fecha\", deixando de aceitar candidaturas. Esta data não pode ser inferior ou igual à atual.</p>" });
             context.Ajudas.Add(new Ajuda { Pagina = "Editais", Nome = "PaginaList", Titulo = "Página editais", Corpo = "<p>Esta págna permite-lhe consultar os editais existentes e criar novos. Através do \"Lápis\" na tabela, consegue editar um edital.</p>" });
-            context.Ajudas.Add(new Ajuda { Pagina = "Editais", Nome = "Pagina", Titulo = "Página edição editais", Corpo = "<p>Esta págna permite-lhe editar o PDF e a data limite de um edital.</p>" });
+            context.Ajudas.Add(new Ajuda { Pagina = "Editais", Nome = "PaginaEdicao", Titulo = "Página edição editais", Corpo = "<p>Esta págna permite-lhe editar o PDF e a data limite de um edital.</p>" });
+            
+            //visualização dos editais do lado do candidato
+            context.Ajudas.Add(new Ajuda { Pagina = "Editais", Nome = "Pagina", Titulo = "Página de editais", Corpo = "<p>Esta págna permite-lhe visualizar e fazer download dos editais submetidos pela CIMOB</p>" });
 
             // escolas parceiras
             context.Ajudas.Add(new Ajuda { Pagina = "EscolasParceiras", Nome = "Nome", Titulo = "Nome", Corpo = "<p>Nome da instituição com a qual o IPS tem acordo bilateral</p>" });
@@ -408,8 +411,8 @@ namespace cimob.Data
             context.Ajudas.Add(new Ajuda { Pagina = "EscolasParceiras", Nome = "NomeFilter", Titulo = "Nome", Corpo = "<p>Nome de instituições a pesquisar.</p>" });
             context.Ajudas.Add(new Ajuda { Pagina = "EscolasParceiras", Nome = "PaisFilter", Titulo = "País", Corpo = "<p>País de instituições a pesquisar.</p>" });
             context.Ajudas.Add(new Ajuda { Pagina = "EscolasParceiras", Nome = "Estado", Titulo = "Estado", Corpo = "<p>Indica se esta escola atualmente é uma opção para os candidatos.</p>" });
-            context.Ajudas.Add(new Ajuda { Pagina = "EscolasParceiras", Nome = "PaginaList", Titulo = "Página de listagem das escolas parceiras", Corpo = "<p>Esta página permite-lhe visualizar e editar todas as escolas parceiras existentes bem como adicionar uma nova atra´vces do botão adicionar escola. </p>" });
-            context.Ajudas.Add(new Ajuda { Pagina = "EscolasParceiras", Nome = "Pagina", Titulo = "Página criação / edição de escolas parceiras", Corpo = "<p>Esta págna permite-lhe adicionar uma nova escola (bem como os respetivos cursos) ou editar uma escola já existente.</p>" });
+            context.Ajudas.Add(new Ajuda { Pagina = "EscolasParceiras", Nome = "PaginaList", Titulo = "Página de listagem das escolas parceiras", Corpo = "<p>Esta página permite-lhe visualizar e editar todas as escolas parceiras existentes bem como adicionar uma nova através do botão adicionar escola. </p>" });
+            context.Ajudas.Add(new Ajuda { Pagina = "EscolasParceiras", Nome = "Pagina", Titulo = "Página criação / edição de escolas parceiras", Corpo = "<p>Esta página permite-lhe adicionar uma nova escola (bem como os respetivos cursos) ou editar uma escola já existente.</p>" });
 
 
             // serviços cimob
@@ -426,15 +429,18 @@ namespace cimob.Data
             context.Ajudas.Add(new Ajuda { Pagina = "ServicosCIMOB", Nome = "PaginaEscolas", Titulo = "Página criação / edição de escolas parceiras", Corpo = "<p>Esta págna permite-lhe adicionar uma nova escola (bem como os respetivos cursos) ou editar uma escola já existente.</p>" });
             context.Ajudas.Add(new Ajuda { Pagina = "ServicosCIMOB", Nome = "PaginaCandidaturas", Titulo = "Página Candidaturas", Corpo = "Esta página permite-lhe consultar candidaturas submetidas e (através do separador Avaliação) interagir com a mesma, marcando uma data para entrevista, adicionando observações, definir a pontuação e aceitar ou recusar a candidatura.</p>" });
 
-
+            
             // editar perfil
-            context.Ajudas.Add(new Ajuda { Pagina = "EditarPerfil", Nome = "Pagina", Titulo = "Página de Editar Perfil", Corpo = "<p>A página de editar perfil é onde pode alterar o email e / ou password que utiliza para fazer a autênticação. </p>" });
-            context.Ajudas.Add(new Ajuda { Pagina = "EditarPerfil", Nome = "Numero", Titulo = "Número", Corpo = "<p>Número de aluno / docnete do IPS. Este campo não é editável. </p>" });
+            context.Ajudas.Add(new Ajuda { Pagina = "EditarPerfil", Nome = "Pagina", Titulo = "Página de Editar Perfil", Corpo = "<p>A página de editar perfil é onde pode alterar o email e / ou password que utiliza para fazer a autenticação. </p>" });
+            context.Ajudas.Add(new Ajuda { Pagina = "EditarPerfil", Nome = "Numero", Titulo = "Número", Corpo = "<p>Número de aluno / docente do IPS. Este campo não é editável. </p>" });
             context.Ajudas.Add(new Ajuda { Pagina = "EditarPerfil", Nome = "Nome", Titulo = "Nome", Corpo = "O seu nome. Este campo não é editável. </p>" });
             context.Ajudas.Add(new Ajuda { Pagina = "EditarPerfil", Nome = "Email", Titulo = "Email", Corpo = "O seu email. Este campo não é editável.</p>" });
             context.Ajudas.Add(new Ajuda { Pagina = "EditarPerfil", Nome = "OldPW", Titulo = "Password atual", Corpo = "<p>Corresponde à password que usa atualmente.</p>" });
             context.Ajudas.Add(new Ajuda { Pagina = "EditarPerfil", Nome = "NewPW", Titulo = "Nova Password", Corpo = "<p>A nova password que deseja utilizar.</p><p>A Password deve seguir as seguintes regras: </p><ul><li>Conter um mínimo de 6 caracteres.</li><li>Conter pelo menos 1 dígito.</li><li>Conter pelo menos 1 caracter especial ['@' '.' '_' ect...].</li></ul>" });
             context.Ajudas.Add(new Ajuda { Pagina = "EditarPerfil", Nome = "ConfPW", Titulo = "Confirmação da Nova Password", Corpo = "<p>Por questões de segurança, escreva a nova password que deseja novamente.</p>" });
+
+           
+
         }
 
         private static void AddEstadosCandidatura(ApplicationDbContext context)

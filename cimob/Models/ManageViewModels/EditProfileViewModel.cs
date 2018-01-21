@@ -34,5 +34,7 @@ namespace cimob.Models.ManageViewModels
         [Compare("NewPassword", ErrorMessage = "A password e a password de confirmação não estão iguais.")]
         public string ConfirmPassword { get; set; }
 
+
+
     }
 }

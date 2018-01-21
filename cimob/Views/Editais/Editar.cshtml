@@ -1,7 +1,9 @@
 ﻿@model EditaisViewModel
 @{
-    ViewData["Title"] = "Editar";
+    ViewData["Title"] = "Editar  <i class='glyphicon glyphicon-question-sign btn-icon' data-toggle='modal' data-target='#helpModal'></i>";
     Layout = "/Views/Shared/_LayoutWhite.cshtml";
+    ViewData["HelpTitle"] = Model.AjudasDictionary["PaginaEdicao"].Titulo;
+    ViewData["HelpContent"] = Model.AjudasDictionary["PaginaEdicao"].Corpo;
 }
 
 <!--Alert do edital ter sido editado com sucesso, aparece no início da página-->

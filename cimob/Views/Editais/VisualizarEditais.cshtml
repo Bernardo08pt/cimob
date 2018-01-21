@@ -1,8 +1,11 @@
 ﻿@model EditaisViewModel
 
 @{
-    ViewData["Title"] = "Editais";
+    ViewData["Title"] = "Editais <i class='glyphicon glyphicon-question-sign btn-icon' data-toggle='modal' data-target='#helpModal'></i>";
     Layout = "/Views/Shared/_LayoutWhite.cshtml";
+    ViewData["HelpTitle"] = Model.AjudasDictionary["Pagina"].Titulo;
+    ViewData["HelpContent"] = Model.AjudasDictionary["Pagina"].Corpo;
+
 }
 
 <link href="~/css/editais-listing.css" rel="stylesheet" />

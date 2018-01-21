@@ -1,7 +1,9 @@
 ﻿@model CandidaturasListingViewModel;
 @{
-    ViewData["Title"] = "Candidaturas";
+    ViewData["Title"] = "Candidaturas <i class='glyphicon glyphicon-question-sign btn-icon' data-toggle='modal' data-target='#helpModal'></i>";
     Layout = "~/Views/Shared/_LayoutWhite.cshtml";
+    ViewData["HelpTitle"] = "Página de Candidaturas";
+    ViewData["HelpContent"] = "<p>Esta página permite-lhe visualizar todas as candidaturas submetidas.</p>";
 }
 
 <link href="~/css/cimob-candidatura-list.css" rel="stylesheet" />

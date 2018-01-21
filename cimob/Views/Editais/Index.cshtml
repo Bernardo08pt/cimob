@@ -1,8 +1,10 @@
 ﻿@model EditaisViewModel
 
 @{
-    ViewData["Title"] = "Editais";
+    ViewData["Title"] = "Editais <i class='glyphicon glyphicon-question-sign btn-icon' data-toggle='modal' data-target='#helpModal'></i>";
     Layout = "/Views/Shared/_LayoutWhite.cshtml";
+    ViewData["HelpTitle"] = Model.AjudasDictionary["PaginaList"].Titulo;
+    ViewData["HelpContent"] = Model.AjudasDictionary["PaginaList"].Corpo;
 }
 <!--VIEW DOS EDITAIS-->
 <!--Alert da repetição de edital, aparece no início da página-->
