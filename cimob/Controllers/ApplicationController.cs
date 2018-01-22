@@ -39,6 +39,9 @@ namespace cimob.Controllers
         [Route("[controller]")]
         public async Task<ActionResult> Application()
         {
+            if (HelperFunctionsExtensions.GetUserCandidatura(_context, _userManager, User).User != null)
+                return RedirectToAction(nameof(State));
+
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
@@ -167,7 +170,7 @@ namespace cimob.Controllers
                 return View(nameof(Not_Found));
 
             return View(new ApplicationStateViewModel {
-                AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Application" }), _context),
+                AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "ApplicationState" }), _context),
                 EstadosList = GetEstadosCandidatura(),
                 Estado = _context.Candidaturas.Where(c => c.CandidaturaID == tmp.Candidatura).Select(c => c.EstadoCandidaturaID).FirstOrDefault()
             });

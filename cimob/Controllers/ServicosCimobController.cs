@@ -34,6 +34,9 @@ namespace cimob.Controllers
         [Route("[Controller]")]
         public IActionResult Index()
         {
+            var tmp = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "ServicosCIMOB" }), _context);
+            ViewData["HelpTitle"] = tmp["Pagina"].Titulo;
+            ViewData["HelpContent"] = tmp["Pagina"].Corpo;
             return View();
         }
 

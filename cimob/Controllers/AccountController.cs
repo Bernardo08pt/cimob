@@ -86,8 +86,7 @@ namespace cimob.Controllers
                 {
                     if (!await _userManager.IsEmailConfirmedAsync(user))
                     {
-                        ModelState.AddModelError(string.Empty,
-                                      "O Email ainda não está validado, verifique a sua caixa de correio.");
+                        ModelState.AddModelError(string.Empty, "O Email ainda não está validado, verifique a sua caixa de correio.");
                         return View(model);
                     }
                 }
@@ -165,7 +164,7 @@ namespace cimob.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            model.AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Login" }), _context);
+            model.AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Registo" }), _context);
 
             return View(model);
         }

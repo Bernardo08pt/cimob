@@ -1,6 +1,5 @@
-﻿.profile {
-    margin: auto;
-    width: 60%;
+﻿.validation-summary-errors ul {
+    padding-left: 15px !important;
 }
 
 .profile #btnSubmit {

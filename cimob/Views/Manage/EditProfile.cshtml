@@ -1,8 +1,10 @@
 ﻿@model cimob.Models.ManageViewModels.EditProfileViewModel
 
 @{
-    ViewData["Title"] = "Editar Perfil";
     Layout = "/Views/Shared/_LayoutWhite.cshtml";
+    ViewData["Title"] = "Editar Perfil <i class='glyphicon glyphicon-question-sign btn-icon' data-toggle='modal' data-target='#helpModal'></i>";
+    ViewData["HelpTitle"] = Model.AjudasDictionary["Pagina"].Titulo;
+    ViewData["HelpContent"] = Model.AjudasDictionary["Pagina"].Corpo;
 }
 
 <link href="~/css/profile.css" rel="stylesheet" />
@@ -18,78 +20,124 @@
     <img src="~/images/home/8.svg">
     <img src="~/images/home/9.svg">
 </div>
-<div class="profile">
-    <form asp-action="EditProfile" class="panel clearfix">
-        <div class="row form-group has-feedback has-feedback-left">
-            <div class="col-md-12">
-                <div class="col-md-2 col-md-offset-1">
-                    <label asp-for="Numero" class="control-label"></label>
-                </div>
-                <div class="col-md-3">
-                    <input asp-for="Numero" class="form-control" disabled="disabled" readonly />
-                </div>
-                <div class="col-md-6">
-                    <div class="col-md-6">
-                        <label asp-for="OldPassword" class="control-label"></label>
-                    </div>
-                    <div class="col-md-6">
-                        <input asp-for="OldPassword" class="form-control" />
-                    </div>
-                    <div class="col-md-10 cold-md-offset-2">
-                        <span asp-validation-for="OldPassword" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row form-group has-feedback has-feedback-left">
-            <div class="col-md-12">
-                <div class="col-md-2 col-md-offset-1">
-                    <label asp-for="Nome" class="control-label"></label>
-                </div>
-                <div class="col-md-3">
-                    <input asp-for="Nome" class="form-control" disabled="disabled" readonly />
-                </div>
-                <div class="col-md-6">
-                    <div class="col-md-6">
-                        <label asp-for="NewPassword" class="control-label"></label>
-                    </div>
-                    <div class="col-md-6">
-                        <input asp-for="NewPassword" class="form-control" />
-                    </div>
-                    <div class="col-md-10 cold-md-offset-2">
-                        <span asp-validation-for="NewPassword" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row form-group has-feedback has-feedback-left">
-            <div class="col-md-12">
-                <div class="col-md-2 col-md-offset-1">
-                    <label asp-for="Email" class="control-label"></label>
-                </div>
-                <div class="col-md-3">
-                    <input asp-for="Email" class="form-control" disabled="disabled" readonly />
-                </div>
-                <div class="col-md-6">
-                    <div class="col-md-6">
-                        <label asp-for="ConfirmPassword" class="control-label"></label>
-                    </div>
-                    <div class="col-md-6">
-                        <input asp-for="ConfirmPassword" class="form-control" />
-                    </div>
-                    <div class="col-md-10 cold-md-offset-2">
-                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="col-md-3 col-md-offset-9">
-            <button id="btnSubmit" type="submit" class="button button-submeter">Submeter</button>
-        </div>
-    </form>
-    <!--Vai para a pagina da area pessoal-->
-    <a class="button button-back" asp-controller="Home" asp-action="Index">Voltar</a>
+<div class="container-fluid">
+    <div class="col-md-8 col-md-offset-2">
+        <form asp-action="EditProfile" method="post" asp-controller="Manage" class="panel clearfix">
+            <div class="row form-group has-feedback has-feedback-left">
+                <div class="col-md-12">
+                    <div class="col-md-1 col-md-offset-1">
+                        <label asp-for="Numero" class="control-label"></label>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <input asp-for="Numero" class="form-control" disabled="disabled" readonly />
+                            <i class="glyphicon glyphicon-user form-control-feedback"></i>
+                            <div class="input-group-btn">
+                                <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Numero"].Titulo" data-content="@Model.AjudasDictionary["Numero"].Corpo">
+                                    <span class="glyphicon glyphicon-question-sign"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-5">
+                            <label asp-for="OldPassword" class="control-label"></label>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="input-group">
+                                <input asp-for="OldPassword" class="form-control" placeholder="********" />
+                                <i class="glyphicon glyphicon-lock form-control-feedback"></i>
+                                <div class="input-group-btn">
+                                    <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["OldPW"].Titulo" data-content="@Model.AjudasDictionary["OldPW"].Corpo">
+                                        <span class="glyphicon glyphicon-question-sign"></span>
+                                    </button>
+                                </div>
+                            </div>
+                            <span asp-validation-for="OldPassword" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-group has-feedback has-feedback-left">
+                <div class="col-md-12">
+                    <div class="col-md-1 col-md-offset-1">
+                        <label asp-for="Nome" class="control-label"></label>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <input asp-for="Nome" class="form-control" disabled="disabled" readonly />
+                            <i class="glyphicon glyphicon-user form-control-feedback"></i>
+                            <div class="input-group-btn">
+                                <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Nome"].Titulo" data-content="@Model.AjudasDictionary["Nome"].Corpo">
+                                    <span class="glyphicon glyphicon-question-sign"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-5">
+                            <label asp-for="NewPassword" class="control-label"></label>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="input-group">
+                                <input asp-for="NewPassword" class="form-control" placeholder="********" />
+                                <i class="glyphicon glyphicon-lock form-control-feedback"></i>
+                                <div class="input-group-btn">
+                                    <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["NewPW"].Titulo" data-content="@Model.AjudasDictionary["NewPW"].Corpo">
+                                        <span class="glyphicon glyphicon-question-sign"></span>
+                                    </button>
+                                </div>
+                            </div>
+                            <span asp-validation-for="NewPassword" class="text-danger"></span>
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-group has-feedback has-feedback-left">
+                <div class="col-md-12">
+                    <div class="col-md-1 col-md-offset-1">
+                        <label asp-for="Email" class="control-label"></label>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <input asp-for="Email" class="form-control" disabled="disabled" readonly />
+                            <i class="glyphicon glyphicon-envelope form-control-feedback"></i>
+                            <div class="input-group-btn">
+                                <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Email"].Titulo" data-content="@Model.AjudasDictionary["Email"].Corpo">
+                                    <span class="glyphicon glyphicon-question-sign"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-5">
+                            <label asp-for="ConfirmPassword" class="control-label"></label>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="input-group">
+                                <input asp-for="ConfirmPassword" class="form-control" placeholder="********" />
+                                <i class="glyphicon glyphicon-lock form-control-feedback"></i>
+                                <div class="input-group-btn">
+                                    <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["ConfPW"].Titulo" data-content="@Model.AjudasDictionary["ConfPW"].Corpo">
+                                        <span class="glyphicon glyphicon-question-sign"></span>
+                                    </button>
+                                </div>
+                            </div>
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-md-offset-9">
+                <button id="btnSubmit" type="submit" class="button button-submeter">Submeter</button>
+            </div>
+        </form>
+
+        <!--Vai para a pagina da area pessoal-->
+        <a class="button button-back" asp-controller="Home" asp-action="Index">Voltar</a>
+    </div>
 </div>
-
-

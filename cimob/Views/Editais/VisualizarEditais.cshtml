@@ -1,8 +1,11 @@
 ﻿@model EditaisViewModel
 
 @{
-    ViewData["Title"] = "Editais";
+    ViewData["Title"] = "Editais <i class='glyphicon glyphicon-question-sign btn-icon' data-toggle='modal' data-target='#helpModal'></i>";
     Layout = "/Views/Shared/_LayoutWhite.cshtml";
+    ViewData["HelpTitle"] = Model.AjudasDictionary["Pagina"].Titulo;
+    ViewData["HelpContent"] = Model.AjudasDictionary["Pagina"].Corpo;
+
 }
 
 <link href="~/css/editais-listing.css" rel="stylesheet" />
@@ -15,20 +18,29 @@
             <th>Programa Mobilidade</th>
             <th>Descarregar</th>
         </tr>
-        @foreach (var item in Model.Editais)
+        @if (Model.Editais.Count > 0)
+        {
+            @foreach (var item in Model.Editais)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nome)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TipoMobilidade.Descricao)
+                    </td>
+                    <td>
+                        <a target="_blank" href="/Editais/VisualizarEditais/Download/@item.EditalID">
+                            <i class="fa fa-2x fa-download" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+        else
         {
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nome)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TipoMobilidade.Descricao)
-                </td>
-                <td>
-                    <a target="_blank" href="/Editais/VisualizarEditais/Download/@item.EditalID">
-                        <i class="fa fa-2x fa-download" aria-hidden="true"></i>
-                    </a>
-                </td>
+                <td colspan="3">De momento não existem editais</td>
             </tr>
         }
     </table>
