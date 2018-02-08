@@ -37,7 +37,6 @@ namespace cimob.Models.EscolasParceirasViewModels
         [Display(Name = "Vagas")]
         public int Vagas { get; set; }
 
-        [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [Display(Name = "Cursos")]
         public List<string> CursosNovos { get; set; }
     }

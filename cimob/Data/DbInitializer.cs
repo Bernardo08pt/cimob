@@ -457,15 +457,16 @@ namespace cimob.Data
 
         private static void AddErros(ApplicationDbContext context)
         {
-            context.Erros.Add(new Erro { Nome = "FileTooBig", Mensagem = "Tamanho do ficheiro tem que ser inferior a 1mb." });
-            context.Erros.Add(new Erro { Nome = "InvalidFile", Mensagem = "Ficheiro inserido inválido, tente outro ficheiro." });
-            context.Erros.Add(new Erro { Nome = "InvalidFormat", Mensagem = "Ficheiro tem que ter o formato pdf." });
-            context.Erros.Add(new Erro { Nome = "EditalExists", Mensagem = "Atenção: Já existe um edital com esse nome e tipo de mobilidade." });
-            context.Erros.Add(new Erro { Nome = "EmailEscolasParceiras", Mensagem = "Erro a enviar email à escola parceira. Se o problema persistir considere enviar um email manualmente." });
-            context.Erros.Add(new Erro { Nome = "UpdateCandidatura", Mensagem = "Ocorreu um erro inesperado a atualizar a Candidatura. Por favor tente mais tarde!</p>" });
-            context.Erros.Add(new Erro { Nome = "InvalidCandidaturaState", Mensagem = "Não é possível aceitar uma candidatura sem fazer a intervista e com 0 pontuação!</p>" });
-            context.Erros.Add(new Erro { Nome = "NoNewData", Mensagem = "Não houve alterações nenhumas à candidatura.</p>" });
-            
+            context.Erros.Add(new Erro { Nome = "Unknown", Mensagem = "Ocorreu um erro inesperado! Se presistir por favor contacte um administrador.", Codigo = 1 });
+            context.Erros.Add(new Erro { Nome = "FileTooBig", Mensagem = "Tamanho do ficheiro tem que ser inferior a 1mb.", Codigo = 2 });
+            context.Erros.Add(new Erro { Nome = "InvalidFile", Mensagem = "Ficheiro inserido inválido, tente outro ficheiro.", Codigo = 3 });
+            context.Erros.Add(new Erro { Nome = "InvalidFormat", Mensagem = "Ficheiro tem que ter o formato pdf.", Codigo = 4 });
+            context.Erros.Add(new Erro { Nome = "EditalExists", Mensagem = "Atenção: Já existe um edital com esse nome e tipo de mobilidade.", Codigo = 5 });
+            context.Erros.Add(new Erro { Nome = "EmailEscolasParceiras", Mensagem = "Erro a enviar email à escola parceira. Se o problema persistir considere enviar um email manualmente.", Codigo = 6 });
+            context.Erros.Add(new Erro { Nome = "UpdateCandidatura", Mensagem = "Ocorreu um erro inesperado a atualizar a Candidatura. Por favor tente mais tarde!", Codigo = 7 });
+            context.Erros.Add(new Erro { Nome = "InvalidCandidaturaState", Mensagem = "Não é possível aceitar uma candidatura sem fazer a intervista e com 0 pontuação!", Codigo = 8 });
+            context.Erros.Add(new Erro { Nome = "NoNewData", Mensagem = "Não houve alterações nenhumas à candidatura.", Codigo = 9 });
+
             //Gravar alterações
             context.SaveChanges();
         }

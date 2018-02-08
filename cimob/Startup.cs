@@ -92,7 +92,7 @@ namespace cimob
 
            CreateRoles(serviceProvider);
         }
-
+        
         private void CreateRoles(IServiceProvider serviceProvider)
         {
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();

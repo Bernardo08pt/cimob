@@ -39,17 +39,21 @@
                 changePage();
             }
 
-            $("#Vagas").val("");
-
-            if (window.location.href.indexOf("Edit")) {
+            if (window.location.href.indexOf("Edit") !== -1) {
                 $(".mobilidade").find("#radio-" + $("#Mobilidade").val()).prop("checked", true);
-                
-                var elem = $("#Estado");
+
+                var elem = $("#EstadoCkb");
 
                 elem.prop("disabled", false);
 
-                if (elem.val() == 0)
-                    elem.removeClass("checked");
+                if ($("#Estado").val() == 0)
+                    elem.prop("checked", false);
+
+                $("#escola-form").attr("action", "/Escolas/" + window.location.href.match(/Escolas\/(.*)\/Edit/)[1] + "/Edit")
+            }
+            else {
+                $("#Estado").val(1);
+                $("#EstadoCkb").prop("checked", true);
             }
 
             bindEvents();
@@ -83,6 +87,8 @@
             });
 
             $("#btn_add_curso").on("click", () => {
+                $("#Vagas").val("");
+                $("#NomeCurso").val("");
                 $("#modal").modal("show");
             });
 
@@ -119,9 +125,6 @@
 
                 $("#modal").modal("hide");
 
-                $(vagas).val("");
-                $(nome).val("");
-
                 alerta("Curso criado com sucesso!", "success");
 
                 $("#geral").append($('<input type="hidden" name="CursosNovos" value=' + JSON.stringify({ Nome: nome, Vagas: vagas }) + ' />'));
@@ -134,8 +137,8 @@
                 );
             });
 
-            $("#Estado").on("change", function () {
-                this.value = ((this.checked == true) ? 1 : 0);
+            $("#EstadoCkb").on("change", function () {
+                $("#Estado").val(((this.checked == true) ? 1 : 0));
             })
         }
         

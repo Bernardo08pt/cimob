@@ -4,7 +4,6 @@ using cimob.Models;
 using cimob.Models.EscolasParceirasViewModels;
 using cimob.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +11,6 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace cimob.Controllers
@@ -71,8 +69,8 @@ namespace cimob.Controllers
                 model.CursosNovos.ForEach(item => {
                     var json = JsonConvert.DeserializeObject<Curso>(item);
                     var c = new Curso { Nome = json.Nome, Vagas = json.Vagas, PaisID = model.Pais };
+
                     _context.Cursos.Add(c);
-                    _context.SaveChanges();
                     tmp.Add(c);
                 });
                 
@@ -105,9 +103,10 @@ namespace cimob.Controllers
                 }
             }
 
-            model.AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "Application" }), _context);
             model.PaisesList = GetPaises();
             model.MobilidadeList = GetMobilidade();
+            model.AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "EscolasParceiras" }), _context);
+            model.Cursos = new List<Curso>();
 
             return View(model);
         }
@@ -126,8 +125,7 @@ namespace cimob.Controllers
                     c.Add(JsonConvert.SerializeObject(new { item.Nome, item.Vagas }));
                 });
 
-                return View(new EscolasParceirasViewModel
-                {
+                return View(new EscolasParceirasViewModel {
                     PaisesList = GetPaises(),
                     MobilidadeList = GetMobilidade(),
                     AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "EscolasParceiras" }), _context),
@@ -142,7 +140,7 @@ namespace cimob.Controllers
             }
             catch (Exception)
             {
-                return View(nameof(Index));
+                return Json(new { status = "error", data = HelperFunctionsExtensions.GetError(("Unknown"), _context)});
             }
         }
 
@@ -151,57 +149,61 @@ namespace cimob.Controllers
         [Route("/Escolas/{id}/Edit")]
         public IActionResult Escolas(EscolasParceirasViewModel model, int id)
         {
+            var e = _context.Escolas.Where(es => es.EscolaID == id).Include(es => es.Cursos).FirstOrDefault();
+
             try
             {
                 if (ModelState.IsValid)
                 {
-                    // update Escolas e Cursos
-                    _context.Escolas.ToList().ForEach(item => {
-                        // apaga os cursos da escola para voltar a meter
-                        _context.Cursos.ToList().RemoveAll(c => c.EscolaID == item.EscolaID);
-                    
-                        var tmp = (model.Cursos == null ? new List<Curso>() : new List<Curso>(model.Cursos));
+                    model.CursosNovos?.ForEach(c => {
+                        var json = JsonConvert.DeserializeObject<Curso>(c);
 
-                        model.CursosNovos.ForEach(curso => {
-                            var json = JsonConvert.DeserializeObject<Curso>(curso);
+                        e.Cursos.Add(new Curso { Nome = json.Nome, Vagas = json.Vagas, PaisID = model.Pais, EscolaID = id });
+                    });
 
-                            tmp.Add(new Curso { Nome = json.Nome, Vagas = json.Vagas, PaisID = model.Pais });
-                        });
+                    e.Email = model.Email;
+                    e.Nome = model.Nome;
+                    e.PaisID = model.Pais;
+                    e.TipoMobilidadeID = model.Mobilidade;
+                    e.Estado = model.Estado;
 
-                        item.Email = model.Email;
-                        item.Nome = model.Nome;
-                        item.PaisID = model.Pais;
-                        item.TipoMobilidadeID = model.Mobilidade;
-                        item.Estado = model.Estado;
-                        item.Cursos = tmp;
-                    });   
+                    _context.SaveChanges();
+
+                    return RedirectToAction(nameof(Index));
                 }
                 else
                 {
-                    var tmp = _context.Escolas.Where(e => e.EscolaID == id).Include(e => e.Cursos).FirstOrDefault();
                     var c = new List<string>();
 
-                    tmp.Cursos.ToList().ForEach(item => {
+                    e.Cursos.ToList().ForEach(item => {
                         c.Add(JsonConvert.SerializeObject(new { item.Nome, item.Vagas }));
                     });
 
+                    model.Email = e.Email;
+                    model.Nome = e.Nome;
+                    model.Pais = e.PaisID;
+                    model.Mobilidade = e.TipoMobilidadeID;
+                    model.Estado = e.Estado;
                     model.PaisesList = GetPaises();
                     model.MobilidadeList = GetMobilidade();
                     model.AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "EscolasParceiras" }), _context);
-                    model.Cursos = new List<Curso>(tmp.Cursos);
+                    model.Cursos = e.Cursos.ToList();
                     model.CursosNovos = new List<string>();
-                    model.Email = tmp.Email;
-                    model.Nome = tmp.Nome;
-                    model.Pais = tmp.PaisID;
-                    model.Mobilidade = tmp.TipoMobilidadeID;
-                    model.Estado = tmp.Estado;
-                }
 
-                return View(model);
+                    return View(model);
+                }
             }
             catch (Exception)
             {
-                return View(nameof(Index));
+                ModelState.AddModelError("Error", HelperFunctionsExtensions.GetError(("Unknown"), _context));
+
+                model.PaisesList = GetPaises();
+                model.MobilidadeList = GetMobilidade();
+                model.AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "EscolasParceiras" }), _context);
+                model.Cursos = e.Cursos.ToList();
+                model.CursosNovos = new List<string>();
+
+                return View(model);
             }
         }
 
