@@ -23,7 +23,7 @@ namespace SeleniumTests
         private string baseURL;
         private RemoteWebDriver driver;
 
-        private void loginAsCandidato()
+        private void loginAsCandidato(string user, string pw)
         {
             //Encontra os elementos do form de autenticação
             RemoteWebElement email = (RemoteWebElement)driver.FindElementById("Email");
@@ -31,8 +31,8 @@ namespace SeleniumTests
             RemoteWebElement button = (RemoteWebElement)driver.FindElement(By.XPath("//button[@type='submit'][text()='Entrar']"));
 
             //Preenche o formulário e o botão Entrar é clicado
-            email.SendKeys("bernardoamguerreiro@gmail.com");
-            password.SendKeys("123456.");
+            email.SendKeys(user);
+            password.SendKeys(pw);
 
             button.Click();
 
@@ -53,50 +53,56 @@ namespace SeleniumTests
             //baseURL = "https://localhost:44307/Account/Login?ReturnUrl=%2F";
             driver.Navigate().GoToUrl(baseURL);
 
-            loginAsCandidato();
+            loginAsCandidato("bernardoamguerreiro@gmail.com", "123456.");
 
             //Open Menu
-            RemoteWebElement menu = (RemoteWebElement)driver.FindElementById("logoutForm").FindElement(By.TagName("button"));
-            menu.Click();
+            driver.FindElementById("logoutForm").FindElement(By.TagName("button")).Click();
             //Ir para a página para editar o perfil
-            RemoteWebElement linkPerfil = (RemoteWebElement)driver.FindElementById("logoutForm").FindElement(By.TagName("li"));
-            linkPerfil.Click();
-
-
-            //Erros
-            RemoteWebElement errorOldPassword = (RemoteWebElement)driver.FindElement(By.XPath("//*[@data-valmsg-for='OldPassword']"));
-            RemoteWebElement errorNewPassword = (RemoteWebElement)driver.FindElement(By.XPath("//*[@data-valmsg-for='NewPassword']"));
-            RemoteWebElement errorConfirmPassword = (RemoteWebElement)driver.FindElement(By.XPath("//*[@data-valmsg-for='ConfirmPassword']"));
-            //TextBoxes
-            RemoteWebElement textBoxOldPassword = (RemoteWebElement)driver.FindElementById("OldPassword");
-            RemoteWebElement textBoxNewPassword = (RemoteWebElement)driver.FindElementById("NewPassword");
-            RemoteWebElement textBoxConfirmPassword = (RemoteWebElement)driver.FindElementById("ConfirmPassword");
-
-
+            driver.FindElementById("logoutForm").FindElement(By.TagName("li")).Click();
+            
             //Testar se é preciso preencher os campos
-            RemoteWebElement botaoSubmeter = (RemoteWebElement)driver.FindElementById("btnSubmit");
-            botaoSubmeter.Click();            
+            driver.FindElementById("btnSubmit").Click();
 
-            Assert.AreNotEqual("", errorOldPassword.Text);
-            Assert.AreNotEqual("", errorNewPassword.Text);
-            Assert.AreNotEqual("", errorConfirmPassword.Text);
+            Assert.AreNotEqual("", driver.FindElement(By.XPath("//*[@data-valmsg-for='OldPassword']")).Text);
+            Assert.AreNotEqual("", driver.FindElement(By.XPath("//*[@data-valmsg-for='NewPassword']")).Text);
+            Assert.AreNotEqual("", driver.FindElement(By.XPath("//*[@data-valmsg-for='ConfirmPassword']")).Text);
 
             //Testar se confirma que a password atual está correta
-            textBoxOldPassword.SendKeys("incorrectPassword");
-            textBoxNewPassword.SendKeys("newPassword123");
-            textBoxConfirmPassword.SendKeys("newPassword123");
-            botaoSubmeter.Click();
-
+            driver.FindElementById("OldPassword").SendKeys("incorrectPassword");
+            driver.FindElementById("NewPassword").SendKeys("newPassword123");
+            driver.FindElementById("ConfirmPassword").SendKeys("newPassword123");
+            driver.FindElementById("btnSubmit").Click();
+            
             Assert.AreNotEqual("", driver.FindElement(By.XPath("//*[@data-valmsg-for='OldPassword']")).Text);
 
             //Testar se confirma que a password nova não está segundo as regras pré-definidas
-            textBoxOldPassword.SendKeys("123456.");
-            textBoxNewPassword.SendKeys("a");
-            textBoxConfirmPassword.SendKeys("a");
-            botaoSubmeter.Click();
+            driver.FindElementById("OldPassword").SendKeys("123456.");
+            driver.FindElementById("NewPassword").SendKeys("a");
+            driver.FindElementById("ConfirmPassword").SendKeys("a");
+            driver.FindElementById("btnSubmit").Click();
 
-            Assert.AreNotEqual("", driver.FindElement(By.XPath("//*[@data-valmsg-for='OldPassword']")).Text);
+            Assert.AreNotEqual("", driver.FindElement(By.XPath("//*[@data-valmsg-for='NewPassword']")).Text);
 
+            //Testar se confirma que a nova password e a de confirmação estão iguais
+            driver.FindElementById("OldPassword").SendKeys("123456.");
+            driver.FindElementById("NewPassword").SendKeys("123456..");
+            driver.FindElementById("ConfirmPassword").SendKeys("123456...");
+            driver.FindElementById("btnSubmit").Click();
+            
+            Assert.AreNotEqual("", driver.FindElement(By.XPath("//*[@data-valmsg-for='ConfirmPassword']")).Text);
+
+            //Testar se a mudança de password teve sucesso
+            driver.FindElementById("OldPassword").SendKeys("123456.");
+            driver.FindElementById("NewPassword").SendKeys("123456..");
+            driver.FindElementById("ConfirmPassword").SendKeys("123456..");
+            driver.FindElementById("btnSubmit").Click();
+
+            //Open Menu
+            driver.FindElementById("logoutForm").FindElement(By.TagName("button")).Click();
+            driver.FindElementById("logout").Click();
+
+            loginAsCandidato("bernardoamguerreiro@gmail.com", "123456..");
+            Assert.AreEqual("http://cimob.azurewebsites.net/Manage/Profile", driver.Url);
         }
 
         [TestCleanup()]
@@ -105,5 +111,4 @@ namespace SeleniumTests
             driver.Quit();
         }
     }
-
 }
