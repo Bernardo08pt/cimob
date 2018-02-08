@@ -10,25 +10,51 @@
         <Style x:Key="Titulo" TargetType="Label" >
             <Setter Property="FontFamily" Value="Times New Roman"/>
             <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/> 
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="40"/>
+        </Style>
+        <Style x:Key="Menu" TargetType="Button" >
+            <Setter Property="FontFamily" Value="Times New Roman"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Background" Value="#6aa84f"/>
+            <Setter Property="MaxWidth" Value="50"/>
+            <Setter Property="MaxHeight" Value="50"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="50"/>
         </Style>
     </Window.Resources>
     <Grid Background="#f1eee7">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Border Background="White"  Grid.Row="1" Grid.ColumnSpan="3"/>
-        <Image Grid.Row="1" Grid.Column="0" MaxHeight="120" Source="/images/logotipo.png"/>
-        <Label Content="BacKOffice" Grid.Row="1" Grid.Column="1" Style="{StaticResource Titulo}"/>
-        <Button Grid.Row="1" Grid.Column="2" MaxHeight="120"/>
+        <Border Background="White" Grid.Row="1" Grid.ColumnSpan="3"/>
+        <Image Grid.Row="1" Grid.Column="0" MaxHeight="120" Margin="50,20,20,20" Source="/images/logotipo.png"/>
+        <Label Content="BackOffice" Grid.Row="1" Grid.Column="1" Style="{StaticResource Titulo}"/>
+        <Button Grid.Row="1" Grid.Column="3" Style="{StaticResource Menu}" Click="AbrirMenu_Click">
+            <Button.Content>
+                <Image VerticalAlignment="Center" Width="auto" Stretch="Fill" Source="/images/menu.png"/>
+            </Button.Content>
+            <Button.ContextMenu>
+                <ContextMenu >
+                    <MenuItem Foreground="Snow" Header="First file"/>
+                    <MenuItem Foreground="Snow" Header="Second file"/>
+                    <MenuItem Foreground="Snow" Header="Third file"/>
+                    <MenuItem Foreground="Snow" Header="Fourth file"/>
+                </ContextMenu>
+            </Button.ContextMenu>
+        </Button>
+        <Border Grid.Row="2" Grid.ColumnSpan="3" Height="10" Background="#CCC" BorderBrush="Black"/>
     </Grid>
 </Window>
