@@ -14,11 +14,12 @@
             <Setter Property="HorizontalAlignment" Value="Center"/> 
         </Style>
     </Window.Resources>
+    
     <Grid Background="#f1eee7">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="300"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -30,5 +31,12 @@
         <Image Grid.Row="1" Grid.Column="0" MaxHeight="120" Source="/images/logotipo.png"/>
         <Label Content="BacKOffice" Grid.Row="1" Grid.Column="1" Style="{StaticResource Titulo}"/>
         <Button Grid.Row="1" Grid.Column="2" MaxHeight="120"/>
+
+        <Frame Grid.Row="2" Grid.Column="0"  Source="ContasUtilizador.xaml" />
+        
     </Grid>
+
+    
+
+
 </Window>
