@@ -70,13 +70,13 @@ namespace SeleniumTests
             driver.FindElementById("ParentescoList").FindElement(By.CssSelector("[value*='1']")).Click();
             driver.FindElementById("btn_next").Click();
 
-            driver.FindElementById("file_name").SendKeys(@"C:\Users\Bernardo\Downloads\GUERREIRO_BERNARDO.pdf");
+           /* driver.FindElementById("file_name").SendKeys(@"C:\Users\Bernardo\Downloads\GUERREIRO_BERNARDO.pdf");
             driver.FindElementById("btn_submit_docs").Click();
 
             driver.FindElementById("btn_next").Click();
 
             driver.FindElement(By.TagName("checkbox")).Click();
-            driver.FindElementById("btn_submit");
+            driver.FindElementById("btn_submit");*/
         }
 
         [TestCleanup()]
