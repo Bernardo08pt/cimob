@@ -28,7 +28,7 @@
         <TextBox Name="TextBoxEmail" Grid.Row="2" Grid.Column="1"  HorizontalAlignment="Left" FontSize="12" Margin="11.8,10,0,10.4" Width="300" Text="{Binding Path=Email}" />
 
         <Label Content="DataNascimento" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" FontSize="12" Margin="10,10.2,0,10" />
-        <TextBox Name="TextBoxDataNascimento" Grid.Row="3" Grid.Column="1"  HorizontalAlignment="Left" FontSize="12" Margin="11.8,10,0,10.4" Width="300" Text="{Binding Path=DataNascimento}" />
+        <DatePicker Name="TextBoxDataNascimento" Grid.Row="3" Grid.Column="1"  HorizontalAlignment="Left" FontSize="12" Margin="11.8,10,0,10.4" Width="300" SelectedDate="{Binding Path=DataNascimento}" />
 
         <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="20" Margin="0,0,0,-0.2" Width="142">
             <Button x:Name="OkButton" Click="OkButton_Click" IsDefault="True" Width="60" Margin="1,0" Content="OK"/>

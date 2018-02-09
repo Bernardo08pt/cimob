@@ -40,6 +40,7 @@ namespace BackOffice.Data
                     u.Id = (string)dr["Id"];
                     u.Numero = (int)dr["Numero"];
                     u.Nome = (string)dr["Nome"];
+                    u.Email = (string)dr["Email"];
                     u.DataNascimento = (DateTime)dr["DataNascimento"];
                     users.Add(u);
                 }
@@ -55,6 +56,42 @@ namespace BackOffice.Data
             return users;
         }
 
+        public void UpdateUser(ApplicationUser user)
+        {
+            SqlConnection con = new SqlConnection(connectionString);
+            SqlCommand cmd = new SqlCommand();
 
+            cmd.Connection = con;
+
+            string sql = "update AspNetUsers set Numero = @numero, Nome = @nome, Email = @email, DataNascimento= @dataNascimento where (Id = @id)";
+
+
+            cmd.CommandText = sql;
+
+            cmd.Parameters.AddWithValue("@numero", user.Numero);
+            cmd.Parameters.AddWithValue("@nome", user.Nome);
+            cmd.Parameters.AddWithValue("@email", user.Email);
+            cmd.Parameters.AddWithValue("@dataNascimento", user.DataNascimento);
+            cmd.Parameters.AddWithValue("@id", user.Id);
+
+            int regs = 0;
+
+            try
+            {
+                con.Open();
+
+                regs = cmd.ExecuteNonQuery();
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
+
+            MessageBox.Show(regs + " registo actualizado");
+        }
     }
 }
