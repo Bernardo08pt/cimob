@@ -59,7 +59,7 @@
             </Button.ContextMenu>
         </Button>
         <Border Grid.Row="2" Grid.ColumnSpan="3" Height="10" Background="#CCC" BorderBrush="Black"/>
-        <Frame Grid.Row="3" Grid.ColumnSpan="3"  Source="ContasUtilizador.xaml" />
+        <Frame Grid.Row="3" Grid.ColumnSpan="3"  Source="Pages/Users/ContasUtilizador.xaml" />
         
     </Grid>
 
