@@ -35,6 +35,10 @@ namespace cimob.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// Devolve a View das listagem de escolas parceiras
+        /// </summary>
+        /// <returns>View</returns>
         [HttpGet]
         [Route("/Escolas")]
         public IActionResult Index() {
@@ -45,6 +49,10 @@ namespace cimob.Controllers
             });
         }
 
+        /// <summary>
+        /// Devolve a view relativa à criação de novas escolas
+        /// </summary>
+        /// <returns>view</returns>
         // GET: /Escolas/Create
         [HttpGet]
         [Route("/Escolas/Create")]
@@ -58,6 +66,12 @@ namespace cimob.Controllers
             });
         }
 
+        /// <summary>
+        /// Valida se os campos inseridos estão validos. Se sim cria uma nova escola na BD e redireciona para 
+        /// a listagem de escolas. Caso contrário mostra a novamente mas com os erros 
+        /// </summary>
+        /// <param name="model">ViewModel relativo à criação / edição de escolas parceiras</param>
+        /// <returns>RedirectToAction da view index ou view atual</returns>
         [HttpPost]
         [Route("/Escolas/Create")]
         public IActionResult Escolas(EscolasParceirasViewModel model)
@@ -66,7 +80,7 @@ namespace cimob.Controllers
             {
                 var tmp = (model.Cursos == null ? new List<Curso>() : new List<Curso>(model.Cursos));
 
-                model.CursosNovos.ForEach(item => {
+                model.CursosNovos?.ForEach(item => {
                     var json = JsonConvert.DeserializeObject<Curso>(item);
                     var c = new Curso { Nome = json.Nome, Vagas = json.Vagas, PaisID = model.Pais };
 
@@ -111,7 +125,12 @@ namespace cimob.Controllers
             return View(model);
         }
 
-
+        /// <summary>
+        /// Mostra a view de criação de escolas novamente mas desta vês
+        /// preenche os camposdo dado da escola que estamos prestes a editar
+        /// </summary>
+        /// <param name="id">id da escola que queremos etidar</param>
+        /// <returns>View</returns>
         [HttpGet]
         [Route("/Escolas/{id}/Edit")]
         public IActionResult Escolas(int id)
@@ -144,7 +163,13 @@ namespace cimob.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Valida se os campos obrigatórios têm valores. Se tiverem atualiza os campos e redireciona para a listagem de escolas,
+        /// caso contrário devovle a mesma view com os respetivos erros 
+        /// </summary>
+        /// <param name="id">id da candidatura que estamos a editar</param>
+        /// <param name="model">ViewModel relativo à criação / edição de escolas parceiras</param>
+        /// <returns>RedirectToAction da view index ou view atual</returns>
         [HttpPost]
         [Route("/Escolas/{id}/Edit")]
         public IActionResult Escolas(EscolasParceirasViewModel model, int id)
@@ -207,6 +232,10 @@ namespace cimob.Controllers
             }
         }
 
+        /// <summary>
+        /// Filtra a listagem de escolas parceiras por nome e / ou país
+        /// </summary>
+        /// <returns>Listagem de escolas correspondentes ao filtro em JSON</returns>
         // GET: Escolas/FilterEscola?nome=ze&pais=alemanha
         [HttpGet]
         [Route("/Escolas/FilterEscola")]
@@ -250,16 +279,28 @@ namespace cimob.Controllers
 
 
         /** HELPER FUNCTIONS **/
+        /// <summary>
+        /// Retorna uma lista com os paises
+        /// </summary>
+        /// <returns>List de Pais</returns>
         private List<Pais> GetPaises()
         {
             return _context.Paises.ToList();
         }
 
+        /// <summary>
+        /// Retorna uma lista com os tipos de mobilidade
+        /// </summary>
+        /// <returns>List de TipoMobilidade</returns>
         private List<TipoMobilidade> GetMobilidade()
         {
             return _context.TiposMobilidade.ToList();
         }
 
+        /// <summary>
+        /// Retorna uma lista com as escolas pareceiras existentes
+        /// </summary>
+        /// <returns>List de Escola</returns>
         private List<Escola> GetEscolas()
         {
             return _context.Escolas.Include(e => e.TipoMobilidade).ToList();
