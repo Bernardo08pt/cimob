@@ -1,17 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using BackOffice.Models;
 using LiveCharts;
 using LiveCharts.Wpf;
 
@@ -22,9 +12,12 @@ namespace BackOffice
     /// </summary>
     public partial class GraficoEscolasParceiras : UserControl
     {
-        public GraficoEscolasParceiras()
+        public IEnumerable<EstatisticaEscolaParceira> listaEstatisticas;
+
+        public GraficoEscolasParceiras(IEnumerable<EstatisticaEscolaParceira> estatisticas)
         {
             InitializeComponent();
+            listaEstatisticas = estatisticas;
 
             PointLabel = chartPoint =>
                 string.Format("{0} ({1:P})", chartPoint.Y, chartPoint.Participation);

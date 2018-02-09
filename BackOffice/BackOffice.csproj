@@ -41,7 +41,7 @@
       <HintPath>..\packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.Identity.Stores">
-      <HintPath>..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.identity.stores\2.0.1\lib\netstandard2.0\Microsoft.Extensions.Identity.Stores.dll</HintPath>
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.identity.stores\2.0.1\lib\netstandard2.0\Microsoft.Extensions.Identity.Stores.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -64,10 +64,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BDCharts.cs" />
+    <Compile Include="Data\BDCharts.cs" />
     <Compile Include="GraficoEscolasParceiras.xaml.cs">
       <DependentUpon>GraficoEscolasParceiras.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GraficoProgramasMobilidade.xaml.cs">
+      <DependentUpon>GraficoProgramasMobilidade.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EstatisticaEscolaParceira.cs" />
     <Compile Include="VisualizarGraficos.xaml.cs">
       <DependentUpon>VisualizarGraficos.xaml</DependentUpon>
     </Compile>
@@ -80,6 +84,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="EditarContaUtilizadorDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GraficoProgramasMobilidade.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

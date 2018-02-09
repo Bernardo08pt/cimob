@@ -9,7 +9,7 @@
     <Grid Background="#f1eee7">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -17,7 +17,7 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Label Content="Escolas Parceiras" Grid.Row="0" Grid.Column="0" Margin="20"/>
-        <Frame Grid.Row="1" Grid.Column="0"/>
+        <Frame Grid.Row="1" Grid.Column="0" Source="GraficoEscolasParceiras.xaml"/>
 
         <Label Content="Programas de Mobilidade" Grid.Row="0" Grid.Column="1" Margin="20"/>
         <Frame Grid.Row="1" Grid.Column="1"/>

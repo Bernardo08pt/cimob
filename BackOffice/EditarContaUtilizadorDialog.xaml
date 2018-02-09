@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BackOffice"
         mc:Ignorable="d"
-        Title="Editar Conta Utilizador" Height="300" Width="300" Closing="EditarContaUtilizadorDialog_OnClosing">
+        Title="Editar Conta Utilizador" Height="300" Width="300">
     <Grid Name="GridFormContaUtilizador" DockPanel.Dock="Left"  Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -32,7 +32,7 @@
 
         <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="20" Margin="0,0,0,-0.2" Width="142">
             <Button x:Name="OkButton" Click="OkButton_Click" IsDefault="True" Width="60" Margin="1,0" Content="OK"/>
-            <Button x:Name="CancelButton" IsCancel="True" Width="60" Margin="10,0" Click="CancelButton_Click" Content="Cancel"/>
+            <Button x:Name="CancelButton" IsCancel="True" Width="60" Margin="10,0" Content="Cancel"/>
         </StackPanel>
     </Grid>
 </Window>

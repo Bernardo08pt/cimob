@@ -13,7 +13,7 @@ namespace BackOffice.Data
 {
     public class BDUsers
     {
-        private string connectionString = ConfigurationManager.ConnectionStrings["ConString"].ConnectionString;
+        private string connectionString = ConfigurationManager.ConnectionStrings["ConString"].ConnectionString; 
 
         public ObservableCollection<ApplicationUser> GetUsers()
         {
@@ -23,7 +23,7 @@ namespace BackOffice.Data
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = con;
 
-            string sql = "SELECT id, Numero, Nome, Email, DataNascimento FROM aspnetusers";
+            string sql = "SELECT Id, Numero, Nome, Email, DataNascimento FROM aspnetusers";
 
             cmd.CommandText = sql;
 

@@ -51,15 +51,15 @@
             </Button.Content>
             <Button.ContextMenu>
                 <ContextMenu >
-                    <MenuItem Foreground="Snow" Header="First file"/>
-                    <MenuItem Foreground="Snow" Header="Second file"/>
-                    <MenuItem Foreground="Snow" Header="Third file"/>
-                    <MenuItem Foreground="Snow" Header="Fourth file"/>
+                    <MenuItem Header="Verificar Estatisticas"/>
+                    <MenuItem Header="Second file"/>
+                    <MenuItem Header="Third file"/>
+                    <MenuItem Header="Fourth file"/>
                 </ContextMenu>
             </Button.ContextMenu>
         </Button>
         <Border Grid.Row="2" Grid.ColumnSpan="3" Height="10" Background="#CCC" BorderBrush="Black"/>
-        <Frame Grid.Row="3" Grid.ColumnSpan="3"  Source="ContasUtilizador.xaml" />
+        <Frame Grid.Row="3" Grid.ColumnSpan="3"  Source="VisualizarGraficos.xaml" />
         
     </Grid>
 
