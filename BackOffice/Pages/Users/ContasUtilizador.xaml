@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:BackOffice"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
-      Title="ContasUtilizador">
+      Title="Contas de Utilizador">
 
     <Grid>
         <DataGrid Name="grdUser" IsReadOnly="True" AutoGenerateColumns="False" MouseDoubleClick="EditRow">
