@@ -40,12 +40,6 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore">
-      <HintPath>..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.identity.entityframeworkcore\2.0.1\lib\netstandard2.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.EntityFrameworkCore">
-      <HintPath>..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.entityframeworkcore\2.0.1\lib\netstandard2.0\Microsoft.EntityFrameworkCore.dll</HintPath>
-    </Reference>
     <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
       <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
     </Reference>
@@ -77,17 +71,21 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Data\BDCharts.cs" />
-    <Compile Include="GraficoEscolasParceiras.xaml.cs">
+    <Compile Include="Pages\Graphs\GraficoEscolasParceiras.xaml.cs">
       <DependentUpon>GraficoEscolasParceiras.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GraficoProgramasMobilidade.xaml.cs">
+    <Compile Include="Pages\Graphs\GraficoProgramasMobilidade.xaml.cs">
       <DependentUpon>GraficoProgramasMobilidade.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\EstatisticaEscolaParceira.cs" />
-    <Compile Include="VisualizarGraficos.xaml.cs">
+    <Compile Include="Pages\Graphs\VisualizarGraficos.xaml.cs">
       <DependentUpon>VisualizarGraficos.xaml</DependentUpon>
     </Compile>
-    <Page Include="GraficoEscolasParceiras.xaml">
+    <Page Include="Pages\Graphs\GraficoEscolasParceiras.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Users\ContasUtilizador.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -95,7 +93,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GraficoProgramasMobilidade.xaml">
+    <Page Include="Pages\Graphs\GraficoProgramasMobilidade.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -108,6 +106,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Data\BdUsers.cs" />
+    <Compile Include="Pages\Users\ContasUtilizador.xaml.cs">
+      <DependentUpon>ContasUtilizador.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Users\EditarContaUtilizadorDialog.xaml.cs">
       <DependentUpon>EditarContaUtilizadorDialog.xaml</DependentUpon>
     </Compile>
@@ -115,7 +116,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="VisualizarGraficos.xaml">
+    <Page Include="Pages\Graphs\VisualizarGraficos.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
