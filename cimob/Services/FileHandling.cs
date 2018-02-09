@@ -25,7 +25,7 @@ namespace cimob.Services
 
             var tmp = file.FileName.Split(".");
 
-            if (tmp[tmp.Length - 1].ToLower() != "pdf")
+            if ((tmp[tmp.Length - 1]).ToLower() != "pdf")
                 throw new FormatException();
                 
             using (var stream = new FileStream(path, FileMode.Create))
