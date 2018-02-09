@@ -32,8 +32,8 @@
         <Label Content="BacKOffice" Grid.Row="1" Grid.Column="1" Style="{StaticResource Titulo}"/>
         <Button Grid.Row="1" Grid.Column="2" MaxHeight="120"/>
 
-        <Frame Grid.Row="2" Grid.Column="0"  Source="ContasUtilizador.xaml" />
-        
+        <Frame Grid.Row="2" Grid.Column="0"  Source="Pages/Users/ContasUtilizador.xaml" />
+
     </Grid>
 
     
