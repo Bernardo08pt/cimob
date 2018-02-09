@@ -13,6 +13,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Numero" Binding="{Binding Numero}"/>
                 <DataGridTextColumn Header="Nome" Binding="{Binding Nome}"/>
+                <DataGridTextColumn Header="Email" Binding="{Binding Email}"/>
                 <DataGridTextColumn Header="Data de Nascimento"  Binding="{Binding DataNascimento, StringFormat=\{0:dd/MM/yy\}}"/>
             </DataGrid.Columns>
         </DataGrid>
