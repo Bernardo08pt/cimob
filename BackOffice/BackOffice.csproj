@@ -99,9 +99,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Pages\Users\ContasUtilizador.xaml.cs">
-      <DependentUpon>ContasUtilizador.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Data\BdUsers.cs" />
     <Compile Include="Pages\Users\EditarContaUtilizadorDialog.xaml.cs">
       <DependentUpon>EditarContaUtilizadorDialog.xaml</DependentUpon>
