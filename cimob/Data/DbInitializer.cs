@@ -388,7 +388,7 @@ namespace cimob.Data
             // candidatura - documentação
             context.Ajudas.Add(new Ajuda { Pagina = "Application", Nome = "Nome", Titulo = "Nome", Corpo = "<p>Nome da escola a procurar.</p>" });
             context.Ajudas.Add(new Ajuda { Pagina = "Application", Nome = "Pais", Titulo = "País", Corpo = "<p>País sobre o qual quer saber que escolas / cursos existem.</p>" });
-            context.Ajudas.Add(new Ajuda { Pagina = "Application", Nome = "CartaMotivacao", Titulo = "Carta de Motivação", Corpo = "<p>Carta de motivação da candidatura, em inglês e em format PDF.</p>" });
+            context.Ajudas.Add(new Ajuda { Pagina = "Application", Nome = "CartaMotivacao", Titulo = "Carta de Motivação", Corpo = "<p>Carta de motivação da candidatura, em inglês, em format PDF e inferior a 1mb.</p>" });
             context.Ajudas.Add(new Ajuda { Pagina = "Application", Nome = "Documento", Titulo = "Documento", Corpo = "<p>Novo documento a ser inseiro a pedido do CIMOB, em format PDF.</p>" });
 
             //inserção de editais
@@ -438,9 +438,6 @@ namespace cimob.Data
             context.Ajudas.Add(new Ajuda { Pagina = "EditarPerfil", Nome = "OldPW", Titulo = "Password atual", Corpo = "<p>Corresponde à password que usa atualmente.</p>" });
             context.Ajudas.Add(new Ajuda { Pagina = "EditarPerfil", Nome = "NewPW", Titulo = "Nova Password", Corpo = "<p>A nova password que deseja utilizar.</p><p>A Password deve seguir as seguintes regras: </p><ul><li>Conter um mínimo de 6 caracteres.</li><li>Conter pelo menos 1 dígito.</li><li>Conter pelo menos 1 caracter especial ['@' '.' '_' ect...].</li></ul>" });
             context.Ajudas.Add(new Ajuda { Pagina = "EditarPerfil", Nome = "ConfPW", Titulo = "Confirmação da Nova Password", Corpo = "<p>Por questões de segurança, escreva a nova password que deseja novamente.</p>" });
-
-           
-
         }
 
         private static void AddEstadosCandidatura(ApplicationDbContext context)
@@ -464,7 +461,7 @@ namespace cimob.Data
             context.Erros.Add(new Erro { Nome = "EditalExists", Mensagem = "Atenção: Já existe um edital com esse nome e tipo de mobilidade.", Codigo = 5 });
             context.Erros.Add(new Erro { Nome = "EmailEscolasParceiras", Mensagem = "Erro a enviar email à escola parceira. Se o problema persistir considere enviar um email manualmente.", Codigo = 6 });
             context.Erros.Add(new Erro { Nome = "UpdateCandidatura", Mensagem = "Ocorreu um erro inesperado a atualizar a Candidatura. Por favor tente mais tarde!", Codigo = 7 });
-            context.Erros.Add(new Erro { Nome = "InvalidCandidaturaState", Mensagem = "Não é possível aceitar uma candidatura sem fazer a intervista e com 0 pontuação!", Codigo = 8 });
+            context.Erros.Add(new Erro { Nome = "InvalidCandidaturaState", Mensagem = "Não é possível aceitar uma candidatura sem fazer a entrevista e com 0 pontuação!", Codigo = 8 });
             context.Erros.Add(new Erro { Nome = "NoNewData", Mensagem = "Não houve alterações nenhumas à candidatura.", Codigo = 9 });
 
             //Gravar alterações

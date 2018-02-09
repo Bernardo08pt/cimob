@@ -78,8 +78,8 @@ namespace cimob.Models.ApplicationViewModels
         #region docs
         [Display(Name = "Carta de Motivação")]
         public IFormFile CartaMotivacao { get; set; }
-
-        [Required(ErrorMessage = "O campo {0} é obrigatório.")]
+        
+        [RegularExpression("^[1-9][0-9]*$", ErrorMessage = "O campo Carta de Motivação é obrigatório")]
         public int DocID { get; set; }
         #endregion
 
