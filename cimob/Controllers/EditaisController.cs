@@ -107,13 +107,7 @@ namespace cimob.Controllers
                 foreach (var u in allUsers)
                 {
                     //Envio do email
-                    await _emailSender.SendEmailAsync(u.Email, "Edital Publicado",
-                    "<p><span style='font-size: 18px;'>Caro(a) " + u.Nome + ",<strong> </strong></span></p>" +
-                    "<p><span style='font-size: 18px;'>Gostaríamos de informar que foi publicado o edital referente a " + mobilidade + ".</span></p>" +
-                    "<p><br></p>" +
-                    "<p><span style = 'font-size: 18px;'> Melhores cumprimentos Equipa CIMOB - IPS </span></p>" +
-                    "<p><span style = 'font-size: 14px;'> Nota: este e-mail foi gerado automaticamente, pelo que n&atilde;o deve responder pois quaisquer respostas n&atilde;o ser&atilde;o vistas.</span></p>" +
-                        "<span style = 'font-size: 12px;'> &nbsp;</span></p>");
+                    await EmailSenderExtensions.EditalPublicado(_emailSender, u.Nome, u.Email, mobilidade);
                 }
 
                 //Serve para mostrar o alert de sucesso/insucesso

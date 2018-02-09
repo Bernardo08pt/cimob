@@ -165,15 +165,8 @@ namespace cimob.Controllers
                             curso = c.Nome
                         }).
                         FirstOrDefault();
-
-                var mensagem = "<p><span style='font-size: 18px;'>Dear " + tmp.escola + ",<strong> </strong></span></p>" +
-                        "<p><span style='font-size: 18px;'>We've received more applications for " + tmp.curso + " than available vacancies and we were wondering if it's possible to allow more students?</span></p>" +
-                        "<p><br></p>" +
-                        "<p><span style = 'font-size: 18px;'> Best Regards CIMOB - IPS, Setúbal, Portugal </span></p>" +
-                        "<p><span style = 'font-size: 14px;'> Note: This email was automatically generated so we ask that you reply to your regular email address instead of this one.</span></p>" +
-                            "<span style = 'font-size: 12px;'> &nbsp;</span></p>";
-
-                await _emailSender.SendEmailAsync(tmp.email, "Request for more vacancies", mensagem);
+                
+                await EmailSenderExtensions.RequestVagas(_emailSender, tmp.escola, tmp.curso, tmp.email);
 
                 return Json(new { status = "success" });
             }
@@ -241,14 +234,7 @@ namespace cimob.Controllers
                 });
                 _context.SaveChanges();
                 
-                var mensagem = "<p><span style='font-size: 18px;'>Caro(a) " + model.Nome + ",<strong> </strong></span></p>" +
-                    "<p><span style='font-size: 18px;'>Serve este email para informar que foi carregado um novo documento pela parte do CIMOB-IPS relativo à sua candidatura de mobilidade. Visite a documentação da candidatura na sua área pessoal da plataforma do CIMOB-IPS para poder visualizá-lo.</span></p>" +
-                    "<p><br></p>" +
-                    "<p><span style = 'font-size: 18px;'> Melhores cumprimentos Equipa CIMOB - IPS </span></p>" +
-                    "<p><span style = 'font-size: 14px;'> Nota: este e-mail foi gerado automaticamente, pelo que n&atilde;o deve responder pois quaisquer respostas n&atilde;o ser&atilde;o vistas.</span></p>" +
-                    "<span style = 'font-size: 12px;'> &nbsp;</span></p>";
-
-                await _emailSender.SendEmailAsync(model.Email, "Candidatura - Novo Documento", mensagem);
+                await EmailSenderExtensions.NovoDocumento(_emailSender, model.Email, model.Nome);
 
                 return StatusCode(200);
             }
@@ -285,14 +271,7 @@ namespace cimob.Controllers
                 var tmp = model.Entrevista.Split(" ");
                 var dia = tmp[0].Split("-");    
 
-                var mensagem = "<p><span style='font-size: 18px;'>Caro(a) " + user.nome + ",<strong> </strong></span></p>" +
-                        "<p><span style='font-size: 18px;'>A entrevista relativa à sua mobilidade ficou marcada para dia " + dia[2] + "/" + dia[1] + "/" + dia[0] + " às " + tmp[1] + ".</span></p>" +
-                        "<p><br></p>" +
-                        "<p><span style = 'font-size: 18px;'> Melhores cumprimentos Equipa CIMOB - IPS </span></p>" +
-                        "<p><span style = 'font-size: 14px;'> Nota: este e-mail foi gerado automaticamente, pelo que n&atilde;o deve responder pois quaisquer respostas n&atilde;o ser&atilde;o vistas.</span></p>" +
-                        "<span style = 'font-size: 12px;'> &nbsp;</span></p>";
-
-                await _emailSender.SendEmailAsync(user.email, "Entrevista - Mobilidade", mensagem);
+                await EmailSenderExtensions.EntrevistaMarcada(_emailSender, user.nome, dia, user.email);
 
                 return Json(new { status = "success" });
             }
@@ -394,20 +373,9 @@ namespace cimob.Controllers
                 _context.SaveChanges();
 
                 var user = _context.Users.Where(u => u.Id == user_id).Select(u => new { email = u.Email, nome = u.UserName }).FirstOrDefault();
-
-                var resultado = (model.Estado == 1) ? "rejeitada. A razão da rejeição é: " + model.Razao : "Aceite!";
-
-                var mensagem = "<p><span style='font-size: 18px;'>Caro(a) " + user.nome + ",<strong> </strong></span></p>" +
-                        "<p><span style='font-size: 18px;'>Gostaríamos de informar que a sua candidatura foi " + resultado + ".</span></p>" +
-                        "<p><br></p>" +
-                        "<p><span style = 'font-size: 18px;'> Melhores cumprimentos CIMOB - IPS</span></p>" +
-                        "<p><span style = 'font-size: 18px;'> Melhores cumprimentos Equipa CIMOB - IPS </span></p>" +
-                    "<p><span style = 'font-size: 14px;'> Nota: este e-mail foi gerado automaticamente, pelo que n&atilde;o deve responder pois quaisquer respostas n&atilde;o ser&atilde;o vistas.</span></p>" +
-                        "<span style = 'font-size: 12px;'> &nbsp;</span></p>";
-
-                await _emailSender.SendEmailAsync(user.email, "Aplicação Mobilidade - Resultado", mensagem);
-
-
+                
+                await EmailSenderExtensions.Resultado(_emailSender, user.email, user.nome, (model.Estado == 1) ? "rejeitada. A razão da rejeição é: " + model.Razao : "Aceite!");
+                
                 return Json(new { status = "success" });
             }
             catch (Exception ex)

@@ -19,18 +19,15 @@ namespace cimob.Controllers
     public class EscolasParceirasController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly ApplicationDbContext _context;
 
         public EscolasParceirasController(
             UserManager<ApplicationUser> userManager,
-            IEmailSender emailSender,
             ILogger<ApplicationController> logger,
             ApplicationDbContext context)
         {
             _userManager = userManager;
-            _emailSender = emailSender;
             _logger = logger;
             _context = context;
         }

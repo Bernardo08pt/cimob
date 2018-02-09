@@ -135,15 +135,8 @@ namespace cimob.Controllers
 
                     var mobilidade = _context.TiposMobilidade.Where(p => p.TipoMobilidadeID == model.TipoMobilidade).Select(p => p.Descricao).FirstOrDefault();
 
-                    var mensagem = "<p><span style='font-size: 18px;'>Caro(a) " + user.Nome + ",<strong> </strong></span></p>" +
-                    "<p><span style='font-size: 18px;'>Gostaríamos de informar que a sua candidatura para " + mobilidade + " foi efetuada com sucesso! Iremos avaliar assim que possível e mantêmo-lo-emos informado.</span></p>" +
-                    "<p><br></p>" +
-                    "<p><span style = 'font-size: 18px;'> Melhores cumprimentos Equipa CIMOB - IPS </span></p>" +
-                    "<p><span style = 'font-size: 14px;'> Nota: este e-mail foi gerado automaticamente, pelo que n&atilde;o deve responder pois quaisquer respostas n&atilde;o ser&atilde;o vistas.</span></p>" +
-                        "<span style = 'font-size: 12px;'> &nbsp;</span></p>";
-
-                    await _emailSender.SendEmailAsync(model.Email, "Candidatura efetuada", mensagem);
-                    await _emailSender.SendEmailAsync(model.EmailAlternativo, "Candidatura efetuada", mensagem);
+                    await EmailSenderExtensions.ApplicationSubmit(_emailSender, model.Email, mobilidade, user.Nome);
+                    await EmailSenderExtensions.ApplicationSubmit(_emailSender, model.EmailAlternativo, mobilidade, user.Nome);
 
                     return RedirectToAction(nameof(State));
                 }
