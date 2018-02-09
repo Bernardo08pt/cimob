@@ -271,7 +271,7 @@ namespace cimob.Controllers
                 var tmp = model.Entrevista.Split(" ");
                 var dia = tmp[0].Split("-");    
 
-                await EmailSenderExtensions.EntrevistaMarcada(_emailSender, user.nome, dia, user.email);
+                await EmailSenderExtensions.EntrevistaMarcada(_emailSender, user.nome, dia, user.email, tmp);
 
                 return Json(new { status = "success" });
             }

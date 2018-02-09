@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace cimob.Extensions
 {
+    /// <summary>
+    /// classe auxiliar com funções para enviar os emails
+    /// </summary>
     public static class EmailSenderExtensions
     {
         internal static Task SendEmailConfirmationAsync(this IEmailSender emailSender, string email, string name, string link)
@@ -58,8 +61,8 @@ namespace cimob.Extensions
         internal static Task RequestVagas(IEmailSender emailSender, string escola, string curso, string email)
         {
             return emailSender.SendEmailAsync(email, "Request for more vacancies",
-                "<p><span style='font-size: 18px;'>Dear " + tmp.escola + ",<strong> </strong></span></p>" +
-                "<p><span style='font-size: 18px;'>We've received more applications for " + tmp.curso + " than available vacancies and we were wondering if it's possible to allow more students?</span></p>" +
+                "<p><span style='font-size: 18px;'>Dear " + escola + ",<strong> </strong></span></p>" +
+                "<p><span style='font-size: 18px;'>We've received more applications for " + curso + " than available vacancies and we were wondering if it's possible to allow more students?</span></p>" +
                 "<p><br></p>" +
                 "<p><span style = 'font-size: 18px;'> Best Regards CIMOB - IPS, Setúbal, Portugal </span></p>" +
                 "<p><span style = 'font-size: 14px;'> Note: This email was automatically generated so we ask that you reply to your regular email address instead of this one.</span></p>" +
@@ -79,11 +82,11 @@ namespace cimob.Extensions
             );
         }
 
-        internal static Task EntrevistaMarcada(IEmailSender emailSender, string nome, string[] dia, string email)
+        internal static Task EntrevistaMarcada(IEmailSender emailSender, string nome, string[] dia, string email, string[] hora)
         {
             return emailSender.SendEmailAsync(email, "Entrevista - Mobilidade",
                 "<p><span style='font-size: 18px;'>Caro(a) " + nome + ",<strong> </strong></span></p>" +
-                "<p><span style='font-size: 18px;'>A entrevista relativa à sua mobilidade ficou marcada para dia " + dia[2] + "/" + dia[1] + "/" + dia[0] + " às " + tmp[1] + ".</span></p>" +
+                "<p><span style='font-size: 18px;'>A entrevista relativa à sua mobilidade ficou marcada para dia " + dia[2] + "/" + dia[1] + "/" + dia[0] + " às " + hora[1] + ".</span></p>" +
                 "<p><br></p>" +
                 "<p><span style = 'font-size: 18px;'> Melhores cumprimentos Equipa CIMOB - IPS </span></p>" +
                 "<p><span style = 'font-size: 14px;'> Nota: este e-mail foi gerado automaticamente, pelo que n&atilde;o deve responder pois quaisquer respostas n&atilde;o ser&atilde;o vistas.</span></p>" +
