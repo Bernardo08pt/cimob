@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using cimob.Data;
 using cimob.Extensions;
 using cimob.Models;
-using cimob.Models.ApplicationViewModels;
+using cimob.Models.EditaisViewModels;
 using cimob.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

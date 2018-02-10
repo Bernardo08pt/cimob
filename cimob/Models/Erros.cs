@@ -1,5 +1,8 @@
 ﻿namespace cimob.Models
 {
+    /// <summary>
+    /// Corresponde à tabela Erros na BD
+    /// </summary>
     public class Erro
     {
         public int ErroID { get; set; }

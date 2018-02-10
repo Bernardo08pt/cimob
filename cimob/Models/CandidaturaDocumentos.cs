@@ -1,5 +1,8 @@
 ﻿namespace cimob.Models
 {
+    /// <summary>
+    /// Corresponde à tabela CandidaturaDcoumentos na BD
+    /// </summary>
     public class CandidaturaDocumentos
     {
         public int CandidaturaDocumentosID { get; set; }

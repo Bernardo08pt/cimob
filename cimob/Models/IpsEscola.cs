@@ -2,6 +2,9 @@
 
 namespace cimob.Models
 {
+    /// <summary>
+    /// Corresponde à tabela IpsEscolas na BD
+    /// </summary>
     public class IpsEscola
     {
         public int IpsEscolaID { get; set; }

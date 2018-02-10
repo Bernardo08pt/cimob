@@ -1,5 +1,8 @@
 ﻿namespace cimob.Models
 {
+    /// <summary>
+    /// Corresponde à tabela Curso na BD
+    /// </summary>
     public class Curso
     {
         public int CursoID { get; set; }

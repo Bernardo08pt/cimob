@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace cimob.Models
+﻿namespace cimob.Models
 {
+    /// <summary>
+    /// Corresponde à tabela UCAvaliacao na BD
+    /// </summary>
     public class UCAvaliacao
     {
         public int UCAvaliacaoID { get; set; }

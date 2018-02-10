@@ -1,5 +1,3 @@
-using System;
-
 namespace cimob.Models
 {
     public class ErrorViewModel

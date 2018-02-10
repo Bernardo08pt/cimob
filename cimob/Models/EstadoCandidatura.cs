@@ -1,5 +1,8 @@
 ﻿namespace cimob.Models
 {
+    /// <summary>
+    /// Corresponde à tabela EstadoCandidatura na BD
+    /// </summary>
     public class EstadoCandidatura
     {
         public int EstadoCandidaturaID { get; set; }

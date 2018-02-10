@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 using cimob.Models;
-using cimob.Models.ApplicationViewModels;
+using cimob.Models.EditaisViewModels;
 using cimob.Services;
 using cimob.Data;
 using Microsoft.EntityFrameworkCore;
