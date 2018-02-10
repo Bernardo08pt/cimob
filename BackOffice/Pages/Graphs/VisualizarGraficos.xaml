@@ -33,6 +33,6 @@
         <Frame Grid.Row="1" Grid.Column="1"/>
 
         <Label Content="Funcionários" Grid.Row="0" Grid.Column="2" Style="{StaticResource TypeGraph}"/>
-        <Frame Grid.Row="1" Grid.Column="2"/>
+        <Frame Grid.Row="1" Grid.Column="2" />
     </Grid>
 </Page>
