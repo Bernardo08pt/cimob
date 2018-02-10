@@ -6,17 +6,14 @@
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:local="clr-namespace:BackOffice.Pages.Graphs"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="350"
+             d:DesignHeight="500" d:DesignWidth="400"
              d:DataContext="{d:DesignInstance local:GraficoProgramasMobilidade}">
     <Grid>
-        <lvc:PieChart Name="Chart" Series="{Binding SeriesCollection}" 
-                      LegendLocation="Right" InnerRadius="100" Margin="0 15">
+        <lvc:PieChart Name="ProgramasMobilidade" Series="{Binding SeriesCollection}" 
+                      LegendLocation="Bottom" Hoverable="False" DataTooltip="{x:Null}" InnerRadius="80" >
             <lvc:PieChart.ChartLegend>
-                <lvc:DefaultLegend BulletSize="20"></lvc:DefaultLegend>
+                <lvc:DefaultLegend Margin="15,15,0,15" BulletSize="12"></lvc:DefaultLegend>
             </lvc:PieChart.ChartLegend>
-            <lvc:PieChart.DataTooltip>
-                <lvc:DefaultTooltip BulletSize="20"></lvc:DefaultTooltip>
-            </lvc:PieChart.DataTooltip>
         </lvc:PieChart>
     </Grid>
 </UserControl>

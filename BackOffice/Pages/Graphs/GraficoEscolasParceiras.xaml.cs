@@ -33,7 +33,7 @@ namespace BackOffice
                         Title = estatistica.Nome,
                         Values = new ChartValues<int> { estatistica.Contagem },
                         DataLabels = true,
-                        LabelPoint = chartPoint => string.Format("{0} ({1:P})", chartPoint.Y, chartPoint.Participation)
+                        LabelPoint = chartPoint => string.Format("{0}", chartPoint.Y)
                     });
             }
 
