@@ -1,14 +1,16 @@
 ﻿using System;
-using System.Windows.Controls;
+using System.Linq;
+using System.Windows;
 using LiveCharts;
+using LiveCharts.Defaults;
 using LiveCharts.Wpf;
 
-namespace BackOffice
+namespace BackOffice.Pages.Graphs
 {
     /// <summary>
     /// Interaction logic for GraficoProgramasMobilidade.xaml
     /// </summary>
-    public partial class GraficoProgramasMobilidade : UserControl
+    public partial class GraficoProgramasMobilidade 
     {
         public GraficoProgramasMobilidade()
         {
@@ -16,31 +18,99 @@ namespace BackOffice
 
             SeriesCollection = new SeriesCollection
             {
-                new ColumnSeries
+                new PieSeries
                 {
-                    Title = "2015",
-                    Values = new ChartValues<double> { 10, 50, 39, 50 }
+                    Title = "Chrome",
+                    Values = new ChartValues<ObservableValue> { new ObservableValue(8) },
+                    DataLabels = true
+                },
+                new PieSeries
+                {
+                    Title = "Mozilla",
+                    Values = new ChartValues<ObservableValue> { new ObservableValue(6) },
+                    DataLabels = true
+                },
+                new PieSeries
+                {
+                    Title = "Opera",
+                    Values = new ChartValues<ObservableValue> { new ObservableValue(10) },
+                    DataLabels = true
+                },
+                new PieSeries
+                {
+                    Title = "Explorer",
+                    Values = new ChartValues<ObservableValue> { new ObservableValue(4) },
+                    DataLabels = true
                 }
             };
 
-            //adding series will update and animate the chart automatically
-            SeriesCollection.Add(new ColumnSeries
-            {
-                Title = "2016",
-                Values = new ChartValues<double> { 11, 56, 42 }
-            });
+            //adding values or series will update and animate the chart automatically
+            //SeriesCollection.Add(new PieSeries());
+            //SeriesCollection[0].Values.Add(5);
 
-            //also adding values updates and animates the chart automatically
-            SeriesCollection[1].Values.Add(48d);
-
-            Labels = new[] { "Maria", "Susan", "Charles", "Frida" };
-            Formatter = value => value.ToString("N");
-
-            //DataContext = this;
+            DataContext = this;
         }
 
         public SeriesCollection SeriesCollection { get; set; }
-        public string[] Labels { get; set; }
-        public Func<double, string> Formatter { get; set; }
+
+        private void UpdateAllOnClick(object sender, RoutedEventArgs e)
+        {
+            var r = new Random();
+
+            foreach (var series in SeriesCollection)
+            {
+                foreach (var observable in series.Values.Cast<ObservableValue>())
+                {
+                    observable.Value = r.Next(0, 10);
+                }
+            }
+        }
+
+        private void AddSeriesOnClick(object sender, RoutedEventArgs e)
+        {
+            var r = new Random();
+            var c = SeriesCollection.Count > 0 ? SeriesCollection[0].Values.Count : 5;
+
+            var vals = new ChartValues<ObservableValue>();
+
+            for (var i = 0; i < c; i++)
+            {
+                vals.Add(new ObservableValue(r.Next(0, 10)));
+            }
+
+            SeriesCollection.Add(new PieSeries
+            {
+                Values = vals
+            });
+        }
+
+        private void RemoveSeriesOnClick(object sender, RoutedEventArgs e)
+        {
+            if (SeriesCollection.Count > 0)
+                SeriesCollection.RemoveAt(0);
+        }
+
+        private void AddValueOnClick(object sender, RoutedEventArgs e)
+        {
+            var r = new Random();
+            foreach (var series in SeriesCollection)
+            {
+                series.Values.Add(new ObservableValue(r.Next(0, 10)));
+            }
+        }
+
+        private void RemoveValueOnClick(object sender, RoutedEventArgs e)
+        {
+            foreach (var series in SeriesCollection)
+            {
+                if (series.Values.Count > 0)
+                    series.Values.RemoveAt(0);
+            }
+        }
+
+        private void RestartOnClick(object sender, RoutedEventArgs e)
+        {
+            Chart.Update(true, true);
+        }
     }
 }

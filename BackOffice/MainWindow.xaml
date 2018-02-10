@@ -5,7 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BackOffice"
         mc:Ignorable="d"
-        Title="BackOffice - CIMOB" Height="auto" Width="auto">
+        Title="BackOffice - CIMOB"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen" 
+        Width="Auto" Height="Auto"
+        WindowState="Maximized">
     <Window.Resources>
         <Style x:Key="Titulo" TargetType="Label" >
             <Setter Property="FontFamily" Value="Times New Roman"/>
@@ -59,7 +63,7 @@
             </Button.ContextMenu>
         </Button>
         <Border Grid.Row="2" Grid.ColumnSpan="3" Height="10" Background="#CCC" BorderBrush="Black"/>
-        <Frame Grid.Row="3" Grid.ColumnSpan="3"  Source="VisualizarGraficos.xaml" />
+        <Frame Grid.Row="3" Grid.ColumnSpan="3"  Source="Pages/Graphs/VisualizarGraficos.xaml" />
         
     </Grid>
 

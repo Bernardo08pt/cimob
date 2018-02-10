@@ -12,6 +12,7 @@ namespace BackOffice
    
     public partial class App : Application
     {
-        
+        private static BDCharts estatisticas = new BDCharts();
+        public static BDCharts Estatisticas { get => estatisticas; }
     }
 }

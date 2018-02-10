@@ -71,17 +71,22 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Data\BDCharts.cs" />
+    <Compile Include="Models\EstatisticaProgramaMobilidade.cs" />
     <Compile Include="Pages\Graphs\GraficoEscolasParceiras.xaml.cs">
       <DependentUpon>GraficoEscolasParceiras.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\EstatisticaEscolaParceira.cs" />
     <Compile Include="Pages\Graphs\GraficoProgramasMobilidade.xaml.cs">
       <DependentUpon>GraficoProgramasMobilidade.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\EstatisticaEscolaParceira.cs" />
     <Compile Include="Pages\Graphs\VisualizarGraficos.xaml.cs">
       <DependentUpon>VisualizarGraficos.xaml</DependentUpon>
     </Compile>
     <Page Include="Pages\Graphs\GraficoEscolasParceiras.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Graphs\GraficoProgramasMobilidade.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -90,10 +95,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Users\EditarContaUtilizadorDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\Graphs\GraficoProgramasMobilidade.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
