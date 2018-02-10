@@ -1,23 +1,16 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace cimob.Extensions
 {
+    /// <summary>
+    /// Exceção lançada na validação do tamanho do ficheiro.
+    /// Esta é lançada se o tamanho for inferior ou superior ao expectável
+    /// </summary>
     [Serializable]
     internal class FileSizeException : Exception
     {
         public FileSizeException() {}
 
-        public FileSizeException(string message) : base(message)
-        {
-        }
-
-        public FileSizeException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        protected FileSizeException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
+        public FileSizeException(string message) : base(message) {}
     }
 }

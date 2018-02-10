@@ -1,23 +1,16 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace cimob.Extensions
 {
+    /// <summary>
+    /// Exceção lançada na validação do ficheiro.
+    /// Esta é lançada se a função não recebe ficheiro nenhum
+    /// </summary>
     [Serializable]
     internal class NoFileExpcetion : Exception
     {
         public NoFileExpcetion() {}
 
-        public NoFileExpcetion(string message) : base(message)
-        {
-        }
-
-        public NoFileExpcetion(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        protected NoFileExpcetion(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
+        public NoFileExpcetion(string message) : base(message) {}
     }
 }

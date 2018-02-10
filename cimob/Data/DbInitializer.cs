@@ -1,15 +1,20 @@
 ﻿using cimob.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace cimob.Data
 {
+    /// <summary>
+    /// Classe que inicializa e popula a base dados
+    /// </summary>
     public class DbInitializer
     {
+        /// <summary>
+        /// Garante que a BD existe. Seguidamente verifica as tabelas (individualmente) com dados pré definidos
+        /// (paises, parentesco, tipoMObilidade, etc). As que não tiver, chama a função correspondente para popular
+        /// </summary>
+        /// <param name="context"></param>
         public static void Initialize(ApplicationDbContext context)
         {
-    
             context.Database.EnsureCreated();
 
             // Verificar se as ajudas já estão adicionadas
@@ -86,8 +91,10 @@ namespace cimob.Data
             }
         }
 
-
-        /** data feed functions **/
+        /// <summary>
+        /// Função que popula a tabela Parentesco
+        /// </summary>
+        /// <param name="context">instância applicationDbContenxt para poder atualizar a BD</param>
         private static void AddParentesco(ApplicationDbContext context)
         {
             context.Parentescos.Add(new Parentesco { Descricao = "Pai "});
@@ -96,50 +103,26 @@ namespace cimob.Data
             context.Parentescos.Add(new Parentesco { Descricao = "Primo(a)" });
             context.Parentescos.Add(new Parentesco { Descricao = "Tio(a)" });
             context.Parentescos.Add(new Parentesco { Descricao = "Avô(ó)" });
-
-            //Gravar alterações
-            context.SaveChanges();
         }
 
+        /// <summary>
+        /// Função que popula a tabela TipoMobilidade
+        /// </summary>
+        /// <param name="context">instância applicationDbContenxt para poder atualizar a BD</param>
         private static void AddTipoMobilidade(ApplicationDbContext context)
         {
-            context.TiposMobilidade.Add(new TipoMobilidade
-            {
-                Descricao = "Erasmus +",
-                Estagio = 0
-            });
-
-            context.TiposMobilidade.Add(new TipoMobilidade
-            {
-                Descricao = "Erasmus +",
-                Estagio = 1
-            });
-
-            context.TiposMobilidade.Add(new TipoMobilidade
-            {
-                Descricao = "Mobilidade Vasco da Gama",
-                Estagio = 0
-            });
-
-            context.TiposMobilidade.Add(new TipoMobilidade
-            {
-                Descricao = "Bolsas Luso-Brasileiras Santander Universidades",
-                Estagio = 0
-            });
-
-            context.TiposMobilidade.Add(new TipoMobilidade
-            {
-                Descricao = "Bolsas Ibero-Americanas Santander Universidades",
-                Estagio = 0
-            });
-
-            context.TiposMobilidade.Add(new TipoMobilidade
-            {
-                Descricao = "Cooperação com o Instituto Politécnico de Macau",
-                Estagio = 0
-            });
+            context.TiposMobilidade.Add(new TipoMobilidade { Descricao = "Erasmus +", Estagio = 0 });
+            context.TiposMobilidade.Add(new TipoMobilidade { Descricao = "Erasmus +", Estagio = 1 });
+            context.TiposMobilidade.Add(new TipoMobilidade { Descricao = "Mobilidade Vasco da Gama", Estagio = 0 });
+            context.TiposMobilidade.Add(new TipoMobilidade { Descricao = "Bolsas Luso-Brasileiras Santander Universidades", Estagio = 0 });
+            context.TiposMobilidade.Add(new TipoMobilidade { Descricao = "Bolsas Ibero-Americanas Santander Universidades", Estagio = 0 });
+            context.TiposMobilidade.Add(new TipoMobilidade { Descricao = "Cooperação com o Instituto Politécnico de Macau", Estagio = 0 });
         }
 
+        /// <summary>
+        /// Função que popula a tabela Paises
+        /// </summary>
+        /// <param name="context">instância applicationDbContenxt para poder atualizar a BD</param>
         private static void AddPaises(ApplicationDbContext context)
         {
             context.Paises.Add(new Pais { Descricao = "Alemanha" });
@@ -149,196 +132,157 @@ namespace cimob.Data
             context.Paises.Add(new Pais { Descricao = "Espanha" });
         }
 
-        private static List<IpsCurso> AddIpsCursosESTS(ApplicationDbContext context)
+        /// <summary>
+        /// Função que popula a tabela IpsCurso com os cursos da ESTS
+        /// </summary>
+        /// <param name="context">instância applicationDbContenxt para poder atualizar a BD</param>
+        private static void AddIpsCursosESTS(ApplicationDbContext context)
         {
-            var cursos = new List<IpsCurso>{
-                new IpsCurso { Nome = "Engenharia Biomédica", IpsEscolaID = 1 },
-                new IpsCurso { Nome = "Engenharia de Automação, Controlo e Instrumentação", IpsEscolaID = 1 },
-                new IpsCurso { Nome = "Licenciatura em Engenharia do Ambiente", IpsEscolaID = 1 },
-                new IpsCurso { Nome = "Licenciatura em Engenharia Eletrotécnica e de Computadores", IpsEscolaID = 1 },
-                new IpsCurso { Nome = "Licenciatura em Engenharia Informática", IpsEscolaID = 1 },
-                new IpsCurso { Nome = "Licenciatura em Engenharia Mecânica", IpsEscolaID = 1 },
-                new IpsCurso { Nome = "Licenciatura em Tecnologia Biomédica", IpsEscolaID = 1 },
-                new IpsCurso { Nome = "Licenciatura em Tecnologias de Energia", IpsEscolaID = 1 },
-                new IpsCurso { Nome = "Licenciatura em Tecnologias do Ambiente e do Mar", IpsEscolaID = 1 },
-                new IpsCurso { Nome = "Licenciatura em Tecnologia e Gestão Industrial", IpsEscolaID = 1 },
-                new IpsCurso { Nome = "Mestrado em Energia", IpsEscolaID = 1 },
-                new IpsCurso { Nome = "Mestrado em Engenharia Biomédica - Desporto e Reabilitação", IpsEscolaID = 1 },
-                new IpsCurso { Nome = "Mestrado em Engenharia de Produção", IpsEscolaID = 1 },
-                new IpsCurso { Nome = "Mestrado em Engenharia de Software Novo", IpsEscolaID = 1 },
-                new IpsCurso { Nome = "Mestrado em Engenharia Eletrotécnica e de Computadores", IpsEscolaID = 1 },
-                new IpsCurso { Nome = "Mestrado em Informática de Gestão", IpsEscolaID = 1 },
-                new IpsCurso { Nome = "Mestrado em Segurança e Higiene no Trabalho", IpsEscolaID = 1 },
-                new IpsCurso { Nome = "Pós-Graduação em Motorização de Veículos Elétricos e Híbridos", IpsEscolaID = 1 },
-                new IpsCurso { Nome = "Pós-Graduação em Eficiência Energética e Energias Renováveis em Edíficios", IpsEscolaID = 1 },
-                new IpsCurso { Nome = "Pós-Graduação em Engenharia da Instrumentação e Sistemas de Automação", IpsEscolaID = 1 },
-                new IpsCurso { Nome = "Pós-Graduação em Engenharia Informática", IpsEscolaID = 1 },
-                new IpsCurso { Nome = "Pós-Graduação em Lean Operations Management", IpsEscolaID = 1 },
-                new IpsCurso { Nome = "Pós-Graduação em Tecnologia Aeronáutica", IpsEscolaID = 1 },
-            };
-
-            foreach (IpsCurso c in cursos)
-            {
-                context.IpsCursos.Add(c);
-            }
-
-            return cursos;
+            context.IpsCursos.Add(new IpsCurso { Nome = "Engenharia Biomédica", IpsEscolaID = 1 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Engenharia de Automação, Controlo e Instrumentação", IpsEscolaID = 1 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Licenciatura em Engenharia do Ambiente", IpsEscolaID = 1 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Licenciatura em Engenharia Eletrotécnica e de Computadores", IpsEscolaID = 1 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Licenciatura em Engenharia Informática", IpsEscolaID = 1 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Licenciatura em Engenharia Mecânica", IpsEscolaID = 1 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Licenciatura em Tecnologia Biomédica", IpsEscolaID = 1 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Licenciatura em Tecnologias de Energia", IpsEscolaID = 1 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Licenciatura em Tecnologias do Ambiente e do Mar", IpsEscolaID = 1 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Licenciatura em Tecnologia e Gestão Industrial", IpsEscolaID = 1 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Mestrado em Energia", IpsEscolaID = 1 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Mestrado em Engenharia Biomédica - Desporto e Reabilitação", IpsEscolaID = 1 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Mestrado em Engenharia de Produção", IpsEscolaID = 1 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Mestrado em Engenharia de Software Novo", IpsEscolaID = 1 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Mestrado em Engenharia Eletrotécnica e de Computadores", IpsEscolaID = 1 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Mestrado em Informática de Gestão", IpsEscolaID = 1 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Mestrado em Segurança e Higiene no Trabalho", IpsEscolaID = 1 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Pós-Graduação em Motorização de Veículos Elétricos e Híbridos", IpsEscolaID = 1 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Pós-Graduação em Eficiência Energética e Energias Renováveis em Edíficios", IpsEscolaID = 1 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Pós-Graduação em Engenharia da Instrumentação e Sistemas de Automação", IpsEscolaID = 1 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Pós-Graduação em Engenharia Informática", IpsEscolaID = 1 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Pós-Graduação em Lean Operations Management", IpsEscolaID = 1 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Pós-Graduação em Tecnologia Aeronáutica", IpsEscolaID = 1 });
         }
 
-        private static List<IpsCurso> AddIpsCursosESTB(ApplicationDbContext context)
+        /// <summary>
+        /// Função que popula a tabela IpsCurso com os cursos da ESTB
+        /// </summary>
+        /// <param name="context">instância applicationDbContenxt para poder atualizar a BD</param>
+        private static void AddIpsCursosESTB(ApplicationDbContext context)
         {
-            var cursos = new List<IpsCurso>{
-                new IpsCurso { Nome = "Bioinformática", IpsEscolaID = 2 },
-                new IpsCurso { Nome = "Biotecnologia", IpsEscolaID = 2 },
-                new IpsCurso { Nome = "Licenciatura em Engenharia Civil", IpsEscolaID = 2 },
-                new IpsCurso { Nome = "Engenharia Química", IpsEscolaID = 2 },
-                new IpsCurso { Nome = "Gestão da Construção", IpsEscolaID = 2 },
-                new IpsCurso { Nome = "Tecnologias do Petróleo", IpsEscolaID = 2 },
-                new IpsCurso { Nome = "Conservação e Reabilitação do Edificado", IpsEscolaID = 2 },
-                new IpsCurso { Nome = "Engenharia Biológica e Química", IpsEscolaID = 2 },
-                new IpsCurso { Nome = "Mestrado em Engenharia Civil", IpsEscolaID = 2 },
-            };
-
-            foreach (IpsCurso c in cursos)
-            {
-                context.IpsCursos.Add(c);
-            }
-
-            return cursos;
+            context.IpsCursos.Add(new IpsCurso { Nome = "Bioinformática", IpsEscolaID = 2 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Biotecnologia", IpsEscolaID = 2 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Licenciatura em Engenharia Civil", IpsEscolaID = 2 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Engenharia Química", IpsEscolaID = 2 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Gestão da Construção", IpsEscolaID = 2 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Tecnologias do Petróleo", IpsEscolaID = 2 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Conservação e Reabilitação do Edificado", IpsEscolaID = 2 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Engenharia Biológica e Química", IpsEscolaID = 2 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Mestrado em Engenharia Civil", IpsEscolaID = 2 });
         }
 
-        private static List<IpsCurso> AddIpsCursosESS(ApplicationDbContext context)
+        /// <summary>
+        /// Função que popula a tabela IpsCursos com os cursos da ESS
+        /// </summary>
+        /// <param name="context">instância applicationDbContenxt para poder atualizar a BD</param>
+        private static void AddIpsCursosESS(ApplicationDbContext context)
         {
-            var cursos = new List<IpsCurso>{
-                new IpsCurso { Nome = "Acupuntura", IpsEscolaID = 3 },
-                new IpsCurso { Nome = "Enfermagem", IpsEscolaID = 3 },
-                new IpsCurso { Nome = "Fisioterapia", IpsEscolaID = 3 },
-                new IpsCurso { Nome = "Terapia da Fala", IpsEscolaID = 3 },
-                new IpsCurso { Nome = "Pós-Licenciatura de Especialização em Enfermagem Médico-Cirúrgica", IpsEscolaID = 3 },
-                new IpsCurso { Nome = "Pós-Licenciatura de Especialização em Enfermagem de Saúde Mental e Psiquiatria", IpsCursoID = 3 },
-                new IpsCurso { Nome = "Pós-Licenciatura de Especialização em Enfermagem Médico-Cirúrgica", IpsEscolaID = 3 },
-                new IpsCurso { Nome = "Enfermagem do Trabalho", IpsEscolaID = 3 },
-                new IpsCurso { Nome = "Saúde Sexual e Reprodutiva: Mutilação Genital Feminina", IpsEscolaID = 3 },
-                new IpsCurso { Nome = "Enfermagem", IpsEscolaID = 3 },
-                new IpsCurso { Nome = "Enfermagem Perioperatória", IpsEscolaID = 3 },
-                new IpsCurso { Nome = "Fisioterapia", IpsEscolaID = 3 }
-            };
-
-            foreach (IpsCurso c in cursos)
-            {
-                context.IpsCursos.Add(c);
-            }
-
-            return cursos;
+            context.IpsCursos.Add(new IpsCurso { Nome = "Acupuntura", IpsEscolaID = 3 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Enfermagem", IpsEscolaID = 3 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Fisioterapia", IpsEscolaID = 3 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Terapia da Fala", IpsEscolaID = 3 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Pós-Licenciatura de Especialização em Enfermagem Médico-Cirúrgica", IpsEscolaID = 3 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Pós-Licenciatura de Especialização em Enfermagem de Saúde Mental e Psiquiatria", IpsCursoID = 3 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Pós-Licenciatura de Especialização em Enfermagem Médico-Cirúrgica", IpsEscolaID = 3 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Enfermagem do Trabalho", IpsEscolaID = 3 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Saúde Sexual e Reprodutiva: Mutilação Genital Feminina", IpsEscolaID = 3 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Enfermagem", IpsEscolaID = 3 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Enfermagem Perioperatória", IpsEscolaID = 3 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Fisioterapia", IpsEscolaID = 3 });
         }
 
-        private static List<IpsCurso> AddIpsCursosESE(ApplicationDbContext context)
+        /// <summary>
+        /// Função que popula a tabela IpsCurso com os cursos da ESE
+        /// </summary>
+        /// <param name="context">instância applicationDbContenxt para poder atualizar a BD</param>
+        private static void AddIpsCursosESE(ApplicationDbContext context)
         {
-            var cursos = new List<IpsCurso>{
-                new IpsCurso { Nome = "Animação e Intervenção Sociocultural", IpsEscolaID = 4 },
-                new IpsCurso { Nome = "Comunicação Social", IpsEscolaID = 4 },
-                new IpsCurso { Nome = "Desporto", IpsEscolaID = 4 },
-                new IpsCurso { Nome = "Educação Básica", IpsEscolaID = 4 },
-                new IpsCurso { Nome = "Tradução e Interpretação de Língua Gestual Portuguesa", IpsEscolaID = 4 },
-                new IpsCurso { Nome = "Língua Gestual Portuguesa", IpsEscolaID = 4 },
-                new IpsCurso { Nome = "Mestrado em Educação Pré-Escolar", IpsEscolaID = 4 },
-                new IpsCurso { Nome = "Mestrado em Educação Pré-Escolar e Ensino do 1º ciclo do Ensino Básico", IpsEscolaID = 4 },
-                new IpsCurso { Nome = "Mestrado em Ensino do 1º Ciclo do Ensino Básico e de Matemática e Ciências Naturais do 2º Ciclo do Ensino Básico", IpsEscolaID = 4 },
-                new IpsCurso { Nome = "Mestrado em Ensino do 1º ciclo do Ensino Básico e de Português e História e Geografia de Portugal no 2º ciclo do Ensino Básico", IpsEscolaID = 4 },
-                new IpsCurso { Nome = "Mestrado em Gestão e Administração de Escolas ", IpsEscolaID = 4 },
-                new IpsCurso { Nome = "Pós-Graduação em Educação Especial - Domínio Cognitivo e Motor", IpsEscolaID = 4 },
-                new IpsCurso { Nome = "Pós-Graduação em Supervisão Pedagógica e Formação de Formadores", IpsEscolaID = 4 }
-            };
-
-            foreach (IpsCurso c in cursos)
-            {
-                context.IpsCursos.Add(c);
-            }
-
-            return cursos;
+            context.IpsCursos.Add(new IpsCurso { Nome = "Animação e Intervenção Sociocultural", IpsEscolaID = 4 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Comunicação Social", IpsEscolaID = 4 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Desporto", IpsEscolaID = 4 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Educação Básica", IpsEscolaID = 4 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Tradução e Interpretação de Língua Gestual Portuguesa", IpsEscolaID = 4 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Língua Gestual Portuguesa", IpsEscolaID = 4 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Mestrado em Educação Pré-Escolar", IpsEscolaID = 4 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Mestrado em Educação Pré-Escolar e Ensino do 1º ciclo do Ensino Básico", IpsEscolaID = 4 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Mestrado em Ensino do 1º Ciclo do Ensino Básico e de Matemática e Ciências Naturais do 2º Ciclo do Ensino Básico", IpsEscolaID = 4 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Mestrado em Ensino do 1º ciclo do Ensino Básico e de Português e História e Geografia de Portugal no 2º ciclo do Ensino Básico", IpsEscolaID = 4 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Mestrado em Gestão e Administração de Escolas ", IpsEscolaID = 4 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Pós-Graduação em Educação Especial - Domínio Cognitivo e Motor", IpsEscolaID = 4 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Pós-Graduação em Supervisão Pedagógica e Formação de Formadores", IpsEscolaID = 4 });
         }
 
-        private static List<IpsCurso> AddIpsCursosESCE(ApplicationDbContext context)
+        /// <summary>
+        /// Função que popula a tabela IpsCursos com os curso da ESCE
+        /// </summary>
+        /// <param name="context">instância applicationDbContenxt para poder atualizar a BD</param>
+        private static void AddIpsCursosESCE(ApplicationDbContext context)
         {
-            var cursos = new List<IpsCurso>{
-                new IpsCurso { Nome = "Licenciatura em Contabilidade e Finanças", IpsEscolaID = 5 },
-                new IpsCurso { Nome = "Contabilidade e Finanças Noturno", IpsEscolaID = 5 },
-                new IpsCurso { Nome = "Gestão da Distribuição e da Logística", IpsEscolaID = 5 },
-                new IpsCurso { Nome = "Gestão da Distribuição e da Logística Pós-Laboral", IpsEscolaID = 5 },
-                new IpsCurso { Nome = "Gestão de Recursos Humanos", IpsEscolaID = 5 },
-                new IpsCurso { Nome = "Gestão de Recursos Humanos Pós-Laboral", IpsEscolaID = 5 },
-                new IpsCurso { Nome = "Licenciatura em Gestão de Sistemas de Informação", IpsEscolaID = 5 },
-                new IpsCurso { Nome = "Marketing", IpsEscolaID = 5 },
-                new IpsCurso { Nome = "Ciências Empresariais ", IpsEscolaID = 5 },
-                new IpsCurso { Nome = "Mestrado em Contabilidade e Finanças", IpsEscolaID = 5 },
-                new IpsCurso { Nome = "Gestão de Marketing", IpsEscolaID = 5 },
-                new IpsCurso { Nome = "Mestrado em Gestão de Sistemas de Informação", IpsEscolaID = 5 },
-                new IpsCurso { Nome = "Gestão e Administração de Escolas", IpsEscolaID = 5 },
-                new IpsCurso { Nome = "Gestão Estratégica de Recursos Humanos", IpsEscolaID = 5 },
-                new IpsCurso { Nome = "Segurança e Higiene no Trabalho", IpsEscolaID = 5 },
-                new IpsCurso { Nome = "Contabilidade Pública", IpsEscolaID = 5 },
-                new IpsCurso { Nome = "Gestão e Marketing Turístico", IpsEscolaID = 5 },
-            };
-
-            foreach (IpsCurso c in cursos)
-            {
-                context.IpsCursos.Add(c);
-            }
-
-            return cursos;
+            context.IpsCursos.Add(new IpsCurso { Nome = "Licenciatura em Contabilidade e Finanças", IpsEscolaID = 5 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Contabilidade e Finanças Noturno", IpsEscolaID = 5 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Gestão da Distribuição e da Logística", IpsEscolaID = 5 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Gestão da Distribuição e da Logística Pós-Laboral", IpsEscolaID = 5 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Gestão de Recursos Humanos", IpsEscolaID = 5 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Gestão de Recursos Humanos Pós-Laboral", IpsEscolaID = 5 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Licenciatura em Gestão de Sistemas de Informação", IpsEscolaID = 5 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Marketing", IpsEscolaID = 5 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Ciências Empresariais ", IpsEscolaID = 5 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Mestrado em Contabilidade e Finanças", IpsEscolaID = 5 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Gestão de Marketing", IpsEscolaID = 5 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Mestrado em Gestão de Sistemas de Informação", IpsEscolaID = 5 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Gestão e Administração de Escolas", IpsEscolaID = 5 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Gestão Estratégica de Recursos Humanos", IpsEscolaID = 5 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Segurança e Higiene no Trabalho", IpsEscolaID = 5 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Contabilidade Pública", IpsEscolaID = 5 });
+            context.IpsCursos.Add(new IpsCurso { Nome = "Gestão e Marketing Turístico", IpsEscolaID = 5 });
         }
 
+        /// <summary>
+        /// Função que popula a tabela IpsEscolas
+        /// </summary>
+        /// <param name="context">instância applicationDbContenxt para poder atualizar a BD</param>
         private static void AddIpsEscolas(ApplicationDbContext context)
         {
             context.IpsEscolas.Add(new IpsEscola { Descricao = "Escola Superior de Tecnologia de Setúbal" });
-
             context.IpsEscolas.Add(new IpsEscola { Descricao = "Escola Superior de Tecnologia de Barreiro" });
-
             context.IpsEscolas.Add(new IpsEscola { Descricao = "Escola Superior de Saúde" });
-
             context.IpsEscolas.Add(new IpsEscola { Descricao = "Escola Superior de Educação" });
-
-            context.IpsEscolas.Add(new IpsEscola {Descricao = "Escola Superior de Ciências Empresariais" });
+            context.IpsEscolas.Add(new IpsEscola { Descricao = "Escola Superior de Ciências Empresariais" });
         }
 
+        /// <summary>
+        /// Função que adiciona registos de testes à tabela Escolas
+        /// </summary>
+        /// <param name="context">instância applicationDbContenxt para poder atualizar a BD</param>
         private static void AddEscolas(ApplicationDbContext context)
         {
-            context.Escolas.Add(new Escola {
-                    PaisID = 1,
-                    TipoMobilidadeID = 1,
-                    Nome = "Escola fixolas",
-                    Email = "Email da escola fixolas",
-                    Estado = 1
-            });
+            context.Escolas.Add(new Escola { PaisID = 1, TipoMobilidadeID = 1, Nome = "Escola fixolas", Email = "Email da escola fixolas", Estado = 1 });
         }
 
+        /// <summary>
+        /// Função que adiciona registos de testes à tabela Cursos
+        /// </summary>
+        /// <param name="context">instância applicationDbContenxt para poder atualizar a BD</param>
         private static void AddCursos(ApplicationDbContext context)
         {
-            context.Cursos.Add(new Curso
-            {
-                Vagas = 5,
-                Nome = "Curso fixolas",
-                EscolaID = 1,
-                PaisID = 1
-            });
-
-            context.Cursos.Add(new Curso
-            {
-                Vagas = 5,
-                Nome = "Curso fixolas 2",
-                EscolaID = 1,
-                PaisID = 1
-            });
-
-            context.Cursos.Add(new Curso
-            {
-                Vagas = 5,
-                Nome = "Curso fixolas 3",
-                EscolaID = 1,
-                PaisID = 1
-            });
+            context.Cursos.Add(new Curso { Vagas = 5, Nome = "Curso fixolas", EscolaID = 1, PaisID = 1 });
+            context.Cursos.Add(new Curso { Vagas = 5, Nome = "Curso fixolas 2", EscolaID = 1, PaisID = 1 });
+            context.Cursos.Add(new Curso { Vagas = 5, Nome = "Curso fixolas 3", EscolaID = 1, PaisID = 1 });
         }
 
+        /// <summary>
+        /// Função que popula a tabela Ajudas
+        /// </summary>
+        /// <param name="context">instância applicationDbContenxt para poder atualizar a BD</param>
         private static void AddAjudas(ApplicationDbContext context)
         {
             //Login
@@ -440,6 +384,10 @@ namespace cimob.Data
             context.Ajudas.Add(new Ajuda { Pagina = "EditarPerfil", Nome = "ConfPW", Titulo = "Confirmação da Nova Password", Corpo = "<p>Por questões de segurança, escreva a nova password que deseja novamente.</p>" });
         }
 
+        /// <summary>
+        /// Função que popula a tabela EstadosCandidatura
+        /// </summary>
+        /// <param name="context">instância applicationDbContenxt para poder atualizar a BD</param>
         private static void AddEstadosCandidatura(ApplicationDbContext context)
         {
             context.EstadosCandidatura.Add(new EstadoCandidatura { Descricao = "Submetida", Cor = "#FBAF1C", Icon = "arrow-circle-o-right" });
@@ -447,11 +395,12 @@ namespace cimob.Data
             context.EstadosCandidatura.Add(new EstadoCandidatura { Descricao = "Confirmar Documentação", Cor = "#DB1A5D", Icon = "file-text" });
             context.EstadosCandidatura.Add(new EstadoCandidatura { Descricao = "Entrevista", Cor = "#2A3B91", Icon = "users" });
             context.EstadosCandidatura.Add(new EstadoCandidatura { Descricao = "Finalizada", Cor = "#8DD2C5", Icon = "check" });
-
-            //Gravar alterações
-            context.SaveChanges();
         }
 
+        /// <summary>
+        /// Função que popula a tabela Erros
+        /// </summary>
+        /// <param name="context">instância applicationDbContenxt para poder atualizar a BD</param>
         private static void AddErros(ApplicationDbContext context)
         {
             context.Erros.Add(new Erro { Nome = "Unknown", Mensagem = "Ocorreu um erro inesperado! Se presistir por favor contacte um administrador.", Codigo = 1 });
@@ -463,9 +412,6 @@ namespace cimob.Data
             context.Erros.Add(new Erro { Nome = "UpdateCandidatura", Mensagem = "Ocorreu um erro inesperado a atualizar a Candidatura. Por favor tente mais tarde!", Codigo = 7 });
             context.Erros.Add(new Erro { Nome = "InvalidCandidaturaState", Mensagem = "Não é possível aceitar uma candidatura sem fazer a entrevista e com 0 pontuação!", Codigo = 8 });
             context.Erros.Add(new Erro { Nome = "NoNewData", Mensagem = "Não houve alterações nenhumas à candidatura.", Codigo = 9 });
-
-            //Gravar alterações
-            context.SaveChanges();
         }
     }
 }
