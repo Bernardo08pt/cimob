@@ -9,7 +9,7 @@
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen" 
         Width="Auto" Height="Auto"
-        WindowState="Maximized" Icon="favicon.ico">
+        WindowState="Maximized" Icon="images/icon.ico">
     <Window.Resources>
         <Style x:Key="Titulo" TargetType="Label" >
             <Setter Property="FontFamily" Value="Times New Roman"/>
@@ -52,7 +52,7 @@
         <Label Content="BackOffice" Grid.Row="1" Grid.Column="1" Style="{StaticResource Titulo}"/>
         <Button Grid.Row="1" Grid.Column="3" Style="{StaticResource Menu}" Click="AbrirMenu_Click">
             <Button.Content>
-                <Image VerticalAlignment="Center" Width="Auto" Source="/images/menu2.png"/>
+                <Image VerticalAlignment="Center" Width="Auto" Source="/images/menu.png"/>
             </Button.Content>
             <Button.ContextMenu>
                 <ContextMenu >

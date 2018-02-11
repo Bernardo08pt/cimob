@@ -1,22 +1,8 @@
 ﻿using BackOffice.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using Microsoft.AspNetCore.Identity;
 
 namespace BackOffice
 {
@@ -59,7 +45,7 @@ namespace BackOffice
             users = users.Select(u => u).Where(u => u.Email == TextBoxEmail.Text && u.RoleName == "Administrador");
 
             ApplicationUser user = null;
-            if (users != null)
+            if (users.Any())
                 user = users.First();
 
             if(user == null)
@@ -67,12 +53,10 @@ namespace BackOffice
                 MessageBox.Show("Não existe uma conta de utilizador com este email.", "Falha de login", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-
-
             var p = new PasswordHasher<ApplicationUser>();
             PasswordVerificationResult result = p.VerifyHashedPassword(user, user.PasswordHash, TextBoxPassword.Password);
 
-            if(result == PasswordVerificationResult.Success)
+            if(result == Microsoft.AspNetCore.Identity.PasswordVerificationResult.Success)
             {
                 MainWindow window = new MainWindow();
                 window.Show();

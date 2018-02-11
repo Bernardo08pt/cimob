@@ -5,31 +5,45 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BackOffice"
         mc:Ignorable="d"
-        Title="Login" Height="350" Width="300" Icon="favicon.ico">
-    <Grid Name="GridFormUtilizador" DockPanel.Dock="Left"  Margin="10">
-            <Grid.RowDefinitions>
+        Title="Login" Height="350" Width="300" Icon="images/icon.ico"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#2b78e4"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="Width" Value="80"></Setter>
+            <Setter Property="BorderBrush" Value="Gray"></Setter>
+            <Setter Property="BorderThickness" Value="2"></Setter>
+        </Style>
+    </Window.Resources>
+    <Grid Name="GridFormUtilizador" DockPanel.Dock="Left" Background="#f1eee7"  Margin="10">
+        <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="50"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Border Background="White" Grid.Row="0" Grid.ColumnSpan="2"/>
+        <Image Grid.Row="0" Grid.Column="0"  Source="/images/logotipo.png" HorizontalAlignment="Center" Margin="6"/>
+        
+        <Border Grid.Row="1" Grid.ColumnSpan="3" Height="10" Background="#CCC" BorderBrush="Black"/>
+        
+        <Label Content="Nome de Utilizador" HorizontalAlignment="Left" FontSize="12" Grid.Row="2" Grid.Column="0" />
+        <TextBox Name="TextBoxEmail" Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" FontSize="12" Margin="5, 0" Padding="5" />
 
-        <Image Grid.Row="0" Grid.Column="0"  Source="/images/logotipo.png" HorizontalAlignment="Center"/>
-        <Label Content="Nome de Utilizador" HorizontalAlignment="Left" FontSize="12" Grid.Row="1" Grid.Column="0" />
-            <TextBox Name="TextBoxEmail" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" FontSize="12" Margin="5, 0" Padding="5" />
-
-            <Label Content="Password" HorizontalAlignment="Left" FontSize="12" Grid.Row="3" Margin="0,10,0,0" />
-            <PasswordBox Name="TextBoxPassword" Grid.Row="4" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Margin="5, 0" Padding="5"/>
+        <Label Content="Password" HorizontalAlignment="Left" FontSize="12" Grid.Row="4" Margin="0,10,0,0" />
+        <PasswordBox Name="TextBoxPassword" Grid.Row="5" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Margin="5, 0" Padding="5"/>
 
 
-            <StackPanel Grid.Column="1" Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="25">
-                <Button x:Name="OkButton"  IsDefault="True" MinWidth="60" Content="Entrar" Click="OkButton_Click"/>
-            </StackPanel>
+        <StackPanel Grid.Column="1" Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="25">
+            <Button x:Name="OkButton" IsDefault="True" MinWidth="60" Content="Entrar" Click="OkButton_Click" Margin="0,-2,0,1.8"/>
+        </StackPanel>
         </Grid>
 </Window>

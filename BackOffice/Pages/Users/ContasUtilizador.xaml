@@ -26,17 +26,37 @@
 
 
         <Style x:Key="DGRow" TargetType="DataGridRow">
-        <Style.Triggers>
+            <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#8EA9CC"/>
                     <Setter Property="Foreground" Value="#f9f9f9"/>
 
                 </Trigger>
-                
+
             </Style.Triggers>
         </Style>
-
-
+        
+        <Style x:Key="Adicionar" TargetType="Button">
+            <Setter Property="Background" Value="#009e0f"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="Width" Value="80"></Setter>
+            <Setter Property="BorderBrush" Value="Gray"></Setter>
+            <Setter Property="BorderThickness" Value="2"></Setter>
+        </Style>
+        <Style x:Key="Editar" TargetType="Button">
+            <Setter Property="Background" Value="#2b78e4"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="Width" Value="80"></Setter>
+            <Setter Property="BorderBrush" Value="Gray"></Setter>
+            <Setter Property="BorderThickness" Value="2"></Setter>
+        </Style>
+        <Style x:Key="Apagar" TargetType="Button">
+            <Setter Property="Background" Value="#cf2a27"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="Width" Value="80"></Setter>
+            <Setter Property="BorderBrush" Value="Gray"></Setter>
+            <Setter Property="BorderThickness" Value="2"></Setter>
+        </Style>
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -70,9 +90,9 @@
         </DataGrid>
 
         <StackPanel Grid.Row="2" Grid.Column="0"  Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom"  Margin="0,0,0,0" Width="Auto">
-            <Button x:Name="ButtonAdicionar" Height="30" Width="60" Margin="10" Content="Adicionar" Click="AddRow"/>
-            <Button x:Name="ButtonEditar" Width="60" Margin="10" Content="Editar" Click="ButtonEdit_Click"/>
-            <Button x:Name="ButtonApagar" IsCancel="True" Width="60" Margin="10,10,0,10" Content="Apagar" Click="RemoveRow"/>
+            <Button x:Name="ButtonAdicionar" Margin="10" Content="Adicionar" Click="AddRow" Style="{StaticResource Adicionar}"/>
+            <Button x:Name="ButtonEditar" Margin="10" Content="Editar" Click="ButtonEdit_Click" Style="{StaticResource Editar}"/>
+            <Button x:Name="ButtonApagar" IsCancel="True" Margin="10,10,0,10" Content="Apagar" Click="RemoveRow" Style="{StaticResource Apagar}"/>
         </StackPanel>
     </Grid>
 </Page>
