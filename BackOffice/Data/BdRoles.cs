@@ -11,10 +11,16 @@ using System.Windows;
 
 namespace BackOffice.Data
 {
+    /// <summary>
+    /// Classe responsável por aceder os roles que estão na base de dados
+    /// </summary>
     public class BDRoles
     {
         private string connectionString = ConfigurationManager.ConnectionStrings["ConString"].ConnectionString; 
-
+        /// <summary>
+        /// Devolve todos os roles que estão na base de dados
+        /// </summary>
+        /// <returns>ObservableCollection com todos os roles</returns>
         public ObservableCollection<Role> GetRoles()
         {
             ObservableCollection<Role> roles = new ObservableCollection<Role>();

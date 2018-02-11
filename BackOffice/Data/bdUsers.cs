@@ -183,8 +183,10 @@ namespace BackOffice.Data
         /// Remove um utilizador na base de dados
         /// </summary>
         /// <param name="id">Id do utilizador a remover</param>
-        public void RemoverUser(string id)
+        public bool RemoverUser(string id)
         {
+            bool result = true;
+
             SqlConnection con = new SqlConnection(connectionString);
             SqlCommand cmd = new SqlCommand();
 
@@ -205,13 +207,14 @@ namespace BackOffice.Data
             catch (Exception exc)
             {
                 MessageBox.Show(exc.Message);
+                result = false;
             }
             finally
             {
                 con.Close();
             }
 
-            MessageBox.Show(regs + " registo apagado");
+            return result;
         }
 
     }

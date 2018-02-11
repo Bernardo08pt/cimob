@@ -154,7 +154,6 @@
     <Compile Include="Pages\Users\ContasUtilizador.xaml.cs">
       <DependentUpon>ContasUtilizador.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Users\DataNascimentoRule.cs" />
     <Compile Include="Pages\Users\EditarContaUtilizadorDialog.xaml.cs">
       <DependentUpon>EditarContaUtilizadorDialog.xaml</DependentUpon>
     </Compile>
