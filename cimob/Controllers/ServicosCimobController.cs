@@ -83,6 +83,11 @@ namespace cimob.Controllers
                             Where(cu => cu.CandidaturaID == id).
                         FirstOrDefault();
 
+                if (c.EstadoCandidaturaID == 1)
+                {
+                    UpdateEstado(id, 3);
+                }
+                
                 var cursos = new Dictionary<int, Dictionary<string, int>>();
                 var docs = new List<Documento>();
                 var user = await _userManager.GetUserAsync(User);
@@ -233,7 +238,9 @@ namespace cimob.Controllers
                     DocumentoID = model.DocID
                 });
                 _context.SaveChanges();
-                
+
+                UpdateEstado(model.ID, 2);
+
                 await EmailSenderExtensions.NovoDocumento(_emailSender, model.Email, model.Nome);
 
                 return StatusCode(200);
@@ -265,6 +272,8 @@ namespace cimob.Controllers
                         });
 
                 _context.SaveChanges();
+
+                UpdateEstado(model.ID, 4);
 
                 var user = _context.Users.Where(u => u.Id == id).Select(u => new { email = u.Email, nome = u.Nome }).FirstOrDefault();
 
@@ -372,6 +381,8 @@ namespace cimob.Controllers
 
                 _context.SaveChanges();
 
+                UpdateEstado(model.ID, 5);
+
                 var user = _context.Users.Where(u => u.Id == user_id).Select(u => new { email = u.Email, nome = u.UserName }).FirstOrDefault();
                 
                 await EmailSenderExtensions.Resultado(_emailSender, user.email, user.nome, (model.Estado == 1) ? "rejeitada. A razão da rejeição é: " + model.Razao : "Aceite!");
@@ -448,5 +459,16 @@ namespace cimob.Controllers
         /// </summary>
         private ActionResult Candidatura => View();
         private ActionResult CandidaturasList => View();
+
+        /// <summary>
+        /// Atualiza o estado de uma determinada candidatura
+        /// </summary>
+        /// <param name="id">id da candidatura a atualizar</param>
+        /// <param name="estado">novo estado da candidatura</param>
+        private void UpdateEstado(int id, int estado)
+        {
+            _context.Candidaturas.Where(cu => cu.CandidaturaID == id).ToList().ForEach(cu => cu.EstadoCandidaturaID = estado);
+            _context.SaveChanges();
+        }
     }
 }

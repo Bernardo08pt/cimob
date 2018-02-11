@@ -391,8 +391,8 @@ namespace cimob.Data
         private static void AddEstadosCandidatura(ApplicationDbContext context)
         {
             context.EstadosCandidatura.Add(new EstadoCandidatura { Descricao = "Submetida", Cor = "#FBAF1C", Icon = "arrow-circle-o-right" });
-            context.EstadosCandidatura.Add(new EstadoCandidatura { Descricao = "Enviar Documentação", Cor = "#08B69F", Icon = "paper-plane-o" });
-            context.EstadosCandidatura.Add(new EstadoCandidatura { Descricao = "Confirmar Documentação", Cor = "#DB1A5D", Icon = "file-text" });
+            context.EstadosCandidatura.Add(new EstadoCandidatura { Descricao = "Espera de documentação", Cor = "#DB1A5D", Icon = "file-text" });
+            context.EstadosCandidatura.Add(new EstadoCandidatura { Descricao = "Análise", Cor = "#08B69F", Icon = "clock-o" });
             context.EstadosCandidatura.Add(new EstadoCandidatura { Descricao = "Entrevista", Cor = "#2A3B91", Icon = "users" });
             context.EstadosCandidatura.Add(new EstadoCandidatura { Descricao = "Finalizada", Cor = "#8DD2C5", Icon = "check" });
         }
