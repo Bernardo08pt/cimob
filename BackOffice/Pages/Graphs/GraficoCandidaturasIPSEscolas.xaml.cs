@@ -26,7 +26,7 @@ namespace BackOffice.Pages.Graphs
         public IEnumerable<EstatisticaCandidaturaIPSEscola> listaEstatisticas;
 
         /// <summary>
-        /// Construtor
+        /// Construtor este cria o gráfico com os dados retirados da base de dados
         /// </summary>
         /// <param name="estatisticas">Lista de estatisticas das candidaturas por escola do ips existentes na base de dados.</param>
         public GraficoCandidaturasIPSEscolas()

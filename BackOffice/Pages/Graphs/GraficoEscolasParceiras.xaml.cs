@@ -15,7 +15,7 @@ namespace BackOffice
         public IEnumerable<EstatisticaEscolaParceira> listaEstatisticas;
 
         /// <summary>
-        /// Construtor
+        /// Construtor este cria o gráfico com os dados retirados da base de dados
         /// </summary>
         /// <param name="estatisticas">Lista de estatisticas das escolas parceiras existentes na base de dados.</param>
         public GraficoEscolasParceiras()

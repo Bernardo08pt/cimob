@@ -8,10 +8,17 @@ using System.Windows;
 
 namespace BackOffice
 {
+    /// <summary>
+    /// Classe que representa os acessos à base de dados para ir buscar todas as estatisticas a mostrar
+    /// </summary>
     public class BDCharts
     {
         private string connectionString = ConfigurationManager.ConnectionStrings["ConString"].ConnectionString;
 
+        /// <summary>
+        /// Função que devolve uma lista com as estatisticas das escolas parceiras
+        /// </summary>
+        /// <returns>List<EstatisticaEscolaParceira></returns>
         public List<EstatisticaEscolaParceira> GetEscolasParceiras()
         {
             List<EstatisticaEscolaParceira> estatisticas = new List<EstatisticaEscolaParceira>();
@@ -50,6 +57,10 @@ namespace BackOffice
             return estatisticas;
         }
 
+        /// <summary>
+        /// Função que devolve uma lista com as estatisticas dos programas de mobilidade
+        /// </summary>
+        /// <returns>List<EstatisticaProgramaMobilidade></returns>
         public List<EstatisticaProgramaMobilidade> GetProgramasMobilidade()
         {
             List<EstatisticaProgramaMobilidade> estatisticas = new List<EstatisticaProgramaMobilidade>();
@@ -92,6 +103,10 @@ namespace BackOffice
             return estatisticas;
         }
 
+        /// <summary>
+        /// Função que devolve uma lista com as estatisticas das candidaturas feitas por cada escola do ips
+        /// </summary>
+        /// <returns>List<EstatisticaCandidaturaIPSEscola></returns>
         public List<EstatisticaCandidaturaIPSEscola> GetCandidaturaIPSEscola()
         {
             List<EstatisticaCandidaturaIPSEscola> estatisticas = new List<EstatisticaCandidaturaIPSEscola>();

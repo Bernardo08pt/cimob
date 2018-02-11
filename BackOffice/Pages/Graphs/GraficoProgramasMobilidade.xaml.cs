@@ -17,7 +17,7 @@ namespace BackOffice.Pages.Graphs
         public IEnumerable<EstatisticaProgramaMobilidade> listaEstatisticas;
 
         /// <summary>
-        /// Construtor
+        /// Construtor este cria o gráfico com os dados retirados da base de dados
         /// </summary>
         /// <param name="estatisticas">Lista de estatisticas dos programas de mobilidade existentes na base de dados.</param>
         public GraficoProgramasMobilidade()
