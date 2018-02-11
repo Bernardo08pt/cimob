@@ -1,0 +1,98 @@
+﻿<Page x:Class="BackOffice.ContasUtilizador"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:BackOffice"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      Title="Contas de Utilizador">
+    <Page.Resources>
+        <Style x:Key="DGHeaderStyle" TargetType="{x:Type DataGrid}">
+            <Setter Property="ColumnHeaderStyle" Value="{DynamicResource DGCHeaderStyle}"/>
+            <Setter Property="AlternatingRowBackground" Value="#9FC5F8"/>
+            <Setter Property="RowStyle" Value="{DynamicResource DGRow}"/>
+        </Style>
+        
+        <Style x:Key="DGCHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Background" Value="#ccc" />
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="FontFamily" Value="Calibri" />
+            <Setter Property="Padding" Value="12,6,12,6"/>
+        </Style>
+
+
+
+        <Style x:Key="DGRow" TargetType="DataGridRow">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#8EA9CC"/>
+                    <Setter Property="Foreground" Value="#f9f9f9"/>
+
+                </Trigger>
+
+            </Style.Triggers>
+        </Style>
+        
+        <Style x:Key="Adicionar" TargetType="Button">
+            <Setter Property="Background" Value="#009e0f"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="Width" Value="80"></Setter>
+            <Setter Property="BorderBrush" Value="Gray"></Setter>
+            <Setter Property="BorderThickness" Value="2"></Setter>
+        </Style>
+        <Style x:Key="Editar" TargetType="Button">
+            <Setter Property="Background" Value="#2b78e4"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="Width" Value="80"></Setter>
+            <Setter Property="BorderBrush" Value="Gray"></Setter>
+            <Setter Property="BorderThickness" Value="2"></Setter>
+        </Style>
+        <Style x:Key="Apagar" TargetType="Button">
+            <Setter Property="Background" Value="#cf2a27"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="Width" Value="80"></Setter>
+            <Setter Property="BorderBrush" Value="Gray"></Setter>
+            <Setter Property="BorderThickness" Value="2"></Setter>
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <DataGrid CanUserResizeRows="False" RowHeaderWidth="0"  CanUserResizeColumns="false" FontSize="14" Grid.Row="0" Grid.Column="0"   Name="grdUser" IsReadOnly="True" AutoGenerateColumns="False"   Style="{DynamicResource DGHeaderStyle}">
+            <DataGrid.Resources>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Style.Triggers>
+                        <Trigger Property="DataGridCell.IsSelected" Value="True">
+                            <Setter Property="Background" Value="#8EA9CC"/>
+                            <Setter Property="Foreground" Value="#f9f9f9"/>
+
+                            <Setter Property="BorderBrush" Value="#8EA9CC"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.Resources>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Numero" Binding="{Binding Numero}"/>
+                <DataGridTextColumn Header="Nome" Binding="{Binding Nome}"/>
+                <DataGridTextColumn Header="Email" Binding="{Binding Email}"/>
+                <DataGridTextColumn Header="Data de Nascimento"  Binding="{Binding DataNascimento, StringFormat=\{0:dd/MM/yy\}}"/>
+                <DataGridTextColumn Header="Tipo de Utilizador"  Binding="{Binding RoleName}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="2" Grid.Column="0"  Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom"  Margin="0,0,0,0" Width="Auto">
+            <Button x:Name="ButtonAdicionar" Margin="10" Content="Adicionar" Click="AddRow" Style="{StaticResource Adicionar}"/>
+            <Button x:Name="ButtonEditar" Margin="10" Content="Editar" Click="ButtonEdit_Click" Style="{StaticResource Editar}"/>
+            <Button x:Name="ButtonApagar" IsCancel="True" Margin="10,10,0,10" Content="Apagar" Click="RemoveRow" Style="{StaticResource Apagar}"/>
+        </StackPanel>
+    </Grid>
+</Page>
