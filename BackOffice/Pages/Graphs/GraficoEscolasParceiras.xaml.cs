@@ -14,29 +14,32 @@ namespace BackOffice
     {
         public IEnumerable<EstatisticaEscolaParceira> listaEstatisticas;
 
-        public GraficoEscolasParceiras(IEnumerable<EstatisticaEscolaParceira> estatisticas)
+        /// <summary>
+        /// Construtor
+        /// </summary>
+        /// <param name="estatisticas">Lista de estatisticas das escolas parceiras existentes na base de dados.</param>
+        public GraficoEscolasParceiras()
         {
             InitializeComponent();
-            listaEstatisticas = estatisticas;
+            listaEstatisticas = App.Estatisticas.GetEscolasParceiras();
 
-            PointLabel = chartPoint =>
-                string.Format("{0} ({1:P})", chartPoint.Y, chartPoint.Participation);
+            foreach (EstatisticaEscolaParceira estatistica in listaEstatisticas)
+            {
+                PieSeries p = new PieSeries();
 
-            DataContext = this;
+                EscolasParceiras.Series.Add(
+                    new PieSeries
+                    {
+                        Title = estatistica.Nome,
+                        Values = new ChartValues<int> { estatistica.Contagem },
+                        DataLabels = true,
+                        LabelPoint = chartPoint => string.Format("{0}", chartPoint.Y)
+                    });
+            }
+
+           DataContext = this;
         }
 
         public Func<ChartPoint, string> PointLabel { get; set; }
-
-        private void Chart_OnDataClick(object sender, ChartPoint chartpoint)
-        {
-            var chart = (LiveCharts.Wpf.PieChart)chartpoint.ChartView;
-
-            //clear selected slice.
-            foreach (PieSeries series in chart.Series)
-                series.PushOut = 0;
-
-            var selectedSeries = (PieSeries)chartpoint.SeriesView;
-            selectedSeries.PushOut = 8;
-        }
     }
 }

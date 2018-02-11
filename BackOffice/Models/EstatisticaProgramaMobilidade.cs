@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace BackOffice.Models
 {
     /// <summary>
-    /// Classe que representa as estatisticas da escola parceira
+    /// Classe que representa as estatisticas do programa de mobilidade    
     /// </summary>
-    public class EstatisticaEscolaParceira : INotifyPropertyChanged
+    public class EstatisticaProgramaMobilidade : INotifyPropertyChanged
     {
         /// <summary>
         /// Notificador de mudança dos atributos da classe
@@ -22,23 +22,25 @@ namespace BackOffice.Models
         }
 
         /// <summary>
-        /// Nome da escola parceira
+        /// Programa de mobilidade
         /// </summary>
-        private string nome;
-        public string Nome {
-            get { return nome; }
+        private string programa;
+        public string Programa
+        {
+            get { return programa; }
             set
             {
-                nome = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("Nome"));
+                programa = value;
+                OnPropertyChanged(new PropertyChangedEventArgs("Programa"));
             }
         }
 
         /// <summary>
-        /// Contagem de pedidos para outgoing
+        /// Contagem de pedidos feitos a um programa de mobilidade
         /// </summary>
         private int contagem;
-        public int Contagem {
+        public int Contagem
+        {
             get { return contagem; }
             set
             {
@@ -48,19 +50,18 @@ namespace BackOffice.Models
         }
 
         /// <summary>
-        /// Construtor que recebe uma estatistica de uma escola parceira
+        /// Construtor que recebe uma estatistica de um programa de mobilidade
         /// </summary>
-        /// <param name="estatistica">Uma estatisca do tipo EstatisticaEscolaParceira</param>
-        public EstatisticaEscolaParceira(EstatisticaEscolaParceira estatistica)
+        /// <param name="estatistica">Uma estatisca do tipo EstatisticaProgramaMobilidade</param>
+        public EstatisticaProgramaMobilidade(EstatisticaProgramaMobilidade estatistica)
         {
-            this.Nome = estatistica.Nome;
+            this.Programa = estatistica.Programa;
             this.Contagem = estatistica.Contagem;
         }
 
         /// <summary>
         /// Construtor em branco
         /// </summary>
-        public EstatisticaEscolaParceira() { }
-
+        public EstatisticaProgramaMobilidade() { }
     }
 }

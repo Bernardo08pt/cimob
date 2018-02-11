@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace BackOffice.Models
 {
     /// <summary>
-    /// Classe que representa as estatisticas da escola parceira
+    /// Classe que representa as estatisticas das candidaturas feitas por escolas do ips
     /// </summary>
-    public class EstatisticaEscolaParceira : INotifyPropertyChanged
+    public class EstatisticaCandidaturaIPSEscola : INotifyPropertyChanged
     {
         /// <summary>
         /// Notificador de mudança dos atributos da classe
@@ -22,10 +22,11 @@ namespace BackOffice.Models
         }
 
         /// <summary>
-        /// Nome da escola parceira
+        /// Nome da escola ips
         /// </summary>
         private string nome;
-        public string Nome {
+        public string Nome
+        {
             get { return nome; }
             set
             {
@@ -35,10 +36,11 @@ namespace BackOffice.Models
         }
 
         /// <summary>
-        /// Contagem de pedidos para outgoing
+        /// Contagem de pedidos para outgoing por escola ips
         /// </summary>
         private int contagem;
-        public int Contagem {
+        public int Contagem
+        {
             get { return contagem; }
             set
             {
@@ -48,19 +50,34 @@ namespace BackOffice.Models
         }
 
         /// <summary>
-        /// Construtor que recebe uma estatistica de uma escola parceira
+        /// Ano Letivo
         /// </summary>
-        /// <param name="estatistica">Uma estatisca do tipo EstatisticaEscolaParceira</param>
-        public EstatisticaEscolaParceira(EstatisticaEscolaParceira estatistica)
+        private string ano;
+        public string Ano
+        {
+            get { return ano; }
+            set
+            {
+                ano = value;
+                OnPropertyChanged(new PropertyChangedEventArgs("Ano"));
+            }
+        }
+
+        /// <summary>
+        /// Construtor que recebe uma estatistica das candidaturas feitas por escolas do ips
+        /// </summary>
+        /// <param name="estatistica">Uma estatisca do tipo EstatisticaCandidaturaIPSEscola</param>
+        public EstatisticaCandidaturaIPSEscola(EstatisticaCandidaturaIPSEscola estatistica)
         {
             this.Nome = estatistica.Nome;
             this.Contagem = estatistica.Contagem;
+            this.ano = estatistica.Ano;
         }
 
         /// <summary>
         /// Construtor em branco
         /// </summary>
-        public EstatisticaEscolaParceira() { }
+        public EstatisticaCandidaturaIPSEscola() { }
 
     }
 }

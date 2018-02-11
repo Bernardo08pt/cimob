@@ -1,46 +1,46 @@
 ﻿using System;
-using System.Windows.Controls;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using BackOffice.Models;
 using LiveCharts;
+using LiveCharts.Defaults;
 using LiveCharts.Wpf;
 
-namespace BackOffice
+namespace BackOffice.Pages.Graphs
 {
     /// <summary>
     /// Interaction logic for GraficoProgramasMobilidade.xaml
     /// </summary>
     public partial class GraficoProgramasMobilidade 
     {
+        public IEnumerable<EstatisticaProgramaMobilidade> listaEstatisticas;
+
+        /// <summary>
+        /// Construtor
+        /// </summary>
+        /// <param name="estatisticas">Lista de estatisticas dos programas de mobilidade existentes na base de dados.</param>
         public GraficoProgramasMobilidade()
         {
             InitializeComponent();
+            listaEstatisticas = App.Estatisticas.GetProgramasMobilidade();
 
-            SeriesCollection = new SeriesCollection
+            SeriesCollection = new SeriesCollection();
+
+            foreach (EstatisticaProgramaMobilidade estatistica in listaEstatisticas)
             {
-                new ColumnSeries
-                {
-                    Title = "2015",
-                    Values = new ChartValues<double> { 10, 50, 39, 50 }
-                }
-            };
+                SeriesCollection.Add(
+                    new PieSeries
+                    {
+                        Title = estatistica.Programa,
+                        Values = new ChartValues<int> { estatistica.Contagem },
+                        DataLabels = true
+                        });
+            }
 
-            //adding series will update and animate the chart automatically
-            SeriesCollection.Add(new ColumnSeries
-            {
-                Title = "2016",
-                Values = new ChartValues<double> { 11, 56, 42 }
-            });
-
-            //also adding values updates and animates the chart automatically
-            SeriesCollection[1].Values.Add(48d);
-
-            Labels = new[] { "Maria", "Susan", "Charles", "Frida" };
-            Formatter = value => value.ToString("N");
-
-            //DataContext = this;
+            DataContext = this;
         }
 
         public SeriesCollection SeriesCollection { get; set; }
-        public string[] Labels { get; set; }
-        public Func<double, string> Formatter { get; set; }
     }
 }

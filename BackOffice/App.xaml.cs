@@ -17,5 +17,7 @@ namespace BackOffice
 
         private static BDRoles roles = new BDRoles();
         public static BDRoles Roles { get => roles; }
+        private static BDCharts estatisticas = new BDCharts();
+        public static BDCharts Estatisticas { get => estatisticas; }
     }
 }

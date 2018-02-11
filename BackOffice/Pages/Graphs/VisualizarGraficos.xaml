@@ -6,23 +6,33 @@
       xmlns:local="clr-namespace:BackOffice"
       mc:Ignorable="d" 
       Title="VisualizarGraficos" Height="500" Width="Auto">
+    <Page.Resources>
+        <Style x:Key="TypeGraph" TargetType="Label" >
+            <Setter Property="FontFamily" Value="Times New Roman"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="20"/>
+        </Style>
+    </Page.Resources>
     <Grid Background="#f1eee7">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition />
+            <RowDefinition Height="400"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Label Content="Escolas Parceiras" Grid.Row="0" Grid.Column="0" Margin="20"/>
+        <Label Content="Escolas Parceiras" Grid.Row="0" Grid.Column="0" Style="{StaticResource TypeGraph}"/>
         <Frame Grid.Row="1" Grid.Column="0" Source="GraficoEscolasParceiras.xaml"/>
 
-        <Label Content="Programas de Mobilidade" Grid.Row="0" Grid.Column="1" Margin="20"/>
-        <Frame Grid.Row="1" Grid.Column="1"/>
+        <Label Content="Programas de Mobilidade" Grid.Row="0" Grid.Column="1" Style="{StaticResource TypeGraph}"/>
+        <Frame Grid.Row="1" Grid.Column="1" Source="GraficoProgramasMobilidade.xaml"/>
 
-        <Label Content="Funcionários" Grid.Row="0" Grid.Column="2" Margin="20"/>
-        <Frame Grid.Row="1" Grid.Column="2"/>
+        <Label Content="Funcionários" Grid.Row="0" Grid.Column="2" Style="{StaticResource TypeGraph}"/>
+        <Frame Grid.Row="1" Grid.Column="2" Source="GraficoCandidaturasIPSEscolas.xaml"/>
     </Grid>
 </Page>
