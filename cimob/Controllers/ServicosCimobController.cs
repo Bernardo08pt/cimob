@@ -3,6 +3,8 @@ using cimob.Extensions;
 using cimob.Models;
 using cimob.Models.ServicosCimobViewModels;
 using cimob.Services;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -11,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -455,6 +458,71 @@ namespace cimob.Controllers
         }
 
         /// <summary>
+        /// Verifica se todas as candidaturas deste semestre ano letivo. Se tiverem, 
+        /// gera um documento PDF com os resultados
+        /// </summary>
+        /// <returns>Documento PDF</returns>
+        [HttpGet]
+        [Route("[Controller]/ExportResults")]
+        public ActionResult ExportResults()
+        {
+            var doc = new Document(PageSize.A4.Rotate(), 10, 10, 42, 35);
+            var path = "Files/Resultados.pdf";
+
+            FileHandling.Remove(path);
+
+            PdfWriter w = PdfWriter.GetInstance(doc, new FileStream(path, FileMode.Create));
+            doc.Open();
+            
+            var t = new PdfPTable(8);
+
+            t.AddCell(CreateHeaderCell("Escola"));
+            t.AddCell(CreateHeaderCell("Curso"));
+            t.AddCell(CreateHeaderCell("Número candidato"));
+            t.AddCell(CreateHeaderCell("Nome"));
+            t.AddCell(CreateHeaderCell("Pontuação"));
+            t.AddCell(CreateHeaderCell("Tipo de Mobilidade"));
+            t.AddCell(CreateHeaderCell("Resultado"));
+            t.AddCell(CreateHeaderCell("Observações"));
+
+            _context.Candidaturas.
+                Include(c => c.Utilizador).
+                Include(c => c.IpsCurso).
+                Include(c => c.IpsCurso.IpsEscola).
+                Include(c => c.TipoMobilidade).
+                Select(c => new
+                {
+                    escola = c.IpsCurso.IpsEscola.Descricao,
+                    curso = c.IpsCurso.Nome,
+                    pontuacao = c.Pontuacao,
+                    nome = c.Utilizador.Nome,
+                    numero = c.Utilizador.Numero,
+                    mobilidade = c.TipoMobilidade.Descricao,
+                    resultado = c.Rejeitada,
+                    obs = c.Observacoes,
+                    order = c.TipoMobilidadeID
+                }).
+                OrderBy(c => c.order).
+                ToList().
+                ForEach(item =>
+                {
+                    t.AddCell(CreateBodyCell(item.escola.ToString()));
+                    t.AddCell(CreateBodyCell(item.curso.ToString()));
+                    t.AddCell(CreateBodyCell(item.numero.ToString()));
+                    t.AddCell(CreateBodyCell(item.nome.ToString()));
+                    t.AddCell(CreateBodyCell(item.pontuacao.ToString()));
+                    t.AddCell(CreateBodyCell(item.mobilidade.ToString()));
+                    t.AddCell(CreateBodyCell(item.resultado == 0 ? "Selecionado" : "Não Selecionado"));
+                    t.AddCell(CreateBodyCell(item.obs.ToString()));
+                });
+            
+            doc.Add(t);
+            doc.Close();
+
+            return FileHandling.Download(path, "Resultados.pdf");
+        }
+
+        /// <summary>
         /// Funções auxiliares que devolvem as respetivas views
         /// </summary>
         private ActionResult Candidatura => View();
@@ -469,6 +537,39 @@ namespace cimob.Controllers
         {
             _context.Candidaturas.Where(cu => cu.CandidaturaID == id).ToList().ForEach(cu => cu.EstadoCandidaturaID = estado);
             _context.SaveChanges();
+        }
+
+        /// <summary>
+        /// Função auxiliar para criar celulas do header da tabela
+        /// </summary>
+        /// <param name="text">texto da celula</param>
+        /// <returns>objecto PdfPCell</returns>
+        private PdfPCell CreateHeaderCell(string text)
+        {
+            return new PdfPCell(new Phrase(text, new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD, BaseColor.WHITE)))
+            {
+                VerticalAlignment = Element.ALIGN_MIDDLE,
+                HorizontalAlignment = Element.ALIGN_CENTER,
+                BackgroundColor = BaseColor.DARK_GRAY,
+                PaddingBottom = 10,
+                PaddingTop = 10
+            };
+        }
+
+        /// <summary>
+        /// Função auxiliar para criar celulas do corpo da tabela
+        /// </summary>
+        /// <param name="text">texto da celula</param>
+        /// <returns>objecto PdfPCell</returns>
+        private PdfPCell CreateBodyCell(string text)
+        {
+            return new PdfPCell(new Phrase(text))
+            {
+                VerticalAlignment = Element.ALIGN_MIDDLE,
+                HorizontalAlignment = Element.ALIGN_CENTER,
+                PaddingBottom = 10,
+                PaddingTop = 10
+            };
         }
     }
 }
