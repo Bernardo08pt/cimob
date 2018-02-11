@@ -54,7 +54,9 @@ namespace BackOffice
                 dlg.User.SecurityStamp = Guid.NewGuid().ToString();
                 string password = CreatePassword(8);
 
-                dlg.User.PasswordHash = HashPassword(password);
+                var p = new PasswordHasher<ApplicationUser>();
+                dlg.User.PasswordHash = p.HashPassword(dlg.User, password);
+
                 dlg.User.EmailConfirmed = true;
                 if (App.Users.InsertUser(dlg.User))
                 {

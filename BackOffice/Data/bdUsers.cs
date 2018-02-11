@@ -30,7 +30,7 @@ namespace BackOffice.Data
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = con;
 
-            string sql = "SELECT A.Id, A.Numero, A.Nome, A.Email, A.DataNascimento, B.RoleId AS RoleId, C.Name AS RoleName " +
+            string sql = "SELECT A.Id, A.PasswordHash, A.Numero, A.Nome, A.Email, A.DataNascimento, B.RoleId AS RoleId, C.Name AS RoleName " +
                           "FROM AspNetUsers AS A " +
                           "LEFT JOIN AspNetUserRoles AS B ON A.Id = B.UserId " +
                           "LEFT JOIN AspNetRoles AS C ON C.Id = B.RoleId";
@@ -48,6 +48,7 @@ namespace BackOffice.Data
                     ApplicationUser u = new ApplicationUser();
 
                     u.Id = (string)dr["Id"];
+                    u.PasswordHash = (string)dr["PasswordHash"];
                     u.Numero = (int)dr["Numero"];
                     u.Nome = (string)dr["Nome"];
                     u.Email = (string)dr["Email"];

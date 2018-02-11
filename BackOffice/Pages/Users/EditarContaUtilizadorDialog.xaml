@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BackOffice"
         mc:Ignorable="d"
-        Title="Editar Conta Utilizador" Height="350" Width="500" Icon="../../favicon.ico">
-    <Grid Name="GridFormContaUtilizador" DockPanel.Dock="Left"  Margin="10">
+        Title="Editar Conta Utilizador" Height="350" Width="500" Icon="../../favicon.ico" Background="#f1eee7">
+    <Grid Name="GridFormContaUtilizador" DockPanel.Dock="Left"  Margin="10" >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>

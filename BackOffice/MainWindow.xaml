@@ -55,17 +55,15 @@
             </Button.Content>
             <Button.ContextMenu>
                 <ContextMenu >
-                    <MenuItem Header="Verificar Estatisticas"/>
-                    <MenuItem Header="Second file"/>
-                    <MenuItem Header="Third file"/>
-                    <MenuItem Header="Fourth file"/>
+                    <MenuItem Click="MenuItemEstatisticas_Click" Header="Verificar Estatisticas"/>
+                    <MenuItem Click="MenuItemContas_Click" Header="Gerir Contas de Utilizador"/>
                 </ContextMenu>
             </Button.ContextMenu>
         </Button>
         <Border Grid.Row="2" Grid.ColumnSpan="3" Height="10" Background="#CCC" BorderBrush="Black"/>
         <!-- <Frame Grid.Row="3" Grid.ColumnSpan="3"  Source="Graphs/VisualizarGraficos.xaml" />-->
-        <Frame Grid.Row="3" Grid.ColumnSpan="3"  HorizontalAlignment="center" Source="Pages/Users/ContasUtilizador.xaml" Margin="0,20,0,0"/>
-        <Frame Grid.Row="3" Grid.ColumnSpan="3"  Source="Pages/Graphs/VisualizarGraficos.xaml" />
+        <Frame  NavigationUIVisibility="Hidden" Name="FrameCentral" Grid.Row="3" Grid.ColumnSpan="3"   Source="Pages/Graphs/VisualizarGraficos.xaml" Margin="0,20,0,0"/>
+        <!--<Frame Grid.Row="3" Grid.ColumnSpan="3"  Source="Pages/Graphs/VisualizarGraficos.xaml" />-->
         
     </Grid>
 </Window>
