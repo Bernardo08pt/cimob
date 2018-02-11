@@ -8,17 +8,24 @@
              mc:Ignorable="d" 
              d:DesignHeight="150" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance local:GraficoCandidaturasIPSEscolas}">
+    <UserControl.Resources>
+        <Style TargetType="lvc:Axis">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+    </UserControl.Resources>
     <Grid>
-        <lvc:CartesianChart Series="{Binding SeriesCollection}" LegendLocation="Bottom" Hoverable="False" DataTooltip="{x:Null}">
+        <lvc:CartesianChart Series="{Binding SeriesCollection}"  LegendLocation="Bottom" Hoverable="False" DataTooltip="{x:Null}">
             <lvc:CartesianChart.AxisX>
-                <lvc:Axis Title="Escolas do Ips" Labels="{Binding Labels}"></lvc:Axis>
+                <lvc:Axis Title="Escolas do Ips" Labels="{Binding Labels}">
+                </lvc:Axis>
             </lvc:CartesianChart.AxisX>
             <lvc:CartesianChart.AxisY>
                 <lvc:Axis Title="Contagem de Candidaturas" LabelFormatter="{Binding Formatter}">
-                        <lvc:Axis.Separator>
-                            <lvc:Separator Step="1"></lvc:Separator>
-                        </lvc:Axis.Separator>
-                    </lvc:Axis>
+                    <lvc:Axis.Separator>
+                        <lvc:Separator Step="1" StrokeThickness="1" Stroke="DimGray"></lvc:Separator>
+                    </lvc:Axis.Separator>
+                </lvc:Axis>
             </lvc:CartesianChart.AxisY>
         </lvc:CartesianChart>
     </Grid>
