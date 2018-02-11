@@ -10,6 +10,14 @@ namespace cimob.Extensions
     /// </summary>
     public static class EmailSenderExtensions
     {
+        /// <summary>
+        /// Envia o email de confirmação do email
+        /// </summary>
+        /// <param name="emailSender">IEmailSender service</param>
+        /// <param name="email">email do utilizador</param>
+        /// <param name="name">nome do utilizador</param>
+        /// <param name="link">link que estará no corpo da mensagem</param>
+        /// <returns>Task</returns>
         internal static Task SendEmailConfirmationAsync(this IEmailSender emailSender, string email, string name, string link)
         {
             return emailSender.SendEmailAsync(email, "Confirmação de Email",
@@ -22,6 +30,14 @@ namespace cimob.Extensions
                  "<span style = 'font-size: 12px;'> &nbsp;</span></p>");
         }
 
+        /// <summary>
+        /// Envia o email de recuperação de password
+        /// </summary>
+        /// <param name="emailSender">IEmailSender service</param>
+        /// <param name="email">email do utilizador</param>
+        /// <param name="nome">nome do utilizador</param>
+        /// <param name="link">link que estará no corpo da mensagem</param>
+        /// <returns>Task</returns>
         internal static Task RecuperarPassword(this IEmailSender emailSender, string email, string nome, string link)
         {
             return emailSender.SendEmailAsync(email, "Recuperação de Password",
@@ -34,6 +50,14 @@ namespace cimob.Extensions
                  "<span style = 'font-size: 12px;'> &nbsp;</span></p>");
         }
 
+        /// <summary>
+        /// Envia o email a informção que a candidatura foi submetida
+        /// </summary>
+        /// <param name="emailSender">IEmailSender service</param>
+        /// <param name="email">email do utilizador</param>
+        /// <param name="nome">nome do utilizador</param>
+        /// <param name="mobilidade">nome da mobilidade que o utilizador se candidatou</param>
+        /// <returns>Task</returns>
         internal static Task ApplicationSubmit(IEmailSender emailSender, string email, string mobilidade, string nome)
         {
             return emailSender.SendEmailAsync(email, "Candidatura efetuada",
@@ -46,6 +70,14 @@ namespace cimob.Extensions
             );
         }
 
+        /// <summary>
+        /// Envia o email a informar que um novo edital foi publicado
+        /// </summary>
+        /// <param name="emailSender">IEmailSender service</param>
+        /// <param name="email">email do utilizador</param>
+        /// <param name="nome">nome do utilizador</param>
+        /// <param name="mobilidade">mobilidade ao qual o edital publicado pertence</param>
+        /// <returns>Task</returns>
         internal static Task EditalPublicado(IEmailSender emailSender, string email, string nome, string mobilidade)
         {
             return emailSender.SendEmailAsync(email, "Edital Publicado",
@@ -58,6 +90,14 @@ namespace cimob.Extensions
             );
         }
 
+        /// <summary>
+        /// Envia o email de requisição de vagas
+        /// </summary>
+        /// <param name="emailSender">IEmailSender service</param>
+        /// <param name="escola">nome da escola à qual o email se dirige</param>
+        /// <param name="curso">curso que neceessita de vagas</param>
+        /// <param name="email">email da escola à qual o email se dirige</param>
+        /// <returns>Task</returns>
         internal static Task RequestVagas(IEmailSender emailSender, string escola, string curso, string email)
         {
             return emailSender.SendEmailAsync(email, "Request for more vacancies",
@@ -70,6 +110,13 @@ namespace cimob.Extensions
             );
         }
 
+        /// <summary>
+        /// Envia o email a informar que houve um novo documento publicado
+        /// </summary>
+        /// <param name="emailSender">IEmailSender service</param>
+        /// <param name="email">email do utilizador</param>
+        /// <param name="nome">nome do utilizador</param>
+        /// <returns>Task</returns>
         internal static Task NovoDocumento(IEmailSender emailSender, string email, string nome)
         {
             return emailSender.SendEmailAsync(email, "Candidatura - Novo Documento",
@@ -82,6 +129,15 @@ namespace cimob.Extensions
             );
         }
 
+        /// <summary>
+        /// Envia o email a informar que a entrevista foi marcada
+        /// </summary>
+        /// <param name="emailSender">IEmailSender service</param>
+        /// <param name="nome">nome do utilizador</param>
+        /// <param name="dia">dia em que a entrevista ficou marcada</param>
+        /// <param name="email">email do utilizador</param>
+        /// <param name="hora">hora em que a entrevista ficou marcada</param>
+        /// <returns>Task</returns>
         internal static Task EntrevistaMarcada(IEmailSender emailSender, string nome, string[] dia, string email, string[] hora)
         {
             return emailSender.SendEmailAsync(email, "Entrevista - Mobilidade",
@@ -94,6 +150,14 @@ namespace cimob.Extensions
             );
         }
 
+        /// <summary>
+        /// Envia o email a informar do resultado da candidatura
+        /// </summary>
+        /// <param name="emailSender">IEmailSender service</param>
+        /// <param name="email">email do utilizador</param>
+        /// <param name="nome">nome do utilizador</param>
+        /// <param name="resultado">texto de resultado</param>
+        /// <returns>Task</returns>
         internal static Task Resultado(IEmailSender emailSender, string email, string nome, string resultado)
         {
             return emailSender.SendEmailAsync(email, "Aplicação Mobilidade - Resultado",
