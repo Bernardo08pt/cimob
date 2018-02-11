@@ -1,5 +1,8 @@
 ﻿namespace cimob.Models
 {
+    /// <summary>
+    /// Corresponde à tabela TipoMobilidade na BD
+    /// </summary>
     public class TipoMobilidade
     {
         public int TipoMobilidadeID { get; set; }

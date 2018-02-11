@@ -6,3 +6,7 @@
     .candidatura-listing .table {
         width: 100%;
     }
+
+    .candidatura-listing .table tr:not(:first-child){
+        cursor: pointer;
+    }

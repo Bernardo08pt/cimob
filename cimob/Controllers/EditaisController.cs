@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using cimob.Data;
 using cimob.Extensions;
 using cimob.Models;
-using cimob.Models.ApplicationViewModels;
+using cimob.Models.EditaisViewModels;
 using cimob.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -34,6 +34,10 @@ namespace cimob.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// Devolve a view Index correspondente aos editais
+        /// </summary>
+        /// <returns>View</returns>
         [HttpGet]
         public IActionResult Index()
         {
@@ -45,6 +49,12 @@ namespace cimob.Controllers
             });
         }
 
+        /// <summary>
+        /// Valida os campos inseridos. Se estiverem válidos carrega o ficheiro para o servidor e 
+        /// cria um novo edital na BD. Caso contrário devolve a view com os erros de validação
+        /// </summary>
+        /// <param name="model">ViewModel correspondente aos editais</param>
+        /// <returns>View com erros de validação ou mensagem de sucesso</returns>
         // POST: Edital
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -97,13 +107,7 @@ namespace cimob.Controllers
                 foreach (var u in allUsers)
                 {
                     //Envio do email
-                    await _emailSender.SendEmailAsync(u.Email, "Edital Publicado",
-                    "<p><span style='font-size: 18px;'>Caro(a) " + u.Nome + ",<strong> </strong></span></p>" +
-                    "<p><span style='font-size: 18px;'>Gostaríamos de informar que foi publicado o edital referente a " + mobilidade + ".</span></p>" +
-                    "<p><br></p>" +
-                    "<p><span style = 'font-size: 18px;'> Melhores cumprimentos Equipa CIMOB - IPS </span></p>" +
-                    "<p><span style = 'font-size: 14px;'> Nota: este e-mail foi gerado automaticamente, pelo que n&atilde;o deve responder pois quaisquer respostas n&atilde;o ser&atilde;o vistas.</span></p>" +
-                        "<span style = 'font-size: 12px;'> &nbsp;</span></p>");
+                    await EmailSenderExtensions.EditalPublicado(_emailSender, u.Nome, u.Email, mobilidade);
                 }
 
                 //Serve para mostrar o alert de sucesso/insucesso
@@ -118,6 +122,10 @@ namespace cimob.Controllers
         }
 
         
+        /// <summary>
+        /// Devovle a view com a listagem dos editais existentes
+        /// </summary>
+        /// <returns>View</returns>
         [HttpGet]
         public IActionResult VisualizarEditais()
         {
@@ -129,7 +137,12 @@ namespace cimob.Controllers
             });
         }
 
-        // GET: Editais/VisualizarEditais/Download/id
+        /// <summary>
+        /// Procura o ficheiro com o ID recebido. Se encontrado, descarrega-o, casa contrário devolve NoFile view
+        /// </summary>
+        /// <param name="id">id do ficheiro que estamos à procura</param>
+        /// <returns>o ficheiro a descarregar ou view</returns>
+        // GET: Editais/VisualizarEditais/Download/{id}
         [HttpGet]
         [Route("[controller]/VisualizarEditais/Download/{id}")]
         public ActionResult Download(int id)
@@ -147,23 +160,33 @@ namespace cimob.Controllers
             }
             catch (Exception)
             {
-                return View("~/Views/Shared/NoFile.cshtml");
+                return RedirectToAction(nameof(NoFile));
             }
         }
 
-        //Método para obter os tipos de mobilidade existentes na bd para mostrar no dropdown list da inserção dos editais
+        /// <summary>
+        /// Obtém os tipos de mobilidade existentes na bd para mostrar no dropdown list da inserção dos editais
+        /// </summary>
+        /// <returns>Lista de TipoMobilidade</returns>
         private List<TipoMobilidade> GetTiposMobilidade()
         {
             return _context.TiposMobilidade.Where(p => p.Estagio == 0).ToList();
         }
 
+        /// <summary>
+        /// View do NoFile
+        /// </summary>
+        /// <returns>View</returns>
         [HttpGet]
         public ActionResult NoFile()
         {
             return View();
         }
 
-        //Método para obter os editais
+        /// <summary>
+        /// obtém os editais
+        /// </summary>
+        /// <returns>Lista de Edital</returns>
         private List<Edital> GetEditais()
         {
             var tipoEdital = from edital in _context.Editais select edital;
@@ -184,6 +207,12 @@ namespace cimob.Controllers
             return tipoEdital.ToList();
         }
 
+        /// <summary>
+        /// Adiciona erros ao model para retornar com a view
+        /// </summary>
+        /// <param name="model">model ao qual vão ser adicionados os erros</param>
+        /// <param name="error">erro a adicionar</param>
+        /// <returns>Model com os erros</returns>
         private EditaisViewModel SetupError(EditaisViewModel model, string error)
         {
             ViewBag.Message = HelperFunctionsExtensions.GetError(error, _context);
@@ -196,6 +225,11 @@ namespace cimob.Controllers
             return model;
         }
         
+        /// <summary>
+        /// Devolve a view de edição de editais com a informação do edital respetivo ao id recebido
+        /// </summary>
+        /// <param name="id">id do edital que queremos editar</param>
+        /// <returns>View</returns>
         [HttpGet]
         [Authorize(Roles = "Funcionario")]
         [Route("[controller]/{id}/Editar")]
@@ -219,6 +253,13 @@ namespace cimob.Controllers
             }
         }
 
+        /// <summary>
+        /// Valida se os campos obrigatório estão corretos. Se estiverem altera o edital e redireciona para a listagem 
+        /// Caso contrário devolve a view com os erros de validação
+        /// </summary>
+        /// <param name="model">ViewModel correspondente aos editais</param>
+        /// <param name="id">id do edital a editar</param>
+        /// <returns>View</returns>
         [HttpPost]
         [Authorize(Roles = "Funcionario")]
         [Route("[controller]/{id}/Editar")]
@@ -233,7 +274,6 @@ namespace cimob.Controllers
             {
                 using (var db = _context)
                 {
-
                     if (result != null)
                     {
                         FileHandling.Remove(result.Caminho);

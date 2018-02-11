@@ -59,7 +59,8 @@
         </div>
         <div class="input-group col-md-7">
             <div class="form-control">
-                <input id="Estado" class="form-control" type="checkbox" checked disabled value="1" />
+                <input asp-for="Estado" class="hidden"/>
+                <input id="EstadoCkb" class="form-control" type="checkbox" checked disabled />
             </div>
             <div class="input-group-btn">
                 <button class="btn btn-info bottom-right pop" type="button" data-title="@Model.AjudasDictionary["Estado"].Titulo" data-content="@Model.AjudasDictionary["Estado"].Corpo">

@@ -6,6 +6,10 @@ namespace cimob.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        /// <summary>
+        /// Corresponde a cada uma das tabelas da DB. É através dos DBSets que conseguimos 
+        /// manipular a base de dados
+        /// </summary>
         public DbSet<Ajuda> Ajudas { get; set; }
         public DbSet<Erro> Erros { get; set; }
         public DbSet<TipoMobilidade> TiposMobilidade { get; set; }

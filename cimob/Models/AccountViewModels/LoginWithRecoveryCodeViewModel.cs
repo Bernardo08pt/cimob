@@ -1,16 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace cimob.Models.AccountViewModels
 {
+    /// <summary>
+    /// ViewModel que corresponde à View LoginWithRecoveryCode (quaisquer campos, quer preenchiveis 
+    /// pelo utilizador ou não que possuem qualquer interação com a base de dados)
+    /// </summary>
     public class LoginWithRecoveryCodeViewModel
     {
-            [Required]
-            [DataType(DataType.Text)]
-            [Display(Name = "Recovery Code")]
-            public string RecoveryCode { get; set; }
+        /// <summary>
+        /// Código para a recuperação da password
+        /// </summary>
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "Recovery Code")]
+        public string RecoveryCode { get; set; }
     }
 }

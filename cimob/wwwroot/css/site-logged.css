@@ -231,10 +231,6 @@
             border-top: solid 1px #000;
         }
 
-        .content-wrapper .table tr:not(:first-child) {
-            cursor: pointer;
-        }
-        
         .content-wrapper .table tr:nth-child(even) {
             background: #9FC5F8;
             color: #f9f9f9;

@@ -30,6 +30,10 @@ namespace cimob.Controllers
             _emailSender = emailSender;
         }
 
+        /// <summary>
+        /// Define o texto de ajuda das páginas e devolve a página "inicial" dos serviços cimob
+        /// </summary>
+        /// <returns>View</returns>
         [HttpGet]
         [Route("[Controller]")]
         public IActionResult Index()
@@ -40,6 +44,10 @@ namespace cimob.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Retorna a view da listagem de candidaturas
+        /// </summary>
+        /// <returns>View</returns>
         [HttpGet]
         [Route("[Controller]/Candidaturas")]
         public IActionResult Candidaturas()
@@ -54,6 +62,12 @@ namespace cimob.Controllers
             });
         }
 
+        /// <summary>
+        /// Mostra o ecrã com os detalhes todos da candidatura com o id recebido. Se ocorrer algum 
+        /// problema a obter a candidatura, é redireiconado para a listagem novamente
+        /// </summary>
+        /// <param name="id">id da candidatura que estamos à procura</param>
+        /// <returns>View</returns>
         [HttpGet]
         [Route("[Controller]/Candidaturas/{id}")]
         public async Task<ActionResult> ViewCandidatura(int id)
@@ -131,6 +145,11 @@ namespace cimob.Controllers
             }
         }
 
+        /// <summary>
+        /// Envia um email à instituição com o id recebido a pedir novas vagas para determinado curso
+        /// </summary>
+        /// <param name="id">id da instituição que queremos pedir vagas</param>
+        /// <returns>Object Json com estado (success / error) e caso erro, mesangem de erro</returns>
         [HttpGet]
         [Route("[Controller]/Vagas/{id}")]
         public async Task<ActionResult> RequestVagas(int id)
@@ -146,15 +165,8 @@ namespace cimob.Controllers
                             curso = c.Nome
                         }).
                         FirstOrDefault();
-
-                var mensagem = "<p><span style='font-size: 18px;'>Dear " + tmp.escola + ",<strong> </strong></span></p>" +
-                        "<p><span style='font-size: 18px;'>We've received more applications for " + tmp.curso + " than available vacancies and we were wondering if it's possible to allow more students?</span></p>" +
-                        "<p><br></p>" +
-                        "<p><span style = 'font-size: 18px;'> Best Regards CIMOB - IPS, Setúbal, Portugal </span></p>" +
-                        "<p><span style = 'font-size: 14px;'> Note: This email was automatically generated so we ask that you reply to your regular email address instead of this one.</span></p>" +
-                            "<span style = 'font-size: 12px;'> &nbsp;</span></p>";
-
-                await _emailSender.SendEmailAsync(tmp.email, "Request for more vacancies", mensagem);
+                
+                await EmailSenderExtensions.RequestVagas(_emailSender, tmp.escola, tmp.curso, tmp.email);
 
                 return Json(new { status = "success" });
             }
@@ -168,9 +180,14 @@ namespace cimob.Controllers
             }
         }
 
+        /// <summary>
+        /// Carrega um ficheiro pdf para o servidor
+        /// </summary>
+        /// <param name="file">ficheiro a ser carregado</param>
+        /// <returns>Object JSON com estado e mensagem de erro / informação do documento carregaod</returns>
         [HttpPost]
         [Route("[Controller]/UploadFile")]
-        public async Task<ActionResult> UploadFile(IFormFile file, int id)
+        public async Task<ActionResult> UploadFile(IFormFile file)
         {
             try
             {
@@ -199,9 +216,15 @@ namespace cimob.Controllers
             }
         }
 
+        /// <summary>
+        /// cria um novo registo na BD a ligar o novo documento inserido à candidatura e envia um email
+        /// ao candidato a informar que foi carregado um novo documento
+        /// </summary>
+        /// <param name="model">ViewModel correspondente à candidatura onde vai buscar o ID da candidatura e do documento</param>
+        /// <returns>status code</returns>
         [HttpPost]
         [Route("[Controller]/UpdateFile")]
-        public ActionResult UpdateFile(CandidaturaViewModel model)
+        public async Task<ActionResult> UpdateFile(CandidaturaViewModel model)
         {
             try
             {
@@ -210,6 +233,8 @@ namespace cimob.Controllers
                     DocumentoID = model.DocID
                 });
                 _context.SaveChanges();
+                
+                await EmailSenderExtensions.NovoDocumento(_emailSender, model.Email, model.Nome);
 
                 return StatusCode(200);
             }
@@ -218,12 +243,12 @@ namespace cimob.Controllers
             }
         }
 
-        struct entrevista
-        {
-            public int id { get; set; }
-            public string data { get; set; }
-        }
-
+        /// <summary>
+        /// Atualiza a candidatura com uma nova data de entrevista e envia um email ao candidato 
+        /// a informar da data de entrevsita
+        /// </summary>
+        /// <param name="model">ViweModel correspondente à candidatura</param>
+        /// <returns>Objecto JSON com o resultado e mensagem de erro</returns>
         [HttpPost]
         [Route("[Controller]/Entrevista")]
         public async Task<ActionResult> MarcarEntrevista(CandidaturaViewModel model)
@@ -231,6 +256,7 @@ namespace cimob.Controllers
             try
             {
                 var id = "";
+
                 _context.Candidaturas.
                         Where(c => c.CandidaturaID == model.ID).
                         ToList().ForEach(item => {
@@ -245,15 +271,7 @@ namespace cimob.Controllers
                 var tmp = model.Entrevista.Split(" ");
                 var dia = tmp[0].Split("-");    
 
-                var mensagem = "<p><span style='font-size: 18px;'>Caro(a) " + user.nome + ",<strong> </strong></span></p>" +
-                        "<p><span style='font-size: 18px;'>A entrevista relativa à sua mobilidade ficou marcada para dia " + dia[2] + "/" + dia[1] + "/" + dia[0] + " às " + tmp[1] + ".</span></p>" +
-                        "<p><br></p>" +
-                        "<p><span style = 'font-size: 18px;'> Melhores cumprimentos CIMOB - IPS</span></p>" +
-                        "<p><span style = 'font-size: 18px;'> Melhores cumprimentos Equipa CIMOB - IPS </span></p>" +
-                    "<p><span style = 'font-size: 14px;'> Nota: este e-mail foi gerado automaticamente, pelo que n&atilde;o deve responder pois quaisquer respostas n&atilde;o ser&atilde;o vistas.</span></p>" +
-                        "<span style = 'font-size: 12px;'> &nbsp;</span></p>";
-
-                await _emailSender.SendEmailAsync(user.email, "Entrevista - Mobilidade", mensagem);
+                await EmailSenderExtensions.EntrevistaMarcada(_emailSender, user.nome, dia, user.email, tmp);
 
                 return Json(new { status = "success" });
             }
@@ -267,6 +285,13 @@ namespace cimob.Controllers
             }
         }
 
+        /// <summary>
+        /// Verifica se houve alterações aos valores (pontuação, observações o listagme de avaliagem de ucs)
+        /// Se ouve, tenta atualizar e retorna um objecto json com o resultado e mensagem de erro (se for o caos)
+        /// Caso contrário devolve um obj json com estado e mensagem de informação
+        /// </summary>
+        /// <param name="model">ViewModel relativa à candidatura</param>
+        /// <returns>object json</returns>
         [HttpPost]
         [Route("[Controller]/Avaliacao")]
         public ActionResult UpdateAvaliacao(CandidaturaViewModel model)
@@ -315,6 +340,12 @@ namespace cimob.Controllers
             }
         }
 
+        /// <summary>
+        /// Verifica se a candidatura tem pontuação e entrevista definida. Se tiver, atualiza 
+        /// o estado para aceite / rejeitada e envia um email ao candidato. Caso contrário devolve um objeto json com mensagem de erro
+        /// </summary>
+        /// <param name="model">Viewmodel relativo à candidatura</param>
+        /// <returns>objecto json com estado do pedido e possivel mensagem de erro</returns>
         [HttpPost]
         [Route("[Controller]/Resultado")]
         public async Task<ActionResult> SetResutado(CandidaturaViewModel model)
@@ -342,20 +373,9 @@ namespace cimob.Controllers
                 _context.SaveChanges();
 
                 var user = _context.Users.Where(u => u.Id == user_id).Select(u => new { email = u.Email, nome = u.UserName }).FirstOrDefault();
-
-                var resultado = (model.Estado == 1) ? "rejeitada. A razão da rejeição é: " + model.Razao : "Aceite!";
-
-                var mensagem = "<p><span style='font-size: 18px;'>Resultado Candidatura " + user.nome + ",<strong> </strong></span></p>" +
-                        "<p><span style='font-size: 18px;'>Gostaríamos de informar que a sua candidatura foi " + resultado + ".</span></p>" +
-                        "<p><br></p>" +
-                        "<p><span style = 'font-size: 18px;'> Melhores cumprimentos CIMOB - IPS</span></p>" +
-                        "<p><span style = 'font-size: 18px;'> Melhores cumprimentos Equipa CIMOB - IPS </span></p>" +
-                    "<p><span style = 'font-size: 14px;'> Nota: este e-mail foi gerado automaticamente, pelo que n&atilde;o deve responder pois quaisquer respostas n&atilde;o ser&atilde;o vistas.</span></p>" +
-                        "<span style = 'font-size: 12px;'> &nbsp;</span></p>";
-
-                await _emailSender.SendEmailAsync(user.email, "Aplicação Mobilidade - Resultado", mensagem);
-
-
+                
+                await EmailSenderExtensions.Resultado(_emailSender, user.email, user.nome, (model.Estado == 1) ? "rejeitada. A razão da rejeição é: " + model.Razao : "Aceite!");
+                
                 return Json(new { status = "success" });
             }
             catch (Exception ex)
@@ -368,6 +388,11 @@ namespace cimob.Controllers
             }
         }
         
+        /// <summary>
+        /// Tenta descarregar o ficheiro com o id recebido
+        /// </summary>
+        /// <param name="id">id do ficheiro que queremos descarregar</param>
+        /// <returns>O documento a descarregar, redirectToAction se não encontrou o documento</returns>
         [HttpGet]
         [Route("[Controller]/Candidaturas/{id}/Download")]
         public ActionResult Download(int id)
@@ -385,16 +410,25 @@ namespace cimob.Controllers
             }
             catch (Exception)
             {
-                return View("~/Views/Shared/NoFile.cshtml");
+                return RedirectToAction(nameof(NoFile));
             }
         }
 
+        /// <summary>
+        /// Retorna a view que indica que não foi encontrado o documento procurado
+        /// </summary>
+        /// <returns>View</returns>
         [HttpGet]
         public ActionResult NoFile()
         {
             return View();
         }
-        
+
+        /// <summary>
+        /// Tenta devolver o ficheiro com o id recebido como pdf para visualização
+        /// </summary>
+        /// <param name="id">id do ficheiro que queremos visualizar</param>
+        /// <returns>O ficheiro a visualizar, redirectToAction se não encontrou o ficheiro</returns>
         [HttpGet]
         [Route("[Controller]/Candidaturas/{id}/View")]
         public ActionResult View(int id)
@@ -409,6 +443,9 @@ namespace cimob.Controllers
             }
         }
 
+        /// <summary>
+        /// Funções auxiliares que devolvem as respetivas views
+        /// </summary>
         private ActionResult Candidatura => View();
         private ActionResult CandidaturasList => View();
     }
