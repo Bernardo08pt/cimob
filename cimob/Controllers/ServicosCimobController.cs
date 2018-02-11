@@ -466,15 +466,24 @@ namespace cimob.Controllers
         [Route("[Controller]/ExportResults")]
         public ActionResult ExportResults()
         {
-            var doc = new Document(PageSize.A4.Rotate(), 10, 10, 42, 35);
+            var doc = new Document(PageSize.A4.Rotate(), 20, 20, 42, 35);
             var path = "Files/Resultados.pdf";
 
             FileHandling.Remove(path);
 
             PdfWriter w = PdfWriter.GetInstance(doc, new FileStream(path, FileMode.Create));
             doc.Open();
-            
+
+            var title = "Serição dos Candidatos Outgoing para ano letivo " + GetAnoLetivo();
+
+            doc.AddTitle(title);
+            doc.Add(new Paragraph(title, new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.BOLD)) {
+                SpacingAfter = 30,
+                Alignment = Element.ALIGN_CENTER
+            });
+
             var t = new PdfPTable(8);
+            t.WidthPercentage = 100;
 
             t.AddCell(CreateHeaderCell("Escola"));
             t.AddCell(CreateHeaderCell("Curso"));
@@ -515,8 +524,9 @@ namespace cimob.Controllers
                     t.AddCell(CreateBodyCell(item.resultado == 0 ? "Selecionado" : "Não Selecionado"));
                     t.AddCell(CreateBodyCell(item.obs.ToString()));
                 });
-            
+                        
             doc.Add(t);
+
             doc.Close();
 
             return FileHandling.Download(path, "Resultados.pdf");
@@ -563,13 +573,27 @@ namespace cimob.Controllers
         /// <returns>objecto PdfPCell</returns>
         private PdfPCell CreateBodyCell(string text)
         {
-            return new PdfPCell(new Phrase(text))
+            return new PdfPCell(new Phrase(text, new Font(Font.FontFamily.TIMES_ROMAN, 12)))
             {
                 VerticalAlignment = Element.ALIGN_MIDDLE,
                 HorizontalAlignment = Element.ALIGN_CENTER,
                 PaddingBottom = 10,
                 PaddingTop = 10
             };
+        }
+
+        /// <summary>
+        /// Calcula o ano letivo, com base na data, para mostrar no titulo do pdf
+        /// </summary>
+        /// <returns>O ano letivo em string</returns>
+        private string GetAnoLetivo()
+        {
+            var tmp = DateTime.Now;
+
+            if (tmp.Month >= 8 && tmp.Month <= 12)
+                return tmp.Year + "/" + (tmp.Year + 1);
+            else
+                return (tmp.Year - 1) + "/" + tmp.Year;
         }
     }
 }
