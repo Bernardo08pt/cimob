@@ -22,10 +22,11 @@
         <Style x:Key="Menu" TargetType="Button" >
             <Setter Property="FontFamily" Value="Times New Roman"/>
             <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="FontSize" Value="15"/>
-            <Setter Property="Background" Value="#6aa84f"/>
-            <Setter Property="MaxWidth" Value="50"/>
-            <Setter Property="MaxHeight" Value="50"/>
+            <Setter Property="MaxWidth" Value="60"/>
+            <Setter Property="MaxHeight" Value="60"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Margin" Value="50"/>
@@ -51,7 +52,7 @@
         <Label Content="BackOffice" Grid.Row="1" Grid.Column="1" Style="{StaticResource Titulo}"/>
         <Button Grid.Row="1" Grid.Column="3" Style="{StaticResource Menu}" Click="AbrirMenu_Click">
             <Button.Content>
-                <Image VerticalAlignment="Center" Width="auto" Stretch="Fill" Source="/images/menu.png"/>
+                <Image VerticalAlignment="Center" Width="Auto" Source="/images/menu2.png"/>
             </Button.Content>
             <Button.ContextMenu>
                 <ContextMenu >

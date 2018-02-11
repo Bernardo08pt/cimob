@@ -10,10 +10,13 @@
         <Style x:Key="TypeGraph" TargetType="Label" >
             <Setter Property="FontFamily" Value="Times New Roman"/>
             <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontSize" Value="20"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="20"/>
+            <Setter Property="Margin" Value="0,50,0,20"/>
+        </Style>
+        <Style TargetType="Frame">
+            <Setter Property="Margin" Value="5"></Setter>
         </Style>
     </Page.Resources>
     <Grid Background="#f1eee7">
@@ -29,10 +32,12 @@
         <Label Content="Escolas Parceiras" Grid.Row="0" Grid.Column="0" Style="{StaticResource TypeGraph}"/>
         <Frame Grid.Row="1" Grid.Column="0" Source="GraficoEscolasParceiras.xaml"/>
 
-        <Label Content="Programas de Mobilidade" Grid.Row="0" Grid.Column="1" Style="{StaticResource TypeGraph}"/>
-        <Frame Grid.Row="1" Grid.Column="1" Source="GraficoProgramasMobilidade.xaml"/>
+        <Label Content="Candidaturas por Escola do IPS" Grid.Row="0" Grid.Column="1" Style="{StaticResource TypeGraph}"/>
+        <Frame Grid.Row="1" Grid.Column="1" Source="GraficoCandidaturasIPSEscolas.xaml"/>
 
-        <Label Content="Funcionários" Grid.Row="0" Grid.Column="2" Style="{StaticResource TypeGraph}"/>
-        <Frame Grid.Row="1" Grid.Column="2" Source="GraficoCandidaturasIPSEscolas.xaml"/>
+        <Label Content="Programas de Mobilidade" Grid.Row="0" Grid.Column="2" Style="{StaticResource TypeGraph}"/>
+        <Frame Grid.Row="1" Grid.Column="2" Source="GraficoProgramasMobilidade.xaml"/>
+
+        
     </Grid>
 </Page>
