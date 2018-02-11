@@ -1,23 +1,31 @@
 ﻿using Xunit;
 using cimob.Controllers;
-using cimob.Data;
 using cimob.Models.EscolasParceirasViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using cimob.Data;
+using Microsoft.Extensions.Logging;
 
 namespace XUnitTests
 {
+    /// <summary>
+    /// Classe com testes unitários sobre as escolas parceiras
+    /// </summary>
     public class EscolasParceiras
     {
-        private DbContextOptions<ApplicationDbContext> options;
         private EscolasParceirasController controller;
+        private ApplicationDbContext context;
 
         public EscolasParceiras() {
-            options = new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlServer(DBConnection.ConnectionString).Options;
-            controller = new EscolasParceirasController(null, null, null, new ApplicationDbContext(options));
+            context = Globals.Context;
+            controller = new EscolasParceirasController(null, null, context);
         }
 
-
+        /// <summary>
+        /// Testa se existe alguma escola, sendo que por default existe sempre
+        /// pelo menos uma escola. Este teste passa se a listagem de escolas não estiver vazia
+        /// </summary>
         [Fact]
         public void HasEscolas()
         {
@@ -25,40 +33,30 @@ namespace XUnitTests
             Assert.NotEmpty(((EscolasListViewModel)res.ViewData.ModelExplorer.Model).EscolasList);
         }
 
+        /// <summary>
+        /// Testa a função de criar uma escola nova.
+        /// O teste passa se depois de criar uma escola, o número 
+        /// de escolas existentes é diferente do inicial
+        /// </summary>
         [Fact]
         public void AddEscola()
         {
-            //var escola = new Escola
-            //{
-            //    PaisID = 1,
-            //    TipoMobilidadeID = 1,
-            //    Nome = "Escola fixolas",
-            //    Email = "Email da escola fixolas",
-            //    Estado = 1,
-            //};
+            var count = context.Escolas.CountAsync();
 
-            //var c1 = new Curso {
-            //    Vagas = 5,
-            //    Nome = "Curso fixolas",
-            //    EscolaID = 1,
-            //    PaisID = 1
-            //};
+            controller.Escolas(new EscolasParceirasViewModel {
+                Pais = 1,
+                Mobilidade = 1,
+                Nome = "Escola fixolas",
+                Email = "Email da escola fixolas",
+                Estado = 1,
+                CursosNovos = new List<string>
+                {
+                    "{\"Nome\":\"teste 1\",\"Vagas\":1}",
+                    "{\"Nome\":\"teste 2\",\"Vagas\":3}",
+                }
+            });
 
-            //var c2 = new Curso
-            //{
-            //    Vagas = 5,
-            //    Nome = "Curso fixolas 2",
-            //    EscolaID = 1,
-            //    PaisID = 1
-            //};
-
-            //var c3 = new Curso
-            //{
-            //    Vagas = 5,
-            //    Nome = "Curso fixolas 3",
-            //    EscolaID = 1,
-            //    PaisID = 1
-            //};
+            Assert.NotEqual(count, context.Escolas.CountAsync());
         }
     }
 }

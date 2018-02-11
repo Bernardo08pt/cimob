@@ -108,8 +108,6 @@ namespace cimob.Controllers
 
                     _context.SaveChanges();
 
-                    _logger.LogInformation("User created a new escola parceira.");
-
                     return RedirectToAction(nameof(Index));
                 }
             }
