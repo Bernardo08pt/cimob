@@ -1,21 +1,15 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using cimob.Models;
 using cimob.Models.AccountViewModels;
 using cimob.Services;
 using cimob.Data;
-using Microsoft.EntityFrameworkCore;
 using cimob.Extensions;
 
 namespace cimob.Controllers
@@ -50,6 +44,11 @@ namespace cimob.Controllers
         [TempData]
         public string ErrorMessage { get; set; }
 
+        /// <summary>
+        /// Devolve a view da página de login
+        /// </summary>
+        /// <param name="returnUrl">Para onde redirecionar depois de login (default é null)</param>
+        /// <returns>View</returns>
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> Login(string returnUrl = null)
@@ -69,6 +68,14 @@ namespace cimob.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Tenta fazer login: verifica se os daods existem e se o email já foi confirmado
+        /// Se conseguir rediciona para a home page (ou returnUrl), caso contrário 
+        /// mostra a mesma view com os erros
+        /// </summary>
+        /// <param name="model">ViewModel relativo ao login</param>
+        /// <param name="returnUrl">Possível url para onde redirecionar depois de login</param>
+        /// <returns>View</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -112,10 +119,13 @@ namespace cimob.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            
             return View(model);
         }
 
+        /// <summary>
+        /// Retonar a view de Lockout
+        /// </summary>
+        /// <returns>View</returns>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Lockout()
@@ -123,6 +133,10 @@ namespace cimob.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Retorna a view de registar
+        /// </summary>
+        /// <returns>View com o form de registar</returns>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Register()
@@ -133,6 +147,12 @@ namespace cimob.Controllers
             });
         }
 
+        /// <summary>
+        /// Valida os campos inseridos. Se corretos, cria novo registo na bd e redireciona o utilizador para 
+        /// a página de confirmação de registo. se não volta a mostrar o form com os erros de validação
+        /// </summary>
+        /// <param name="model">ViewModel respetivo aos campos de registo</param>
+        /// <returns>View atual ou redirectToAction de confirmaão do registo</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -169,6 +189,10 @@ namespace cimob.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Retorna a view de confirmação do registo
+        /// </summary>
+        /// <returns>View</returns>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult RegisterConfirmation()
@@ -176,6 +200,10 @@ namespace cimob.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Termina a sessão do utilizador e redireciona-o para a página inicial
+        /// </summary>
+        /// <returns>RedirectToAction HomeController.Index</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
@@ -185,6 +213,14 @@ namespace cimob.Controllers
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
+        /// <summary>
+        /// Confirma o email do utilizador depois do registo com base no utilizador 
+        /// e o código de confirmação. Se correto redireciona para a view ConfirmEmail
+        /// caso contrário, a view Error
+        /// </summary>
+        /// <param name="userId">id do user cujo email está a ser confimrado</param>
+        /// <param name="code">código de confirmação</param>
+        /// <returns>View</returns>
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
@@ -202,19 +238,27 @@ namespace cimob.Controllers
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
+        /// <summary>
+        /// Mostra o formulário de recuperação de palavra passe
+        /// </summary>
+        /// <returns>view</returns>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult ForgotPassword()
         {
-            // Get page help
-            ForgotPasswordViewModel model = new ForgotPasswordViewModel
-            {
+            return View(new ForgotPasswordViewModel {
                 AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "RecuperarPassword" }), _context)
-            };
-
-            return View(model);
+            });
         }
 
+        /// <summary>
+        /// Valida o formulário de recuperação de palavra passe. Se válido e utilziador existe, é enviado um email ao utilizador
+        /// com um link para recuperar a palavra passe e depois redireciona para a view de confirmação de 
+        /// recuperação de palavra passe. Caso contrário apenas redireciona para o mesmo ecrã (medida de segurança). Se não for
+        /// válido mostra o formulário novamente mas com os erros de validação
+        /// </summary>
+        /// <param name="model">ViewModel correspondente ao formulário de recuperação de palavra passe </param>
+        /// <returns>View</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -232,15 +276,12 @@ namespace cimob.Controllers
                 // For more information on how to enable account confirmation and password reset please
                 // visit https://go.microsoft.com/fwlink/?LinkID=532713
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                var callbackUrl = Url.ResetPasswordCallbackLink(user.Id, code, Request.Scheme);
-                await _emailSender.SendEmailAsync(model.Email, "Recuperação de Password",
-                "<p><span style='font-size: 18px;'>Caro(a) " + user.Nome + ",<strong> </strong></span></p>" +
-                "<p><span style='font-size: 18px;'>Recebemos um pedido de recuperação da palavra passe associada a este e-mail. Se não fez este pedido, ignore este e-mail (a sua conta continua segura).</span></p>" +
-                "<p><span style='font-size: 18px;'>Caso contrário clique <a href='" + callbackUrl + "'>aqui</a> para começar o processo de redefinição de palavra passe.&nbsp;</span></p>" +
-                "<p><br></p>" +
-                "<p><span style = 'font-size: 18px;'> Melhores cumprimentos Equipa CIMOB - IPS </span></p>" +
-                "<p><span style = 'font-size: 14px;'> Nota: este e-mail foi gerado automaticamente, pelo que n&atilde;o deve responder pois quaisquer respostas n&atilde;o ser&atilde;o vistas.</span></p>" +
-                 "<span style = 'font-size: 12px;'> &nbsp;</span></p>");
+                await EmailSenderExtensions.RecuperarPassword(
+                    _emailSender, 
+                    model.Email, 
+                    user.Nome, 
+                    Url.ResetPasswordCallbackLink(user.Id, code, Request.Scheme)
+                );
                 return RedirectToAction(nameof(ForgotPasswordConfirmation));
             }
 
@@ -248,10 +289,13 @@ namespace cimob.Controllers
             // Get page help
             model.AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "RecuperarPassword" }), _context);
 
-
             return View(model);
         }
 
+        /// <summary>
+        /// Mostra o ecrã de confirmação de recuperação de password
+        /// </summary>
+        /// <returns>View</returns>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult ForgotPasswordConfirmation()
@@ -259,6 +303,11 @@ namespace cimob.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Mostra o ecrã de recuperação de password se existir um código no link, caso contrário lança uma exceção
+        /// </summary>
+        /// <param name="code">código de recuperação</param>
+        /// <returns>View ou exceção</returns>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult ResetPassword(string code = null)
@@ -267,41 +316,56 @@ namespace cimob.Controllers
             {
                 throw new ApplicationException("A code must be supplied for password reset.");
             }
-            var model = new ResetPasswordViewModel { Code = code };
 
-            // Get page help
-            model.AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "AlterarPassword" }), _context);
-
-            return View(model);
+            return View(new ResetPasswordViewModel {
+                Code = code,
+                AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "AlterarPassword" }), _context)
+            });
         }
 
+        /// <summary>
+        /// Valida o formulário de recuperação de palavra passe. Se incorreto volta a mostrar o formulário de 
+        /// recuperação de palavra passe com os erros de validação. Caso contrário vai procurar o user com o email inserido.
+        /// Se não encontrar, redireciona para a view ResetPasswordConfirmation por questões de segurança. Se encontrar, tenta atualizar
+        /// fazer reset à password. Se conseguir, redireciona para a mesma view. Se não conseguir, mostra a view atual com os erros de validação
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
-            // Get page help
-            model.AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "AlterarPassword" }), _context);
-
             if (!ModelState.IsValid)
             {
+                // Get page help
+                model.AjudasDictionary = HelperFunctionsExtensions.GetAjudas(new List<string>(new string[] { "AlterarPassword" }), _context);
+
                 return View(model);
             }
+
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
                 // Don't reveal that the user does not exist
                 return RedirectToAction(nameof(ResetPasswordConfirmation));
             }
+
             var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
             if (result.Succeeded)
             {
                 return RedirectToAction(nameof(ResetPasswordConfirmation));
             }
+
             HelperFunctionsExtensions.AddErrors(result, ModelState);
+
             return View();
         }
 
+        /// <summary>
+        /// Mostra o ecrã de confirmação de recuperação de password
+        /// </summary>
+        /// <returns>View</returns>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult ResetPasswordConfirmation()
@@ -309,6 +373,10 @@ namespace cimob.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Mostra o ecrã de acesso negado
+        /// </summary>
+        /// <returns>View</returns>
         [HttpGet] 
         public IActionResult AccessDenied()
         {
@@ -316,6 +384,12 @@ namespace cimob.Controllers
         }
 
         #region Helpers
+        /// <summary>
+        /// função auxiliar que redireciona para determinado url ou página inicial caso não houver nenhum 
+        /// depois de login
+        /// </summary>
+        /// <param name="returnUrl">página para onde redirecionar</param>
+        /// <returns></returns>
         private IActionResult RedirectToLocal(string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))

@@ -3,6 +3,21 @@
     margin: auto;
 }
 
+.no-padding{
+    padding: 0;
+}
+
+    .no-padding .button {
+        width: 100%;
+        line-height: 20px;
+        margin-bottom: 10px;
+        margin-right: 0;
+    }
+
     .candidatura-listing .table {
         width: 100%;
+    }
+
+    .candidatura-listing .table tr:not(:first-child){
+        cursor: pointer;
     }

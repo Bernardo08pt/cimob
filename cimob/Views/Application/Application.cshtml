@@ -63,6 +63,9 @@
 
             getAnoLetivo();
 
+            if ($("#Escola").val() !== "")
+                getCursos($("#Escola").val());
+
             bindEvents();
         });
 
@@ -164,8 +167,10 @@
             });
 
             $("#CartaMotivacao").on("change", (ev) => {
-                if ($(ev.currentTarget).val() == "")
+                if ($(ev.currentTarget).val() == "") {
+                    $("#file_name").val("");
                     return;
+                }
 
                 var file = ev.currentTarget.value.split("\\fakepath\\")[1];
 
@@ -258,7 +263,7 @@
                                     "</a>" +
                                 "</td>" +
                                 "<td>" +
-                                    "<i class='fa fa-2x fa-sign-in' aria-hidden='true' title='Enviado pelo Candidato'></i>" +
+                                    "<i class='fa fa-2x fa-sign-out' aria-hidden='true' title='Enviado pelo Candidato'></i>" +
                                 "</td>"+
                             "</tr>"));
 
@@ -276,27 +281,8 @@
             });
 
             $("#EscolaList").on("change", (ev) => {
-                $("#CursoList").html("<option value=''> A carregar...</option>").show();
-
-                $.ajax({
-                    url: "/Application/GetCursosByEscola/" + ev.currentTarget.value,
-                    cache: false,
-                    type: "GET",
-                    success: function (data) {
-                        var markup = "<option value=''>Escolha um opção</option>";
-
-                        data.forEach(item => {
-                            markup += "<option value=" + item.ipsCursoID + ">" + item.nome + "</option>";
-                        });
-
-                        $("#CursoList").html(markup);
-                    },
-                    error: function (reponse) {
-                        console.log("error : " + reponse);
-                    }
-                });
-
-
+                getCursos(ev.currentTarget.value);
+                
                 $("#Escola").val(ev.currentTarget.value);
             });
 
@@ -304,7 +290,7 @@
                 $("#Parentesco").val(ev.currentTarget.value);
             });
         }
-        
+
         var changePage = () => {
             $("[role='tab']").hide();
             $(".active").removeClass("active");
@@ -372,6 +358,28 @@
                 $("#AnoLetivo").val(tmp.getFullYear() + "/" + (tmp.getFullYear() + 1));
             else 
                 $("#AnoLetivo").val((tmp.getFullYear() - 1) + "/" + tmp.getFullYear());
+        }
+
+        var getCursos = (id) => {
+            $("#CursoList").html("<option value=''> A carregar...</option>").show();
+
+            $.ajax({
+                url: "/Application/GetCursosByEscola/" + id,
+                cache: false,
+                type: "GET",
+                success: function (data) {
+                    var markup = "<option value=''>Escolha um opção</option>";
+
+                    data.forEach(item => {
+                        markup += "<option value=" + item.ipsCursoID + ">" + item.nome + "</option>";
+                    });
+
+                    $("#CursoList").html(markup);
+                },
+                error: function (reponse) {
+                    console.log("error : " + reponse);
+                }
+            });
         }
     </script>
 }

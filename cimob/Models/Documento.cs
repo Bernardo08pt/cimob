@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace cimob.Models
 {
+    /// <summary>
+    /// Corresponde à tabela Documentos na BD
+    /// </summary>
     public class Documento
     {
         public int DocumentoID { get; set; }

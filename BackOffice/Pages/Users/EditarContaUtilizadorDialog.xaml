@@ -1,0 +1,59 @@
+﻿<Window x:Class="BackOffice.EditarContaUtilizadorDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BackOffice"
+        mc:Ignorable="d"
+        Title="Editar Conta Utilizador" Height="350" Width="500" Icon="../../images/icon.ico">
+    <Window.Resources>
+        <Style x:Key="OK" TargetType="Button">
+            <Setter Property="Background" Value="#009e0f"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="Width" Value="80"></Setter>
+            <Setter Property="BorderBrush" Value="Gray"></Setter>
+            <Setter Property="BorderThickness" Value="2"></Setter>
+        </Style>
+        <Style x:Key="Cancelar" TargetType="Button">
+            <Setter Property="Background" Value="#2b78e4"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="Width" Value="80"></Setter>
+            <Setter Property="BorderBrush" Value="Gray"></Setter>
+            <Setter Property="BorderThickness" Value="2"></Setter>
+        </Style>
+    </Window.Resources>
+    <Grid Name="GridFormContaUtilizador" DockPanel.Dock="Left"  Margin="10"  Background="#f1eee7">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="120" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Label Content="Número" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left"  FontSize="12" Margin="10,10,0,10.4" />
+        <TextBox Name="TextBoxNumero" Grid.Row="0" Grid.Column="1"  HorizontalAlignment="Left" FontSize="12" Margin="11.8,10,0,10.4" Width="300" Text="{Binding Path=Numero}" />
+
+        <Label Content="Nome"  Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left"  FontSize="12" Margin="10,10,0,10.4" />
+        <TextBox Name="TextBoxNome" Grid.Row="1" Grid.Column="1"  HorizontalAlignment="Left" FontSize="12" Margin="11.8,10,0,10.4" Width="300" Text="{Binding Path=Nome}" />
+
+        <Label Content="Email" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left"  FontSize="12" Margin="10,10.2,0,10" />
+        <TextBox Name="TextBoxEmail" Grid.Row="2" Grid.Column="1"  HorizontalAlignment="Left" FontSize="12" Margin="11.8,10,0,10.4" Width="300" Text="{Binding Path=Email}" />
+
+        <Label Content="DataNascimento" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" FontSize="12" Margin="10,10.2,0,10" />
+        <DatePicker Name="TextBoxDataNascimento" Grid.Row="3" Grid.Column="1"  HorizontalAlignment="Left" FontSize="12" Margin="11.8,10,0,10.4" Width="300" SelectedDate="{Binding Path=DataNascimento}" />
+
+        <Label Content="Tipo de utilizador" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Left"  FontSize="12" Margin="10,10.2,0,10" />
+        <ComboBox Name="ComboBoxRole" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" Margin="10,10.2,0,10" Width="300" Text="{Binding Path=RoleName}" SelectedValue="{Binding Path=RoleId}" />
+
+      
+        <StackPanel Grid.Column="1" Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="180">
+            <Button x:Name="OkButton" Click="OkButton_Click" IsDefault="True" Content="OK" Style="{StaticResource OK}" RenderTransformOrigin="-0.133,0.478"/>
+            <Button x:Name="CancelButton" IsCancel="True" Margin="10,0" Content="Cancel" Style="{StaticResource Cancelar}"/>
+        </StackPanel>
+    </Grid>
+</Window>

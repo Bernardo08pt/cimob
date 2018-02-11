@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -90,9 +89,9 @@ namespace cimob
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-           CreateRoles(serviceProvider);
+            CreateRoles(serviceProvider);
         }
-
+        
         private void CreateRoles(IServiceProvider serviceProvider)
         {
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -114,6 +113,15 @@ namespace cimob
             if (!hasFuncionarioRole.Result)
             {
                 roleResult = roleManager.CreateAsync(new IdentityRole("Funcionario"));
+                roleResult.Wait();
+            }
+
+            Task<bool> hasAdministradorRole = roleManager.RoleExistsAsync("Administrador");
+            hasAdministradorRole.Wait();
+
+            if (!hasAdministradorRole.Result)
+            {
+                roleResult = roleManager.CreateAsync(new IdentityRole("Administrador"));
                 roleResult.Wait();
             }
         }

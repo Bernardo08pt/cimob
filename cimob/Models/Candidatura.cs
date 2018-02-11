@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace cimob.Models
 {
+    /// <summary>
+    /// Corresponde à tabela Candidatura na BD
+    /// </summary>
     public class Candidatura
     {
         public Candidatura()

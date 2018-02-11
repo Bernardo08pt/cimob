@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 using cimob.Models;
-using cimob.Models.ApplicationViewModels;
+using cimob.Models.EditaisViewModels;
 using cimob.Services;
 using cimob.Data;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +35,10 @@ namespace cimob.Controllers
             _context = context; 
         }
 
+        /// <summary>
+        /// Devolve a View da candidatura com alguns dados relativos ao candidato já preenchidos (email, nome, número)
+        /// </summary>
+        /// <returns>Uma View que usa o ApplicationViewModel</returns>
         // GET: Application
         [Route("[controller]")]
         public async Task<ActionResult> Application()
@@ -62,6 +66,12 @@ namespace cimob.Controllers
             });
         }
         
+        /// <summary>
+        /// Chamada quando o candidato submete a candidatura. Caso os campos estejam todos corretos 
+        /// Cria um novo objeto Candidatura, guarda-o na BD e envia um email informativo ao candidato
+        /// </summary>
+        /// <param name="model">Corresponde ao ViewModel respetivo à candidatura</param>
+        /// <returns>A view atual com erros caso haja algum campo incorreto, ou redirectToAction que redireciona para o estado da candidatura</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("[controller]")]
@@ -125,15 +135,8 @@ namespace cimob.Controllers
 
                     var mobilidade = _context.TiposMobilidade.Where(p => p.TipoMobilidadeID == model.TipoMobilidade).Select(p => p.Descricao).FirstOrDefault();
 
-                    var mensagem = "<p><span style='font-size: 18px;'>Caro(a) " + user.Nome + ",<strong> </strong></span></p>" +
-                    "<p><span style='font-size: 18px;'>Gostaríamos de informar que a sua candidatura para " + mobilidade + " foi efetuada com sucesso! Iremos avaliar assim que possível e mantêmo-lo-emos informado.</span></p>" +
-                    "<p><br></p>" +
-                    "<p><span style = 'font-size: 18px;'> Melhores cumprimentos Equipa CIMOB - IPS </span></p>" +
-                    "<p><span style = 'font-size: 14px;'> Nota: este e-mail foi gerado automaticamente, pelo que n&atilde;o deve responder pois quaisquer respostas n&atilde;o ser&atilde;o vistas.</span></p>" +
-                        "<span style = 'font-size: 12px;'> &nbsp;</span></p>";
-
-                    await _emailSender.SendEmailAsync(model.Email, "Candidatura efetuada", mensagem);
-                    await _emailSender.SendEmailAsync(model.EmailAlternativo, "Candidatura efetuada", mensagem);
+                    await EmailSenderExtensions.ApplicationSubmit(_emailSender, model.Email, mobilidade, user.Nome);
+                    await EmailSenderExtensions.ApplicationSubmit(_emailSender, model.EmailAlternativo, mobilidade, user.Nome);
 
                     return RedirectToAction(nameof(State));
                 }
@@ -153,6 +156,10 @@ namespace cimob.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Mostra a view quando o url requisitado não é encontrado
+        /// </summary>
+        /// <returns>View</returns>
         [HttpGet]
         [Route("[controller]/Not-Found")]
         public IActionResult Not_Found()
@@ -160,6 +167,11 @@ namespace cimob.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Verifica se o user logado tem candidatura feita. Se não tiver redireciona para o notfound. Se tiver 
+        /// retorna a view do estado da candidatura com informação do estado
+        /// </summary>
+        /// <returns>View do estado ou not found</returns>
         [HttpGet]
         [Route("[controller]/State")]
         public IActionResult State()
@@ -176,6 +188,11 @@ namespace cimob.Controllers
             });
         }
 
+        /// <summary>
+        /// Verifica se o user logado tem candidatura feita. Se não tiver redireciona para o notfound. Se tiver 
+        /// retorna a view dos documentos da candidatura com os documentos
+        /// </summary>
+        /// <returns>View dos documentos ou not found</returns>
         [HttpGet]
         [Route("[controller]/Documents")]
         public IActionResult Documents()
@@ -191,16 +208,25 @@ namespace cimob.Controllers
             });
         }
 
+        /// <summary>
+        /// Vai buscar os cursos à BD que pertençam à escola do id recebido
+        /// </summary>
+        /// <param name="id">id da escola cujos cursos estamos à procura</param>
+        /// <returns>Lista dos cursos da escola em JSON</returns>
         // GET: Application/GetCursosByEscola/1
         [HttpGet]
-        public ActionResult GetCursosByEscola(int id, IFormCollection collection)
+        public ActionResult GetCursosByEscola(int id)
         {
             return Json(_context.IpsCursos.Where(c => c.IpsEscolaID == id).ToList());
         }
 
+        /// <summary>
+        /// Filtra os destinos possíveis por nome ou país
+        /// </summary>
+        /// <returns>Retorna a lista com os países filtrados em JSON</returns>
         // GET: Application/FilterDestino?nome=ze&pais=alemanha
         [HttpGet]
-        public ActionResult FilterDestino(int id, IFormCollection collection)
+        public ActionResult FilterDestino()
         {
             var nome = Request.Query["nome"].Count == 0 ? "" : Request.Query["nome"][0].ToLower();
             var pais = Request.Query["pais"].Count == 0 ? "" : Request.Query["pais"][0];
@@ -232,6 +258,11 @@ namespace cimob.Controllers
             return Json(tmp);
         }
 
+        /// <summary>
+        /// Recebe um ficheiro relativo à candidatura e carrega-o no servidor
+        /// </summary>
+        /// <param name="file">Ficheiro a ser carregado no ficheiro</param>
+        /// <returns>Um object JSON com o resultado (error / success) e mensagem de erro / informação do documento, respetivamente</returns>
         [HttpPost]
         public async Task<ActionResult> UploadFile(IFormFile file)
         {
@@ -265,6 +296,12 @@ namespace cimob.Controllers
             }
         }
 
+        /// <summary>
+        /// Procura o ficheir com o ID recebido. Se existir, descarrega o ficheiro, caso contrário redireciona para uma view 
+        /// de ficheiro não existente
+        /// </summary>
+        /// <param name="id">ID do ficheiro a procurar </param>
+        /// <returns>O ficheiro a ser descarregado ou view</returns>
         // GET: Application/Download/1
         [HttpGet]
         public ActionResult Download (int id)
@@ -282,16 +319,26 @@ namespace cimob.Controllers
             }
             catch (Exception)
             {
-                return View("~/Views/Shared/NoFile.cshtml");
+                return RedirectToAction(nameof(NoFile));
             }
         }
 
+        /// <summary>
+        /// Devolve a view de NoFile
+        /// </summary>
+        /// <returns>View</returns>
         [HttpGet]
         public ActionResult NoFile()
         {
             return View();
         }
 
+        /// <summary>
+        /// Procura o ficheiro com o ID recebido. Se encontrar devolve (em pdf) para ser visivel no browser. Caso contrário
+        /// mostra a view de NoFile
+        /// </summary>
+        /// <param name="id">ID do ficheiro que estamos a procurar</param>
+        /// <returns>Ficheiro em PDF ou View</returns>
         // GET: Application/View/1
         [HttpGet]
         public ActionResult View (int id)
@@ -302,52 +349,89 @@ namespace cimob.Controllers
             }
             catch (Exception)
             {
-                return View("~/Views/Shared/NoFile.cshtml");
+                return RedirectToAction(nameof(NoFile));
             }
         }
 
         /** HELPER FUNCTIONS **/
+        /// <summary>
+        /// Vai buscar as escolas parceiras à BD que estão ativas e devolve como lista
+        /// </summary>
+        /// <returns>Listagem de Escola</returns>
         private List<Escola> GetEscolas()
         {
             return _context.Escolas.Include(e => e.Cursos).Where(e => e.Estado == 1).ToList();
         }
 
+        /// <summary>
+        /// Vai buscar as escolas do IPS à BD e devolve como lista
+        /// </summary>
+        /// <returns>Listagem de IpsEscola</returns>
         private List<IpsEscola> GetEscolasIPS()
         {
             return _context.IpsEscolas.ToList();
         }
 
+        /// <summary>
+        /// Vai buscar os cursos do IPS à BD e devolve como lista
+        /// </summary>
+        /// <returns>Listagem de IpsCurso</returns>
         private List<IpsCurso> GetCursoIPS()
         {
             return _context.IpsCursos.OrderBy(c => c.Nome).ToList();
         }
 
+        /// <summary>
+        /// Vai buscar os paises à BD e devolve como lista
+        /// </summary>
+        /// <returns>Listagem de Pais</returns>
         private List<Pais> GetPaises()
         {
             return _context.Paises.ToList();
         }
 
+        /// <summary>
+        /// Vai buscar o Parentesco à BD e devolve como lista
+        /// </summary>
+        /// <returns>Listagem de Parentesco</returns>
         private List<Parentesco> GetParentesco()
         {
             return _context.Parentescos.ToList();
         }
 
+        /// <summary>
+        /// Calcula o semestre atual consoante a data
+        /// </summary>
+        /// <returns>1 ou 2</returns>
         private short GetSemestre()
         {
             var mes = DateTime.Today.Month;
             return (short)((mes >= 8 && mes <= 2) ? 1 : 2);
         }
 
+        /// <summary>
+        /// Vai buscar à BD os estados que a candidatura pode ter
+        /// </summary>
+        /// <returns>Listagem CandidaturaDocumento</returns>
         private List<EstadoCandidatura> GetEstadosCandidatura()
         {
             return _context.EstadosCandidatura.ToList();
         }
 
+        /// <summary>
+        /// Vai buscar os documentos da candidatura como listage
+        /// </summary>
+        /// <param name="id">ID da candidatura que estamos à procura</param>
+        /// <returns>Listagem CandidaturaDocumento</returns>
         private List<CandidaturaDocumentos> GetDocumentosCandidatura(int id)
         {
             return _context.CandidaturaDocumentos.Include(cd => cd.Documento).Where(cd => cd.CandidaturaID == id).ToList();
         }
 
+        /// <summary>
+        /// Calcula o ano letivo com base na data
+        /// </summary>
+        /// <returns>O ano letivo em string</returns>
         private string GetAnoLetivo()
         {
             var tmp = DateTime.Now;

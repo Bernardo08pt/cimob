@@ -1,7 +1,6 @@
 ﻿using cimob.Data;
 using cimob.Extensions;
 using cimob.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +19,11 @@ namespace cimob.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// Verifica se o utilizador já tem uma candidatura feita. Se tiver é redirecionado para 
+        /// a página de estado da candaitura. Senão, devolve a página de escolha de programas de mobilidade
+        /// </summary>
+        /// <returns>View / redirectToAction</returns>
         public ActionResult Index()
         {
             if (HelperFunctionsExtensions.GetUserCandidatura(_context, _userManager, User).User != null)
@@ -28,7 +32,10 @@ namespace cimob.Controllers
             return View();
         }
 
-        //Método que retorna o modal dos programas de mobilidade
+        /// <summary>
+        /// Retorna a modal do programa de mobilidade erasmus+ 
+        /// </summary>
+        /// <returns>View</returns>
         public ActionResult ModalPopUp()
         {
             return View();

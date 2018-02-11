@@ -261,3 +261,4 @@ __pycache__/
 *.pyc
 
 cimob/files/
+cimob/appsettings.json

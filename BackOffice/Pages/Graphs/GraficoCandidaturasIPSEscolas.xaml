@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="BackOffice.Pages.Graphs.GraficoCandidaturasIPSEscolas"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BackOffice.Pages.Graphs"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             mc:Ignorable="d" 
+             d:DesignHeight="150" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance local:GraficoCandidaturasIPSEscolas}">
+    <UserControl.Resources>
+        <Style TargetType="lvc:Axis">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <lvc:CartesianChart Series="{Binding SeriesCollection}"  LegendLocation="Bottom" Hoverable="False" DataTooltip="{x:Null}">
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Escolas do Ips" Labels="{Binding Labels}">
+                </lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Contagem de Candidaturas" LabelFormatter="{Binding Formatter}">
+                    <lvc:Axis.Separator>
+                        <lvc:Separator Step="1" StrokeThickness="1" Stroke="DimGray"></lvc:Separator>
+                    </lvc:Axis.Separator>
+                </lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+        </lvc:CartesianChart>
+    </Grid>
+</UserControl>

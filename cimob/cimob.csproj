@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="APICreateUser.cs" />
     <Compile Remove="Migrations\20180112003526_3rd.cs" />
     <Compile Remove="Migrations\20180112003526_3rd.Designer.cs" />
     <Compile Remove="Migrations\20180115141725_update_docs.cs" />
@@ -21,9 +22,10 @@
 
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
+    <PackageReference Include="iTextSharp" Version="5.4.5" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.1" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" PrivateAssets="All" />
     <PackageReference Include="SendGrid" Version="9.9.0" />
   </ItemGroup>
 

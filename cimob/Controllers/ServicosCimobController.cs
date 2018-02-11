@@ -3,6 +3,8 @@ using cimob.Extensions;
 using cimob.Models;
 using cimob.Models.ServicosCimobViewModels;
 using cimob.Services;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -11,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -30,6 +33,10 @@ namespace cimob.Controllers
             _emailSender = emailSender;
         }
 
+        /// <summary>
+        /// Define o texto de ajuda das páginas e devolve a página "inicial" dos serviços cimob
+        /// </summary>
+        /// <returns>View</returns>
         [HttpGet]
         [Route("[Controller]")]
         public IActionResult Index()
@@ -40,6 +47,10 @@ namespace cimob.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Retorna a view da listagem de candidaturas
+        /// </summary>
+        /// <returns>View</returns>
         [HttpGet]
         [Route("[Controller]/Candidaturas")]
         public IActionResult Candidaturas()
@@ -54,6 +65,12 @@ namespace cimob.Controllers
             });
         }
 
+        /// <summary>
+        /// Mostra o ecrã com os detalhes todos da candidatura com o id recebido. Se ocorrer algum 
+        /// problema a obter a candidatura, é redireiconado para a listagem novamente
+        /// </summary>
+        /// <param name="id">id da candidatura que estamos à procura</param>
+        /// <returns>View</returns>
         [HttpGet]
         [Route("[Controller]/Candidaturas/{id}")]
         public async Task<ActionResult> ViewCandidatura(int id)
@@ -69,6 +86,11 @@ namespace cimob.Controllers
                             Where(cu => cu.CandidaturaID == id).
                         FirstOrDefault();
 
+                if (c.EstadoCandidaturaID == 1)
+                {
+                    UpdateEstado(id, 3);
+                }
+                
                 var cursos = new Dictionary<int, Dictionary<string, int>>();
                 var docs = new List<Documento>();
                 var user = await _userManager.GetUserAsync(User);
@@ -131,6 +153,11 @@ namespace cimob.Controllers
             }
         }
 
+        /// <summary>
+        /// Envia um email à instituição com o id recebido a pedir novas vagas para determinado curso
+        /// </summary>
+        /// <param name="id">id da instituição que queremos pedir vagas</param>
+        /// <returns>Object Json com estado (success / error) e caso erro, mesangem de erro</returns>
         [HttpGet]
         [Route("[Controller]/Vagas/{id}")]
         public async Task<ActionResult> RequestVagas(int id)
@@ -146,15 +173,8 @@ namespace cimob.Controllers
                             curso = c.Nome
                         }).
                         FirstOrDefault();
-
-                var mensagem = "<p><span style='font-size: 18px;'>Dear " + tmp.escola + ",<strong> </strong></span></p>" +
-                        "<p><span style='font-size: 18px;'>We've received more applications for " + tmp.curso + " than available vacancies and we were wondering if it's possible to allow more students?</span></p>" +
-                        "<p><br></p>" +
-                        "<p><span style = 'font-size: 18px;'> Best Regards CIMOB - IPS, Setúbal, Portugal </span></p>" +
-                        "<p><span style = 'font-size: 14px;'> Note: This email was automatically generated so we ask that you reply to your regular email address instead of this one.</span></p>" +
-                            "<span style = 'font-size: 12px;'> &nbsp;</span></p>";
-
-                await _emailSender.SendEmailAsync(tmp.email, "Request for more vacancies", mensagem);
+                
+                await EmailSenderExtensions.RequestVagas(_emailSender, tmp.escola, tmp.curso, tmp.email);
 
                 return Json(new { status = "success" });
             }
@@ -168,9 +188,14 @@ namespace cimob.Controllers
             }
         }
 
+        /// <summary>
+        /// Carrega um ficheiro pdf para o servidor
+        /// </summary>
+        /// <param name="file">ficheiro a ser carregado</param>
+        /// <returns>Object JSON com estado e mensagem de erro / informação do documento carregaod</returns>
         [HttpPost]
         [Route("[Controller]/UploadFile")]
-        public async Task<ActionResult> UploadFile(IFormFile file, int id)
+        public async Task<ActionResult> UploadFile(IFormFile file)
         {
             try
             {
@@ -199,9 +224,15 @@ namespace cimob.Controllers
             }
         }
 
+        /// <summary>
+        /// cria um novo registo na BD a ligar o novo documento inserido à candidatura e envia um email
+        /// ao candidato a informar que foi carregado um novo documento
+        /// </summary>
+        /// <param name="model">ViewModel correspondente à candidatura onde vai buscar o ID da candidatura e do documento</param>
+        /// <returns>status code</returns>
         [HttpPost]
         [Route("[Controller]/UpdateFile")]
-        public ActionResult UpdateFile(CandidaturaViewModel model)
+        public async Task<ActionResult> UpdateFile(CandidaturaViewModel model)
         {
             try
             {
@@ -211,6 +242,10 @@ namespace cimob.Controllers
                 });
                 _context.SaveChanges();
 
+                UpdateEstado(model.ID, 2);
+
+                await EmailSenderExtensions.NovoDocumento(_emailSender, model.Email, model.Nome);
+
                 return StatusCode(200);
             }
             catch (Exception) {
@@ -218,12 +253,12 @@ namespace cimob.Controllers
             }
         }
 
-        struct entrevista
-        {
-            public int id { get; set; }
-            public string data { get; set; }
-        }
-
+        /// <summary>
+        /// Atualiza a candidatura com uma nova data de entrevista e envia um email ao candidato 
+        /// a informar da data de entrevsita
+        /// </summary>
+        /// <param name="model">ViweModel correspondente à candidatura</param>
+        /// <returns>Objecto JSON com o resultado e mensagem de erro</returns>
         [HttpPost]
         [Route("[Controller]/Entrevista")]
         public async Task<ActionResult> MarcarEntrevista(CandidaturaViewModel model)
@@ -231,6 +266,7 @@ namespace cimob.Controllers
             try
             {
                 var id = "";
+
                 _context.Candidaturas.
                         Where(c => c.CandidaturaID == model.ID).
                         ToList().ForEach(item => {
@@ -240,20 +276,14 @@ namespace cimob.Controllers
 
                 _context.SaveChanges();
 
+                UpdateEstado(model.ID, 4);
+
                 var user = _context.Users.Where(u => u.Id == id).Select(u => new { email = u.Email, nome = u.Nome }).FirstOrDefault();
 
                 var tmp = model.Entrevista.Split(" ");
                 var dia = tmp[0].Split("-");    
 
-                var mensagem = "<p><span style='font-size: 18px;'>Caro(a) " + user.nome + ",<strong> </strong></span></p>" +
-                        "<p><span style='font-size: 18px;'>A entrevista relativa à sua mobilidade ficou marcada para dia " + dia[2] + "/" + dia[1] + "/" + dia[0] + " às " + tmp[1] + ".</span></p>" +
-                        "<p><br></p>" +
-                        "<p><span style = 'font-size: 18px;'> Melhores cumprimentos CIMOB - IPS</span></p>" +
-                        "<p><span style = 'font-size: 18px;'> Melhores cumprimentos Equipa CIMOB - IPS </span></p>" +
-                    "<p><span style = 'font-size: 14px;'> Nota: este e-mail foi gerado automaticamente, pelo que n&atilde;o deve responder pois quaisquer respostas n&atilde;o ser&atilde;o vistas.</span></p>" +
-                        "<span style = 'font-size: 12px;'> &nbsp;</span></p>";
-
-                await _emailSender.SendEmailAsync(user.email, "Entrevista - Mobilidade", mensagem);
+                await EmailSenderExtensions.EntrevistaMarcada(_emailSender, user.nome, dia, user.email, tmp);
 
                 return Json(new { status = "success" });
             }
@@ -267,6 +297,13 @@ namespace cimob.Controllers
             }
         }
 
+        /// <summary>
+        /// Verifica se houve alterações aos valores (pontuação, observações o listagme de avaliagem de ucs)
+        /// Se ouve, tenta atualizar e retorna um objecto json com o resultado e mensagem de erro (se for o caos)
+        /// Caso contrário devolve um obj json com estado e mensagem de informação
+        /// </summary>
+        /// <param name="model">ViewModel relativa à candidatura</param>
+        /// <returns>object json</returns>
         [HttpPost]
         [Route("[Controller]/Avaliacao")]
         public ActionResult UpdateAvaliacao(CandidaturaViewModel model)
@@ -282,16 +319,18 @@ namespace cimob.Controllers
                 }
 
 
-                var a = model.NovaListagem.FirstOrDefault(); 
                 var tmp = model.Listagem == null ? new List<UCAvaliacao>() : new List<UCAvaliacao>(model.Listagem);
-
-                model.NovaListagem.ForEach(item => {
-                    var json = JsonConvert.DeserializeObject<UCAvaliacao>(item);
-                    var uc = new UCAvaliacao { Criterio = json.Criterio, UC = json.UC };
-                    _context.UCAvaliacao.Add(uc);
-                    _context.SaveChanges();
-                    tmp.Add(uc);
-                });
+                
+                if (model.NovaListagem.FirstOrDefault() != null)
+                {
+                    model.NovaListagem.ForEach(item => {
+                        var json = JsonConvert.DeserializeObject<UCAvaliacao>(item);
+                        var uc = new UCAvaliacao { Criterio = json.Criterio, UC = json.UC };
+                        _context.UCAvaliacao.Add(uc);
+                        _context.SaveChanges();
+                        tmp.Add(uc);
+                    });
+                }
 
                 _context.Candidaturas.
                         Where(c => c.CandidaturaID == model.ID).
@@ -315,6 +354,12 @@ namespace cimob.Controllers
             }
         }
 
+        /// <summary>
+        /// Verifica se a candidatura tem pontuação e entrevista definida. Se tiver, atualiza 
+        /// o estado para aceite / rejeitada e envia um email ao candidato. Caso contrário devolve um objeto json com mensagem de erro
+        /// </summary>
+        /// <param name="model">Viewmodel relativo à candidatura</param>
+        /// <returns>objecto json com estado do pedido e possivel mensagem de erro</returns>
         [HttpPost]
         [Route("[Controller]/Resultado")]
         public async Task<ActionResult> SetResutado(CandidaturaViewModel model)
@@ -341,21 +386,12 @@ namespace cimob.Controllers
 
                 _context.SaveChanges();
 
+                UpdateEstado(model.ID, 5);
+
                 var user = _context.Users.Where(u => u.Id == user_id).Select(u => new { email = u.Email, nome = u.UserName }).FirstOrDefault();
-
-                var resultado = (model.Estado == 1) ? "rejeitada. A razão da rejeição é: " + model.Razao : "Aceite!";
-
-                var mensagem = "<p><span style='font-size: 18px;'>Resultado Candidatura " + user.nome + ",<strong> </strong></span></p>" +
-                        "<p><span style='font-size: 18px;'>Gostaríamos de informar que a sua candidatura foi " + resultado + ".</span></p>" +
-                        "<p><br></p>" +
-                        "<p><span style = 'font-size: 18px;'> Melhores cumprimentos CIMOB - IPS</span></p>" +
-                        "<p><span style = 'font-size: 18px;'> Melhores cumprimentos Equipa CIMOB - IPS </span></p>" +
-                    "<p><span style = 'font-size: 14px;'> Nota: este e-mail foi gerado automaticamente, pelo que n&atilde;o deve responder pois quaisquer respostas n&atilde;o ser&atilde;o vistas.</span></p>" +
-                        "<span style = 'font-size: 12px;'> &nbsp;</span></p>";
-
-                await _emailSender.SendEmailAsync(user.email, "Aplicação Mobilidade - Resultado", mensagem);
-
-
+                
+                await EmailSenderExtensions.Resultado(_emailSender, user.email, user.nome, (model.Estado == 1) ? "rejeitada. A razão da rejeição é: " + model.Razao : (model.Estado == 0) ? "Aceite!" : "Aceite, embora condicionada");
+                
                 return Json(new { status = "success" });
             }
             catch (Exception ex)
@@ -368,6 +404,11 @@ namespace cimob.Controllers
             }
         }
         
+        /// <summary>
+        /// Tenta descarregar o ficheiro com o id recebido
+        /// </summary>
+        /// <param name="id">id do ficheiro que queremos descarregar</param>
+        /// <returns>O documento a descarregar, redirectToAction se não encontrou o documento</returns>
         [HttpGet]
         [Route("[Controller]/Candidaturas/{id}/Download")]
         public ActionResult Download(int id)
@@ -385,16 +426,25 @@ namespace cimob.Controllers
             }
             catch (Exception)
             {
-                return View("~/Views/Shared/NoFile.cshtml");
+                return RedirectToAction(nameof(NoFile));
             }
         }
 
+        /// <summary>
+        /// Retorna a view que indica que não foi encontrado o documento procurado
+        /// </summary>
+        /// <returns>View</returns>
         [HttpGet]
         public ActionResult NoFile()
         {
             return View();
         }
-        
+
+        /// <summary>
+        /// Tenta devolver o ficheiro com o id recebido como pdf para visualização
+        /// </summary>
+        /// <param name="id">id do ficheiro que queremos visualizar</param>
+        /// <returns>O ficheiro a visualizar, redirectToAction se não encontrou o ficheiro</returns>
         [HttpGet]
         [Route("[Controller]/Candidaturas/{id}/View")]
         public ActionResult View(int id)
@@ -409,7 +459,142 @@ namespace cimob.Controllers
             }
         }
 
+        /// <summary>
+        /// Verifica se todas as candidaturas deste semestre ano letivo. Se tiverem, 
+        /// gera um documento PDF com os resultados
+        /// </summary>
+        /// <returns>Documento PDF</returns>
+        [HttpGet]
+        [Route("[Controller]/ExportResults")]
+        public ActionResult ExportResults()
+        {
+            var doc = new Document(PageSize.A4.Rotate(), 20, 20, 42, 35);
+            var path = "Files/Resultados.pdf";
+
+            FileHandling.Remove(path);
+
+            PdfWriter w = PdfWriter.GetInstance(doc, new FileStream(path, FileMode.Create));
+            doc.Open();
+
+            var title = "Serição dos Candidatos Outgoing para ano letivo " + GetAnoLetivo();
+
+            doc.AddTitle(title);
+            doc.Add(new Paragraph(title, new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.BOLD)) {
+                SpacingAfter = 30,
+                Alignment = Element.ALIGN_CENTER
+            });
+
+            var t = new PdfPTable(8) { WidthPercentage = 100 };
+
+            t.AddCell(CreateHeaderCell("Escola"));
+            t.AddCell(CreateHeaderCell("Curso"));
+            t.AddCell(CreateHeaderCell("Número candidato"));
+            t.AddCell(CreateHeaderCell("Nome"));
+            t.AddCell(CreateHeaderCell("Pontuação"));
+            t.AddCell(CreateHeaderCell("Tipo de Mobilidade"));
+            t.AddCell(CreateHeaderCell("Resultado"));
+            t.AddCell(CreateHeaderCell("Observações"));
+
+            _context.Candidaturas.
+                Include(c => c.Utilizador).
+                Include(c => c.IpsCurso).
+                Include(c => c.IpsCurso.IpsEscola).
+                Include(c => c.TipoMobilidade).
+                Select(c => new
+                {
+                    escola = c.IpsCurso.IpsEscola.Descricao,
+                    curso = c.IpsCurso.Nome,
+                    pontuacao = c.Pontuacao,
+                    nome = c.Utilizador.Nome,
+                    numero = c.Utilizador.Numero,
+                    mobilidade = c.TipoMobilidade.Descricao,
+                    resultado = c.Rejeitada,
+                    obs = c.Observacoes,
+                    order = c.TipoMobilidadeID
+                }).
+                OrderBy(c => c.order).
+                ToList().
+                ForEach(item =>
+                {
+                    t.AddCell(CreateBodyCell(item.escola.ToString()));
+                    t.AddCell(CreateBodyCell(item.curso.ToString()));
+                    t.AddCell(CreateBodyCell(item.numero.ToString()));
+                    t.AddCell(CreateBodyCell(item.nome.ToString()));
+                    t.AddCell(CreateBodyCell(item.pontuacao.ToString()));
+                    t.AddCell(CreateBodyCell(item.mobilidade.ToString()));
+                    t.AddCell(CreateBodyCell(item.resultado == 0 ? "Selecionado" : item.resultado == 1 ? "Não Selecionado" : "Condicionado"));
+                    t.AddCell(CreateBodyCell(item.obs));
+                });
+                        
+            doc.Add(t);
+
+            doc.Close();
+
+            return FileHandling.Download(path, "Resultados.pdf");
+        }
+
+        /// <summary>
+        /// Funções auxiliares que devolvem as respetivas views
+        /// </summary>
         private ActionResult Candidatura => View();
         private ActionResult CandidaturasList => View();
+
+        /// <summary>
+        /// Atualiza o estado de uma determinada candidatura
+        /// </summary>
+        /// <param name="id">id da candidatura a atualizar</param>
+        /// <param name="estado">novo estado da candidatura</param>
+        private void UpdateEstado(int id, int estado)
+        {
+            _context.Candidaturas.Where(cu => cu.CandidaturaID == id).ToList().ForEach(cu => cu.EstadoCandidaturaID = estado);
+            _context.SaveChanges();
+        }
+
+        /// <summary>
+        /// Função auxiliar para criar celulas do header da tabela
+        /// </summary>
+        /// <param name="text">texto da celula</param>
+        /// <returns>objecto PdfPCell</returns>
+        private PdfPCell CreateHeaderCell(string text)
+        {
+            return new PdfPCell(new Phrase(text, new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD, BaseColor.WHITE)))
+            {
+                VerticalAlignment = Element.ALIGN_MIDDLE,
+                HorizontalAlignment = Element.ALIGN_CENTER,
+                BackgroundColor = BaseColor.DARK_GRAY,
+                PaddingBottom = 10,
+                PaddingTop = 10
+            };
+        }
+
+        /// <summary>
+        /// Função auxiliar para criar celulas do corpo da tabela
+        /// </summary>
+        /// <param name="text">texto da celula</param>
+        /// <returns>objecto PdfPCell</returns>
+        private PdfPCell CreateBodyCell(string text)
+        {
+            return new PdfPCell(new Phrase(text, new Font(Font.FontFamily.TIMES_ROMAN, 12)))
+            {
+                VerticalAlignment = Element.ALIGN_MIDDLE,
+                HorizontalAlignment = Element.ALIGN_CENTER,
+                PaddingBottom = 10,
+                PaddingTop = 10
+            };
+        }
+
+        /// <summary>
+        /// Calcula o ano letivo, com base na data, para mostrar no titulo do pdf
+        /// </summary>
+        /// <returns>O ano letivo em string</returns>
+        private string GetAnoLetivo()
+        {
+            var tmp = DateTime.Now;
+
+            if (tmp.Month >= 8 && tmp.Month <= 12)
+                return tmp.Year + "/" + (tmp.Year + 1);
+            else
+                return (tmp.Year - 1) + "/" + tmp.Year;
+        }
     }
 }
