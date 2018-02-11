@@ -46,6 +46,12 @@
     <Reference Include="LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
       <HintPath>..\packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore">
+      <HintPath>..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.identity.entityframeworkcore\2.0.1\lib\netstandard2.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Identity.Core">
+      <HintPath>..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.identity.core\2.0.1\lib\netstandard2.0\Microsoft.Extensions.Identity.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Extensions.Identity.Stores">
       <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.identity.stores\2.0.1\lib\netstandard2.0\Microsoft.Extensions.Identity.Stores.dll</HintPath>
     </Reference>
@@ -71,6 +77,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Data\BDCharts.cs" />
+    <Compile Include="Data\BDContext.cs" />
+    <Compile Include="Data\BdRoles.cs" />
+    <Compile Include="Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Role.cs" />
     <Compile Include="Pages\Graphs\GraficoEscolasParceiras.xaml.cs">
       <DependentUpon>GraficoEscolasParceiras.xaml</DependentUpon>
     </Compile>
@@ -81,6 +93,10 @@
     <Compile Include="Pages\Graphs\VisualizarGraficos.xaml.cs">
       <DependentUpon>VisualizarGraficos.xaml</DependentUpon>
     </Compile>
+    <Page Include="Login.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\Graphs\GraficoEscolasParceiras.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -109,6 +125,7 @@
     <Compile Include="Pages\Users\ContasUtilizador.xaml.cs">
       <DependentUpon>ContasUtilizador.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Users\DataNascimentoRule.cs" />
     <Compile Include="Pages\Users\EditarContaUtilizadorDialog.xaml.cs">
       <DependentUpon>EditarContaUtilizadorDialog.xaml</DependentUpon>
     </Compile>
@@ -156,6 +173,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\menu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="favicon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

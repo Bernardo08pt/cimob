@@ -7,15 +7,72 @@
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
       Title="Contas de Utilizador">
+    <Page.Resources>
+        <Style x:Key="DGHeaderStyle" TargetType="{x:Type DataGrid}">
+            <Setter Property="ColumnHeaderStyle" Value="{DynamicResource DGCHeaderStyle}"/>
+            <Setter Property="AlternatingRowBackground" Value="#9FC5F8"/>
+            <Setter Property="RowStyle" Value="{DynamicResource DGRow}"/>
+        </Style>
+        
+        <Style x:Key="DGCHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Background" Value="#ccc" />
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="FontFamily" Value="Calibri" />
+            <Setter Property="Padding" Value="12,6,12,6"/>
+        </Style>
 
+
+
+        <Style x:Key="DGRow" TargetType="DataGridRow">
+        <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#8EA9CC"/>
+                    <Setter Property="Foreground" Value="#f9f9f9"/>
+
+                </Trigger>
+                
+            </Style.Triggers>
+        </Style>
+
+
+    </Page.Resources>
     <Grid>
-        <DataGrid Name="grdUser" IsReadOnly="True" AutoGenerateColumns="False" MouseDoubleClick="EditRow">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <DataGrid CanUserResizeRows="False" RowHeaderWidth="0"  CanUserResizeColumns="false" FontSize="14" Grid.Row="0" Grid.Column="0"   Name="grdUser" IsReadOnly="True" AutoGenerateColumns="False"   Style="{DynamicResource DGHeaderStyle}">
+            <DataGrid.Resources>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Style.Triggers>
+                        <Trigger Property="DataGridCell.IsSelected" Value="True">
+                            <Setter Property="Background" Value="#8EA9CC"/>
+                            <Setter Property="Foreground" Value="#f9f9f9"/>
+
+                            <Setter Property="BorderBrush" Value="#8EA9CC"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.Resources>
+
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Numero" Binding="{Binding Numero}"/>
                 <DataGridTextColumn Header="Nome" Binding="{Binding Nome}"/>
                 <DataGridTextColumn Header="Email" Binding="{Binding Email}"/>
                 <DataGridTextColumn Header="Data de Nascimento"  Binding="{Binding DataNascimento, StringFormat=\{0:dd/MM/yy\}}"/>
+                <DataGridTextColumn Header="Tipo de Utilizador"  Binding="{Binding RoleName}"/>
             </DataGrid.Columns>
         </DataGrid>
+
+        <StackPanel Grid.Row="2" Grid.Column="0"  Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom"  Margin="0,0,0,0" Width="Auto">
+            <Button x:Name="ButtonAdicionar" Height="30" Width="60" Margin="10" Content="Adicionar" Click="AddRow"/>
+            <Button x:Name="ButtonEditar" Width="60" Margin="10" Content="Editar" Click="ButtonEdit_Click"/>
+            <Button x:Name="ButtonApagar" IsCancel="True" Width="60" Margin="10,10,0,10" Content="Apagar" Click="RemoveRow"/>
+        </StackPanel>
     </Grid>
 </Page>

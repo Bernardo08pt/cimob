@@ -8,7 +8,7 @@ namespace BackOffice
     /// <summary>
     /// Interaction logic for GraficoProgramasMobilidade.xaml
     /// </summary>
-    public partial class GraficoProgramasMobilidade : UserControl
+    public partial class GraficoProgramasMobilidade 
     {
         public GraficoProgramasMobilidade()
         {

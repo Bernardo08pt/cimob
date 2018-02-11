@@ -8,7 +8,7 @@ using System.ComponentModel;
 namespace BackOffice.Models
 {
     /// <summary>
-    /// Classe que representa os useres da aplicação
+    /// Classe que representa os users da aplicação
     /// </summary>
     public class ApplicationUser : IdentityUser, INotifyPropertyChanged
     {
@@ -78,30 +78,61 @@ namespace BackOffice.Models
         }
 
         /// <summary>
+        /// Role do utilizador
+        /// </summary>
+        private string roleId;
+        public string RoleId
+        {
+            get { return roleId; }
+            set
+            {
+                roleId = value;
+                OnPropertyChanged(new PropertyChangedEventArgs("RoleId"));
+            }
+        }
+
+
+        /// <summary>
+        /// Role do utilizador
+        /// </summary>
+        private string roleName;
+        public string RoleName
+        {
+            get { return roleName; }
+            set
+            {
+                roleName = value;
+                OnPropertyChanged(new PropertyChangedEventArgs("RoleName"));
+            }
+        }
+
+        /// <summary>
         /// Construtor que recebe um utilizador
         /// </summary>
         /// <param name="user">Um utilizador do tipo Application user</param>
         public ApplicationUser(ApplicationUser user)
         {
-            this.Id = user.Id;
-            this.AccessFailedCount = user.AccessFailedCount;
-            this.ConcurrencyStamp = user.ConcurrencyStamp;
-            this.EmailConfirmed = user.EmailConfirmed;
-            this.LockoutEnabled = user.LockoutEnabled;
-            this.LockoutEnd = user.LockoutEnd;
-            this.NormalizedEmail = user.NormalizedEmail;
-            this.NormalizedUserName = user.NormalizedUserName;
-            this.PasswordHash = user.PasswordHash;
-            this.PhoneNumber = user.PhoneNumber;
-            this.PhoneNumberConfirmed = user.PhoneNumberConfirmed;
-            this.SecurityStamp = user.SecurityStamp;
-            this.TwoFactorEnabled = user.TwoFactorEnabled;
-            this.UserName = user.UserName;
+            Id = user.Id;
+            /*AccessFailedCount = user.AccessFailedCount;
+            ConcurrencyStamp = user.ConcurrencyStamp;
+            EmailConfirmed = user.EmailConfirmed;
+            LockoutEnabled = user.LockoutEnabled;
+            LockoutEnd = user.LockoutEnd;
+            NormalizedEmail = user.NormalizedEmail;
+            NormalizedUserName = user.NormalizedUserName;
+            PasswordHash = user.PasswordHash;
+            PhoneNumber = user.PhoneNumber;
+            PhoneNumberConfirmed = user.PhoneNumberConfirmed;
+            SecurityStamp = user.SecurityStamp;
+            TwoFactorEnabled = user.TwoFactorEnabled;*/
 
-            this.Numero = user.Numero;
-            this.Nome= user.Nome;
-            this.Email = user.Email;
-            this.DataNascimento = user.DataNascimento;
+           // UserName = user.Email;
+            Numero = user.Numero;
+            Nome= user.Nome;
+            Email = user.Email;
+            DataNascimento = user.DataNascimento;
+            RoleId = user.roleId;
+            RoleName = user.RoleName;
         }
 
         /// <summary>

@@ -5,15 +5,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace BackOffice
 {
@@ -25,20 +18,32 @@ namespace BackOffice
 
         public ApplicationUser User { get; set; }
         private IEnumerable<ApplicationUser> listaUsers;
+        private IEnumerable<Role> listaRoles;
 
         /// <summary>
         /// Construtor
         /// </summary>
         /// <param name="users">Lista de utilizadores existentes na base de dados.</param>
         /// <param name="user">Utilizador que se pretende editar. Null se for para adicionar.</param>
-        public EditarContaUtilizadorDialog(IEnumerable<ApplicationUser> users, ApplicationUser user = null)
+        public EditarContaUtilizadorDialog(IEnumerable<Role> roles, IEnumerable<ApplicationUser> users, ApplicationUser user = null)
         {
             InitializeComponent();
             listaUsers = users;
+            listaRoles = roles;
 
             User = user ?? new ApplicationUser();
 
-            this.DataContext = User;
+            if(User.Nome == null)
+            {
+                User.DataNascimento = DateTime.Now.AddYears(-16);
+            }
+
+
+
+            DataContext = User;
+            ComboBoxRole.ItemsSource = listaRoles;
+            ComboBoxRole.DisplayMemberPath = "Name";
+            ComboBoxRole.SelectedValuePath = "Id";
         }
 
         /// <summary>
@@ -58,6 +63,7 @@ namespace BackOffice
         /// <returns>True se não existirem erros, False se existirem</returns>
         private bool VerificarErros()
         {
+            //Número
             try
             {
                 Convert.ToInt32(User.Numero);
@@ -65,7 +71,13 @@ namespace BackOffice
                 MessageBox.Show("Insira um número válido.", "Número Inválido", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
+            if (listaUsers.Any(user => user.Numero == User.Numero && user.Id != User.Id))
+            {
+                MessageBox.Show("Já existente para outro utilizador.", "Número Inválido", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
 
+            //Nome
             if (User.Nome == "")
             {
                 MessageBox.Show("O campo nome não pode estar vazio.", "Nome Inválido", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -92,14 +104,36 @@ namespace BackOffice
                 MessageBox.Show("Já existente para outro utilizador.", "Email Inválido", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
-
-
-
+     
+            //Data de Nascimento
             if (User.DataNascimento == null)
             {
                 MessageBox.Show("O campo data de nascimento não pode estar vazio.", "Data de nascimento Inválida", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
+            try
+            {
+              Convert.ToDateTime(User.DataNascimento);
+
+                if (User.DataNascimento < DateTime.Now.AddYears(-100) || User.DataNascimento > DateTime.Now.AddYears(-16))
+                {
+                    MessageBox.Show(string.Format("O utilizador deve ter entre 17 a 100 anos."));
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(string.Format("A data é inválida"));
+                return false;
+            }
+
+            //Data de Nascimento
+            if (User.RoleId == null)
+            {
+                MessageBox.Show("O campo tipo de utilizador não pode estar vazio.", "Tipo de utilizador Inválido", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
             return true;
         }
 
