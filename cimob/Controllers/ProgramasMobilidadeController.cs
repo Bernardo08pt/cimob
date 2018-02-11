@@ -1,7 +1,6 @@
 ﻿using cimob.Data;
 using cimob.Extensions;
 using cimob.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
