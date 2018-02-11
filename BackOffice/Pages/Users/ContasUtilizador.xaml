@@ -8,6 +8,20 @@
       d:DesignHeight="300" d:DesignWidth="300"
       Title="Contas de Utilizador">
     <Page.Resources>
+        <Style x:Key="TypeGraph" TargetType="Label" >
+            <Setter Property="FontFamily" Value="Times New Roman"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,50,0,20"/>
+        </Style>
+        <Style x:Key="Pesquisar" TargetType="Border">
+            <Setter Property="Background" Value="#eee"/>
+            <Setter Property="BorderBrush" Value="#9fc5f8"></Setter>
+            <Setter Property="BorderThickness" Value="2"></Setter>
+        </Style>
+        
         <Style x:Key="placeHolder" TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
             <Setter Property="Template">
                 <Setter.Value>
@@ -99,7 +113,9 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <TextBox Style="{StaticResource placeHolder}" Tag="Pesquisa por nome de utilizador" Name="TextBoxEmail" Grid.Row="1" Grid.ColumnSpan="1" HorizontalAlignment="Right" Width="200" Height="20"  Margin="5" KeyUp="TextBoxEmail_KeyUp"/>
+        <Border Grid.Row="1" Grid.ColumnSpan="1" HorizontalAlignment="Center" VerticalAlignment="Bottom"  Margin="5" Style="{StaticResource Pesquisar}" Width="600" Height="70">
+            <TextBox Style="{StaticResource placeHolder}" Tag="Pesquisa por nome de utilizador" Name="TextBoxEmail" HorizontalAlignment="Center" Width="200" Height="20"  Margin="5" KeyUp="TextBoxEmail_KeyUp"/>
+        </Border>
 
         <DataGrid CanUserResizeRows="False" RowHeaderWidth="0"  CanUserResizeColumns="false" FontSize="14" Grid.Row="2" Grid.Column="0"   Name="grdUser" IsReadOnly="True" AutoGenerateColumns="False"   Style="{DynamicResource DGHeaderStyle}">
             <DataGrid.Resources>
