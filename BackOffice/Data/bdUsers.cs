@@ -22,7 +22,7 @@ namespace BackOffice.Data
         /// Retorna todos os utilizadores que existem na base de dados
         /// </summary>
         /// <returns>Lista com todos os utilizadores existentes na base de dados</returns>
-        public ObservableCollection<ApplicationUser> GetUsers()
+        public ObservableCollection<ApplicationUser> GetUsers(string nome = "")
         {
             ObservableCollection<ApplicationUser> users = new ObservableCollection<ApplicationUser>();
 
@@ -30,13 +30,25 @@ namespace BackOffice.Data
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = con;
 
-            string sql = "SELECT A.Id, A.PasswordHash, A.Numero, A.Nome, A.Email, A.DataNascimento, B.RoleId AS RoleId, C.Name AS RoleName " +
-                          "FROM AspNetUsers AS A " +
-                          "LEFT JOIN AspNetUserRoles AS B ON A.Id = B.UserId " +
-                          "LEFT JOIN AspNetRoles AS C ON C.Id = B.RoleId";
 
-            cmd.CommandText = sql;
+            if (nome == "")
+            {
+                string sql = "SELECT A.Id, A.PasswordHash, A.Numero, A.Nome, A.Email, A.DataNascimento, B.RoleId AS RoleId, C.Name AS RoleName " +
+                              "FROM AspNetUsers AS A " +
+                              "LEFT JOIN AspNetUserRoles AS B ON A.Id = B.UserId " +
+                              "LEFT JOIN AspNetRoles AS C ON C.Id = B.RoleId";
+               
+                cmd.CommandText = sql;
+            } else
+            {
+                string sql = "SELECT A.Id, A.PasswordHash, A.Numero, A.Nome, A.Email, A.DataNascimento, B.RoleId AS RoleId, C.Name AS RoleName " +
+                              "FROM AspNetUsers AS A " +
+                              "LEFT JOIN AspNetUserRoles AS B ON A.Id = B.UserId " +
+                              "LEFT JOIN AspNetRoles AS C ON C.Id = B.RoleId WHERE A.Nome LIKE @nome";
 
+                cmd.CommandText = sql;
+                cmd.Parameters.AddWithValue("@nome", "%" + nome + "%");
+            }
             try
             {
                 con.Open();
