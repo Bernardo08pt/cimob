@@ -121,7 +121,7 @@ namespace cimob.Models.ServicosCimobViewModels
         /// </summary>
         [Display(Name = "Entrevista")]
         public string Entrevista { get; set; }
-
+        
         /// <summary>
         /// Pontuação da candidatura
         /// </summary>

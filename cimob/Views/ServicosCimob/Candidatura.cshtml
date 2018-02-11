@@ -55,9 +55,9 @@
                 var dia = entrevista.split(" ");
                 var hora = dia[1].split(":");
 
-                $("#Data").val(dia[0]);
-                $("#Hora").val(hora[0]);
-                $("#Minuto").val(hora[1]);
+                $("#data").val(dia[0]);
+                $("#hora").val(hora[0]);
+                $("#minuto").val(hora[1]);
             }
 
             var tmp = new Date();
@@ -68,8 +68,6 @@
             dia = dia < 10 ? "0" + dia : dia;
 
             $("#data").attr("min", tmp.getFullYear() + "-" + mes + "-" + dia);
-
-            $("#Pontuacao").val("");
 
             bindEvents();
         });
@@ -270,10 +268,12 @@
                 $("#btn_adicionar_razao").prop("disabled", true);
                 $("#btn_cancel_razao").prop("disabled", true);
 
-                submitRes(razao);
+                submitRes(1, razao);
             });
 
-            $("#btn_aceitar").on("click", submitRes);
+            $("#btn_aceitar").on("click", () => { submitRes(0) });
+
+            $("#btn_aceitar_condicionado").on("click", () => { submitRes(2) });
 
             $("#btn_recusar").on("click", () => {
                 $("#modalRazao").modal("show");
@@ -328,9 +328,15 @@
             })
         }
 
-        var submitRes = (razao) => {
+        var submitRes = (res, razao) => {
             var url = "@Url.Action("Resultado", "ServicosCimob")";
-            var model = { ID: window.location.href.split("Candidaturas/")[1].split("#/")[0], Razao: $("#Razao").val(), Estado: $("#Estado").val() }
+            var model = {
+                ID: window.location.href.split("Candidaturas/")[1].split("#/")[0],
+                Razao: $("#Razao").val(),
+                Estado: res,
+                Pontuacao: $("#Pontuacao").val(),
+                Entrevista: $("#Entrevista").val()
+            }
 
             $.post(url, model, (data) => {
                 console.log(data);
@@ -339,7 +345,7 @@
                     $("#btns-resultado").remove();
                 }
                 else
-                    alerta(data.message, "danger");
+                    alerta(data.data, "danger");
             });
         }
 

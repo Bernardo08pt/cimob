@@ -319,16 +319,18 @@ namespace cimob.Controllers
                 }
 
 
-                var a = model.NovaListagem.FirstOrDefault(); 
                 var tmp = model.Listagem == null ? new List<UCAvaliacao>() : new List<UCAvaliacao>(model.Listagem);
-
-                model.NovaListagem.ForEach(item => {
-                    var json = JsonConvert.DeserializeObject<UCAvaliacao>(item);
-                    var uc = new UCAvaliacao { Criterio = json.Criterio, UC = json.UC };
-                    _context.UCAvaliacao.Add(uc);
-                    _context.SaveChanges();
-                    tmp.Add(uc);
-                });
+                
+                if (model.NovaListagem.FirstOrDefault() != null)
+                {
+                    model.NovaListagem.ForEach(item => {
+                        var json = JsonConvert.DeserializeObject<UCAvaliacao>(item);
+                        var uc = new UCAvaliacao { Criterio = json.Criterio, UC = json.UC };
+                        _context.UCAvaliacao.Add(uc);
+                        _context.SaveChanges();
+                        tmp.Add(uc);
+                    });
+                }
 
                 _context.Candidaturas.
                         Where(c => c.CandidaturaID == model.ID).
@@ -388,7 +390,7 @@ namespace cimob.Controllers
 
                 var user = _context.Users.Where(u => u.Id == user_id).Select(u => new { email = u.Email, nome = u.UserName }).FirstOrDefault();
                 
-                await EmailSenderExtensions.Resultado(_emailSender, user.email, user.nome, (model.Estado == 1) ? "rejeitada. A razão da rejeição é: " + model.Razao : "Aceite!");
+                await EmailSenderExtensions.Resultado(_emailSender, user.email, user.nome, (model.Estado == 1) ? "rejeitada. A razão da rejeição é: " + model.Razao : (model.Estado == 0) ? "Aceite!" : "Aceite, embora condicionada");
                 
                 return Json(new { status = "success" });
             }
@@ -482,8 +484,7 @@ namespace cimob.Controllers
                 Alignment = Element.ALIGN_CENTER
             });
 
-            var t = new PdfPTable(8);
-            t.WidthPercentage = 100;
+            var t = new PdfPTable(8) { WidthPercentage = 100 };
 
             t.AddCell(CreateHeaderCell("Escola"));
             t.AddCell(CreateHeaderCell("Curso"));
@@ -521,8 +522,8 @@ namespace cimob.Controllers
                     t.AddCell(CreateBodyCell(item.nome.ToString()));
                     t.AddCell(CreateBodyCell(item.pontuacao.ToString()));
                     t.AddCell(CreateBodyCell(item.mobilidade.ToString()));
-                    t.AddCell(CreateBodyCell(item.resultado == 0 ? "Selecionado" : "Não Selecionado"));
-                    t.AddCell(CreateBodyCell(item.obs.ToString()));
+                    t.AddCell(CreateBodyCell(item.resultado == 0 ? "Selecionado" : item.resultado == 1 ? "Não Selecionado" : "Condicionado"));
+                    t.AddCell(CreateBodyCell(item.obs));
                 });
                         
             doc.Add(t);
